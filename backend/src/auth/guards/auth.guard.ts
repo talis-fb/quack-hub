@@ -1,4 +1,9 @@
-import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
+import {
+  CanActivate,
+  ExecutionContext,
+  Injectable,
+  NestMiddleware,
+} from '@nestjs/common';
 import { Observable } from 'rxjs';
 
 @Injectable()
