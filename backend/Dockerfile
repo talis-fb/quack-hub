@@ -10,7 +10,7 @@ COPY yarn.lock ./
 # Install dependencies
 RUN yarn install
 
-# Expose the port that your Nest.js backend is listening on (change 3000 to the appropriate port if needed)
+# Expose the port that your Nest.js backend
 EXPOSE 8080
 
 # Start the backend application

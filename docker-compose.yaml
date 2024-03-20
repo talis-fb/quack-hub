@@ -8,6 +8,8 @@ services:
       - "8080:8080"
     volumes:
       - ./backend:/app
+    depends_on:
+      - postgres
 
   frontend:
     build:
@@ -17,3 +19,15 @@ services:
       - "3000:3000"
     volumes:
       - ./frontend:/app
+
+  postgres:
+    image: postgres
+    ports:
+      - "5432:5432"
+    # volumes:
+    #   - ./database:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: username
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: database
+

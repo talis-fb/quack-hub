@@ -10,8 +10,8 @@ COPY yarn.lock ./
 # Install dependencies
 RUN yarn install
 
-# Expose the port that your Nest.js backend is listening on (change 3000 to the appropriate port if needed)
-EXPOSE 8080
+# Expose the port that your Vue.js app is listening on
+EXPOSE 3000
 
 # Start the backend application
 CMD ["yarn", "dev"]
