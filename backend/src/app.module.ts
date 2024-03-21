@@ -1,7 +1,5 @@
 import { Module } from '@nestjs/common';
 import { UserModule } from 'src/core/user/user.module';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { FirebaseModule } from './firebase/firebase.module';
 import { ConfigModule } from '@nestjs/config';
 import { FirebaseService } from './firebase/firebase.service';
@@ -11,10 +9,10 @@ import firebaseConfig from './config/firebase-config';
   imports: [
     ConfigModule.forRoot({ cache: true, load: [firebaseConfig] }),
     FirebaseModule,
-    UserModule
+    UserModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [],
+  providers: [],
 })
 export class AppModule {
   constructor(private readonly firebaseService: FirebaseService) {
