@@ -1,21 +1,20 @@
-
-import { Injectable, OnModuleInit } from '@nestjs/common';
-import { PrismaService } from 'src/prisma/prisma.service';
+import { Injectable } from '@nestjs/common';
+import { UserRepository } from './user.repository';
+import { UserData, UserEntity } from './user.entity';
 
 @Injectable()
 export class UserService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private repo: UserRepository) {}
 
-  public async get(id: number): Promise<any> {
-    // TODO:
-    // Remove this query from here and pass to a repository
+  public async get(id: number): Promise<UserEntity | null> {
+    return await this.repo.get(id);
+  }
 
-    const r = await this.prisma.user.findUnique({
-        where: {
-            id
-        }
-    });
-    console.log(r);
-    return r;
+  public async create(user: UserData): Promise<UserEntity> {
+    return await this.repo.create(user);
+  }
+
+  public async update(id: number, user: UserData): Promise<UserEntity | null> {
+    return await this.repo.update(id, user);
   }
 }

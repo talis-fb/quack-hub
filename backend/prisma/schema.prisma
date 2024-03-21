@@ -13,13 +13,13 @@ model User {
   updatedAt DateTime @updatedAt
 
   name     String
-  email String  @unique
+  email    String   @unique
   birthday DateTime
 
   // Extra data
-  bio         String?
+  bio              String?
   aboutDescription String?
-  avatarUrl   String?
+  avatarUrl        String?
 
   // Contact Info
   phone String?
