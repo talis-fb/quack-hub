@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from 'src/prisma/prisma.service';
+import { PrismaService } from '../../common/prisma/prisma.service';
 import { UserData, UserEntity } from './user.entity';
 
 export abstract class UserRepository {
@@ -28,8 +28,8 @@ export class UserRepositoryImpl implements UserRepository {
         id,
       },
     });
-    console.log(output)
-    return output
+    console.log(output);
+    return output;
   }
 
   async update(id: number, user: UserData): Promise<UserEntity | null> {
@@ -43,4 +43,3 @@ export class UserRepositoryImpl implements UserRepository {
     });
   }
 }
-
