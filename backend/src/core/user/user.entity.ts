@@ -21,6 +21,10 @@ export class UserData {
   @ApiProperty()
   email: string;
 
+  // @IsString()
+  // @MinLength(5)
+  // password: string;
+
   @IsDateString()
   @ApiProperty()
   birthday: Date;
