@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { FirebaseService } from 'src/firebase/firebase.service';
 import { AuthService } from './impl/auth.service';
 import { UserData } from 'src/core/user/user.entity';
@@ -13,14 +13,24 @@ export class AuthServiceImpl implements AuthService {
     private readonly userService: UserService,
   ) {}
 
-  signIn(
+  public async signIn(
     signinDto: SignInDto,
   ): Promise<{ access_token: string; refresh_token: string }> {
     const { email, password } = signinDto;
 
-    throw new Error('Method not implemented.');
+    const user = await this.userService.getUserByEmail(email);
+
+    // TODO: Verificar com talisson se precisa tirar esse throw dentro da regra de negócio auth.service
+    if (!user) {
+      throw new NotFoundException('Nenhum usuário encontrado com esse email.');
+    }
+
+    return {
+      access_token: '',
+      refresh_token: '',
+    };
   }
-  signUp(signupDto: SignUpDto): Promise<UserData> {
+  public async signUp(signupDto: SignUpDto): Promise<UserData> {
     throw new Error('Method not implemented.');
   }
 }
