@@ -10,6 +10,7 @@ import {
   IsOptional,
   MinLength,
   IsDateString,
+  IsUUID,
 } from 'class-validator';
 
 export class UserData {
@@ -54,8 +55,8 @@ export class UserData {
 }
 
 export class UserEntity extends UserData {
-  @IsInt()
-  id: number;
+  @IsUUID()
+  id: string;
 
   @IsDate()
   createdAt: Date;

@@ -4,6 +4,7 @@ import {
   Get,
   NotFoundException,
   Param,
+  ParseUUIDPipe,
   Patch,
   Post,
   Put,
@@ -23,7 +24,7 @@ export class UserController {
   }
 
   @Get(':id')
-  async findOneById(@Param('id') id: number) {
+  async findOneById(@Param('id', new ParseUUIDPipe()) id: string) {
     const output = await this.userService.getUserById(id);
     if (output === null) {
       throw new NotFoundException();
@@ -37,7 +38,10 @@ export class UserController {
   }
 
   @Patch(':id')
-  async update(@Param('id') id: number, @Body() body: UserData) {
+  async update(
+    @Param('id', new ParseUUIDPipe()) id: string,
+    @Body() body: UserData,
+  ) {
     const output = await this.userService.update(id, body);
     if (output === null) {
       throw new NotFoundException();

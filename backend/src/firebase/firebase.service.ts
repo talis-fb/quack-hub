@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import * as admin from 'firebase-admin';
-import { UserData } from 'src/core/user/user.entity';
+import { UserData, UserEntity } from 'src/core/user/user.entity';
 
 @Injectable()
 export class FirebaseService {
@@ -27,5 +27,9 @@ export class FirebaseService {
       email,
       password,
     });
+  }
+
+  public async generateJwtToken(user: UserEntity) {
+    return await this.firebaseApp.auth().createCustomToken(user.id);
   }
 }

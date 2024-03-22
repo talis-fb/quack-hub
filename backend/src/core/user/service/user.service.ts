@@ -1,7 +1,7 @@
 import { UserData, UserEntity } from '../user.entity';
 
 export abstract class UserService {
-  public abstract getUserById(id: number): Promise<UserEntity | null>;
+  public abstract getUserById(id: string): Promise<UserEntity | null>;
 
   public abstract getUserByEmail(email: string): Promise<UserEntity | null>;
 
@@ -10,7 +10,7 @@ export abstract class UserService {
   public abstract create(user: UserData): Promise<UserEntity>;
 
   public abstract update(
-    id: number,
+    id: string,
     user: UserData,
   ): Promise<UserEntity | null>;
 }
