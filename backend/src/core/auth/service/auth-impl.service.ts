@@ -58,9 +58,14 @@ export class AuthServiceImpl implements AuthService {
       sub: user.id,
     };
 
+    // const [accessToken, refreshToken] = await Promise.all([
+    //   await this.jwtService.signAsync(payload),
+    //   await this.jwtService.signAsync(payload),
+    // ]);
+
     const [accessToken, refreshToken] = await Promise.all([
-      await this.jwtService.signAsync(payload, { expiresIn: '24h' }),
-      await this.jwtService.signAsync(payload, { expiresIn: '7d' }),
+      await this.firebaseService.generateJwtToken(user),
+      await this.firebaseService.generateJwtToken(user),
     ]);
 
     return { accessToken, refreshToken };

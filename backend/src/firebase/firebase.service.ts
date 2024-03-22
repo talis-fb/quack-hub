@@ -23,6 +23,8 @@ export class FirebaseService {
     const { email, password } = user;
 
     // TODO: O próprio firebase tem sua restrição de quantos caracteres uma password tem que ter. Se no nosos backend tiver restrição de no mínimo 5 caracteres, dará erro pois por default no firebase é 6. Ver como resolver isso.
+    // link1: https://stackoverflow.com/questions/55223217/firebase-auth-set-custom-expiration-time-for-custom-token
+    // link2: https://firebase.google.com/docs/auth/admin/create-custom-tokens?hl=pt-br#create_custom_tokens_using_a_third-party_jwt_library
     await this.firebaseApp.auth().createUser({
       email,
       password,
@@ -30,6 +32,8 @@ export class FirebaseService {
   }
 
   public async generateJwtToken(user: UserEntity) {
+    // TODO: Pelo o que eu pesquisei, não é possível configurar o tempo de expiração do JWT no fibrease. Mas existe uma altenrativa de implementar tokens personalizados usando biblioteca JWT de terceiros
+
     return await this.firebaseApp.auth().createCustomToken(user.id);
   }
 }
