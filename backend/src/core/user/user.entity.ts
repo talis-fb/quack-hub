@@ -23,7 +23,7 @@ export class UserData {
   email: string;
 
   @IsString()
-  @MinLength(5)
+  @MinLength(6)
   password: string;
 
   @IsDateString()

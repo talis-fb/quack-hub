@@ -1,5 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import * as admin from 'firebase-admin';
+import { UserData } from 'src/core/user/user.entity';
 
 @Injectable()
 export class FirebaseService {
@@ -16,5 +17,15 @@ export class FirebaseService {
       console.error('Error fetching users:', error);
       throw error;
     }
+  }
+
+  public async createUser(user: UserData): Promise<void> {
+    const { email, password } = user;
+
+    // TODO: O próprio firebase tem sua restrição de quantos caracteres uma password tem que ter. Se no nosos backend tiver restrição de no mínimo 5 caracteres, dará erro pois por default no firebase é 6. Ver como resolver isso.
+    await this.firebaseApp.auth().createUser({
+      email,
+      password,
+    });
   }
 }

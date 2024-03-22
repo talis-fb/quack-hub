@@ -43,8 +43,12 @@ export class AuthServiceImpl implements AuthService {
       throw new ConflictException('Usuário com esse email já cadastrado.');
     }
 
-    const newUser = await this.userService.create(signupDto);
 
+
+    const [newUser, _] = await Promise.all([
+      await this.userService.create(signupDto),
+      await this.firebaseService.createUser(signupDto),
+    ]);
     return newUser;
   }
 }
