@@ -1,10 +1,5 @@
-import { IsString, IsEmail, MinLength } from 'class-validator';
+import { PickType } from '@nestjs/mapped-types';
 
-export class SignInDto {
-  @IsEmail()
-  readonly email: string;
+import { UserData } from 'src/core/user/user.entity';
 
-  @IsString()
-  @MinLength(5)
-  readonly password: string;
-}
+export class SignInDto extends PickType(UserData, ['email', 'password']) {}
