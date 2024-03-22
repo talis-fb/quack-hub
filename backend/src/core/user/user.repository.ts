@@ -20,7 +20,6 @@ export class UserRepositoryImpl implements UserRepository {
         id,
       },
     });
-    console.log(output);
     return output;
   }
 
@@ -30,7 +29,6 @@ export class UserRepositoryImpl implements UserRepository {
         email,
       },
     });
-    console.log(output);
     return output;
   }
 

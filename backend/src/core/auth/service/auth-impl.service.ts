@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { FirebaseService } from 'src/firebase/firebase.service';
 import { AuthService } from './impl/auth.service';
 import { UserData } from 'src/core/user/user.entity';
@@ -31,6 +35,16 @@ export class AuthServiceImpl implements AuthService {
     };
   }
   public async signUp(signupDto: SignUpDto): Promise<UserData> {
-    throw new Error('Method not implemented.');
+    const user = await this.userService.getUserByEmail(signupDto.email);
+
+    // TODO: Verificar com talisson se precisa tirar esse throw dentro da regra de negócio auth.service
+
+    if (user) {
+      throw new ConflictException('Usuário com esse email já cadastrado.');
+    }
+
+    const newUser = await this.userService.create(signupDto);
+
+    return newUser;
   }
 }
