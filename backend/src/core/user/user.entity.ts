@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { Transform } from 'class-transformer';
 import {
   IsString,
   IsInt,
@@ -27,6 +28,7 @@ export class UserData {
 
   @IsDateString()
   @ApiProperty()
+  // @Transform(({ value }) => new Date(value))
   birthday: Date;
 
   // extra data

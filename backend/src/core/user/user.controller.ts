@@ -4,8 +4,10 @@ import {
   Get,
   NotFoundException,
   Param,
+  Patch,
   Post,
   Put,
+  ValidationPipe,
 } from '@nestjs/common';
 import { UserData } from './user.entity';
 import { UserService } from './service/user.service';
@@ -14,21 +16,27 @@ import { UserService } from './service/user.service';
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
+  @Get()
+  async findAll() {
+    const output = await this.userService.findAll();
+    return output;
+  }
+
   @Get(':id')
-  async findAll(@Param('id') id: number) {
-    const output = await this.userService.get(id);
+  async findOneById(@Param('id') id: number) {
+    const output = await this.userService.getUserById(id);
     if (output === null) {
       throw new NotFoundException();
     }
     return output;
   }
 
-  @Post(':id')
-  async create(@Body() body: UserData) {
+  @Post()
+  async create(@Body(new ValidationPipe({ transform: true })) body: UserData) {
     return await this.userService.create(body);
   }
 
-  @Put(':id')
+  @Patch(':id')
   async update(@Param('id') id: number, @Body() body: UserData) {
     const output = await this.userService.update(id, body);
     if (output === null) {

@@ -6,7 +6,6 @@ import { FirebaseService } from './firebase/firebase.service';
 import firebaseConfig from './config/firebase-config';
 import { AuthModule } from './core/auth/auth.module';
 
-
 @Module({
   imports: [
     ConfigModule.forRoot({ cache: true, load: [firebaseConfig] }),
@@ -14,11 +13,11 @@ import { AuthModule } from './core/auth/auth.module';
     UserModule,
     AuthModule,
   ],
-  controllers: [],
+controllers: [],
   providers: [],
 })
 export class AppModule {
   constructor(private readonly firebaseService: FirebaseService) {
-    console.log(this.firebaseService.getAllUsers());
+    // console.log(this.firebaseService.getAllUsers());
   }
 }

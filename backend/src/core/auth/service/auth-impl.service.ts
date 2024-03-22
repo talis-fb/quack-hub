@@ -16,6 +16,7 @@ export class AuthServiceImpl implements AuthService {
   signIn(
     signinDto: SignInDto,
   ): Promise<{ access_token: string; refresh_token: string }> {
+    const { email, password } = signinDto;
 
     throw new Error('Method not implemented.');
   }

@@ -3,7 +3,9 @@ import { PrismaService } from '../../common/prisma/prisma.service';
 import { UserData, UserEntity } from './user.entity';
 
 export abstract class UserRepository {
-  abstract get(id: number): Promise<UserEntity | null>;
+  abstract getUserById(id: number): Promise<UserEntity | null>;
+  abstract getUserByEmail(email: string): Promise<UserEntity | null>;
+  abstract findAll(): Promise<UserEntity[]>;
   abstract create(user: UserData): Promise<UserEntity>;
   abstract update(id: number, user: UserData): Promise<UserEntity | null>;
 }
@@ -12,6 +14,31 @@ export abstract class UserRepository {
 export class UserRepositoryImpl implements UserRepository {
   constructor(private prisma: PrismaService) {}
 
+  async getUserById(id: number): Promise<UserEntity | null> {
+    const output = await this.prisma.user.findUnique({
+      where: {
+        id,
+      },
+    });
+    console.log(output);
+    return output;
+  }
+
+  async getUserByEmail(email: string): Promise<UserEntity> {
+    const output = await this.prisma.user.findUnique({
+      where: {
+        email,
+      },
+    });
+    console.log(output);
+    return output;
+  }
+
+  async findAll(): Promise<UserEntity[]> {
+    const output = await this.prisma.user.findMany();
+
+    return output;
+  }
   async create(user: UserData): Promise<UserEntity> {
     const created = await this.prisma.user.create({
       data: {
@@ -20,16 +47,6 @@ export class UserRepositoryImpl implements UserRepository {
     });
 
     return created;
-  }
-
-  async get(id: number): Promise<UserEntity | null> {
-    const output = await this.prisma.user.findUnique({
-      where: {
-        id,
-      },
-    });
-    console.log(output);
-    return output;
   }
 
   async update(id: number, user: UserData): Promise<UserEntity | null> {

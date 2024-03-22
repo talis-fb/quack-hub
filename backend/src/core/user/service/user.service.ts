@@ -1,7 +1,11 @@
 import { UserData, UserEntity } from '../user.entity';
 
 export abstract class UserService {
-  public abstract get(id: number): Promise<UserEntity | null>;
+  public abstract getUserById(id: number): Promise<UserEntity | null>;
+
+  public abstract getUserByEmail(email: string): Promise<UserEntity | null>;
+
+  public abstract findAll(): Promise<UserEntity[]>;
 
   public abstract create(user: UserData): Promise<UserEntity>;
 
