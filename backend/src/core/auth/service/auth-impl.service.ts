@@ -29,9 +29,9 @@ export class AuthServiceImpl implements AuthService {
     if (signinDto.password !== user.password)
       throw new UnauthorizedException('Senha incorreta');
 
-    const { accessToken, refreshToken } = await this.getTokens(user);
+    const { accessToken } = await this.getTokens(user);
 
-    return { accessToken, refreshToken };
+    return { accessToken };
   }
 
   public async signUp(signupDto: SignUpDto): Promise<UserData> {
@@ -45,27 +45,20 @@ export class AuthServiceImpl implements AuthService {
 
     const [newUser, _] = await Promise.all([
       await this.userService.create(signupDto),
-      await this.firebaseService.createUser(signupDto),
+      await this.firebaseService.createUser(
+        signupDto.email,
+        signupDto.password,
+      ),
     ]);
 
     return newUser;
   }
 
   private async getTokens(user: UserEntity) {
-    const payload = {
-      sub: user.id,
-    };
+    const accessToken = await await this.firebaseService.generateJwtToken(
+      user.id,
+    );
 
-    // const [accessToken, refreshToken] = await Promise.all([
-    //   await this.jwtService.signAsync(payload),
-    //   await this.jwtService.signAsync(payload),
-    // ]);
-
-    const [accessToken, refreshToken] = await Promise.all([
-      await this.firebaseService.generateJwtToken(user),
-      await this.firebaseService.generateJwtToken(user),
-    ]);
-
-    return { accessToken, refreshToken };
+    return { accessToken };
   }
 }
