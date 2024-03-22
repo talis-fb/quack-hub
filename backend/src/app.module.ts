@@ -4,7 +4,7 @@ import { FirebaseModule } from './firebase/firebase.module';
 import { ConfigModule } from '@nestjs/config';
 import { FirebaseService } from './firebase/firebase.service';
 import firebaseConfig from './config/firebase-config';
-import { AuthModule } from './auth/auth.module';
+import { AuthModule } from './core/auth/auth.module';
 
 
 @Module({

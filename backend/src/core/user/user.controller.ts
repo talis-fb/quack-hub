@@ -7,16 +7,16 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
-import { UserService } from './user.service';
 import { UserData } from './user.entity';
+import { UserService } from './service/user.service';
 
 @Controller('users')
 export class UserController {
-  constructor(private readonly service: UserService) {}
+  constructor(private readonly userService: UserService) {}
 
   @Get(':id')
   async findAll(@Param('id') id: number) {
-    const output = await this.service.get(id);
+    const output = await this.userService.get(id);
     if (output === null) {
       throw new NotFoundException();
     }
@@ -25,12 +25,12 @@ export class UserController {
 
   @Post(':id')
   async create(@Body() body: UserData) {
-    return await this.service.create(body);
+    return await this.userService.create(body);
   }
 
   @Put(':id')
   async update(@Param('id') id: number, @Body() body: UserData) {
-    const output = await this.service.update(id, body);
+    const output = await this.userService.update(id, body);
     if (output === null) {
       throw new NotFoundException();
     }

@@ -4,10 +4,14 @@ import { AuthService } from './impl/auth.service';
 import { UserData } from 'src/core/user/user.entity';
 import { SignInDto } from '../dtos/sign-in.dto';
 import { SignUpDto } from '../dtos/sign-up.dto';
+import { UserService } from 'src/core/user/service/user.service';
 
 @Injectable()
 export class AuthServiceImpl implements AuthService {
-  constructor(private readonly firebaseService: FirebaseService) {}
+  constructor(
+    private readonly firebaseService: FirebaseService,
+    private readonly userService: UserService,
+  ) {}
 
   signIn(
     signinDto: SignInDto,

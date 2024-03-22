@@ -1,9 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import { UserRepository } from './user.repository';
-import { UserData, UserEntity } from './user.entity';
+import { UserRepository } from '../../user.repository';
+import { UserData, UserEntity } from '../../user.entity';
+import { UserService } from '../user.service';
 
 @Injectable()
-export class UserService {
+export class UserServiceImpl implements UserService {
   constructor(private repo: UserRepository) {}
 
   public async get(id: number): Promise<UserEntity | null> {
