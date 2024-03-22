@@ -7,5 +7,5 @@ export abstract class AuthService {
     signinDto: SignInDto,
   ): Promise<{ access_token: string; refresh_token: string }>;
 
-  abstract signUpDto(signupDto: SignUpDto): Promise<UserData>;
+  abstract signUp(signupDto: SignUpDto): Promise<UserData>;
 }
