@@ -26,9 +26,7 @@ export class AuthServiceImpl implements AuthService {
     // TODO: Verificar com talisson se precisa tirar esse throw dentro da regra de negócio auth.service
     if (!user) throw new NotFoundException('Usuário não encontrado');
 
-    const { password, ...userProfile } = user;
-
-    if (password !== user.password)
+    if (signinDto.password !== user.password)
       throw new UnauthorizedException('Senha incorreta');
 
     const { accessToken, refreshToken } = await this.getTokens(user);
