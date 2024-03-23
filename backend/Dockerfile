@@ -1,4 +1,4 @@
-FROM node:20.11.1
+FROM node:20.11.1-bullseye-slim
 
 # Set the working directory inside the container
 WORKDIR /app
@@ -14,4 +14,4 @@ RUN yarn install
 EXPOSE 8080
 
 # Start the backend application
-CMD ["yarn", "start:dev"]
+CMD ["yarn", "start:migrate:dev"]
