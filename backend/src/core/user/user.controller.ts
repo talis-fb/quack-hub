@@ -36,4 +36,19 @@ export class UserController {
     }
     return output;
   }
+
+  @Post('/:id/follow/:id_to_follow')
+  async follow(@Param('id') id: number, @Param('id_to_follow') idToFollow: number) {
+    return await this.service.follow(id, idToFollow);
+  }
+
+  @Get(':id/followers')
+  async getFollowers(@Param('id') id: number) {
+    return await this.service.getFollowers(id);
+  }
+
+  @Get(':id/following')
+  async getFollowing(@Param('id') id: number) {
+    return await this.service.getFollowing(id);
+  }
 }

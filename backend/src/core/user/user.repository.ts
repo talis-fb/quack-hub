@@ -6,6 +6,12 @@ export abstract class UserRepository {
   abstract get(id: number): Promise<UserEntity | null>;
   abstract create(user: UserData): Promise<UserEntity>;
   abstract update(id: number, user: UserData): Promise<UserEntity | null>;
+  abstract addFollower(
+    userFollowingId: number,
+    userToBeFollowedId: number,
+  ): Promise<void>;
+  abstract getFollowers(id: number): Promise<UserEntity[]>;
+  abstract getFollowing(id: number): Promise<UserEntity[]>;
 }
 
 @Injectable()
@@ -39,6 +45,48 @@ export class UserRepositoryImpl implements UserRepository {
       },
       data: {
         ...user,
+      },
+    });
+  }
+
+  async getFollowers(id: number): Promise<UserEntity[]> {
+    return await this.prisma.user.findMany({
+      where: {
+        following: {
+          some: {
+            id,
+          },
+        },
+      },
+    });
+  }
+
+  async getFollowing(id: number): Promise<UserEntity[]> {
+    return await this.prisma.user.findMany({
+      where: {
+        followedBy: {
+          some: {
+            id,
+          },
+        },
+      },
+    });
+  }
+
+  async addFollower(
+    userFollowingId: number,
+    userToBeFollowedId: number,
+  ): Promise<void> {
+    await this.prisma.user.update({
+      where: {
+        id: userFollowingId,
+      },
+      data: {
+        following: {
+          connect: {
+            id: userToBeFollowedId,
+          },
+        },
       },
     });
   }
