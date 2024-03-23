@@ -15,7 +15,7 @@ export class UserServiceImpl implements UserService {
     return await this.repo.getUserByEmail(email);
   }
 
-  public async getUserById(id: string): Promise<UserEntity | null> {
+  public async getUserById(id: number): Promise<UserEntity | null> {
     return await this.repo.getUserById(id);
   }
 
@@ -23,7 +23,7 @@ export class UserServiceImpl implements UserService {
     return await this.repo.create(user);
   }
 
-  public async update(id: string, user: UserData): Promise<UserEntity | null> {
+  public async update(id: number, user: UserData): Promise<UserEntity | null> {
     return await this.repo.update(id, user);
   }
 }

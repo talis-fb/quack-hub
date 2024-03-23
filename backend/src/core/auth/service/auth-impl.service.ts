@@ -56,7 +56,7 @@ export class AuthServiceImpl implements AuthService {
 
   private async getTokens(user: UserEntity) {
     const accessToken = await await this.firebaseService.generateJwtToken(
-      user.id,
+      user.email,
     );
 
     return { accessToken };

@@ -55,8 +55,8 @@ export class UserData {
 }
 
 export class UserEntity extends UserData {
-  @IsUUID()
-  id: string;
+  @IsInt()
+  id: number;
 
   @IsDate()
   createdAt: Date;

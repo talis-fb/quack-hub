@@ -3,18 +3,18 @@ import { PrismaService } from '../../common/prisma/prisma.service';
 import { UserData, UserEntity } from './user.entity';
 
 export abstract class UserRepository {
-  abstract getUserById(id: string): Promise<UserEntity | null>;
+  abstract getUserById(id: number): Promise<UserEntity | null>;
   abstract getUserByEmail(email: string): Promise<UserEntity | null>;
   abstract findAll(): Promise<UserEntity[]>;
   abstract create(user: UserData): Promise<UserEntity>;
-  abstract update(id: string, user: UserData): Promise<UserEntity | null>;
+  abstract update(id: number, user: UserData): Promise<UserEntity | null>;
 }
 
 @Injectable()
 export class UserRepositoryImpl implements UserRepository {
   constructor(private prisma: PrismaService) {}
 
-  async getUserById(id: string): Promise<UserEntity | null> {
+  async getUserById(id: number): Promise<UserEntity | null> {
     const output = await this.prisma.user.findUnique({
       where: {
         id,
@@ -51,7 +51,7 @@ export class UserRepositoryImpl implements UserRepository {
     return created;
   }
 
-  async update(id: string, user: UserData): Promise<UserEntity | null> {
+  async update(id: number, user: UserData): Promise<UserEntity | null> {
     return await this.prisma.user.update({
       where: {
         id,
