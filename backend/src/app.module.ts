@@ -11,8 +11,6 @@ import firebaseConfig from './config/firebase-config';
     FirebaseModule,
     UserModule,
   ],
-  controllers: [],
-  providers: [],
 })
 export class AppModule {
   constructor(private readonly firebaseService: FirebaseService) {

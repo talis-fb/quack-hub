@@ -9,6 +9,8 @@ import {
   IsOptional,
   MinLength,
   IsDateString,
+  IsNumber,
+  IsNumberString,
 } from 'class-validator';
 
 export class UserData {
@@ -26,7 +28,7 @@ export class UserData {
   birthday: Date;
 
   // extra data
-  @IsPhoneNumber()
+  @IsString()
   @IsOptional()
   @ApiProperty()
   bio: string | null;
@@ -41,7 +43,7 @@ export class UserData {
   @ApiProperty()
   avatarUrl: string | null;
 
-  @IsPhoneNumber()
+  @IsNumberString()
   @IsOptional()
   @ApiProperty()
   phone: string | null;

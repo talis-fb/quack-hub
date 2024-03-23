@@ -23,7 +23,7 @@ export class UserController {
     return output;
   }
 
-  @Post(':id')
+  @Post('/')
   async create(@Body() body: UserData) {
     return await this.service.create(body);
   }
