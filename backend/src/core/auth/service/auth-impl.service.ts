@@ -31,6 +31,7 @@ export class AuthServiceImpl implements AuthService {
 
     const { accessToken } = await this.getTokens(user);
 
+    console.log(await this.firebaseService.validateJwtToken(accessToken));
     return { accessToken };
   }
 

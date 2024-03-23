@@ -1,5 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import * as admin from 'firebase-admin';
+import { DecodedIdToken } from 'firebase-admin/lib/auth/token-verifier';
 import { UserData, UserEntity } from 'src/core/user/user.entity';
 
 @Injectable()
@@ -33,5 +34,9 @@ export class FirebaseService {
     // TODO: Pelo o que eu pesquisei, não é possível configurar o tempo de expiração do JWT no fibrease. Mas existe uma altenrativa de implementar tokens personalizados usando biblioteca JWT de terceiros
 
     return await this.firebaseApp.auth().createCustomToken(uid);
+  }
+
+  public async validateJwtToken(token: string): Promise<boolean> {
+    return true;
   }
 }
