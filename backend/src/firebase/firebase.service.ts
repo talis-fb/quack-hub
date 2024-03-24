@@ -30,13 +30,7 @@ export class FirebaseService {
     });
   }
 
-  public async generateJwtToken(uid: string) {
-    // TODO: Pelo o que eu pesquisei, não é possível configurar o tempo de expiração do JWT no fibrease. Mas existe uma altenrativa de implementar tokens personalizados usando biblioteca JWT de terceiros
-
-    return await this.firebaseApp.auth().createCustomToken(uid);
-  }
-
-  public async validateJwtToken(token: string): Promise<boolean> {
-    return true;
+  public async verifyToken(uid: string): Promise<DecodedIdToken> {
+    return this.firebaseApp.auth().verifyIdToken(uid);
   }
 }

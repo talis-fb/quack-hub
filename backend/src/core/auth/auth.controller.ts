@@ -8,10 +8,10 @@ import { AuthGuard } from './guards/auth.guard';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @Post('signin')
-  async signin(@Body() signInDto: SignInDto) {
-    return await this.authService.signIn(signInDto);
-  }
+  // @Post('signin')
+  // async signin(@Body() signInDto: SignInDto) {
+  //   return await this.authService.signIn(signInDto);
+  // }
 
   @Post('signup')
   async signup(@Body() signUpDto: SignUpDto) {
@@ -21,6 +21,6 @@ export class AuthController {
   @UseGuards(AuthGuard)
   @Get()
   async teste() {
-    return "Oi"
+    return 'Oi';
   }
 }

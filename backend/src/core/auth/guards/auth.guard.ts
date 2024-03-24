@@ -10,24 +10,27 @@ import { Request } from 'express';
 @Injectable()
 export class AuthGuard implements CanActivate {
   constructor(private firebaseService: FirebaseService) {}
-  async canActivate(
-    context: ExecutionContext
-  ): Promise<boolean> {
+  async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest();
     const token = this.extractTokenFromHeader(request);
+
     if (!token) {
       throw new UnauthorizedException();
     }
-    const payload = await this.firebaseService.validateJwtToken(token);
-    if (!payload) {
+
+    try {
+      const payload = await this.firebaseService.verifyToken(token);
+      request['user'] = payload;
+    } catch (error) {
       throw new UnauthorizedException();
     }
-    request['user'] = payload;
+
     return true;
   }
 
   private extractTokenFromHeader(request: Request): string | undefined {
     const [type, token] = request.headers.authorization?.split(' ') ?? [];
+
     return type === 'Bearer' ? token : undefined;
   }
 }
