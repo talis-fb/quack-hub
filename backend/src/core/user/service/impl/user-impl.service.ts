@@ -29,7 +29,8 @@ export class UserServiceImpl implements UserService {
     await this.prisma.$transaction(async (tx) => {
       await this.firebaseService.createUser(user.email, user.password);
       await this.repo.create(user);
-    }
+    });
+    return this.getUserByEmail(user.email);
   }
 
   public async update(id: number, user: UserData): Promise<UserEntity | null> {
