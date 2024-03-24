@@ -1,13 +1,13 @@
-import { Module, forwardRef } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { UserController } from './user.controller';
 import { PrismaService } from '../../common/prisma/prisma.service';
 import { UserRepository, UserRepositoryImpl } from './user.repository';
 import { UserService } from './service/user.service';
 import { UserServiceImpl } from './service/impl/user-impl.service';
-import { AuthModule } from '../auth/auth.module';
+import { FirebaseModule } from 'src/firebase/firebase.module';
 
 @Module({
-  imports: [],
+  imports: [FirebaseModule],
   controllers: [UserController],
   providers: [
     {
