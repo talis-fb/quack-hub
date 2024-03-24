@@ -8,10 +8,12 @@ import {
   Patch,
   Post,
   Put,
+  UseGuards,
   ValidationPipe,
 } from '@nestjs/common';
 import { UserData } from './user.entity';
 import { UserService } from './service/user.service';
+import { AuthGuard } from '../auth/guards/auth.guard';
 
 @Controller('users')
 export class UserController {

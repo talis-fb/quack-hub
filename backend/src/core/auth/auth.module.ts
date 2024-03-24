@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, forwardRef } from '@nestjs/common';
 import { AuthService } from './service/impl/auth.service';
 import { AuthServiceImpl } from './service/auth-impl.service';
 import { FirebaseModule } from 'src/firebase/firebase.module';
