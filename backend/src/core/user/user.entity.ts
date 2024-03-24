@@ -10,7 +10,7 @@ import {
   IsOptional,
   MinLength,
   IsDateString,
-  IsUUID,
+  IsNotEmpty,
 } from 'class-validator';
 
 export class UserData {
@@ -27,9 +27,10 @@ export class UserData {
   @MinLength(6)
   password: string;
 
-  @IsDateString()
+  @IsNotEmpty()
+  @Transform(({ value }) => new Date(value))
+  @IsDate()
   @ApiProperty()
-  // @Transform(({ value }) => new Date(value))
   birthday: Date;
 
   // extra data

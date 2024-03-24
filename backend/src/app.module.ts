@@ -13,11 +13,7 @@ import { AuthModule } from './core/auth/auth.module';
     UserModule,
     AuthModule,
   ],
-controllers: [],
+  controllers: [],
   providers: [],
 })
-export class AppModule {
-  constructor(private readonly firebaseService: FirebaseService) {
-    // console.log(this.firebaseService.getAllUsers());
-  }
-}
+export class AppModule {}

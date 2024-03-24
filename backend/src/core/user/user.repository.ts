@@ -40,10 +40,9 @@ export class UserRepositoryImpl implements UserRepository {
   async create(user: UserData): Promise<UserEntity> {
     const { birthday, ...userRemainder } = user;
 
-    // TODO: Acho que não seja responsabilidade de transformar de string para Date. Essa transformação deve ser feita pelo class-validatorz
     const created = await this.prisma.user.create({
       data: {
-        birthday: new Date(birthday),
+        birthday,
         ...userRemainder,
       },
     });
