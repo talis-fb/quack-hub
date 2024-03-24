@@ -4,12 +4,8 @@ import {
   Get,
   NotFoundException,
   Param,
-  ParseUUIDPipe,
   Patch,
   Post,
-  Put,
-  UseGuards,
-  ValidationPipe,
 } from '@nestjs/common';
 import { UserData } from './user.entity';
 import { UserService } from './service/user.service';
@@ -35,7 +31,7 @@ export class UserController {
   }
 
   @Post()
-  async create(@Body(new ValidationPipe({ transform: true })) body: UserData) {
+  async create(@Body() body: UserData) {
     return await this.userService.create(body);
   }
 
