@@ -1,11 +1,10 @@
 import { ConflictException, Injectable } from '@nestjs/common';
-import { FirebaseService } from 'src/firebase/firebase.service';
 import { AuthService } from './impl/auth.service';
 import { UserData } from 'src/core/user/user.entity';
 import { SignInDto } from '../dtos/sign-in.dto';
-import { UserDto } from 'src/core/user/dtos/user-dto';
 import { SignInResponseDto } from '../dtos/sign-in-response-dto';
-import { UserService } from 'src/core/user/service/impl/user-impl.service';
+import { UserService } from 'src/core/user/user.service';
+import { UserDto } from 'src/core/user/dtos/user-dto';
 
 @Injectable()
 export class AuthServiceImpl implements AuthService {

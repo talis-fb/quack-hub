@@ -9,7 +9,8 @@ import {
 } from '@nestjs/common';
 import { UserData } from './user.entity';
 import { Public } from 'src/decorators/public.decorator';
-import { UserService } from './service/impl/user-impl.service';
+import { UserService } from './user.service';
+import { UserDto } from './dtos/user-dto';
 
 @Public()
 @Controller('users')
@@ -32,7 +33,7 @@ export class UserController {
   }
 
   @Post()
-  async create(@Body() body: UserData) {
+  async create(@Body() body: UserDto) {
     return await this.userService.create(body);
   }
 
