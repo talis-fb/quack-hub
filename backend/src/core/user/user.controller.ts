@@ -9,7 +9,9 @@ import {
 } from '@nestjs/common';
 import { UserData } from './user.entity';
 import { UserService } from './service/user.service';
+import { Public } from 'src/decorators/public.decorator';
 
+@Public()
 @Controller('users')
 export class UserController {
   constructor(private readonly userService: UserService) {}

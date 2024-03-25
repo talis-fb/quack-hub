@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../common/prisma/prisma.service';
 import { UserData, UserEntity } from './user.entity';
 import { FirebaseService } from 'src/firebase/firebase.service';
+import { UserDto } from './dtos/user-dto';
 
 export abstract class UserRepository {
   abstract getUserById(id: number): Promise<UserEntity | null>;
@@ -13,7 +14,10 @@ export abstract class UserRepository {
 
 @Injectable()
 export class UserRepositoryImpl implements UserRepository {
-  constructor(private prisma: PrismaService, private firebaseService: FirebaseService) {}
+  constructor(
+    private prisma: PrismaService,
+    private firebaseService: FirebaseService,
+  ) {}
 
   async getUserById(id: number): Promise<UserEntity | null> {
     const output = await this.prisma.user.findUnique({
@@ -39,15 +43,20 @@ export class UserRepositoryImpl implements UserRepository {
     return output;
   }
 
-  async create(user: UserData): Promise<UserEntity> {
+  async create(user: UserDto): Promise<UserEntity> {
+    const { password, ...userRemainder } = user;
+
     let userReturn: UserEntity;
 
     await this.prisma.$transaction(async (tx) => {
       await this.firebaseService.createUser(user.email, user.password);
       userReturn = await tx.user.create({
-        data: user,
-      })
+        data: {
+          ...userRemainder,
+        },
+      });
     });
+
     return userReturn;
   }
 

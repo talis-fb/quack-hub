@@ -23,10 +23,6 @@ export class UserData {
   @ApiProperty()
   email: string;
 
-  @IsString()
-  @MinLength(6)
-  password: string;
-
   @IsNotEmpty()
   @Transform(({ value }) => new Date(value))
   @IsDate()
