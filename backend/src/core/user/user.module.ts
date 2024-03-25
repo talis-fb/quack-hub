@@ -2,8 +2,7 @@ import { Module } from '@nestjs/common';
 import { UserController } from './user.controller';
 import { PrismaService } from '../../common/prisma/prisma.service';
 import { UserRepository, UserRepositoryImpl } from './user.repository';
-import { UserService } from './service/user.service';
-import { UserServiceImpl } from './service/impl/user-impl.service';
+import { UserService, UserServiceImpl } from './service/impl/user-impl.service';
 import { FirebaseModule } from 'src/firebase/firebase.module';
 
 @Module({

@@ -8,8 +8,8 @@ import {
   Post,
 } from '@nestjs/common';
 import { UserData } from './user.entity';
-import { UserService } from './service/user.service';
 import { Public } from 'src/decorators/public.decorator';
+import { UserService } from './service/impl/user-impl.service';
 
 @Public()
 @Controller('users')

@@ -46,18 +46,17 @@ export class UserRepositoryImpl implements UserRepository {
   async create(user: UserDto): Promise<UserEntity> {
     const { password, ...userRemainder } = user;
 
-    let userReturn: UserEntity;
-
-    await this.prisma.$transaction(async (tx) => {
+    return await this.prisma.$transaction(async (tx) => {
       await this.firebaseService.createUser(user.email, user.password);
-      userReturn = await tx.user.create({
+
+      const newUser = await tx.user.create({
         data: {
           ...userRemainder,
         },
       });
-    });
 
-    return userReturn;
+      return newUser;
+    });
   }
 
   async update(id: number, user: UserData): Promise<UserEntity | null> {
