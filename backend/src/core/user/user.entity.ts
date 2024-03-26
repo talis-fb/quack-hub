@@ -1,16 +1,15 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { Transform } from 'class-transformer';
 import {
   IsString,
   IsInt,
   IsEmail,
   IsUrl,
-  IsPhoneNumber,
   IsDate,
   IsOptional,
   MinLength,
-  IsDateString,
-  IsNumber,
   IsNumberString,
+  IsNotEmpty,
 } from 'class-validator';
 
 export class UserData {
@@ -23,7 +22,9 @@ export class UserData {
   @ApiProperty()
   email: string;
 
-  @IsDateString()
+  @IsNotEmpty()
+  @Transform(({ value }) => new Date(value))
+  @IsDate()
   @ApiProperty()
   birthday: Date;
 
