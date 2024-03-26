@@ -32,11 +32,6 @@ export class UserController {
     return output;
   }
 
-  @Post()
-  async create(@Body() body: UserDto) {
-    return await this.userService.create(body);
-  }
-
   @Patch(':id')
   async update(@Param('id') id: number, @Body() body: UserData) {
     const output = await this.userService.update(id, body);
