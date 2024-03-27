@@ -1,12 +1,8 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
-import { Button } from '@/components/ui/button'
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger
-} from '@/components/ui/accordion'
+
+import Toaster from '@/components/ui/toast/Toaster.vue'
+
 function toggleDarkMode() {
   const body = document.querySelector('body')
 
@@ -19,6 +15,7 @@ function toggleDarkMode() {
 <template>
   <div class="min-h-screen flex flex-col">
     <RouterView />
+    <Toaster />
   </div>
 </template>
 

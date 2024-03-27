@@ -29,6 +29,7 @@ import router from '../router/index'
 // date-fns
 import { formatDateInFull } from '@/utils/DateFormat'
 import { authService } from '@/services'
+import { useToast } from '@/components/ui/toast/use-toast'
 
 const formSchema = toTypedSchema(
   z
@@ -52,14 +53,24 @@ const form = useForm({
   validationSchema: formSchema
 })
 
+const { toast } = useToast()
+
 const onSubmit = form.handleSubmit(async (values) => {
   const { confirmPassword, ...restValues } = values
   try {
     const res = await authService.signup(restValues)
 
-    console.log({ res })
+    toast({
+      title: 'Conta cadastrada com sucesso.',
+      description: 'Agora você poderá utilizar as funcionalidads do sistema!'
+    })
   } catch (error) {
     console.log({ error })
+    toast({
+      title: 'Ops! Ocorreu algum erro.',
+      description: error?.message || 'Erro desconhecido, por favor contatar os desenvolvedores.',
+      variant: 'destructive'
+    })
   }
 })
 </script>
