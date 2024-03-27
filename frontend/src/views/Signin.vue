@@ -79,7 +79,12 @@ const onSubmit = form.handleSubmit(async (values) => {
           <FormItem>
             <FormLabel />
             <FormControl>
-              <Input type="password" v-bind="componentField" autocomplete="current-password" />
+              <Input
+                type="password"
+                placeholder="Senha..."
+                v-bind="componentField"
+                autocomplete="current-password"
+              />
             </FormControl>
             <FormDescription />
             <FormMessage />

@@ -87,7 +87,7 @@ const onSubmit = form.handleSubmit(async (values) => {
             <FormControl>
               <Input
                 type="password"
-                placeholder="Password..."
+                placeholder="Senha..."
                 v-bind="componentField"
                 autocomplete="current-password"
               />
@@ -102,7 +102,7 @@ const onSubmit = form.handleSubmit(async (values) => {
             <FormControl>
               <Input
                 type="password"
-                placeholder="Confirm password..."
+                placeholder="Confirmar senha..."
                 v-bind="componentField"
                 autocomplete="current-password"
               />
@@ -117,7 +117,7 @@ const onSubmit = form.handleSubmit(async (values) => {
               <PopoverTrigger as-child>
                 <FormControl>
                   <Button variant="outline" :class="cn(!value && 'text-muted-foreground')">
-                    <span>{{ value ? formatDateInFull(value) : 'Pick a date' }}</span>
+                    <span>{{ value ? formatDateInFull(value) : 'Data de aniversário...' }}</span>
                     <CalendarIcon class="ms-auto h-4 w-4 opacity-50" />
                   </Button>
                 </FormControl>
