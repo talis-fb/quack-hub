@@ -8,6 +8,8 @@ import { jwtConstants } from './constants';
 import { JwtStrategy } from './jwt-strategy/jwt-strategy';
 import { JwtAuthGuard } from './jwt-auth.guard';
 import { LocalStrategy } from './local-strategy/local-stratey';
+import { AuthRepository, AuthRepositoryImpl } from './auth.repository';
+import { PrismaService } from 'src/common/prisma/prisma.service';
 
 @Module({
   imports: [
@@ -22,8 +24,13 @@ import { LocalStrategy } from './local-strategy/local-stratey';
       provide: AuthService,
       useClass: AuthServiceImpl,
     },
+    {
+      provide: AuthRepository,
+      useClass: AuthRepositoryImpl,
+    },
     LocalStrategy,
     JwtStrategy,
+    PrismaService,
     {
       provide: APP_GUARD,
       useClass: JwtAuthGuard,

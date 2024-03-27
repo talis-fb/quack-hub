@@ -19,20 +19,14 @@ import { UserService } from './user.service';
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @Get()
-  async findAll() {
-    const output = await this.userService.findAll();
-    return output;
-  }
-
   @Get('search/')
   async searchUsers(@Query('q') query: string) {
-    console.log("ONDE UE QUERO")
+    console.log('ONDE UE QUERO');
     return await this.userService.search(query);
   }
 
   @Get(':id')
-  async findOneById(@Param('id') id: number) {
+  async findOneById(@Param('id', ParseIntPipe) id: number) {
     const output = await this.userService.getUserById(id);
     if (output === null) {
       throw new NotFoundException();
@@ -40,14 +34,8 @@ export class UserController {
     return output;
   }
 
-
-  @Post('/')
-  async create(@Body() body: UserData) {
-    return await this.userService.create(body);
-  }
-
   @Put(':id')
-  async update(@Param('id') id: number, @Body() body: UserData) {
+  async update(@Param('id', ParseIntPipe) id: number, @Body() body: UserData) {
     const output = await this.userService.update(id, body);
     if (output === null) {
       throw new NotFoundException();
@@ -57,19 +45,19 @@ export class UserController {
 
   @Post('/:id/follow/:id_to_follow')
   async follow(
-    @Param('id') id: number,
-    @Param('id_to_follow') idToFollow: number,
+    @Param('id', ParseIntPipe) id: number,
+    @Param('id_to_follow', ParseIntPipe) idToFollow: number,
   ) {
     return await this.userService.follow(id, idToFollow);
   }
 
   @Get(':id/followers')
-  async getFollowers(@Param('id') id: number) {
+  async getFollowers(@Param('id', ParseIntPipe) id: number) {
     return await this.userService.getFollowers(id);
   }
 
   @Get(':id/following')
-  async getFollowing(@Param('id') id: number) {
+  async getFollowing(@Param('id', ParseIntPipe) id: number) {
     return await this.userService.getFollowing(id);
   }
 }

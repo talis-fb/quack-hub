@@ -1,39 +1,28 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../common/prisma/prisma.service';
 import { UserData, UserEntity } from './user.entity';
-import { UserDto } from './dtos/user-dto';
 
 export abstract class UserRepository {
   abstract getUserById(id: number): Promise<UserEntity | null>;
   abstract getUserByEmail(email: string): Promise<UserEntity | null>;
   abstract findAll(): Promise<UserEntity[]>;
   abstract findUsers(searchName: string): Promise<UserEntity[]>;
-  abstract create(user: UserData): Promise<UserEntity>;
+  abstract getFollowers(id: number): Promise<UserEntity[]>;
+  abstract getFollowing(id: number): Promise<UserEntity[]>;
+
   abstract update(id: number, user: UserData): Promise<UserEntity | null>;
   abstract addFollower(
     userFollowingId: number,
     userToBeFollowedId: number,
   ): Promise<void>;
-  abstract getFollowers(id: number): Promise<UserEntity[]>;
-  abstract getFollowing(id: number): Promise<UserEntity[]>;
 }
 
 @Injectable()
 export class UserRepositoryImpl implements UserRepository {
   constructor(private prisma: PrismaService) {}
-  
-  async create(user: UserData): Promise<UserEntity> {
-    const created = await this.prisma.user.create({
-      data: {
-        ...user,
-      },
-    });
-    
-    return created;
-  }
 
   async findUsers(searchName: string): Promise<UserEntity[]> {
-    console.log("AQQQQQQQQQQQQQQQ")
+    console.log('AQQQQQQQQQQQQQQQ');
     return await this.prisma.user.findMany({
       where: {
         name: {
@@ -43,7 +32,7 @@ export class UserRepositoryImpl implements UserRepository {
       },
     });
   }
-  
+
   async getUserById(id: number): Promise<UserEntity | null> {
     const output = await this.prisma.user.findUnique({
       where: {
@@ -52,7 +41,7 @@ export class UserRepositoryImpl implements UserRepository {
     });
     return output;
   }
-  
+
   async getUserByEmail(email: string): Promise<UserEntity> {
     const output = await this.prisma.user.findUnique({
       where: {
@@ -67,7 +56,6 @@ export class UserRepositoryImpl implements UserRepository {
 
     return output;
   }
-
 
   async update(id: number, user: UserData): Promise<UserEntity | null> {
     return await this.prisma.user.update({
