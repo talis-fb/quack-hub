@@ -27,12 +27,9 @@ export const useAuthStore = defineStore('auth', () => {
 
       return newUserState
     } catch (error) {
-      console.log({ error })
       throw error
     }
   }
-
-  async function signup(signupParams: ISignupParams) {}
 
   if (getCurrentInstance()) {
     onMounted(() => {

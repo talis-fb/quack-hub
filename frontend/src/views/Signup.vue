@@ -28,10 +28,12 @@ import router from '../router/index'
 
 // date-fns
 import { formatDateInFull } from '@/utils/DateFormat'
+import { authService } from '@/services'
 
 const formSchema = toTypedSchema(
   z
     .object({
+      name: z.string().min(3, { message: 'Nome deve ter no mínimo 3 caracteres' }),
       email: z
         .string()
         .min(1, { message: 'Esse campo deve ser preenchido.' })
@@ -51,8 +53,14 @@ const form = useForm({
 })
 
 const onSubmit = form.handleSubmit(async (values) => {
+  const { confirmPassword, ...restValues } = values
   try {
-  } catch (error) {}
+    const res = await authService.signup(restValues)
+
+    console.log({ res })
+  } catch (error) {
+    console.log({ error })
+  }
 })
 </script>
 
@@ -66,6 +74,21 @@ const onSubmit = form.handleSubmit(async (values) => {
         </p>
       </div>
       <form @submit="onSubmit" class="w-full max-w-[450px]">
+        <FormField v-slot="{ componentField }" name="name">
+          <FormItem>
+            <FormLabel />
+            <FormControl>
+              <Input
+                type="text"
+                placeholder="Nome..."
+                v-bind="componentField"
+                autocomplete="name"
+              />
+            </FormControl>
+            <FormDescription />
+            <FormMessage />
+          </FormItem>
+        </FormField>
         <FormField v-slot="{ componentField }" name="email">
           <FormItem>
             <FormLabel />

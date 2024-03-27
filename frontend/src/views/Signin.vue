@@ -46,7 +46,9 @@ const onSubmit = form.handleSubmit(async (values) => {
     router.push({
       name: 'home'
     })
-  } catch (error) {}
+  } catch (error) {
+    console.log({ error })
+  }
 })
 </script>
 
