@@ -33,13 +33,13 @@ const form = useForm({
   validationSchema: formSchema
 })
 
-const authStore = useAuthStore()
+const { signin } = useAuthStore()
 
 const onSubmit = form.handleSubmit(async (values) => {
   const { email, password } = values
 
   try {
-    const userState = await authStore.signin({ email, password })
+    const userState = await signin({ email, password })
 
     if (!userState) return
 
