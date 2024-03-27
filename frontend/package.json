@@ -16,6 +16,7 @@
   "dependencies": {
     "@vee-validate/zod": "^4.12.6",
     "@vueuse/core": "^10.9.0",
+    "axios": "^1.6.8",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
     "form": "^0.2.4",
