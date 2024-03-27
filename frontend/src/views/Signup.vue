@@ -18,7 +18,7 @@ import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { Calendar } from '@/components/ui/calendar'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
-import { Calendar as CalendarIcon } from 'lucide-vue-next'
+import { Calendar as CalendarIcon, ArrowLeft } from 'lucide-vue-next'
 
 // Components
 import Auth from '@/components/Auth.vue'
@@ -73,11 +73,24 @@ const onSubmit = form.handleSubmit(async (values) => {
     })
   }
 })
+
+const navigateToLogin = (e: MouseEvent) => {
+  router.push({
+    name: 'signin'
+  })
+}
 </script>
 
 <template>
   <Auth>
     <template v-slot:main>
+      <div
+        @click="navigateToLogin"
+        class="cursor-pointer flex gap-1 absolute left-5 top-5 pb-2 after:content-[''] after:absolute after:left-0 after:bottom-0 after:h-[2px] after:w-0 after:bg-primary hover:after:w-[95%] after:transition-all after:ease-in-out after:duration-300"
+      >
+        <ArrowLeft />
+        <span>Login</span>
+      </div>
       <div class="text-center mb-5">
         <h1 class="text-2xl font-semibold">Registro</h1>
         <p class="text-sm text-muted-foreground">

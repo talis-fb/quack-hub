@@ -105,7 +105,7 @@ const navigateToSignup = (e: MouseEvent) => {
           Não tem uma conta?
           <span
             @click="navigateToSignup"
-            class="relative pb-2 signup-text font-bold cursor-pointer after:content-[''] after:absolute after:left-0 after:bottom-0 after:h-[2px] after:w-0 after:bg-primary hover:after:w-[100%] after:transition-all after:ease-in-out after:duration-300"
+            class="font-bold cursor-pointer relative pb-2 after:content-[''] after:absolute after:left-0 after:bottom-0 after:h-[2px] after:w-0 after:bg-primary hover:after:w-[95%] after:transition-all after:ease-in-out after:duration-300"
             >Registra-se</span
           >
         </p>
