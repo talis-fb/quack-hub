@@ -11,7 +11,7 @@ export abstract class AuthService {
   ): Promise<Omit<UserEntity, 'password'>>;
 
   abstract signin(
-    user: Omit<UserDto, 'password'>,
+    user: Omit<UserEntity, 'password'>,
   ): Promise<{ access_token: string }>;
 
   abstract signup(signupDto: UserDto): Promise<UserEntity>;

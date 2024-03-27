@@ -17,7 +17,7 @@ function toggleDarkMode() {
 </script>
 
 <template>
-  <div class="container">
+  <!-- <div class="container">
     <Button variant="outline" @click="toggleDarkMode">Dark mode</Button>
     <Button>Click me!</Button>
 
@@ -32,9 +32,11 @@ function toggleDarkMode() {
       <RouterLink to="/">Home</RouterLink>
       <RouterLink to="/about">About</RouterLink>
     </nav>
-  </div>
+  </div> -->
 
-  <RouterView />
+  <div class="min-h-screen flex flex-col">
+    <RouterView />
+  </div>
 </template>
 
 <style scoped></style>

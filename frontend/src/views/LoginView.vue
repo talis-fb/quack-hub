@@ -1,0 +1,70 @@
+<script setup lang="ts">
+import { useForm } from 'vee-validate'
+import { toTypedSchema } from '@vee-validate/zod'
+import * as z from 'zod'
+import {
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage
+} from '@/components/ui/form'
+import { Input } from '@/components/ui/input'
+import { Button } from '@/components/ui/button'
+
+const formSchema = toTypedSchema(
+  z.object({
+    email: z
+      .string()
+      .min(1, { message: 'Esse campo deve ser preenchido.' })
+      .email('Esse não é um e-mail válido.'),
+    password: z.string().min(5, { message: 'Senha deve ter no mínimo 5 caracteres.' })
+  })
+)
+
+const form = useForm({
+  validationSchema: formSchema
+})
+
+const onSubmit = form.handleSubmit((values) => {
+  console.log('Form submitted!', values)
+})
+</script>
+
+<template>
+  <div class="flex flex-1">
+    <aside class="flex-1 bg-muted"></aside>
+    <main class="flex flex-col justify-center items-center flex-1 p-5">
+      <div class="text-center mb-5">
+        <h1 class="text-2xl font-semibold">Login</h1>
+        <p class="text-sm text-muted-foreground">
+          Entre no sistema para poder desfrutar das funcionalidades.
+        </p>
+      </div>
+      <form @submit="onSubmit" class="w-full max-w-[450px]">
+        <FormField v-slot="{ componentField }" name="email">
+          <FormItem>
+            <FormLabel />
+            <FormControl>
+              <Input type="email" placeholder="Email..." v-bind="componentField" />
+            </FormControl>
+            <FormDescription />
+            <FormMessage />
+          </FormItem>
+        </FormField>
+        <FormField v-slot="{ componentField }" name="password">
+          <FormItem>
+            <FormLabel />
+            <FormControl>
+              <Input type="password" v-bind="componentField" />
+            </FormControl>
+            <FormDescription />
+            <FormMessage />
+          </FormItem>
+        </FormField>
+        <Button type="submit" class="w-full">Entrar</Button>
+      </form>
+    </main>
+  </div>
+</template>
