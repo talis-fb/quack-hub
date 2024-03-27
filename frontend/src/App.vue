@@ -17,23 +17,6 @@ function toggleDarkMode() {
 </script>
 
 <template>
-  <!-- <div class="container">
-    <Button variant="outline" @click="toggleDarkMode">Dark mode</Button>
-    <Button>Click me!</Button>
-
-    <Accordion type="single" collapsible>
-      <AccordionItem value="item-1">
-        <AccordionTrigger>Is it accessible?</AccordionTrigger>
-        <AccordionContent> Yes. It adheres to the WAI-ARIA design pattern. </AccordionContent>
-      </AccordionItem>
-    </Accordion>
-
-    <nav>
-      <RouterLink to="/">Home</RouterLink>
-      <RouterLink to="/about">About</RouterLink>
-    </nav>
-  </div> -->
-
   <div class="min-h-screen flex flex-col">
     <RouterView />
   </div>
