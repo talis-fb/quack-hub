@@ -13,6 +13,10 @@ import {
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { authService } from '@/services'
+import { useAuthStore } from '@/stores/auth'
+import { onMounted } from '@vue/runtime-dom'
+import { storeToRefs } from 'pinia'
+import { sign } from 'crypto'
 
 const formSchema = toTypedSchema(
   z.object({
@@ -28,11 +32,12 @@ const form = useForm({
   validationSchema: formSchema
 })
 
+const { signin } = useAuthStore()
+
 const onSubmit = form.handleSubmit(async (values) => {
   const { email, password } = values
-  const res = await authService.signin({ email, password })
 
-  console.log({ res })
+  await signin({ email, password })
 })
 </script>
 
