@@ -41,23 +41,23 @@ export class AuthServiceImpl implements AuthService {
     return null;
   }
 
-  async signup(signupDto: UserDto): Promise<UserEntity> {
-    const user = await this.userService.getUserByEmail(signupDto.email);
-
-    if (user) {
-      throw new ConflictException('Usuário com esse e-mail já cadastrado.');
-    }
-    
-    const newUser = await this.userService.create(signupDto);
-
-    return newUser;
-  }
-
   async signin(user: Omit<UserEntity, 'password'>) {
     const payload = { email: user.email, sub: user.id };
 
     return {
       access_token: this.jwtService.sign(payload),
     };
+  }
+
+  async signup(signupDto: UserDto): Promise<UserEntity> {
+    const user = await this.userService.getUserByEmail(signupDto.email);
+
+    if (user) {
+      throw new ConflictException('Usuário com esse e-mail já cadastrado.');
+    }
+
+    const newUser = await this.userService.create(signupDto);
+
+    return newUser;
   }
 }
