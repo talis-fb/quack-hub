@@ -13,6 +13,7 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
+import Auth from '@/components/Auth.vue'
 
 import { useAuthStore } from '@/stores/auth'
 
@@ -50,9 +51,8 @@ const onSubmit = form.handleSubmit(async (values) => {
 </script>
 
 <template>
-  <div class="flex flex-1">
-    <aside class="flex-1 bg-muted"></aside>
-    <main class="flex flex-col justify-center items-center flex-1 p-5">
+  <Auth>
+    <template v-slot:main>
       <div class="text-center mb-5">
         <h1 class="text-2xl font-semibold">Login</h1>
         <p class="text-sm text-muted-foreground">
@@ -87,6 +87,6 @@ const onSubmit = form.handleSubmit(async (values) => {
         </FormField>
         <Button type="submit" class="w-full">Entrar</Button>
       </form>
-    </main>
-  </div>
+    </template>
+  </Auth>
 </template>
