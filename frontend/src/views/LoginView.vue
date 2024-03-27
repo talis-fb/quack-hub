@@ -12,6 +12,7 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
+import { authService } from '@/services'
 
 const formSchema = toTypedSchema(
   z.object({
@@ -27,8 +28,11 @@ const form = useForm({
   validationSchema: formSchema
 })
 
-const onSubmit = form.handleSubmit((values) => {
-  console.log('Form submitted!', values)
+const onSubmit = form.handleSubmit(async (values) => {
+  const { email, password } = values
+  const res = await authService.signin({ email, password })
+
+  console.log({ res })
 })
 </script>
 
@@ -47,7 +51,12 @@ const onSubmit = form.handleSubmit((values) => {
           <FormItem>
             <FormLabel />
             <FormControl>
-              <Input type="email" placeholder="Email..." v-bind="componentField" />
+              <Input
+                type="email"
+                placeholder="Email..."
+                v-bind="componentField"
+                autocomplete="email"
+              />
             </FormControl>
             <FormDescription />
             <FormMessage />
@@ -57,7 +66,7 @@ const onSubmit = form.handleSubmit((values) => {
           <FormItem>
             <FormLabel />
             <FormControl>
-              <Input type="password" v-bind="componentField" />
+              <Input type="password" v-bind="componentField" autocomplete="current-password" />
             </FormControl>
             <FormDescription />
             <FormMessage />

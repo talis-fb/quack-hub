@@ -16,7 +16,7 @@ export class AuthRepositoryImpl implements IAuthRepository {
     const res = await this.authApi.signin(signinParams)
 
     const newRes: IAuth = {
-      accessToken: res.accessToken
+      accessToken: res.access_token
     }
 
     return newRes
