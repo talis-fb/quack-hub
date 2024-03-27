@@ -2,6 +2,7 @@
 import { useForm } from 'vee-validate'
 import { toTypedSchema } from '@vee-validate/zod'
 import * as z from 'zod'
+
 import {
   FormControl,
   FormDescription,
@@ -12,11 +13,10 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
-import { authService } from '@/services'
+
 import { useAuthStore } from '@/stores/auth'
-import { onMounted } from '@vue/runtime-dom'
-import { storeToRefs } from 'pinia'
-import { sign } from 'crypto'
+
+import router from '../router/index'
 
 const formSchema = toTypedSchema(
   z.object({
@@ -32,12 +32,20 @@ const form = useForm({
   validationSchema: formSchema
 })
 
-const { signin } = useAuthStore()
+const authStore = useAuthStore()
 
 const onSubmit = form.handleSubmit(async (values) => {
   const { email, password } = values
 
-  await signin({ email, password })
+  try {
+    const userState = await authStore.signin({ email, password })
+
+    if (!userState) return
+
+    router.push({
+      name: 'home'
+    })
+  } catch (error) {}
 })
 </script>
 

@@ -1,7 +1,7 @@
 import type { ISigninParams } from '@/interfaces/ISigninParams'
 import type { ISignupParams } from '@/interfaces/ISignupParams'
-import { authService } from '@/services'
-import type { IAuthService } from '@/services/auth/auth.service'
+import { authService, jwtService } from '@/services'
+import type { Decoded } from '@/services/jwt/jwt.service'
 import { defineStore } from 'pinia'
 import { getCurrentInstance, onMounted, reactive, ref } from 'vue'
 
@@ -16,11 +16,20 @@ export const useAuthStore = defineStore('auth', () => {
     email: null
   })
 
-  async function signin(signinParams: ISigninParams) {
-    const res = await authService.signin(signinParams);
+  async function signin(signinParams: ISigninParams): Promise<UserState> {
+    try {
+      const res = await authService.signin(signinParams)
 
-    console.log({res})
+      const decoded: Decoded = jwtService.decode(res.accessToken)
 
+      const newUserState = { id: decoded.sub, email: decoded.email }
+      Object.assign(user, newUserState)
+
+      return newUserState
+    } catch (error) {
+      console.log({ error })
+      throw error
+    }
   }
 
   async function signup(signupParams: ISignupParams) {}
