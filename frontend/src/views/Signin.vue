@@ -50,6 +50,12 @@ const onSubmit = form.handleSubmit(async (values) => {
     console.log({ error })
   }
 })
+
+const navigateToSignup = (e: MouseEvent) => {
+  router.push({
+    name: 'signup'
+  })
+}
 </script>
 
 <template>
@@ -94,6 +100,38 @@ const onSubmit = form.handleSubmit(async (values) => {
         </FormField>
         <Button type="submit" class="w-full">Entrar</Button>
       </form>
+      <div class="mt-5">
+        <p>
+          Não tem uma conta?
+          <span
+            @click="navigateToSignup"
+            class="relative pb-2 signup-text font-bold cursor-pointer after:content-[''] after:absolute after:left-0 after:bottom-0 after:h-[2px] after:w-0 after:bg-primary hover:after:w-[100%] after:transition-all after:ease-in-out after:duration-300"
+            >Registra-se</span
+          >
+        </p>
+      </div>
     </template>
   </Auth>
 </template>
+
+<style>
+/* .signup-text {
+  position: relative;
+  padding-bottom: 0.3rem;
+}
+.signup-text::after {
+  left: 0;
+  bottom: 0;
+
+  position: absolute;
+  content: '';
+  height: 2px;
+  width: 0;
+  transition: all 0.3s ease;
+  background-color: var(--primary);
+}
+
+.signup-text:hover::after {
+  width: 70%;
+} */
+</style>
