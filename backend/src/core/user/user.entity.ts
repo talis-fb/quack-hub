@@ -10,6 +10,7 @@ import {
   MinLength,
   IsNumberString,
   IsNotEmpty,
+  minLength,
 } from 'class-validator';
 
 export class UserData {
@@ -21,6 +22,10 @@ export class UserData {
   @IsEmail()
   @ApiProperty()
   email: string;
+
+  @IsString()
+  @MinLength(5)
+  password: string;
 
   @IsNotEmpty()
   @Transform(({ value }) => new Date(value))
