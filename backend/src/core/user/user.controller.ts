@@ -6,6 +6,9 @@ import {
   Param,
   Patch,
   Post,
+  ParseIntPipe,
+  Put,
+  Query,
 } from '@nestjs/common';
 import { UserData } from './user.entity';
 import { Public } from 'src/decorators/public.decorator';
@@ -22,6 +25,12 @@ export class UserController {
     return output;
   }
 
+  @Get('search/')
+  async searchUsers(@Query('q') query: string) {
+    console.log("ONDE UE QUERO")
+    return await this.userService.search(query);
+  }
+
   @Get(':id')
   async findOneById(@Param('id') id: number) {
     const output = await this.userService.getUserById(id);
@@ -31,7 +40,13 @@ export class UserController {
     return output;
   }
 
-  @Patch(':id')
+
+  @Post('/')
+  async create(@Body() body: UserData) {
+    return await this.userService.create(body);
+  }
+
+  @Put(':id')
   async update(@Param('id') id: number, @Body() body: UserData) {
     const output = await this.userService.update(id, body);
     if (output === null) {

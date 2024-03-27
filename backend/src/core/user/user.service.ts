@@ -43,6 +43,10 @@ export class UserServiceImpl implements UserService {
     return await this.repo.getUserById(id);
   }
 
+  public async search(searchName: string): Promise<UserEntity[]> {
+    return await this.repo.findUsers(searchName);
+  }
+  
   public async create(user: UserDto): Promise<UserEntity> {
     return await this.repo.create(user);
   }

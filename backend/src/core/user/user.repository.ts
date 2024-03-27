@@ -7,6 +7,7 @@ export abstract class UserRepository {
   abstract getUserById(id: number): Promise<UserEntity | null>;
   abstract getUserByEmail(email: string): Promise<UserEntity | null>;
   abstract findAll(): Promise<UserEntity[]>;
+  abstract findUsers(searchName: string): Promise<UserEntity[]>;
   abstract create(user: UserData): Promise<UserEntity>;
   abstract update(id: number, user: UserData): Promise<UserEntity | null>;
   abstract addFollower(
@@ -20,7 +21,29 @@ export abstract class UserRepository {
 @Injectable()
 export class UserRepositoryImpl implements UserRepository {
   constructor(private prisma: PrismaService) {}
+  
+  async create(user: UserData): Promise<UserEntity> {
+    const created = await this.prisma.user.create({
+      data: {
+        ...user,
+      },
+    });
+    
+    return created;
+  }
 
+  async findUsers(searchName: string): Promise<UserEntity[]> {
+    console.log("AQQQQQQQQQQQQQQQ")
+    return await this.prisma.user.findMany({
+      where: {
+        name: {
+          contains: searchName,
+          mode: 'insensitive',
+        },
+      },
+    });
+  }
+  
   async getUserById(id: number): Promise<UserEntity | null> {
     const output = await this.prisma.user.findUnique({
       where: {
@@ -29,7 +52,7 @@ export class UserRepositoryImpl implements UserRepository {
     });
     return output;
   }
-
+  
   async getUserByEmail(email: string): Promise<UserEntity> {
     const output = await this.prisma.user.findUnique({
       where: {
@@ -45,15 +68,6 @@ export class UserRepositoryImpl implements UserRepository {
     return output;
   }
 
-  async create(user: UserDto): Promise<UserEntity> {
-    const newUser = await this.prisma.user.create({
-      data: {
-        ...user,
-      },
-    });
-
-    return newUser;
-  }
 
   async update(id: number, user: UserData): Promise<UserEntity | null> {
     return await this.prisma.user.update({
