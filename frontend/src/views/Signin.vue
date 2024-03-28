@@ -18,6 +18,8 @@ import Auth from '@/components/Auth.vue'
 import { useAuthStore } from '@/stores/auth'
 
 import router from '../router/index'
+import { useToast } from '@/components/ui/toast'
+import { onMounted, onUnmounted } from 'vue'
 
 const formSchema = toTypedSchema(
   z.object({
@@ -32,6 +34,8 @@ const formSchema = toTypedSchema(
 const form = useForm({
   validationSchema: formSchema
 })
+
+const { toast, dismiss } = useToast()
 
 const { signin } = useAuthStore()
 
@@ -48,6 +52,11 @@ const onSubmit = form.handleSubmit(async (values) => {
     })
   } catch (error) {
     console.log({ error })
+    toast({
+      title: 'Erro ao efetuar login.',
+      description: error?.message || 'Erro desconhecido, por favor contatar os desenvolvedores.',
+      variant: 'destructive'
+    })
   }
 })
 
@@ -56,6 +65,10 @@ const navigateToSignup = (e: MouseEvent) => {
     name: 'signup'
   })
 }
+
+onUnmounted(() => {
+  dismiss()
+})
 </script>
 
 <template>

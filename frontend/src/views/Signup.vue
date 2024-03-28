@@ -30,6 +30,7 @@ import router from '../router/index'
 import { formatDateInFull } from '@/utils/DateFormat'
 import { authService } from '@/services'
 import { useToast } from '@/components/ui/toast/use-toast'
+import { onUnmounted } from 'vue'
 
 const formSchema = toTypedSchema(
   z
@@ -53,7 +54,7 @@ const form = useForm({
   validationSchema: formSchema
 })
 
-const { toast } = useToast()
+const { toast, dismiss } = useToast()
 
 const onSubmit = form.handleSubmit(async (values) => {
   const { confirmPassword, ...restValues } = values
@@ -79,6 +80,10 @@ const navigateToLogin = (e: MouseEvent) => {
     name: 'signin'
   })
 }
+
+onUnmounted(() => {
+  dismiss()
+})
 </script>
 
 <template>
