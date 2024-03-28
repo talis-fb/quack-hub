@@ -11,7 +11,7 @@ export interface IAuthApi {
 
 export class AuthApiImpl implements IAuthApi {
   async signin(signinParams: ISigninParams): Promise<IAuthResponse> {
-    const res = await api.post<IAuthResponse>('/auth/signin', signinParams)
+    const res = await api.post<IAuthResponse>('/auth/login', signinParams)
 
     const data = res.data
 
