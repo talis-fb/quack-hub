@@ -4,7 +4,6 @@ import { AuthService } from '../auth.service';
 import { ValidateInputForAuthLocal } from './guards/validate-input.guard';
 import { SignInDto } from './dtos/sign-in.dto';
 
-
 @Controller('auth')
 export class LoginController {
   constructor(private readonly authService: AuthService) {}

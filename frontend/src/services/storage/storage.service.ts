@@ -6,7 +6,7 @@ export interface IStorageService {
   removeItem(key: string): void
 }
 
-export class StorageServiceImpl implements IStorageService {
+export class LocalStorageServiceImpl implements IStorageService {
   setItem(key: string, value: string): void {
     localStorage.setItem(key, value)
   }
