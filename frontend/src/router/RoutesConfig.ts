@@ -17,6 +17,4 @@ export const metadataRoutes = {
   }
 }
 
-// const teste: RouteRecordRaw
-
-export const publicRoutes = ['/signin', '/signup']
+export const publicRoutes = [metadataRoutes.SIGNIN.path, metadataRoutes.SIGNUP.path]
