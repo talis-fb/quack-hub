@@ -13,7 +13,6 @@ export class LoginController {
   @UseGuards(ValidateInputForAuthLocal)
   @Post('login')
   async login(@Request() req, @Body() _body: SignInDto) {
-    // The real signIn is made by login.strategy.ts
     return this.authService.signIn(req.user.email, req.user.auth.password);
   }
 }
