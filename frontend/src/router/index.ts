@@ -23,7 +23,12 @@ export const router = createRouter({
       path: '/about',
       name: 'about',
       component: () => import('../views/AboutView.vue')
-    }
+    },
+    {
+      path: '/user-perfil', //caminho dinamico para cada user
+      name: 'user-perfil',
+      component: () => import('../views/PerfilUserView.vue')
+    },
   ]
 })
 
