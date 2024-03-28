@@ -4,7 +4,7 @@ import { UserModule } from '../user/user.module';
 import { APP_GUARD } from '@nestjs/core';
 import { JwtModule } from '@nestjs/jwt';
 import { jwtConstants } from './constants';
-import { JwtAuthGuard } from './guards/jwt-auth.guard';
+import { JwtAuthGuard } from './jwt/jwt.guard';
 import { LoginPassportStrategy } from './login/login.strategy';
 import { AuthRepository, AuthRepositoryImpl } from './auth.repository';
 import { PrismaService } from 'src/common/prisma/prisma.service';

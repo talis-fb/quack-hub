@@ -1,10 +1,13 @@
-import { PickType } from '@nestjs/mapped-types';
-import { IsString, MinLength } from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger';
+import { IsEmail, IsString, MinLength } from 'class-validator';
 
-import { UserData } from 'src/core/user/user.entity';
+export class SignInDto {
+  @IsEmail()
+  @ApiProperty()
+  email: string;
 
-export class SignInDto extends PickType(UserData, ['email']) {
   @IsString()
   @MinLength(6)
+  @ApiProperty()
   password: string;
 }
