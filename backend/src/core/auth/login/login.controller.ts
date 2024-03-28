@@ -13,6 +13,6 @@ export class LoginController {
   @UseGuards(ValidateInputForAuthLocal)
   @Post('login')
   async login(@Request() req, @Body() _body: SignInDto) {
-    return await this.authService.signJwt(req.user.email, req.id);
+    return await this.authService.signJwt(req.user.email, req.user.id);
   }
 }
