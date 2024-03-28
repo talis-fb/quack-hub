@@ -3,7 +3,7 @@ import type { ISignupParams } from '@/interfaces/ISignupParams'
 import { authService, jwtService } from '@/services'
 import type { Decoded } from '@/services/jwt/jwt.service'
 import { defineStore } from 'pinia'
-import { getCurrentInstance, onMounted, reactive, ref } from 'vue'
+import { computed, getCurrentInstance, onMounted, reactive, ref } from 'vue'
 
 export interface UserState {
   id: any | null
@@ -14,6 +14,10 @@ export const useAuthStore = defineStore('auth', () => {
   const user: UserState = reactive({
     id: null,
     email: null
+  })
+
+  const isAuthenticated = computed(() => {
+    return !!user.id
   })
 
   async function signin(signinParams: ISigninParams): Promise<UserState> {
@@ -39,6 +43,7 @@ export const useAuthStore = defineStore('auth', () => {
 
   return {
     user,
-    signin
+    signin,
+    isAuthenticated
   }
 })
