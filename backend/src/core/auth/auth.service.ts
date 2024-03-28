@@ -1,20 +1,14 @@
 import { ConflictException, Injectable } from '@nestjs/common';
 import { UserEntity } from 'src/core/user/user.entity';
 import { UserService } from 'src/core/user/user.service';
-import { UserDto } from 'src/core/user/dtos/user-dto';
+import { AuthUserData } from './login/dtos/auth-user.dto';
 import { JwtService } from '@nestjs/jwt';
+import { AuthRepository } from './auth.repository';
 
 export abstract class AuthService {
-  abstract validateUser(
-    email: string,
-    pass: string,
-  ): Promise<Omit<UserEntity, 'password'>>;
-
-  abstract signin(
-    user: Omit<UserEntity, 'password'>,
-  ): Promise<{ access_token: string }>;
-
-  abstract signup(signupDto: UserDto): Promise<UserEntity>;
+  abstract validateUser(email: string, pass: string): Promise<UserEntity>;
+  abstract signJwt(email: string, id: string): Promise<{ access_token: string }>;
+  abstract signUp(signupDto: AuthUserData): Promise<UserEntity>;
 }
 
 @Injectable()
@@ -22,39 +16,32 @@ export class AuthServiceImpl implements AuthService {
   constructor(
     private readonly userService: UserService,
     private readonly jwtService: JwtService,
+    private repository: AuthRepository,
   ) {}
 
-  async validateUser(
-    email: string,
-    pass: string,
-  ): Promise<Omit<UserEntity, 'password'>> {
-    const user = await this.userService.getUserByEmail(email);
-
-    if (user && user.password === pass) {
-      const { password, ...result } = user;
-
-      return result;
-    }
-
-    return null;
+  async validateUser(email: string, pass: string): Promise<UserEntity> {
+    return await this.repository.findAuthUser(email, pass);
   }
 
-  async signin(user: Omit<UserEntity, 'password'>) {
-    const payload = { email: user.email, sub: user.id };
+  async signJwt(email: string, id: string): Promise<{ access_token: string }> {
+    const payload = {
+      email: email,
+      sub: id,
+    }
 
     return {
-      access_token: this.jwtService.sign(payload),
+      access_token: await this.jwtService.signAsync(payload),
     };
   }
 
-  async signup(signupDto: UserDto): Promise<UserEntity> {
-    const user = await this.userService.getUserByEmail(signupDto.email);
+  async signUp(authUserData: AuthUserData): Promise<UserEntity> {
+    const user = await this.userService.getUserByEmail(authUserData.email);
 
     if (user) {
       throw new ConflictException('Usuário com esse e-mail já cadastrado.');
     }
 
-    const newUser = await this.userService.create(signupDto);
+    const newUser = await this.repository.createAuthUser(authUserData);
 
     return newUser;
   }
