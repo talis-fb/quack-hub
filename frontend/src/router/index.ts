@@ -1,23 +1,24 @@
+import { metadataRoutes, publicRoutes } from '@/router/RoutesConfig'
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+import { authGuard } from './RoutesGuards'
 
 export const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
-      path: '/signin',
-      name: 'signin',
-      component: () => import('../views/Signin.vue')
+      path: metadataRoutes.SIGNIN.path,
+      name: metadataRoutes.SIGNIN.name,
+      component: () => import('@/views/Signin.vue')
     },
     {
-      path: '/signup',
-      name: 'signup',
-      component: () => import('../views/Signup.vue')
+      path: metadataRoutes.SIGNUP.path,
+      name: metadataRoutes.SIGNUP.name,
+      component: () => import('@/views/Signup.vue')
     },
     {
-      path: '/',
-      name: 'home',
-      component: HomeView
+      path: metadataRoutes.HOME.path,
+      name: metadataRoutes.HOME.name,
+      component: () => import('@/views/HomeView.vue')
     },
     {
       path: '/about',
@@ -25,11 +26,19 @@ export const router = createRouter({
       component: () => import('../views/AboutView.vue')
     },
     {
-      path: '/user-profile', //caminho dinamico para cada user
+      path: '/user-profile',
       name: 'user-profile',
       component: () => import('../views/ProfileUserView.vue')
     },
+    {
+      path: metadataRoutes.ABOUT.path,
+      name: metadataRoutes.ABOUT.path,
+      component: () => import('@/views/AboutView.vue')
+    },
+    { path: '/:pathMatch(.*)*', redirect: metadataRoutes.HOME.path }
   ]
 })
+
+router.beforeEach(authGuard)
 
 export default router

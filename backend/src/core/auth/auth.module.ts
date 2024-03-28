@@ -1,13 +1,16 @@
 import { Module } from '@nestjs/common';
 import { AuthService, AuthServiceImpl } from './auth.service';
-import { AuthController } from './auth.controller';
 import { UserModule } from '../user/user.module';
 import { APP_GUARD } from '@nestjs/core';
 import { JwtModule } from '@nestjs/jwt';
 import { jwtConstants } from './constants';
-import { JwtStrategy } from './jwt-strategy/jwt-strategy';
-import { JwtAuthGuard } from './jwt-auth.guard';
-import { LocalStrategy } from './local-strategy/local-stratey';
+import { JwtAuthGuard } from './jwt/jwt.guard';
+import { LoginPassportLocalStrategy } from './login/login.strategy';
+import { AuthRepository, AuthRepositoryImpl } from './auth.repository';
+import { PrismaService } from 'src/common/prisma/prisma.service';
+import { LoginController } from './login/login.controller';
+import { SignUpController } from './signup/signup.controller';
+import { JwtPassportStrategy } from './jwt/jwt.strategy';
 
 @Module({
   imports: [
@@ -22,13 +25,20 @@ import { LocalStrategy } from './local-strategy/local-stratey';
       provide: AuthService,
       useClass: AuthServiceImpl,
     },
-    LocalStrategy,
-    JwtStrategy,
+    {
+      provide: AuthRepository,
+      useClass: AuthRepositoryImpl,
+    },
+    LoginPassportLocalStrategy,
+    JwtPassportStrategy,
+    PrismaService,
+
+    // Define this as a Global module so that it can be used in all controllers
     {
       provide: APP_GUARD,
       useClass: JwtAuthGuard,
     },
   ],
-  controllers: [AuthController],
+  controllers: [LoginController, SignUpController],
 })
 export class AuthModule {}

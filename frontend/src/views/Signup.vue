@@ -61,6 +61,7 @@ const onSubmit = form.handleSubmit(async (values) => {
   try {
     const res = await authService.signup(restValues)
 
+    form.resetForm()
     toast({
       title: 'Conta cadastrada com sucesso.',
       description: 'Agora você poderá utilizar as funcionalidads do sistema!'
@@ -68,7 +69,7 @@ const onSubmit = form.handleSubmit(async (values) => {
   } catch (error) {
     console.log({ error })
     toast({
-      title: 'Ops! Ocorreu algum erro.',
+      title: 'Erro ao efetuar o cadastro.',
       description: error?.message || 'Erro desconhecido, por favor contatar os desenvolvedores.',
       variant: 'destructive'
     })
