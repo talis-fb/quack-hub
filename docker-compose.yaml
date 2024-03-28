@@ -34,3 +34,13 @@ services:
       interval: 2s
       timeout: 1s
       retries: 20
+
+  prisma_preview:
+    build:
+      context: ./backend
+      dockerfile: ../scripts/prisma.dockerfile
+    ports:
+      - "5555:5555"
+    depends_on:
+      postgres:
+        condition: service_healthy

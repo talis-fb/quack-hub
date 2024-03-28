@@ -4,7 +4,8 @@ import { jwtConstants } from '../constants';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 
 @Injectable()
-export class JwtStrategy extends PassportStrategy(Strategy) {
+export class JwtPassportStrategy extends PassportStrategy(Strategy) {
+  // This make the validation of input JWT in header request
   constructor() {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),

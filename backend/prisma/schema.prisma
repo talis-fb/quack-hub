@@ -14,8 +14,10 @@ model User {
 
   name     String
   email    String   @unique
-  password String
   birthday DateTime
+
+  // Auth
+  auth UserAuth?
 
   // Extra data
   bio              String?
@@ -28,4 +30,12 @@ model User {
 
   followedBy User[] @relation("UserFollows")
   following  User[] @relation("UserFollows")
+}
+
+model UserAuth {
+  id     Int  @id @default(autoincrement())
+  user   User @relation(fields: [userId], references: [id])
+  userId Int  @unique
+
+  password String
 }
