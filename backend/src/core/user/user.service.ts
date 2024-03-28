@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { UserRepository } from './user.repository';
 import { UserData, UserEntity } from './user.entity';
-import { AuthUserData } from './dtos/user-dto';
 
 export abstract class UserService {
   public abstract getUserById(id: number): Promise<UserEntity | null>;
@@ -11,8 +10,6 @@ export abstract class UserService {
   public abstract findAll(): Promise<UserEntity[]>;
 
   public abstract search(searchName: string): Promise<UserEntity[]>;
-
-  // public abstract create(user: AuthUserData): Promise<UserEntity>;
 
   public abstract update(
     id: number,
@@ -48,10 +45,6 @@ export class UserServiceImpl implements UserService {
   public async search(searchName: string): Promise<UserEntity[]> {
     return await this.repo.findUsers(searchName);
   }
-
-  // public async create(user: AuthUserData): Promise<UserEntity> {
-  //   return await this.repo.create(user);
-  // }
 
   public async update(id: number, user: UserData): Promise<UserEntity | null> {
     return await this.repo.update(id, user);

@@ -11,10 +11,8 @@ import {
   Query,
 } from '@nestjs/common';
 import { UserData } from './user.entity';
-import { Public } from 'src/decorators/public.decorator';
 import { UserService } from './user.service';
 
-@Public()
 @Controller('users')
 export class UserController {
   constructor(private readonly userService: UserService) {}
