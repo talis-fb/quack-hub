@@ -22,7 +22,6 @@ export class UserRepositoryImpl implements UserRepository {
   constructor(private prisma: PrismaService) {}
 
   async findUsers(searchName: string): Promise<UserEntity[]> {
-    console.log('AQQQQQQQQQQQQQQQ');
     return await this.prisma.user.findMany({
       where: {
         name: {
