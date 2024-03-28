@@ -61,6 +61,7 @@ const onSubmit = form.handleSubmit(async (values) => {
   try {
     const res = await authService.signup(restValues)
 
+    form.resetForm()
     toast({
       title: 'Conta cadastrada com sucesso.',
       description: 'Agora você poderá utilizar as funcionalidads do sistema!'
