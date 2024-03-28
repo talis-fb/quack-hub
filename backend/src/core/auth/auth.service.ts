@@ -1,4 +1,4 @@
-import { ConflictException, Injectable, UnauthorizedException } from '@nestjs/common';
+import { ConflictException, Injectable } from '@nestjs/common';
 import { UserEntity } from 'src/core/user/user.entity';
 import { UserService } from 'src/core/user/user.service';
 import { AuthUserData } from './login/dtos/auth-user.dto';
@@ -7,7 +7,7 @@ import { AuthRepository } from './auth.repository';
 
 export abstract class AuthService {
   abstract validateUser(email: string, pass: string): Promise<UserEntity>;
-  abstract signIn(email: string, password: string): Promise<{ access_token: string }>;
+  abstract signJwt(email: string, id: string): Promise<{ access_token: string }>;
   abstract signUp(signupDto: AuthUserData): Promise<UserEntity>;
 }
 
@@ -23,15 +23,10 @@ export class AuthServiceImpl implements AuthService {
     return await this.repository.findAuthUser(email, pass);
   }
 
-  async signIn(email: string, password: string) {
-    const user = await this.repository.findAuthUser(email, password);
-
-    if(!user) 
-      throw new UnauthorizedException('Credenciais inválidas');
-
+  async signJwt(email: string, id: string): Promise<{ access_token: string }> {
     const payload = {
-      email: user.email,
-      sub: user.id,
+      email: email,
+      sub: id,
     }
 
     return {
