@@ -68,7 +68,7 @@ const onSubmit = form.handleSubmit(async (values) => {
   } catch (error) {
     console.log({ error })
     toast({
-      title: 'Ops! Ocorreu algum erro.',
+      title: 'Erro ao efetuar o cadastro.',
       description: error?.message || 'Erro desconhecido, por favor contatar os desenvolvedores.',
       variant: 'destructive'
     })
