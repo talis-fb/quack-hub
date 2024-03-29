@@ -21,7 +21,7 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { Calendar as CalendarIcon, ArrowLeft } from 'lucide-vue-next'
 
 // Components
-import Auth from '@/components/Auth.vue'
+import BaseAuth from '@/components/BaseAuth.vue'
 
 // router
 import router from '../router/index'
@@ -88,103 +88,106 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <Auth>
+  <BaseAuth>
     <template v-slot:main>
-      <div
+      <nav
         @click="navigateToLogin"
         class="cursor-pointer flex gap-1 absolute left-5 top-5 pb-2 after:content-[''] after:absolute after:left-0 after:bottom-0 after:h-[2px] after:w-0 after:bg-primary hover:after:w-[95%] after:transition-all after:ease-in-out after:duration-300"
       >
         <ArrowLeft />
         <span>Login</span>
-      </div>
-      <div class="text-center mb-5">
-        <h1 class="text-2xl font-semibold">Registro</h1>
-        <p class="text-sm text-muted-foreground">
-          Registre-se no sistema para poder desfrutar das funcionalidades.
-        </p>
-      </div>
-      <form @submit="onSubmit" class="w-full max-w-[450px]">
-        <FormField v-slot="{ componentField }" name="name">
-          <FormItem>
-            <FormLabel />
-            <FormControl>
-              <Input
-                type="text"
-                placeholder="Nome..."
-                v-bind="componentField"
-                autocomplete="name"
-              />
-            </FormControl>
-            <FormDescription />
-            <FormMessage />
-          </FormItem>
-        </FormField>
-        <FormField v-slot="{ componentField }" name="email">
-          <FormItem>
-            <FormLabel />
-            <FormControl>
-              <Input
-                type="email"
-                placeholder="Email..."
-                v-bind="componentField"
-                autocomplete="email"
-              />
-            </FormControl>
-            <FormDescription />
-            <FormMessage />
-          </FormItem>
-        </FormField>
-        <FormField v-slot="{ componentField }" name="password">
-          <FormItem>
-            <FormLabel />
-            <FormControl>
-              <Input
-                type="password"
-                placeholder="Senha..."
-                v-bind="componentField"
-                autocomplete="current-password"
-              />
-            </FormControl>
-            <FormDescription />
-            <FormMessage />
-          </FormItem>
-        </FormField>
-        <FormField v-slot="{ componentField }" name="confirmPassword">
-          <FormItem>
-            <FormLabel />
-            <FormControl>
-              <Input
-                type="password"
-                placeholder="Confirmar senha..."
-                v-bind="componentField"
-                autocomplete="current-password"
-              />
-            </FormControl>
-            <FormDescription />
-            <FormMessage />
-          </FormItem>
-        </FormField>
-        <FormField v-slot="{ componentField, value }" name="birthday">
-          <FormItem class="flex flex-col">
-            <Popover>
-              <PopoverTrigger as-child>
-                <FormControl>
-                  <Button variant="outline" :class="cn(!value && 'text-muted-foreground')">
-                    <span>{{ value ? formatDateInFull(value) : 'Data de aniversário...' }}</span>
-                    <CalendarIcon class="ms-auto h-4 w-4 opacity-50" />
-                  </Button>
-                </FormControl>
-              </PopoverTrigger>
-              <PopoverContent class="p-0">
-                <Calendar v-bind="componentField" />
-              </PopoverContent>
-            </Popover>
-            <FormDescription />
-            <FormMessage />
-          </FormItem>
-        </FormField>
-        <Button type="submit" class="w-full">Registrar-se</Button>
-      </form>
+      </nav>
+
+      <main>
+        <header class="text-center mb-5">
+          <h1 class="text-2xl font-semibold">Registro</h1>
+          <p class="text-sm text-muted-foreground">
+            Registre-se no sistema para poder desfrutar das funcionalidades.
+          </p>
+        </header>
+        <form @submit="onSubmit" class="w-full max-w-[450px]">
+          <FormField v-slot="{ componentField }" name="name">
+            <FormItem>
+              <FormLabel />
+              <FormControl>
+                <Input
+                  type="text"
+                  placeholder="Nome..."
+                  v-bind="componentField"
+                  autocomplete="name"
+                />
+              </FormControl>
+              <FormDescription />
+              <FormMessage />
+            </FormItem>
+          </FormField>
+          <FormField v-slot="{ componentField }" name="email">
+            <FormItem>
+              <FormLabel />
+              <FormControl>
+                <Input
+                  type="email"
+                  placeholder="Email..."
+                  v-bind="componentField"
+                  autocomplete="email"
+                />
+              </FormControl>
+              <FormDescription />
+              <FormMessage />
+            </FormItem>
+          </FormField>
+          <FormField v-slot="{ componentField }" name="password">
+            <FormItem>
+              <FormLabel />
+              <FormControl>
+                <Input
+                  type="password"
+                  placeholder="Senha..."
+                  v-bind="componentField"
+                  autocomplete="current-password"
+                />
+              </FormControl>
+              <FormDescription />
+              <FormMessage />
+            </FormItem>
+          </FormField>
+          <FormField v-slot="{ componentField }" name="confirmPassword">
+            <FormItem>
+              <FormLabel />
+              <FormControl>
+                <Input
+                  type="password"
+                  placeholder="Confirmar senha..."
+                  v-bind="componentField"
+                  autocomplete="current-password"
+                />
+              </FormControl>
+              <FormDescription />
+              <FormMessage />
+            </FormItem>
+          </FormField>
+          <FormField v-slot="{ componentField, value }" name="birthday">
+            <FormItem class="flex flex-col">
+              <Popover>
+                <PopoverTrigger as-child>
+                  <FormControl>
+                    <Button variant="outline" :class="cn(!value && 'text-muted-foreground')">
+                      <span>{{ value ? formatDateInFull(value) : 'Data de aniversário...' }}</span>
+                      <CalendarIcon class="ms-auto h-4 w-4 opacity-50" />
+                    </Button>
+                  </FormControl>
+                </PopoverTrigger>
+                <PopoverContent class="p-0">
+                  <Calendar v-bind="componentField" />
+                </PopoverContent>
+              </Popover>
+              <FormDescription />
+              <FormMessage />
+            </FormItem>
+          </FormField>
+          <Button type="submit" class="w-full">Registrar-se</Button>
+        </form>
+      </main>
     </template>
-  </Auth>
+  </BaseAuth>
 </template>
