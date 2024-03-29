@@ -1,13 +1,15 @@
 <script setup script="ts">
+import WalpaperDefaultUser from '@/assets/wallpaper-default-user.svg'
+
 import { Ellipsis } from 'lucide-vue-next'
 </script>
 <template>
-  <main class="flex flex-1 relative">
-    <section class="w-8/12 relative rounded-md">
+  <main class="flex flex-1 flex-col md:flex-row p-3 gap-5">
+    <section class="flex-1 relative rounded-md">
       <section>
-        <figure
-          class="m-3 bg-[url('@/assets//wallpaper-default-user.jpg')] h-48 bg-cover rounded-lg"
-        ></figure>
+        <figure>
+          <img class="w-full h-[200px] object-cover" :src="WalpaperDefaultUser" alt="" />
+        </figure>
 
         <figure class="ml-6 mt-3 absolute top-28 flex flex-col items-center justify-center">
           <img class="max-h-36 rounded-full" src="@/assets/user-icon.jpg" alt="user-icon" />
