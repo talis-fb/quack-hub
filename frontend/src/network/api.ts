@@ -1,8 +1,8 @@
 import axios from 'axios'
 import { baseURL } from './config'
 
-import { responseErrorHandler } from '@/helpers/response-error-handler'
 import { storageService } from '@/services'
+import { responseErrorHandler } from '@/helpers/responseErrorHandler'
 
 export const api = axios.create({
   baseURL
