@@ -21,18 +21,13 @@ export const router = createRouter({
       component: () => import('@/views/HomeView.vue')
     },
     {
-      path: '/about',
-      name: 'about',
-      component: () => import('@/views/AboutView.vue')
-    },
-    {
-      path: '/user-profile',
-      name: 'user-profile',
+      path: metadataRoutes.USER_PROFILE.path,
+      name: metadataRoutes.USER_PROFILE.name,
       component: () => import('@/views/ProfileUserView.vue')
     },
     {
       path: metadataRoutes.ABOUT.path,
-      name: metadataRoutes.ABOUT.path,
+      name: metadataRoutes.ABOUT.name,
       component: () => import('@/views/AboutView.vue')
     },
     { path: '/:pathMatch(.*)*', redirect: metadataRoutes.HOME.path }

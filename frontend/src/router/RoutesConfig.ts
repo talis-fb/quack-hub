@@ -14,6 +14,10 @@ export const metadataRoutes = {
   ABOUT: {
     path: '/about',
     name: 'about'
+  },
+  USER_PROFILE: {
+    path: '/user-profile',
+    name: 'user-profile'
   }
 }
 
