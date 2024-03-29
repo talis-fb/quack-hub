@@ -49,7 +49,7 @@ cd ../
 cd frontend/
 
 # instalar depedências do frontend
-yarn i
+yarn
 cd ../
 
 # rodar aplicação
