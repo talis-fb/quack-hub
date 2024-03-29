@@ -21,6 +21,16 @@ export const router = createRouter({
       component: () => import('@/views/HomeView.vue')
     },
     {
+      path: '/about',
+      name: 'about',
+      component: () => import('@/views/AboutView.vue')
+    },
+    {
+      path: '/user-profile',
+      name: 'user-profile',
+      component: () => import('@/views/ProfileUserView.vue')
+    },
+    {
       path: metadataRoutes.ABOUT.path,
       name: metadataRoutes.ABOUT.path,
       component: () => import('@/views/AboutView.vue')
