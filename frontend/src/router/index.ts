@@ -30,11 +30,6 @@ export const router = createRouter({
       name: metadataRoutes.ABOUT.name,
       component: () => import('@/views/AboutView.vue')
     },
-    {
-      path: metadataRoutes.NAVBAR.path,
-      name: metadataRoutes.NAVBAR.name,
-      component: () => import('@/views/NavBar.vue')
-    },
     { path: '/:pathMatch(.*)*', redirect: metadataRoutes.HOME.path }
   ]
 })

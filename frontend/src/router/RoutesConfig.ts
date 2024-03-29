@@ -11,10 +11,6 @@ export const metadataRoutes = {
     path: '/',
     name: 'home'
   },
-  NAVBAR: {
-    path: '/nav-bar',
-    name: 'nav-bar'
-  },
   ABOUT: {
     path: '/about',
     name: 'about'
