@@ -60,8 +60,8 @@ docker compose up -d
 
 
 ## :dart: Status do projeto
-Backend: Em andamento
-Frontend: Em andamento
+<p>Backend: Em andamento</p>
+<p>Frontend: Em andamento</p>
 
 # Autores
 <p>Talisson Fábi</p>
