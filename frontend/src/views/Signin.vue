@@ -13,7 +13,7 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
-import Auth from '@/components/Auth.vue'
+import BaseAuth from '@/components/BaseAuth.vue'
 
 import { useAuthStore } from '@/stores/auth'
 
@@ -71,59 +71,63 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <Auth>
+  <BaseAuth>
     <template v-slot:main>
-      <div class="text-center mb-5">
-        <h1 class="text-2xl font-semibold">Login</h1>
-        <p class="text-sm text-muted-foreground">
-          Entre no sistema para poder desfrutar das funcionalidades.
-        </p>
-      </div>
-      <form @submit="onSubmit" class="w-full max-w-[450px]">
-        <FormField v-slot="{ componentField }" name="email">
-          <FormItem>
-            <FormLabel />
-            <FormControl>
-              <Input
-                type="email"
-                placeholder="Email..."
-                v-bind="componentField"
-                autocomplete="email"
-              />
-            </FormControl>
-            <FormDescription />
-            <FormMessage />
-          </FormItem>
-        </FormField>
-        <FormField v-slot="{ componentField }" name="password">
-          <FormItem>
-            <FormLabel />
-            <FormControl>
-              <Input
-                type="password"
-                placeholder="Senha..."
-                v-bind="componentField"
-                autocomplete="current-password"
-              />
-            </FormControl>
-            <FormDescription />
-            <FormMessage />
-          </FormItem>
-        </FormField>
-        <Button type="submit" class="w-full">Entrar</Button>
-      </form>
-      <div class="mt-5">
+      <main>
+        <header class="text-center mb-5">
+          <h1 class="text-2xl font-semibold">Login</h1>
+          <small class="text-sm text-muted-foreground">
+            Entre no sistema para poder desfrutar das funcionalidades.
+          </small>
+        </header>
+        <form @submit="onSubmit" class="w-full max-w-[450px]">
+          <FormField v-slot="{ componentField }" name="email">
+            <FormItem>
+              <FormLabel />
+              <FormControl>
+                <Input
+                  type="email"
+                  placeholder="Email..."
+                  v-bind="componentField"
+                  autocomplete="email"
+                />
+              </FormControl>
+              <FormDescription />
+              <FormMessage />
+            </FormItem>
+          </FormField>
+          <FormField v-slot="{ componentField }" name="password">
+            <FormItem>
+              <FormLabel />
+              <FormControl>
+                <Input
+                  type="password"
+                  placeholder="Senha..."
+                  v-bind="componentField"
+                  autocomplete="current-password"
+                />
+              </FormControl>
+              <FormDescription />
+              <FormMessage />
+            </FormItem>
+          </FormField>
+          <Button type="submit" class="w-full">Entrar</Button>
+        </form>
+      </main>
+
+      <footer class="mt-5">
         <p>
           Não tem uma conta?
-          <span
+          <button
             @click="navigateToSignup"
-            class="font-bold cursor-pointer relative pb-2 after:content-[''] after:absolute after:left-0 after:bottom-0 after:h-[2px] after:w-0 after:bg-primary hover:after:w-[95%] after:transition-all after:ease-in-out after:duration-300"
-            >Registra-se</span
+            class="font-bold relative pb-2 after:content-[''] after:absolute after:left-0 after:bottom-0 after:h-[2px] after:w-0 after:bg-primary hover:after:w-[95%] after:transition-all after:ease-in-out after:duration-300"
           >
+            Registra-se
+          </button>
         </p>
-      </div>
+      </footer>
     </template>
-  </Auth>
+  </BaseAuth>
 </template>
 
 <style>
