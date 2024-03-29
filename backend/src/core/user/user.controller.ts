@@ -26,7 +26,7 @@ export class UserController {
   async findOneById(@Param('id', ParseIntPipe) id: number) {
     const output = await this.userService.getUserById(id);
     if (output === null) {
-      throw new NotFoundException();
+      throw new NotFoundException('Usuário não encontrado.');
     }
     return output;
   }
@@ -35,7 +35,7 @@ export class UserController {
   async update(@Param('id', ParseIntPipe) id: number, @Body() body: UserData) {
     const output = await this.userService.update(id, body);
     if (output === null) {
-      throw new NotFoundException();
+      throw new NotFoundException('Usuário não encontrado.');
     }
     return output;
   }
