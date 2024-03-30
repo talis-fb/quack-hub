@@ -18,9 +18,9 @@ export const redirectToHomeIfAuthenticatedGuard: NavigationGuardWithThis<undefin
 ) => {
   const { isAuthenticated } = useAuthStore()
 
-  const isPublicRoutes = publicRoutes.includes(to.path)
+  const authNotRequired = publicRoutes.includes(to.path)
 
-  if (isPublicRoutes && isAuthenticated) {
+  if (authNotRequired && isAuthenticated) {
     return { name: metadataRoutes.HOME.name }
   }
 }
