@@ -64,7 +64,7 @@ docker compose up -d
 <p>Frontend: Em andamento</p>
 
 # Autores
-<p>Talisson Fábi</p>
-<p>Luiz Gustavo de Oliveira Umbelino</p>
-<p>Joab Urbano</p>
+<a href="https://github.com/talis-fb">Talisson Fábio</a><br>
+<a href="https://github.com/luizgustavoou">Luiz Gustavo de Oliveira Umbelino</a><br>
+<a href="https://github.com/JoabUrbano">Joab Urbano</a><br>
 
