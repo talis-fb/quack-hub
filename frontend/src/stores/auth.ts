@@ -17,7 +17,7 @@ const userJwt: JwtDecoded | null = accessToken ? jwtService.decode(accessToken) 
 const userLoaded: UserState | null = userJwt ? serializeUserJwt(userJwt) : null
 
 export const useAuthStore = defineStore('auth', () => {
-  const user = reactive<UserState>({
+  const user: UserState = reactive({
     id: userLoaded?.id,
     email: userLoaded?.email
   })
