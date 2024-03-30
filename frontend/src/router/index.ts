@@ -1,34 +1,60 @@
-import { metadataRoutes, publicRoutes } from '@/router/RoutesConfig'
 import { createRouter, createWebHistory } from 'vue-router'
+
+// Router configs
+import { metadataRoutes } from '@/router/RoutesConfig'
+
+// Guards
 import { authGuard, redirectToHomeIfAuthenticatedGuard } from './RoutesGuards'
 
+// Components
+import Signin from '@/views/Signin.vue'
+import Signup from '@/views/Signup.vue'
+import NavMenu from '@/views/NavMenu.vue'
+import ProfileUserView from '@/views/ProfileUserView.vue'
+import AboutView from '@/views/AboutView.vue'
+import HomeView from '@/views/HomeView.vue'
+
 export const router = createRouter({
+  linkActiveClass: 'text-blue-700 font-bold',
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: metadataRoutes.SIGNIN.path,
       name: metadataRoutes.SIGNIN.name,
-      component: () => import('@/views/Signin.vue')
+      components: {
+        default: Signin
+      }
     },
     {
       path: metadataRoutes.SIGNUP.path,
       name: metadataRoutes.SIGNUP.name,
-      component: () => import('@/views/Signup.vue')
+      components: {
+        default: Signup
+      }
     },
     {
       path: metadataRoutes.HOME.path,
       name: metadataRoutes.HOME.name,
-      component: () => import('@/views/HomeView.vue')
+      components: {
+        Navbar: NavMenu,
+        default: HomeView
+      }
     },
     {
       path: metadataRoutes.USER_PROFILE.path,
       name: metadataRoutes.USER_PROFILE.name,
-      component: () => import('@/views/ProfileUserView.vue')
+      components: {
+        Navbar: NavMenu,
+        default: ProfileUserView
+      }
     },
     {
       path: metadataRoutes.ABOUT.path,
       name: metadataRoutes.ABOUT.name,
-      component: () => import('@/views/AboutView.vue')
+      components: {
+        Navbar: NavMenu,
+        default: AboutView
+      }
     },
     { path: '/:pathMatch(.*)*', redirect: metadataRoutes.HOME.path }
   ]
@@ -36,6 +62,6 @@ export const router = createRouter({
 
 //router.beforeEach(authGuard)
 
-router.beforeEach(redirectToHomeIfAuthenticatedGuard)
+// router.beforeEach(redirectToHomeIfAuthenticatedGuard)
 
 export default router

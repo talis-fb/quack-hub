@@ -1,4 +1,4 @@
-<script setup script="ts">
+<script setup lang="ts">
 import WalpaperDefaultUser from '@/assets/wallpaper-default-user.svg'
 
 import { Ellipsis } from 'lucide-vue-next'
