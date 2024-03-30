@@ -15,7 +15,7 @@ import AboutView from '@/views/AboutView.vue'
 import HomeView from '@/views/HomeView.vue'
 
 export const router = createRouter({
-  linkActiveClass: 'text-blue-700 font-bold',
+  linkActiveClass: 'text-blue-500 font-bold',
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
