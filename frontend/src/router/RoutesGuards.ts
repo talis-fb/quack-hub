@@ -11,3 +11,16 @@ export const authGuard: NavigationGuardWithThis<undefined> = async (to, _) => {
     return { name: metadataRoutes.SIGNIN.name }
   }
 }
+
+export const redirectToHomeIfAuthenticatedGuard: NavigationGuardWithThis<undefined> = async (
+  to,
+  _
+) => {
+  const { isAuthenticated } = useAuthStore()
+
+  const authNotRequired = publicRoutes.includes(to.path)
+
+  if (authNotRequired && isAuthenticated) {
+    return { name: metadataRoutes.HOME.name }
+  }
+}

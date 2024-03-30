@@ -1,6 +1,6 @@
 import { metadataRoutes, publicRoutes } from '@/router/RoutesConfig'
 import { createRouter, createWebHistory } from 'vue-router'
-import { authGuard } from './RoutesGuards'
+import { authGuard, redirectToHomeIfAuthenticatedGuard } from './RoutesGuards'
 
 export const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -35,5 +35,7 @@ export const router = createRouter({
 })
 
 router.beforeEach(authGuard)
+
+router.beforeEach(redirectToHomeIfAuthenticatedGuard)
 
 export default router
