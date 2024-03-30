@@ -90,13 +90,13 @@ onUnmounted(() => {
 <template>
   <BaseAuth>
     <template v-slot:main>
-      <nav
+      <button
         @click="navigateToLogin"
-        class="cursor-pointer flex gap-1 absolute left-5 top-5 pb-2 after:content-[''] after:absolute after:left-0 after:bottom-0 after:h-[2px] after:w-0 after:bg-primary hover:after:w-[95%] after:transition-all after:ease-in-out after:duration-300"
+        class="flex gap-1 absolute left-5 top-5 pb-2 after:content-[''] after:absolute after:left-0 after:bottom-0 after:h-[2px] after:w-0 after:bg-primary hover:after:w-[95%] after:transition-all after:ease-in-out after:duration-300"
       >
         <ArrowLeft />
         <span>Login</span>
-      </nav>
+      </button>
 
       <main>
         <header class="text-center mb-5">

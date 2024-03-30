@@ -118,12 +118,12 @@ onUnmounted(() => {
       <footer class="mt-5">
         <p>
           Não tem uma conta?
-          <button
+          <span
             @click="navigateToSignup"
-            class="font-bold relative pb-2 after:content-[''] after:absolute after:left-0 after:bottom-0 after:h-[2px] after:w-0 after:bg-primary hover:after:w-[95%] after:transition-all after:ease-in-out after:duration-300"
+            class="cursor-pointer font-bold relative pb-2 after:content-[''] after:absolute after:left-0 after:bottom-0 after:h-[2px] after:w-0 after:bg-primary hover:after:w-[95%] after:transition-all after:ease-in-out after:duration-300"
           >
             Registra-se
-          </button>
+          </span>
         </p>
       </footer>
     </template>
