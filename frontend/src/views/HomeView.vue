@@ -6,8 +6,8 @@
 </script>
 
 <template>
-  <main class="flex md:flex-row md:justify-between flex-col mt-6 gap-12">
-    <aside class="ml-28 p-4 flex flex-col items-center gap-4 border-2 border-slate-300 rounded-md">
+  <main class="flex md:flex-row justify-center flex-col mt-6 gap-12">
+    <aside class="md:ml-24 p-12 flex flex-col items-center gap-4 border-2 border-slate-300 rounded-md">
       <section class="flex flex-col items-center border-b-2 border-slate-300 text-lg pb-6">
         <img class="h-14 rounded-full" src="@/assets/user-icon.jpg" />
         <p>User name</p>
@@ -32,18 +32,32 @@
           <figcaption>Criar postagem</figcaption>
         </figure>
       </div>
+
+      <main class="mt-8 flex gap-6 p-8 text-lg border-2 border-slate-300 rounded-lg">
+        Posts aqui
+      </main>
     </section>
 
-    <aside class="flex flex-col mr-28">
-      <section class="text-lg p-4 border-2 border-slate-300 rounded-md">
+    <aside class="flex flex-col md:mr-24">
+      <section class="text-lg p-12 border-2 border-slate-300 rounded-md">
         <h1 class="text-xl mb-2">QuackHub Notícias</h1>
         <ul>
           <li>Noticia 01</li>
           <li>Noticia 02</li>
           <li>Noticia 03</li>
         </ul>
-        <div class="flex items-center">Expandir mais <ChevronDown /></div>
+        <div class="flex items-center">
+          <input type="checkbox" id="expandir-mais-home-aside" class="hidden" />
+          <label for="expandir-mais-home-aside" class="cursor-pointer flex items-center">
+            Expandir mais <ChevronDown class="transition-transform h-6 w-6 transform rotate-0" />
+          </label>
+        </div>
       </section>
     </aside>
   </main>
 </template>
+<style>
+  #expandir-mais-home-aside:checked + label .transition-transform {
+    @apply transform rotate-180;
+  }
+</style>
