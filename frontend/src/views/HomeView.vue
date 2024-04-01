@@ -16,7 +16,7 @@ import { ChevronDown } from 'lucide-vue-next'
     </aside>
 
     <main>
-      <section class="flex ga'p-6 p-8 text-lg border-2 border-slate-300 rounded-lg">
+      <section class="flex gap-6 p-8 text-lg border-2 border-slate-300 rounded-lg">
         <figure class="flex gap-1 items-center">
           <Image />
           <figcaption>Mídia</figcaption>
