@@ -7,7 +7,7 @@ import { ChevronDown } from 'lucide-vue-next'
 
 <template>
   <div class="p-2 flex md:flex-row md:justify-center flex-col mt-6 gap-6">
-    <aside class="p-12 flex flex-col items-center gap-4 border-2 border-slate-300 rounded-md">
+    <aside class="p-6 flex flex-col items-center gap-4 border-2 border-slate-300 rounded-md">
       <div class="flex flex-col items-center border-b-2 border-slate-300 text-lg pb-6">
         <img class="h-14 rounded-full" src="@/assets/user-icon.jpg" />
         <p>User name</p>
@@ -16,7 +16,7 @@ import { ChevronDown } from 'lucide-vue-next'
     </aside>
 
     <main>
-      <section class="flex gap-6 p-8 text-lg border-2 border-slate-300 rounded-lg">
+      <section class="flex ga'p-6 p-8 text-lg border-2 border-slate-300 rounded-lg">
         <figure class="flex gap-1 items-center">
           <Image />
           <figcaption>Mídia</figcaption>
@@ -38,7 +38,7 @@ import { ChevronDown } from 'lucide-vue-next'
       </section>
     </main>
 
-    <aside class="flex flex-col md:mr-24">
+    <aside class="flex flex-col">
       <section class="text-lg p-12 border-2 border-slate-300 rounded-md">
         <h1 class="text-xl mb-2">QuackHub Notícias</h1>
         <ul>
