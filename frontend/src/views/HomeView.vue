@@ -1,22 +1,22 @@
 <script setup lang="ts">
-  import { Image } from 'lucide-vue-next';
-  import { Presentation } from 'lucide-vue-next';
-  import { NotebookPen } from 'lucide-vue-next';
-  import { ChevronDown } from 'lucide-vue-next';
+import { Image } from 'lucide-vue-next'
+import { Presentation } from 'lucide-vue-next'
+import { NotebookPen } from 'lucide-vue-next'
+import { ChevronDown } from 'lucide-vue-next'
 </script>
 
 <template>
-  <main class="flex md:flex-row justify-center flex-col mt-6 gap-12">
-    <aside class="md:ml-24 p-12 flex flex-col items-center gap-4 border-2 border-slate-300 rounded-md">
-      <section class="flex flex-col items-center border-b-2 border-slate-300 text-lg pb-6">
+  <div class="p-2 flex md:flex-row md:justify-center flex-col mt-6 gap-6">
+    <aside class="p-12 flex flex-col items-center gap-4 border-2 border-slate-300 rounded-md">
+      <div class="flex flex-col items-center border-b-2 border-slate-300 text-lg pb-6">
         <img class="h-14 rounded-full" src="@/assets/user-icon.jpg" />
         <p>User name</p>
-      </section>
+      </div>
       <p>Lista de amigos</p>
     </aside>
 
-    <section>
-      <div class="flex gap-6 p-8 text-lg border-2 border-slate-300 rounded-lg">
+    <main>
+      <section class="flex gap-6 p-8 text-lg border-2 border-slate-300 rounded-lg">
         <figure class="flex gap-1 items-center">
           <Image />
           <figcaption>Mídia</figcaption>
@@ -31,12 +31,12 @@
           <NotebookPen />
           <figcaption>Criar postagem</figcaption>
         </figure>
-      </div>
+      </section>
 
-      <main class="mt-8 flex gap-6 p-8 text-lg border-2 border-slate-300 rounded-lg">
+      <section class="mt-8 flex gap-6 p-8 text-lg border-2 border-slate-300 rounded-lg">
         Posts aqui
-      </main>
-    </section>
+      </section>
+    </main>
 
     <aside class="flex flex-col md:mr-24">
       <section class="text-lg p-12 border-2 border-slate-300 rounded-md">
@@ -54,10 +54,10 @@
         </div>
       </section>
     </aside>
-  </main>
+  </div>
 </template>
 <style>
-  #expandir-mais-home-aside:checked + label .transition-transform {
-    @apply transform rotate-180;
-  }
+#expandir-mais-home-aside:checked + label .transition-transform {
+  @apply transform rotate-180;
+}
 </style>
