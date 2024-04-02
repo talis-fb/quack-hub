@@ -1,16 +1,16 @@
-export interface IUser {
-  id: number
+export interface IUserData {
   email: string
-  password: string
-
   name: string
-  birthday: string
+  birthday?: Date
   bio?: string
   aboutDescription?: string
   avatarUrl?: string
   phone?: string
   blog?: string
+}
 
+export interface IUserEntity extends IUserData {
+  id: number
   createdAt: string
   updatedAt: string
 }

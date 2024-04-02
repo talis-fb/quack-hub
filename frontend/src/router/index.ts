@@ -12,6 +12,7 @@ import Signup from '@/views/Signup.vue'
 import NavMenu from '@/views/NavMenu.vue'
 import ProfileUserView from '@/views/ProfileUserView.vue'
 import AboutView from '@/views/AboutView.vue'
+import ProfileEdit from '@/views/ProfileEdit.vue'
 import HomeView from '@/views/HomeView.vue'
 
 export const router = createRouter({
@@ -23,14 +24,16 @@ export const router = createRouter({
       name: metadataRoutes.SIGNIN.name,
       components: {
         default: Signin
-      }
+      },
+      meta: { ...metadataRoutes.SIGNIN }
     },
     {
       path: metadataRoutes.SIGNUP.path,
       name: metadataRoutes.SIGNUP.name,
       components: {
         default: Signup
-      }
+      },
+      meta: { ...metadataRoutes.SIGNUP }
     },
     {
       path: metadataRoutes.HOME.path,
@@ -38,7 +41,8 @@ export const router = createRouter({
       components: {
         Navbar: NavMenu,
         default: HomeView
-      }
+      },
+      meta: { ...metadataRoutes.SIGNUP }
     },
     {
       path: metadataRoutes.USER_PROFILE.path,
@@ -46,7 +50,8 @@ export const router = createRouter({
       components: {
         Navbar: NavMenu,
         default: ProfileUserView
-      }
+      },
+      meta: { ...metadataRoutes.USER_PROFILE }
     },
     {
       path: metadataRoutes.ABOUT.path,
@@ -54,13 +59,23 @@ export const router = createRouter({
       components: {
         Navbar: NavMenu,
         default: AboutView
-      }
+      },
+      meta: { ...metadataRoutes.ABOUT }
+    },
+    {
+      path: metadataRoutes.USER_EDIT.path,
+      name: metadataRoutes.USER_EDIT.name,
+      components: {
+        Navbar: NavMenu,
+        default: ProfileEdit
+      },
+      meta: { ...metadataRoutes.USER_EDIT }
     },
     { path: '/:pathMatch(.*)*', redirect: metadataRoutes.HOME.path }
   ]
 })
 
-//router.beforeEach(authGuard)
+router.beforeEach(authGuard)
 
 // router.beforeEach(redirectToHomeIfAuthenticatedGuard)
 
