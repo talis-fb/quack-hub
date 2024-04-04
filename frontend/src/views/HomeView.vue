@@ -6,7 +6,7 @@ import { ChevronDown } from 'lucide-vue-next'
 </script>
 
 <template>
-  <div class="p-2 flex md:flex-row md:justify-center flex-col mt-6 gap-6">
+  <div class="flex-1 p-2 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 mt-6 gap-6">
     <aside class="p-6 flex flex-col items-center gap-4 border-2 border-slate-300 rounded-md">
       <div class="flex flex-col items-center border-b-2 border-slate-300 text-lg pb-6">
         <img class="h-14 rounded-full" src="@/assets/user-icon.jpg" />
@@ -15,8 +15,8 @@ import { ChevronDown } from 'lucide-vue-next'
       <p>Lista de amigos</p>
     </aside>
 
-    <main>
-      <section class="flex ga'p-6 p-8 text-lg border-2 border-slate-300 rounded-lg">
+    <main class="flex flex-col lg:col-span-3">
+      <section class="flex justify-between gap-2 p-8 text-lg border-2 border-slate-300 rounded-lg">
         <figure class="flex gap-1 items-center">
           <Image />
           <figcaption>Mídia</figcaption>
@@ -33,12 +33,12 @@ import { ChevronDown } from 'lucide-vue-next'
         </figure>
       </section>
 
-      <section class="mt-8 flex gap-6 p-8 text-lg border-2 border-slate-300 rounded-lg">
+      <section class="flex-1 mt-8 flex gap-6 p-8 text-lg border-2 border-slate-300 rounded-lg">
         Posts aqui
       </section>
     </main>
 
-    <aside class="flex flex-col">
+    <aside class="flex flex-col md:col-start-2 lg:col-start-5">
       <section class="text-lg p-12 border-2 border-slate-300 rounded-md">
         <h1 class="text-xl mb-2">QuackHub Notícias</h1>
         <ul>
