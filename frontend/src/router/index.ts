@@ -60,8 +60,8 @@ export const router = createRouter({
   ]
 })
 
-//router.beforeEach(authGuard)
+router.beforeEach(authGuard)
 
-// router.beforeEach(redirectToHomeIfAuthenticatedGuard)
+router.beforeEach(redirectToHomeIfAuthenticatedGuard)
 
 export default router
