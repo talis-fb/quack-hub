@@ -2,7 +2,6 @@
 import { RouterView } from 'vue-router'
 
 import Toaster from '@/components/ui/toast/Toaster.vue'
-import NavMenu from '@/views/NavMenu.vue'
 
 function toggleDarkMode() {
   const body = document.querySelector('body')
