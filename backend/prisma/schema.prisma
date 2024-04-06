@@ -39,3 +39,49 @@ model UserAuth {
 
   password String
 }
+
+model Experience {
+  id Int @id @default(autoincrement())
+
+  title     String
+  about     String
+  startDate DateTime
+  endDate   DateTime
+
+  project Project?
+
+  achievements Achievements[]
+}
+
+model Achievements {
+  id Int @id @default(autoincrement())
+
+  title       String
+  description String
+
+  Experience   Experience @relation(fields: [experienceId], references: [id])
+  experienceId Int
+}
+
+model Project {
+  id Int @id @default(autoincrement())
+
+  title         String
+  summary       String
+  about         String
+  sector        String
+  state         StateProject @default(IDLE)
+  methodologies String[]
+  startDate     DateTime
+  endDate       DateTime
+
+  experience   Experience @relation(fields: [experienceId], references: [id])
+  experienceId Int        @unique
+}
+
+enum StateProject {
+  IDLE
+  PROGRESS
+  COMPLETED
+  CANCELLED
+}
