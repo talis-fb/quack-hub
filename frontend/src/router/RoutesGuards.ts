@@ -4,8 +4,7 @@ import { metadataRoutes, publicRoutes } from './RoutesConfig'
 
 export const authGuard: NavigationGuardWithThis<undefined> = async (to, _) => {
   const { isAuthenticated } = useAuthStore()
-
-  const authRequired = !publicRoutes.includes(to.path)
+  const authRequired = !to.meta.isPublic
 
   if (authRequired && !isAuthenticated) {
     return { name: metadataRoutes.SIGNIN.name }
@@ -18,9 +17,9 @@ export const redirectToHomeIfAuthenticatedGuard: NavigationGuardWithThis<undefin
 ) => {
   const { isAuthenticated } = useAuthStore()
 
-  const authNotRequired = publicRoutes.includes(to.path)
+  const requireNoAuth = to.meta?.tags?.includes('require-no-auth') as boolean
 
-  if (authNotRequired && isAuthenticated) {
+  if (requireNoAuth && isAuthenticated) {
     return { name: metadataRoutes.HOME.name }
   }
 }

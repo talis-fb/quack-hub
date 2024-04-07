@@ -23,9 +23,9 @@ export class UserData {
   @ApiProperty()
   email: string;
 
-  @IsNotEmpty()
   @Transform(({ value }) => new Date(value))
   @IsDate()
+  @IsOptional()
   @ApiProperty()
   birthday: Date;
 
