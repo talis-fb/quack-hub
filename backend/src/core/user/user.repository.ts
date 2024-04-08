@@ -10,7 +10,7 @@ export abstract class UserRepository {
   abstract getFollowers(id: number): Promise<UserEntity[]>;
   abstract getFollowing(id: number): Promise<UserEntity[]>;
 
-  abstract update(id: number, user: UserData): Promise<UserEntity | null>;
+  abstract update(id: number, user: Partial<UserData>): Promise<UserEntity | null>;
   abstract addFollower(
     userFollowingId: number,
     userToBeFollowedId: number,
@@ -56,7 +56,7 @@ export class UserRepositoryImpl implements UserRepository {
     return output;
   }
 
-  async update(id: number, user: UserData): Promise<UserEntity | null> {
+  async update(id: number, user: Partial<UserData>): Promise<UserEntity | null> {
     return await this.prisma.user.update({
       where: {
         id,
