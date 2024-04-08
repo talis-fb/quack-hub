@@ -48,9 +48,15 @@ model Experience {
   startDate DateTime
   endDate   DateTime
 
+  type    ExperienceType
   project Project?
 
   achievements Achievements[]
+}
+
+enum ExperienceType {
+  PROFESSIONAL
+  ACADEMIC
 }
 
 model Achievements {
