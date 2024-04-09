@@ -9,13 +9,13 @@ import {
 } from 'class-validator';
 
 export const StateProjectValues = [
-   "IDLE",
-   "PROGRESS",
-   "COMPLETED",
-   "CANCELLED"
+  'IDLE',
+  'PROGRESS',
+  'COMPLETED',
+  'CANCELLED',
 ] as const;
 
-export type StateProject = typeof StateProjectValues[number];
+export type StateProject = (typeof StateProjectValues)[number];
 
 export class ProjectData {
   @IsString()
@@ -26,21 +26,21 @@ export class ProjectData {
   @IsString()
   @MinLength(3)
   @ApiProperty()
-  summary: string
+  summary: string;
 
   @IsString()
   @MinLength(3)
   @ApiProperty()
-  about: string
+  about: string;
 
   @IsString()
   @MinLength(3)
   @ApiProperty()
-  sector: string
+  sector: string;
 
   @IsIn(StateProjectValues)
   @ApiProperty()
-  state: StateProject
+  state: StateProject;
 
   @IsDate()
   @ApiProperty()
@@ -54,10 +54,10 @@ export class ProjectData {
   @IsString()
   @IsOptional()
   @ApiProperty()
-  methodologies: string[]
+  methodologies: string[];
 }
 
 export class ProjectEntity extends ProjectData {
   @IsInt()
-  id: number
+  id: number;
 }

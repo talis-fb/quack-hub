@@ -1,42 +1,39 @@
 import {
-    Body,
-    Controller,
-    Get,
-    NotFoundException,
-    Param,
-    Patch,
-    Post,
-    ParseIntPipe,
-    Put,
-    Query,
-  } from '@nestjs/common';
-  import { ProjectData, ProjectEntity } from './projects.entity';
-  import _ from './projects.service';
-  
-  @Controller('projects')
-  export class ProjectsController {
-    constructor() {}
-    @Post('')
-    async create(@Body() body: ProjectData): ProjectEntity {
-      // TODO
-    }
-    
-    @Put(':id')
-    async update(@Param('id', ParseIntPipe) id: number, @Body() body: ProjectData) {
-      // TODO
-    }
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  ParseIntPipe,
+  Put,
+} from '@nestjs/common';
+import { ProjectData, ProjectEntity } from './projects.entity';
+import { ProjectsService } from './projects.service';
 
-    @Get(':id')
-    async findOneById(@Param('id', ParseIntPipe) id: number) {
-        // TODO
-    }
+@Controller('projects')
+export class ProjectsController {
+  constructor(private projectsService: ProjectsService) {}
 
-    @Get(':id/users')
-    async getUsers(@Param('id', ParseIntPipe) id: number) {
-        // TODO
-    }
-  
-  
-
+  @Post('')
+  async create(@Body() body: ProjectData): Promise<ProjectEntity> {
+    return await this.projectsService.create(body)
   }
-  
+
+  @Put(':id')
+  async update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() body: Partial<ProjectData>,
+  ) {
+    return await this.projectsService.update(id, body)
+  }
+
+  @Get(':id')
+  async findOneById(@Param('id', ParseIntPipe) id: number): Promise<ProjectEntity> {
+    return await this.projectsService.getProjectById(id)
+  }
+
+  @Get(':id/users')
+  async getUsers(@Param('id', ParseIntPipe) id: number) {
+    // TODO
+  }
+}

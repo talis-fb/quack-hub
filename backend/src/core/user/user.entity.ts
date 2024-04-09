@@ -62,60 +62,57 @@ export class UserEntity extends UserData {
   updatedAt: Date;
 }
 
-export const ExperienceTypeValues = [
-  "PROFESSIONAL",
-  "ACADEMIC",
-] as const;
+export const ExperienceTypeValues = ['PROFESSIONAL', 'ACADEMIC'] as const;
 
-export type ExperienceType = typeof ExperienceTypeValues[number];
+export type ExperienceType = (typeof ExperienceTypeValues)[number];
 
 export class ExperienceData {
   @IsString()
   @MinLength(3)
   @ApiProperty()
-  title: string
+  title: string;
 
   @IsString()
   @MinLength(3)
   @ApiProperty()
-  about: string
+  about: string;
 
   @IsDate()
   @ApiProperty()
-  startDate: Date
+  startDate: Date;
 
   @IsDate()
   @IsOptional()
   @ApiProperty()
-  endDate: Date | null
+  endDate: Date | null;
 
   @IsIn(ExperienceTypeValues)
   @ApiProperty()
-  type: ExperienceType
+  type: ExperienceType;
 
   @ValidateNested()
   @ApiProperty()
-  achievements: Array<AchievementData>
+  achievements: Array<AchievementData>;
 }
 
 export class ExperienceEntity extends ExperienceData {
   @IsInt()
-  id: number
+  id: number;
 }
 
 export class AchievementData {
   @IsString()
   @MinLength(3)
   @ApiProperty()
-  title: string
+  title: string;
 
   @IsString()
   @MinLength(3)
   @ApiProperty()
-  description: string | null
+  description: string | null;
 }
 
 export class AchievementEntity extends AchievementData {
   @IsInt()
-  id: number
+  id: number;
 }

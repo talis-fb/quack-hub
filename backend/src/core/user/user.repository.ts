@@ -6,11 +6,15 @@ export abstract class UserRepository {
   abstract getUserById(id: number): Promise<UserEntity | null>;
   abstract getUserByEmail(email: string): Promise<UserEntity | null>;
   abstract findAll(): Promise<UserEntity[]>;
-  abstract findUsers(searchName: string): Promise<UserEntity[]>;
+  abstract findUsers(ids: number[]): Promise<UserEntity[]>;
+  abstract searchUsers(searchName: string): Promise<UserEntity[]>;
   abstract getFollowers(id: number): Promise<UserEntity[]>;
   abstract getFollowing(id: number): Promise<UserEntity[]>;
 
-  abstract update(id: number, user: Partial<UserData>): Promise<UserEntity | null>;
+  abstract update(
+    id: number,
+    user: Partial<UserData>,
+  ): Promise<UserEntity | null>;
   abstract addFollower(
     userFollowingId: number,
     userToBeFollowedId: number,
@@ -20,17 +24,6 @@ export abstract class UserRepository {
 @Injectable()
 export class UserRepositoryImpl implements UserRepository {
   constructor(private prisma: PrismaService) {}
-
-  async findUsers(searchName: string): Promise<UserEntity[]> {
-    return await this.prisma.user.findMany({
-      where: {
-        name: {
-          contains: searchName,
-          mode: 'insensitive',
-        },
-      },
-    });
-  }
 
   async getUserById(id: number): Promise<UserEntity | null> {
     const output = await this.prisma.user.findUnique({
@@ -56,7 +49,10 @@ export class UserRepositoryImpl implements UserRepository {
     return output;
   }
 
-  async update(id: number, user: Partial<UserData>): Promise<UserEntity | null> {
+  async update(
+    id: number,
+    user: Partial<UserData>,
+  ): Promise<UserEntity | null> {
     return await this.prisma.user.update({
       where: {
         id,
@@ -108,4 +104,26 @@ export class UserRepositoryImpl implements UserRepository {
       },
     });
   }
+
+  async findUsers(ids: number[]): Promise<UserEntity[]> {
+    return await this.prisma.user.findMany({
+      where: {
+        id: {
+          in: ids,
+        },
+      },
+    });
+  }
+
+  async searchUsers(searchName: string): Promise<UserEntity[]> {
+    return await this.prisma.user.findMany({
+      where: {
+        name: {
+          contains: searchName,
+          mode: 'insensitive',
+        },
+      },
+    });
+  }
+
 }

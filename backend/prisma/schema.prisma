@@ -51,7 +51,9 @@ model Experience {
   endDate   DateTime
 
   type    ExperienceType
-  project Project?
+
+  project Project? @relation(fields: [projectId], references: [id])
+  projectId Int
 
   achievements Achievements[]
 
@@ -86,8 +88,7 @@ model Project {
   startDate     DateTime
   endDate       DateTime
 
-  experience   Experience @relation(fields: [experienceId], references: [id])
-  experienceId Int        @unique
+  experiences Experience[]
 }
 
 enum StateProject {
