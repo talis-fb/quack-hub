@@ -6,8 +6,10 @@ import {
   ProjectsRepository,
   ProjectsRepositoryImpl,
 } from './project.repository';
+import { UserModule } from '../user/user.module';
 
 @Module({
+  imports: [UserModule],
   controllers: [ProjectsController],
   providers: [
     PrismaService,

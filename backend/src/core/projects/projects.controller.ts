@@ -9,6 +9,7 @@ import {
 } from '@nestjs/common';
 import { ProjectData, ProjectEntity } from './projects.entity';
 import { ProjectsService } from './projects.service';
+import { UserEntity } from '../user/user.entity';
 
 @Controller('projects')
 export class ProjectsController {
@@ -33,7 +34,7 @@ export class ProjectsController {
   }
 
   @Get(':id/users')
-  async getUsers(@Param('id', ParseIntPipe) id: number) {
-    // TODO
+  async getUsers(@Param('id', ParseIntPipe) id: number): Promise<UserEntity[]> {
+    return await this.projectsService.getUsersOfProject(id)
   }
 }

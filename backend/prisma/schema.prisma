@@ -53,7 +53,7 @@ model Experience {
   type    ExperienceType
 
   project Project? @relation(fields: [projectId], references: [id])
-  projectId Int
+  projectId Int?
 
   achievements Achievements[]
 

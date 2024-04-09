@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { Transform } from 'class-transformer';
 import {
   IsString,
   IsDate,
@@ -6,6 +7,9 @@ import {
   MinLength,
   IsIn,
   IsInt,
+  IsDateString,
+  IsArray,
+  ArrayNotEmpty,
 } from 'class-validator';
 
 export const StateProjectValues = [
@@ -42,17 +46,18 @@ export class ProjectData {
   @ApiProperty()
   state: StateProject;
 
+  @Transform(({ value }) => new Date(value))
   @IsDate()
   @ApiProperty()
   startDate: Date;
 
-  @IsDate()
   @IsOptional()
+  @Transform(({ value }) => new Date(value))
+  @IsDate()
   @ApiProperty()
   endDate: Date;
 
-  @IsString()
-  @IsOptional()
+  @ArrayNotEmpty()
   @ApiProperty()
   methodologies: string[];
 }

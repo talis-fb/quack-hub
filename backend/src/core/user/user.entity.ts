@@ -77,12 +77,14 @@ export class ExperienceData {
   @ApiProperty()
   about: string;
 
+  @Transform(({ value }) => new Date(value))
   @IsDate()
   @ApiProperty()
   startDate: Date;
 
-  @IsDate()
   @IsOptional()
+  @Transform(({ value }) => new Date(value))
+  @IsDate()
   @ApiProperty()
   endDate: Date | null;
 
