@@ -4,25 +4,19 @@ import { UserData, UserEntity } from './user.entity';
 
 export abstract class UserService {
   public abstract getUserById(id: number): Promise<UserEntity | null>;
-
   public abstract getUserByEmail(email: string): Promise<UserEntity | null>;
-
   public abstract findAll(): Promise<UserEntity[]>;
-
+  public abstract findUsersByIds(ids: number[]): Promise<UserEntity[]>;
   public abstract search(searchName: string): Promise<UserEntity[]>;
-
   public abstract update(
     id: number,
-    user: UserData,
+    user: Partial<UserData>,
   ): Promise<UserEntity | null>;
-
   public abstract follow(
     userFollowingId: number,
     userToBeFollowedId: number,
   ): Promise<void>;
-
   public abstract getFollowers(id: number): Promise<UserEntity[]>;
-
   public abstract getFollowing(id: number): Promise<UserEntity[]>;
 }
 
@@ -43,10 +37,13 @@ export class UserServiceImpl implements UserService {
   }
 
   public async search(searchName: string): Promise<UserEntity[]> {
-    return await this.repo.findUsers(searchName);
+    return await this.repo.searchUsers(searchName);
   }
 
-  public async update(id: number, user: UserData): Promise<UserEntity | null> {
+  public async update(
+    id: number,
+    user: Partial<UserData>,
+  ): Promise<UserEntity | null> {
     return await this.repo.update(id, user);
   }
 
@@ -56,6 +53,10 @@ export class UserServiceImpl implements UserService {
   ): Promise<void> {
     return await this.repo.addFollower(userFollowingId, userToBeFollowedId);
   }
+
+  public async findUsersByIds(ids: number[]): Promise<UserEntity[]> {
+    return await this.repo.findUsers(ids);
+}
 
   public async getFollowers(id: number): Promise<UserEntity[]> {
     return await this.repo.getFollowers(id);
