@@ -4,6 +4,9 @@ import { PrismaService } from 'src/common/prisma/prisma.service';
 
 export abstract class ExperienceRepository {
   abstract getExperienceById(id: number): Promise<ExperienceEntity | null>;
+  abstract getExperienceByUser(
+    userId: number,
+  ): Promise<ExperienceEntity | null>;
   abstract createExperience(
     experience: ExperienceData,
   ): Promise<ExperienceEntity>;
@@ -11,6 +14,7 @@ export abstract class ExperienceRepository {
     id: number,
     experience: Partial<ExperienceData>,
   ): Promise<ExperienceEntity | null>;
+  abstract deleteExperience(id: number): Promise<ExperienceEntity | null>;
 }
 
 @Injectable
@@ -21,6 +25,15 @@ export class ExperienceRepositoryImpl implements ExperienceRepository {
     const output = await this.prisma.experience.findUnique({
       where: {
         id,
+      },
+    });
+    return output;
+  }
+
+  async getExperienceByUser(userId: number): Promise<ExperienceEntity> {
+    const output = await this.prisma.experience.findMany({
+      where: {
+        userId,
       },
     });
     return output;
@@ -46,6 +59,15 @@ export class ExperienceRepositoryImpl implements ExperienceRepository {
         id,
       },
       data: experience,
+    });
+    return output;
+  }
+
+  async deleteExperience(id: number): Promise<ExperienceEntity> {
+    const output = await this.prisma.experience.delete({
+      where: {
+        id,
+      },
     });
     return output;
   }
