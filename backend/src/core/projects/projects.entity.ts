@@ -7,8 +7,6 @@ import {
   MinLength,
   IsIn,
   IsInt,
-  IsDateString,
-  IsArray,
   ArrayNotEmpty,
 } from 'class-validator';
 
