@@ -52,7 +52,12 @@ export class ExperienceRepositoryImpl implements ExperienceRepository {
       data: {
         ...experience,
       },
+      include: {
+        achievements: true,
+      },
     });
+
+    console.log({ output });
 
     return output;
   }
