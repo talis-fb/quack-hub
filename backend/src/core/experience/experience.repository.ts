@@ -4,9 +4,7 @@ import { PrismaService } from 'src/common/prisma/prisma.service';
 
 export abstract class ExperienceRepository {
   abstract getExperienceById(id: number): Promise<ExperienceEntity | null>;
-  abstract getExperienceByUser(
-    userId: number,
-  ): Promise<ExperienceEntity | null>;
+  abstract getExperienceByUser(userId: number): Promise<ExperienceEntity[]>;
   abstract createExperience(
     experience: ExperienceData,
   ): Promise<ExperienceEntity>;
@@ -17,7 +15,7 @@ export abstract class ExperienceRepository {
   abstract deleteExperience(id: number): Promise<ExperienceEntity | null>;
 }
 
-@Injectable
+@Injectable()
 export class ExperienceRepositoryImpl implements ExperienceRepository {
   constructor(private prisma: PrismaService) {}
 
@@ -26,16 +24,24 @@ export class ExperienceRepositoryImpl implements ExperienceRepository {
       where: {
         id,
       },
+      include: {
+        achievements: true,
+      },
     });
+
     return output;
   }
 
-  async getExperienceByUser(userId: number): Promise<ExperienceEntity> {
+  async getExperienceByUser(userId: number): Promise<ExperienceEntity[]> {
     const output = await this.prisma.experience.findMany({
       where: {
         userId,
       },
+      include: {
+        achievements: true,
+      },
     });
+
     return output;
   }
 
@@ -47,19 +53,24 @@ export class ExperienceRepositoryImpl implements ExperienceRepository {
         ...experience,
       },
     });
+
     return output;
   }
 
   async updateExperience(
     id: number,
     experience: Partial<ExperienceData>,
-  ): Promise<ExperienceEntity> {
+  ): Promise<ExperienceEntity | null> {
     const output = await this.prisma.experience.update({
       where: {
         id,
       },
       data: experience,
+      include: {
+        achievements: true,
+      },
     });
+
     return output;
   }
 
@@ -68,7 +79,11 @@ export class ExperienceRepositoryImpl implements ExperienceRepository {
       where: {
         id,
       },
+      include: {
+        achievements: true,
+      },
     });
+
     return output;
   }
 }

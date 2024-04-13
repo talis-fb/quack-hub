@@ -53,7 +53,7 @@ export class UserRepositoryImpl implements UserRepository {
     id: number,
     user: Partial<UserData>,
   ): Promise<UserEntity | null> {
-    return await this.prisma.user.update({
+    await this.prisma.user.update({
       where: {
         id,
       },
