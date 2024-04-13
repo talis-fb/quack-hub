@@ -95,6 +95,12 @@ export class ExperienceData {
   @ValidateNested()
   @ApiProperty()
   achievements: Array<AchievementData>;
+
+  @IsInt()
+  userId: number;
+
+  @IsInt()
+  projectId: number;
 }
 
 export class ExperienceEntity extends ExperienceData {

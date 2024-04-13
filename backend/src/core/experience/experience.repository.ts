@@ -6,7 +6,7 @@ export abstract class ExperienceRepository {
   abstract getExperienceById(id: number): Promise<ExperienceEntity | null>;
   abstract getExperienceByUser(
     userId: number,
-  ): Promise<ExperienceEntity | null>;
+  ): Promise<ExperienceEntity[] | null>;
   abstract createExperience(
     experience: ExperienceData,
   ): Promise<ExperienceEntity>;
@@ -17,7 +17,7 @@ export abstract class ExperienceRepository {
   abstract deleteExperience(id: number): Promise<ExperienceEntity | null>;
 }
 
-@Injectable
+@Injectable()
 export class ExperienceRepositoryImpl implements ExperienceRepository {
   constructor(private prisma: PrismaService) {}
 
@@ -30,7 +30,7 @@ export class ExperienceRepositoryImpl implements ExperienceRepository {
     return output;
   }
 
-  async getExperienceByUser(userId: number): Promise<ExperienceEntity> {
+  async getExperienceByUser(userId: number): Promise<ExperienceEntity[]> {
     const output = await this.prisma.experience.findMany({
       where: {
         userId,
