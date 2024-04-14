@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { ExperienceData, ExperienceEntity } from '../user/user.entity';
 import { PrismaService } from 'src/common/prisma/prisma.service';
+import exp from 'constants';
 
 export abstract class ExperienceRepository {
   abstract getExperienceById(id: number): Promise<ExperienceEntity | null>;
@@ -45,39 +46,59 @@ export class ExperienceRepositoryImpl implements ExperienceRepository {
     return output;
   }
 
+  // createExperience(experience: ExperienceData): Promise<ExperienceEntity> {
+  //   throw new Error('Method not implemented.');
+  // }
+  // updateExperience(
+  //   id: number,
+  //   experience: Partial<ExperienceData>,
+  // ): Promise<ExperienceEntity> {
+  //   throw new Error('Method not implemented.');
+  // }
+
   async createExperience(
     experience: ExperienceData,
   ): Promise<ExperienceEntity> {
     const output = await this.prisma.experience.create({
       data: {
-        ...experience,
+        about: experience.about,
+        endDate: experience.endDate,
+        startDate: experience.startDate,
+        title: experience.title,
+        type: experience.type,
+        userId: experience.userId,
+        achievements: {
+          create: experience.achievements,
+        },
       },
       include: {
         achievements: true,
       },
     });
 
-    console.log({ output });
-
     return output;
   }
 
-  async updateExperience(
+  updateExperience(
     id: number,
     experience: Partial<ExperienceData>,
-  ): Promise<ExperienceEntity | null> {
-    const output = await this.prisma.experience.update({
-      where: {
-        id,
-      },
-      data: experience,
-      include: {
-        achievements: true,
-      },
-    });
-
-    return output;
+  ): Promise<ExperienceEntity> {
+    throw new Error('Method not implemented.');
   }
+
+  // async updateExperience(
+  //   id: number,
+  //   experience: Partial<ExperienceData>,
+  // ): Promise<ExperienceEntity | null> {
+  //   const output = await this.prisma.experience.update({
+  //     where: {
+  //       id,
+  //     },
+  //     data: experience,
+  //   });
+
+  //   return output;
+  // }
 
   async deleteExperience(id: number): Promise<ExperienceEntity> {
     const output = await this.prisma.experience.delete({
