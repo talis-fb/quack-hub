@@ -1,6 +1,15 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  ParseIntPipe,
+  Post,
+  Put,
+} from '@nestjs/common';
 import { ExperienceData } from '../user/user.entity';
 import { Public } from 'src/common/decorators/public.decorator';
+import { UpdateExperienceDto } from './dtos/UpdateExperienceDto';
 import { ExperienceService } from './experience.service';
 
 @Public()
@@ -12,8 +21,19 @@ export class ExperienceController {
     console.log('oi!');
   }
 
-  @Post('')
+  @Post()
   async create(@Body() experienceData: ExperienceData) {
     return await this.experienceService.createExperience(experienceData);
+  }
+
+  @Put(':id')
+  async update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() updateExperienceDto: UpdateExperienceDto,
+  ) {
+    return await this.experienceService.updateExperience(
+      id,
+      updateExperienceDto,
+    );
   }
 }
