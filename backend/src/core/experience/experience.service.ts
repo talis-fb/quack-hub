@@ -14,7 +14,7 @@ export abstract class ExperienceService {
 
   abstract getExperiencesByUserId(userId: number): Promise<ExperienceEntity[]>;
 
-  abstract getExperienceUserByType(
+  abstract getExperiencesUserByType(
     userId: number,
     type: ExperienceType,
   ): Promise<ExperienceEntity[]>;
@@ -54,11 +54,11 @@ export class ExperienceServiceImpl implements ExperienceService {
     return resExperiences;
   }
 
-  public async getExperienceUserByType(
+  public async getExperiencesUserByType(
     userId: number,
     type: 'PROFESSIONAL' | 'ACADEMIC',
   ): Promise<ExperienceEntity[]> {
-    const resExperiences = await this.repo.getExperienceUserByType(
+    const resExperiences = await this.repo.getExperiencesUserByType(
       userId,
       type,
     );

@@ -9,7 +9,7 @@ import { PrismaService } from 'src/common/prisma/prisma.service';
 export abstract class ExperienceRepository {
   abstract getExperienceById(id: number): Promise<ExperienceEntity | null>;
   abstract getExperiencesByUserId(userId: number): Promise<ExperienceEntity[]>;
-  abstract getExperienceUserByType(
+  abstract getExperiencesUserByType(
     userId: number,
     type: ExperienceType,
   ): Promise<ExperienceEntity[]>;
@@ -53,7 +53,7 @@ export class ExperienceRepositoryImpl implements ExperienceRepository {
     return output;
   }
 
-  async getExperienceUserByType(
+  async getExperiencesUserByType(
     userId: number,
     type: ExperienceType,
   ): Promise<ExperienceEntity[]> {
@@ -93,12 +93,6 @@ export class ExperienceRepositoryImpl implements ExperienceRepository {
     return output;
   }
 
-  // updateExperience(
-  //   id: number,
-  //   experience: Partial<ExperienceData>,
-  // ): Promise<ExperienceEntity> {
-  //   throw new Error('Method not implemented.');
-  // }
 
   async updateExperience(
     id: number,

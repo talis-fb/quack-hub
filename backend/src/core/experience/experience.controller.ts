@@ -39,11 +39,11 @@ export class ExperienceController {
   }
 
   @Get('/type/:userId')
-  async getExperienceUserByType(
+  async getExperiencesUserByType(
     @Param('userId', ParseIntPipe) userId: number,
     @Query('type') query: ExperienceType,
   ) {
-    return await this.experienceService.getExperienceUserByType(userId, query);
+    return await this.experienceService.getExperiencesUserByType(userId, query);
   }
 
   @Post()
