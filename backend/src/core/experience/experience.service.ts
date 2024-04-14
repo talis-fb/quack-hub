@@ -56,7 +56,7 @@ export class ExperienceServiceImpl implements ExperienceService {
 
   public async getExperiencesUserByType(
     userId: number,
-    type: 'PROFESSIONAL' | 'ACADEMIC',
+    type: ExperienceType,
   ): Promise<ExperienceEntity[]> {
     const resExperiences = await this.repo.getExperiencesUserByType(
       userId,

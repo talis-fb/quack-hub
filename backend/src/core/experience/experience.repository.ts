@@ -93,7 +93,6 @@ export class ExperienceRepositoryImpl implements ExperienceRepository {
     return output;
   }
 
-
   async updateExperience(
     id: number,
     experience: Partial<ExperienceData>,
