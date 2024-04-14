@@ -50,6 +50,11 @@ export class ExperienceData {
 
   @IsInt()
   projectId: number;
+
+  constructor(partial: Partial<ExperienceData>) {
+    Object.assign(this, partial);
+    this.type = this.type || 'ACADEMIC';
+  }
 }
 
 export class ExperienceEntity extends ExperienceData {
