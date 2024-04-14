@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   ParseIntPipe,
@@ -21,6 +22,16 @@ export class ExperienceController {
     console.log('oi!');
   }
 
+  @Get(':id')
+  async getExperienceById(@Param('id', ParseIntPipe) id: number) {
+    return await this.experienceService.getExperienceById(id);
+  }
+
+  @Get('/user/:userId')
+  async getExperienceByUserId(@Param('userId', ParseIntPipe) userId: number) {
+    return await this.experienceService.getExperiencesByUserId(userId);
+  }
+
   @Post()
   async create(@Body() experienceData: ExperienceData) {
     return await this.experienceService.createExperience(experienceData);
@@ -37,13 +48,8 @@ export class ExperienceController {
     );
   }
 
-  @Get(':id')
-  async getExperienceById(@Param('id', ParseIntPipe) id: number) {
-    return await this.experienceService.getExperienceById(id);
-  }
-
-  @Get('/user/:id')
-  async getExperienceByUserId(@Param('userId', ParseIntPipe) userId: number) {
-    return await this.experienceService.getExperiencesByUserId(userId);
+  @Delete(':id')
+  async delete(@Param('id', ParseIntPipe) id: number) {
+    return await this.experienceService.deleteExperience(id);
   }
 }

@@ -42,8 +42,10 @@ export class ExperienceServiceImpl implements ExperienceService {
     userId: number,
   ): Promise<ExperienceEntity[]> {
     const resExperiences = await this.repo.getExperiencesByUserId(userId);
-    console.log(resExperiences);
+
     if (!resExperiences) {
+      throw new NotFoundException(`Something went wrong!`);
+    } else if (resExperiences[0] === undefined) {
       throw new NotFoundException(
         `Experiences of user with ID ${userId} not found!`,
       );
@@ -66,6 +68,13 @@ export class ExperienceServiceImpl implements ExperienceService {
   }
 
   public async deleteExperience(id: number): Promise<ExperienceEntity> {
-    return this.repo.deleteExperience(id);
+    const resExperience = await this.repo.deleteExperience(id);
+    if (!resExperience) {
+      throw new NotFoundException(
+        `Experience with ID ${id} not found! It's not possibly deleted the experience.`,
+      );
+    } else {
+      return resExperience;
+    }
   }
 }
