@@ -1,7 +1,11 @@
 <script setup lang="ts">
 import WalpaperDefaultUser from '@/assets/wallpaper-default-user.svg'
 
-import { Ellipsis } from 'lucide-vue-next'
+// Components
+import { Button } from '@/components/ui/button'
+
+// Icons
+import { Ellipsis, Plus, Pencil } from 'lucide-vue-next'
 </script>
 <template>
   <main class="flex flex-1 flex-col md:flex-row p-3 gap-5">
@@ -27,7 +31,17 @@ import { Ellipsis } from 'lucide-vue-next'
       </section>
 
       <section class="flex flex-col gap-3 p-5 bg-secondary rounded-md">
-        <h2 class="text-2xl">Experiências acadêmicas</h2>
+        <div class="flex items-center">
+          <h2 class="text-2xl mr-auto">Experiências acadêmicas</h2>
+
+          <Button variant="outline" size="icon" class="bg-transparent hover:bg-black/40">
+            <Plus class="w-5 h-5" />
+          </Button>
+
+          <Button variant="outline" size="icon" class="bg-transparent hover:bg-black/40">
+            <Pencil class="w-5 h-5" />
+          </Button>
+        </div>
         <p>Informações do usuario</p>
       </section>
 
