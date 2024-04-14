@@ -44,7 +44,7 @@ import { Separator } from '@/components/ui/separator'
         :to="metadataRoutes.USER_PROFILE.path"
       >
         <Avatar>
-          <AvatarImage src="https://urlnaoencontrada.com/radix-vue.png" alt="user-avatar" />
+          <AvatarImage src="umaurlai" alt="user-avatar" />
           <AvatarFallback>
             <img :src="AvatarDefault" alt="user-avatar-default" />
           </AvatarFallback>
