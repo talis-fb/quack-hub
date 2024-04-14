@@ -1,10 +1,18 @@
 import { Injectable } from '@nestjs/common';
-import { ExperienceData, ExperienceEntity } from '../user/user.entity';
+import {
+  ExperienceData,
+  ExperienceEntity,
+  ExperienceType,
+} from '../experience/experience.entity';
 import { PrismaService } from 'src/common/prisma/prisma.service';
 
 export abstract class ExperienceRepository {
   abstract getExperienceById(id: number): Promise<ExperienceEntity | null>;
   abstract getExperiencesByUserId(userId: number): Promise<ExperienceEntity[]>;
+  abstract getExperienceUserByType(
+    userId: number,
+    type: ExperienceType,
+  ): Promise<ExperienceEntity[]>;
   abstract createExperience(
     experience: ExperienceData,
   ): Promise<ExperienceEntity>;
@@ -36,6 +44,23 @@ export class ExperienceRepositoryImpl implements ExperienceRepository {
     const output = await this.prisma.experience.findMany({
       where: {
         userId,
+      },
+      include: {
+        achievements: true,
+      },
+    });
+
+    return output;
+  }
+
+  async getExperienceUserByType(
+    userId: number,
+    type: ExperienceType,
+  ): Promise<ExperienceEntity[]> {
+    const output = await this.prisma.experience.findMany({
+      where: {
+        userId,
+        type,
       },
       include: {
         achievements: true,

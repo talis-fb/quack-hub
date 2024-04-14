@@ -9,8 +9,6 @@ import {
   IsOptional,
   MinLength,
   IsNumberString,
-  IsIn,
-  ValidateNested,
 } from 'class-validator';
 
 export class UserData {
@@ -60,67 +58,4 @@ export class UserEntity extends UserData {
 
   @IsDate()
   updatedAt: Date;
-}
-
-export const ExperienceTypeValues = ['PROFESSIONAL', 'ACADEMIC'] as const;
-
-export type ExperienceType = (typeof ExperienceTypeValues)[number];
-
-export class ExperienceData {
-  @IsString()
-  @MinLength(3)
-  @ApiProperty()
-  title: string;
-
-  @IsString()
-  @MinLength(3)
-  @ApiProperty()
-  about: string;
-
-  @Transform(({ value }) => new Date(value))
-  @IsDate()
-  @ApiProperty()
-  startDate: Date;
-
-  @IsOptional()
-  @Transform(({ value }) => new Date(value))
-  @IsDate()
-  @ApiProperty()
-  endDate: Date | null;
-
-  @IsIn(ExperienceTypeValues)
-  @ApiProperty()
-  type: ExperienceType;
-
-  @ValidateNested()
-  @ApiProperty()
-  achievements: Array<AchievementData>;
-
-  @IsInt()
-  userId: number;
-
-  @IsInt()
-  projectId: number;
-}
-
-export class ExperienceEntity extends ExperienceData {
-  @IsInt()
-  id: number;
-}
-
-export class AchievementData {
-  @IsString()
-  @MinLength(3)
-  @ApiProperty()
-  title: string;
-
-  @IsString()
-  @MinLength(3)
-  @ApiProperty()
-  description: string | null;
-}
-
-export class AchievementEntity extends AchievementData {
-  @IsInt()
-  id: number;
 }

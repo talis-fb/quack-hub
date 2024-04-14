@@ -7,8 +7,14 @@ import {
   ParseIntPipe,
   Post,
   Put,
+  Query,
 } from '@nestjs/common';
-import { ExperienceData } from '../user/user.entity';
+
+import {
+  ExperienceData,
+  ExperienceType,
+} from '../experience/experience.entity';
+
 import { Public } from 'src/common/decorators/public.decorator';
 import { UpdateExperienceDto } from './dtos/UpdateExperienceDto';
 import { ExperienceService } from './experience.service';
@@ -30,6 +36,14 @@ export class ExperienceController {
   @Get('/user/:userId')
   async getExperienceByUserId(@Param('userId', ParseIntPipe) userId: number) {
     return await this.experienceService.getExperiencesByUserId(userId);
+  }
+
+  @Get('/type/:userId')
+  async getExperienceUserByType(
+    @Param('userId', ParseIntPipe) userId: number,
+    @Query('type') query: ExperienceType,
+  ) {
+    return await this.experienceService.getExperienceUserByType(userId, query);
   }
 
   @Post()

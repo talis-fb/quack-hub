@@ -1,5 +1,9 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { ExperienceData, ExperienceEntity } from '../user/user.entity';
+import {
+  ExperienceData,
+  ExperienceEntity,
+  ExperienceType,
+} from '../experience/experience.entity';
 import { ExperienceRepository } from './experience.repository';
 import { UserService } from '../user/user.service';
 import { UpdateExperienceDto } from './dtos/UpdateExperienceDto';
@@ -9,6 +13,11 @@ export abstract class ExperienceService {
   abstract getExperienceById(id: number): Promise<ExperienceEntity | null>;
 
   abstract getExperiencesByUserId(userId: number): Promise<ExperienceEntity[]>;
+
+  abstract getExperienceUserByType(
+    userId: number,
+    type: ExperienceType,
+  ): Promise<ExperienceEntity[]>;
 
   abstract createExperience(
     experience: ExperienceData,
@@ -42,16 +51,18 @@ export class ExperienceServiceImpl implements ExperienceService {
     userId: number,
   ): Promise<ExperienceEntity[]> {
     const resExperiences = await this.repo.getExperiencesByUserId(userId);
+    return resExperiences;
+  }
 
-    if (!resExperiences) {
-      throw new NotFoundException(`Something went wrong!`);
-    } else if (resExperiences[0] === undefined) {
-      throw new NotFoundException(
-        `Experiences of user with ID ${userId} not found!`,
-      );
-    } else {
-      return resExperiences;
-    }
+  public async getExperienceUserByType(
+    userId: number,
+    type: 'PROFESSIONAL' | 'ACADEMIC',
+  ): Promise<ExperienceEntity[]> {
+    const resExperiences = await this.repo.getExperienceUserByType(
+      userId,
+      type,
+    );
+    return resExperiences;
   }
 
   public async createExperience(
