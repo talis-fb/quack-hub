@@ -31,22 +31,18 @@ export class ExperienceController {
   }
 
   @Get('/user/:userId')
-  async getExperienceByUserId(
+  async getExperienceByUserId(@Param('userId', ParseIntPipe) userId: number) {
+    return await this.experienceService.getExperiencesByUserId(userId);
+  }
+
+  @Get('/type/:userId')
+  async getExperiencesUserByType(
     @Param('userId', ParseIntPipe) userId: number,
     @Query() query: GetExperiencesByUserIdQueryDto,
   ) {
     const { type } = query;
-
     return await this.experienceService.getExperiencesUserByType(userId, type);
   }
-
-  // @Get('/type/:userId')
-  // async getExperiencesUserByType(
-  //   @Param('userId', ParseIntPipe) userId: number,
-  //   @Query('type') query: ExperienceType,
-  // ) {
-  //   return await this.experienceService.getExperiencesUserByType(userId, query);
-  // }
 
   @Post()
   async create(@Body() experienceData: ExperienceData) {
