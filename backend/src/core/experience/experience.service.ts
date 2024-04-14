@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { ExperienceData, ExperienceEntity } from '../user/user.entity';
 import { ExperienceRepository } from './experience.repository';
 import { UserService } from '../user/user.service';
@@ -8,9 +8,7 @@ import { UpdateExperienceDto } from './dtos/UpdateExperienceDto';
 export abstract class ExperienceService {
   abstract getExperienceById(id: number): Promise<ExperienceEntity | null>;
 
-  abstract getExperiencesByUserId(
-    userId: number,
-  ): Promise<ExperienceEntity[]>;
+  abstract getExperiencesByUserId(userId: number): Promise<ExperienceEntity[]>;
 
   abstract createExperience(
     experience: ExperienceData,
@@ -32,13 +30,26 @@ export class ExperienceServiceImpl implements ExperienceService {
   ) {}
 
   public async getExperienceById(id: number): Promise<ExperienceEntity> {
-    return this.repo.getExperienceById(id);
+    const resExperience = await this.repo.getExperienceById(id);
+    if (!resExperience) {
+      throw new NotFoundException(`Experience ID ${id} not found!`);
+    } else {
+      return resExperience;
+    }
   }
 
   public async getExperiencesByUserId(
     userId: number,
   ): Promise<ExperienceEntity[]> {
-    return this.repo.getExperiencesByUserId(userId);
+    const resExperiences = await this.repo.getExperiencesByUserId(userId);
+    console.log(resExperiences);
+    if (!resExperiences) {
+      throw new NotFoundException(
+        `Experiences of user with ID ${userId} not found!`,
+      );
+    } else {
+      return resExperiences;
+    }
   }
 
   public async createExperience(
