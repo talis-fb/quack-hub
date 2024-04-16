@@ -41,9 +41,8 @@ export class ExperienceRepositoryImpl implements ExperienceRepository {
           achievements: true,
         },
       });
-  
-      return output;
 
+      return output;
     } catch (error) {
       if (error.code === 'P2025') {
         throw new RepositoryClientKnownRequestException(
@@ -75,9 +74,8 @@ export class ExperienceRepositoryImpl implements ExperienceRepository {
           achievements: true,
         },
       });
-  
-      return output;
 
+      return output;
     } catch (error) {
       if (error.code === 'P2025') {
         throw new RepositoryClientKnownRequestException(
@@ -113,7 +111,7 @@ export class ExperienceRepositoryImpl implements ExperienceRepository {
           achievements: true,
         },
       });
-  
+
       return output;
     } catch (error) {
       if (error.code === 'P2025') {
@@ -156,9 +154,8 @@ export class ExperienceRepositoryImpl implements ExperienceRepository {
           achievements: true,
         },
       });
-  
-      return output;
 
+      return output;
     } catch (error) {
       if (error.code === 'P2025') {
         throw new RepositoryClientKnownRequestException(
@@ -184,7 +181,7 @@ export class ExperienceRepositoryImpl implements ExperienceRepository {
     id: number,
     experience: Partial<ExperienceData>,
   ): Promise<ExperienceEntity | null> {
-    try{
+    try {
       const { achievements, ...experienceWithoutAchievements } = experience;
       const output = await this.prisma.experience.update({
         where: {
@@ -195,9 +192,8 @@ export class ExperienceRepositoryImpl implements ExperienceRepository {
           achievements: true,
         },
       });
-  
-      return output;
 
+      return output;
     } catch (error) {
       if (error.code === 'P2025') {
         throw new RepositoryClientKnownRequestException(
@@ -231,7 +227,6 @@ export class ExperienceRepositoryImpl implements ExperienceRepository {
       });
 
       return output;
-
     } catch (error) {
       if (error.code === 'P2025') {
         throw new RepositoryClientKnownRequestException(
