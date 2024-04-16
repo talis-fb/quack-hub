@@ -1,6 +1,7 @@
 <script setup lang="ts">
 // Images
 import WalpaperDefaultUser from '@/assets/wallpaper-default-user.svg'
+import UserPhotoDefault from '@/assets/user-icon.jpg'
 
 // App components
 import ExperienceForm from '@/components/ExperienceForm.vue'
@@ -10,21 +11,18 @@ import { Button } from '@/components/ui/button'
 
 // Icons
 import { Ellipsis, Plus, Pencil } from 'lucide-vue-next'
-import { useAuthStore } from '@/stores/auth'
-import { onMounted } from 'vue'
+import { onBeforeMount, onMounted, reactive, ref } from 'vue'
 import { userService } from '@/services'
+import type { IUserResponse } from '@/apis/auth/models/IUserResponse'
 
-// Store pinia
-const {
-  user: { id }
-} = useAuthStore()
+const user = ref<IUserResponse | null>(null)
 
-onMounted(async () => {
-  const res = await userService.getProfile();
+onBeforeMount(async () => {
+  const res = await userService.getProfile()
 
-  console.log({res})
- 
+  user.value = res
 })
+
 </script>
 <template>
   <main class="flex flex-1 flex-col md:flex-row p-3 gap-5">
@@ -35,8 +33,8 @@ onMounted(async () => {
         </figure>
 
         <figure class="ml-6 mt-3 absolute top-28 flex flex-col items-center justify-center">
-          <img class="max-h-36 rounded-full" src="@/assets/user-icon.jpg" alt="user-icon" />
-          <figcaption class="text-lg">User Name</figcaption>
+          <img class="max-h-36 rounded-full" :src="UserPhotoDefault" alt="user-icon" />
+          <figcaption class="text-lg">{{ user?.name }}</figcaption>
         </figure>
 
         <button class="absolute right-5">
@@ -44,7 +42,7 @@ onMounted(async () => {
         </button>
 
         <div class="min-h-36 mt-32 pl-6">
-          <p>Cidade, estado, pais + Informações de contato</p>
+          <p>Informações de contato</p>
           <p class="mt-6"><span>Seguidores</span> | <span>Seguindo</span></p>
         </div>
       </section>
@@ -114,17 +112,7 @@ onMounted(async () => {
       <section class="flex flex-col gap-3 p-5 bg-secondary rounded-md">
         <div>
           <h2 class="text-2xl">Sobre</h2>
-          <p>Informações do usuario</p>
-        </div>
-
-        <div>
-          <h2 class="text-2xl">Atividades</h2>
-          <p>Projetos em que participou</p>
-        </div>
-
-        <div>
-          <h2 class="text-2xl">Formação acadêmica</h2>
-          <p>Informações do usuario</p>
+          <p>{{user?.aboutDescription}}</p>
         </div>
       </section>
     </section>
