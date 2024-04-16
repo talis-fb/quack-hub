@@ -208,6 +208,7 @@ export class ExperienceRepositoryImpl implements ExperienceRepository {
           `Error in inicialization of Database!`,
         );
       } else {
+        console.log(error);
         throw new RepositoryException(
           `An unexpected error occurred during update of experience with ID ${id}!`,
         );

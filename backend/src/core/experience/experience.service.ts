@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import {
   ExperienceData,
   ExperienceEntity,
@@ -50,11 +50,11 @@ export class ExperienceServiceImpl implements ExperienceService {
       const resExperience = await this.repo.getExperienceById(id);
       return resExperience;
     } catch (error) {
-      if (error === RepositoryClientKnownRequestException) {
+      if (error instanceof RepositoryClientKnownRequestException) {
         throw new ServiceClientKnownRequestException(error.message);
-      } else if (error === RepositoryClientValidationException) {
+      } else if (error instanceof RepositoryClientValidationException) {
         throw new ServiceClientValidationException(error.message);
-      } else if (error === RepositoryClientInitializationException) {
+      } else if (error instanceof RepositoryClientInitializationException) {
         throw new ServiceClientInitializationException(error.message);
       } else {
         throw new ServiceException(error.message);
@@ -69,11 +69,11 @@ export class ExperienceServiceImpl implements ExperienceService {
       const resExperiences = await this.repo.getExperiencesByUserId(userId);
       return resExperiences;
     } catch (error) {
-      if (error === RepositoryClientKnownRequestException) {
+      if (error instanceof RepositoryClientKnownRequestException) {
         throw new ServiceClientKnownRequestException(error.message);
-      } else if (error === RepositoryClientValidationException) {
+      } else if (error instanceof RepositoryClientValidationException) {
         throw new ServiceClientValidationException(error.message);
-      } else if (error === RepositoryClientInitializationException) {
+      } else if (error instanceof RepositoryClientInitializationException) {
         throw new ServiceClientInitializationException(error.message);
       } else {
         throw new ServiceException(error.message);
@@ -92,11 +92,11 @@ export class ExperienceServiceImpl implements ExperienceService {
       );
       return resExperiences;
     } catch (error) {
-      if (error === RepositoryClientKnownRequestException) {
+      if (error instanceof RepositoryClientKnownRequestException) {
         throw new ServiceClientKnownRequestException(error.message);
-      } else if (error === RepositoryClientValidationException) {
+      } else if (error instanceof RepositoryClientValidationException) {
         throw new ServiceClientValidationException(error.message);
-      } else if (error === RepositoryClientInitializationException) {
+      } else if (error instanceof RepositoryClientInitializationException) {
         throw new ServiceClientInitializationException(error.message);
       } else {
         throw new ServiceException(error.message);
@@ -111,11 +111,11 @@ export class ExperienceServiceImpl implements ExperienceService {
       const resExperience = await this.repo.createExperience(data);
       return resExperience;
     } catch (error) {
-      if (error === RepositoryClientKnownRequestException) {
+      if (error instanceof RepositoryClientKnownRequestException) {
         throw new ServiceClientKnownRequestException(error.message);
-      } else if (error === RepositoryClientValidationException) {
+      } else if (error instanceof RepositoryClientValidationException) {
         throw new ServiceClientValidationException(error.message);
-      } else if (error === RepositoryClientInitializationException) {
+      } else if (error instanceof RepositoryClientInitializationException) {
         throw new ServiceClientInitializationException(error.message);
       } else {
         throw new ServiceException(error.message);
@@ -134,11 +134,11 @@ export class ExperienceServiceImpl implements ExperienceService {
       );
       return resExperience;
     } catch (error) {
-      if (error === RepositoryClientKnownRequestException) {
+      if (error instanceof RepositoryClientKnownRequestException) {
         throw new ServiceClientKnownRequestException(error.message);
-      } else if (error === RepositoryClientValidationException) {
+      } else if (error instanceof RepositoryClientValidationException) {
         throw new ServiceClientValidationException(error.message);
-      } else if (error === RepositoryClientInitializationException) {
+      } else if (error instanceof RepositoryClientInitializationException) {
         throw new ServiceClientInitializationException(error.message);
       } else {
         throw new ServiceException(error.message);
@@ -151,11 +151,11 @@ export class ExperienceServiceImpl implements ExperienceService {
       const resExperience = await this.repo.deleteExperience(id);
       return resExperience;
     } catch (error) {
-      if (error === RepositoryClientKnownRequestException) {
+      if (error instanceof RepositoryClientKnownRequestException) {
         throw new ServiceClientKnownRequestException(error.message);
-      } else if (error === RepositoryClientValidationException) {
+      } else if (error instanceof RepositoryClientValidationException) {
         throw new ServiceClientValidationException(error.message);
-      } else if (error === RepositoryClientInitializationException) {
+      } else if (error instanceof RepositoryClientInitializationException) {
         throw new ServiceClientInitializationException(error.message);
       } else {
         throw new ServiceException(error.message);
