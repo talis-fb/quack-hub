@@ -12,14 +12,18 @@ import { Button } from '@/components/ui/button'
 import { Ellipsis, Plus, Pencil } from 'lucide-vue-next'
 import { useAuthStore } from '@/stores/auth'
 import { onMounted } from 'vue'
+import { userService } from '@/services'
 
 // Store pinia
 const {
   user: { id }
 } = useAuthStore()
 
-onMounted(() => {
-  console.log({ id })
+onMounted(async () => {
+  const res = await userService.getProfile();
+
+  console.log({res})
+ 
 })
 </script>
 <template>
