@@ -6,6 +6,7 @@ import {
   Post,
   ParseIntPipe,
   Put,
+  Query,
 } from '@nestjs/common';
 import { ProjectData, ProjectEntity } from './projects.entity';
 import { ProjectsService } from './projects.service';
@@ -41,4 +42,10 @@ export class ProjectsController {
   async getUsers(@Param('id', ParseIntPipe) id: number): Promise<UserEntity[]> {
     return await this.projectsService.getUsersOfProject(id);
   }
+
+  @Get('')
+  async searchProjects(@Query('q') query: string) {
+    console.log({query})
+    return await this.projectsService.search(query);
+  } 
 }
