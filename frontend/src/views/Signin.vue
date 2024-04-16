@@ -30,10 +30,14 @@ import { onUnmounted } from 'vue'
 const formSchema = toTypedSchema(
   z.object({
     email: z
-      .string()
+      .string({
+        required_error: 'Campo email obrigatório'
+      })
       .min(1, { message: 'Esse campo deve ser preenchido.' })
       .email('Esse não é um e-mail válido.'),
-    password: z.string().min(5, { message: 'Senha deve ter no mínimo 5 caracteres.' })
+    password: z.string({
+      required_error: 'Campo senha obrigatório'
+    }).min(5, { message: 'Senha deve ter no mínimo 5 caracteres.' })
   })
 )
 
