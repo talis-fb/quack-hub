@@ -9,7 +9,6 @@ import { RepositoryClientKnownRequestException } from 'src/excpetions/repository
 import { RepositoryException } from 'src/excpetions/repository/RepositoryException';
 import { RepositoryClientValidationException } from 'src/excpetions/repository/RepositoryClientValidationException';
 import { RepositoryClientInitializationException } from 'src/excpetions/repository/RepositoryClientInitializationException';
-import { RepositoryClientUnknownRequestException } from 'src/excpetions/repository/RepositoryClientUnknownRequestException';
 
 export abstract class ExperienceRepository {
   abstract getExperienceById(id: number): Promise<ExperienceEntity | null>;
@@ -33,78 +32,160 @@ export class ExperienceRepositoryImpl implements ExperienceRepository {
   constructor(private prisma: PrismaService) {}
 
   async getExperienceById(id: number): Promise<ExperienceEntity> {
-    const output = await this.prisma.experience.findUnique({
-      where: {
-        id,
-      },
-      include: {
-        achievements: true,
-      },
-    });
+    try {
+      const output = await this.prisma.experience.findUnique({
+        where: {
+          id,
+        },
+        include: {
+          achievements: true,
+        },
+      });
+  
+      return output;
 
-    return output;
+    } catch (error) {
+      if (error.code === 'P2025') {
+        throw new RepositoryClientKnownRequestException(
+          `Error of single constraint violation during consult of experience of ID ${id}!`,
+        );
+      } else if (error.code === 'P2001') {
+        throw new RepositoryClientValidationException(
+          `An error of validation occurred during consult of experience of ID ${id}!`,
+        );
+      } else if (error.code === 'P2002') {
+        throw new RepositoryClientInitializationException(
+          `Error in inicialization of Database!`,
+        );
+      } else {
+        throw new RepositoryException(
+          `An unexpected error occurred during consult of experience with ID ${id}!`,
+        );
+      }
+    }
   }
 
   async getExperiencesByUserId(userId: number): Promise<ExperienceEntity[]> {
-    const output = await this.prisma.experience.findMany({
-      where: {
-        userId,
-      },
-      include: {
-        achievements: true,
-      },
-    });
+    try {
+      const output = await this.prisma.experience.findMany({
+        where: {
+          userId,
+        },
+        include: {
+          achievements: true,
+        },
+      });
+  
+      return output;
 
-    return output;
+    } catch (error) {
+      if (error.code === 'P2025') {
+        throw new RepositoryClientKnownRequestException(
+          `Error of single constraint violation during consult of experience of user with ID ${userId}!`,
+        );
+      } else if (error.code === 'P2001') {
+        throw new RepositoryClientValidationException(
+          `An error of validation occurred during consult of experience of user with ID ${userId}!`,
+        );
+      } else if (error.code === 'P2002') {
+        throw new RepositoryClientInitializationException(
+          `Error in inicialization of Database!`,
+        );
+      } else {
+        throw new RepositoryException(
+          `An unexpected error occurred during consult of experience of user with ID ${userId}!`,
+        );
+      }
+    }
   }
 
   async getExperiencesUserByType(
     userId: number,
     type: ExperienceType,
   ): Promise<ExperienceEntity[]> {
-    const output = await this.prisma.experience.findMany({
-      where: {
-        userId,
-        type,
-      },
-      include: {
-        achievements: true,
-      },
-    });
-
-    return output;
+    try {
+      const output = await this.prisma.experience.findMany({
+        where: {
+          userId,
+          type,
+        },
+        include: {
+          achievements: true,
+        },
+      });
+  
+      return output;
+    } catch (error) {
+      if (error.code === 'P2025') {
+        throw new RepositoryClientKnownRequestException(
+          `Error of single constraint violation during consult of experience of user with ID ${userId} and type ${type}!`,
+        );
+      } else if (error.code === 'P2001') {
+        throw new RepositoryClientValidationException(
+          `An error of validation occurred during consult of experience of user with ID ${userId} and type ${type}!`,
+        );
+      } else if (error.code === 'P2002') {
+        throw new RepositoryClientInitializationException(
+          `Error in inicialization of Database!`,
+        );
+      } else {
+        throw new RepositoryException(
+          `An unexpected error occurred during consult of experience of user with ID ${userId} and type ${type}!`,
+        );
+      }
+    }
   }
 
   async createExperience(
     experience: ExperienceData,
   ): Promise<ExperienceEntity> {
-    const output = await this.prisma.experience.create({
-      data: {
-        about: experience.about,
-        endDate: experience.endDate,
-        startDate: experience.startDate,
-        title: experience.title,
-        type: experience.type,
-        userId: experience.userId,
-        achievements: {
-          create: experience.achievements,
+    try {
+      const output = await this.prisma.experience.create({
+        data: {
+          about: experience.about,
+          endDate: experience.endDate,
+          startDate: experience.startDate,
+          title: experience.title,
+          type: experience.type,
+          userId: experience.userId,
+          achievements: {
+            create: experience.achievements,
+          },
         },
-      },
-      include: {
-        achievements: true,
-      },
-    });
+        include: {
+          achievements: true,
+        },
+      });
+  
+      return output;
 
-    return output;
+    } catch (error) {
+      if (error.code === 'P2025') {
+        throw new RepositoryClientKnownRequestException(
+          `Error of single constraint violation during create of experience!`,
+        );
+      } else if (error.code === 'P2001') {
+        throw new RepositoryClientValidationException(
+          `An error of validation occurred during create of experience!`,
+        );
+      } else if (error.code === 'P2002') {
+        throw new RepositoryClientInitializationException(
+          `Error in inicialization of Database!`,
+        );
+      } else {
+        throw new RepositoryException(
+          `An unexpected error occurred during create of experience!`,
+        );
+      }
+    }
   }
 
   async updateExperience(
     id: number,
     experience: Partial<ExperienceData>,
   ): Promise<ExperienceEntity | null> {
-    const { achievements, ...experienceWithoutAchievements } = experience;
-
     try{
+      const { achievements, ...experienceWithoutAchievements } = experience;
       const output = await this.prisma.experience.update({
         where: {
           id,
@@ -116,6 +197,7 @@ export class ExperienceRepositoryImpl implements ExperienceRepository {
       });
   
       return output;
+
     } catch (error) {
       if (error.code === 'P2025') {
         throw new RepositoryClientKnownRequestException(
@@ -128,10 +210,6 @@ export class ExperienceRepositoryImpl implements ExperienceRepository {
       } else if (error.code === 'P2002') {
         throw new RepositoryClientInitializationException(
           `Error in inicialization of Database!`,
-        );
-      } else if (error.code === 'P2004') {
-        throw new RepositoryClientUnknownRequestException(
-          `Error request update experience with ID ${id} without code!`,
         );
       } else {
         throw new RepositoryException(
@@ -153,6 +231,7 @@ export class ExperienceRepositoryImpl implements ExperienceRepository {
       });
 
       return output;
+
     } catch (error) {
       if (error.code === 'P2025') {
         throw new RepositoryClientKnownRequestException(
@@ -165,10 +244,6 @@ export class ExperienceRepositoryImpl implements ExperienceRepository {
       } else if (error.code === 'P2002') {
         throw new RepositoryClientInitializationException(
           `Error in inicialization of Database!`,
-        );
-      } else if (error.code === 'P2004') {
-        throw new RepositoryClientUnknownRequestException(
-          `Error request delete experience with ID ${id} without code!`,
         );
       } else {
         throw new RepositoryException(
