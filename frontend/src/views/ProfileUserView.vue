@@ -4,17 +4,7 @@ import WalpaperDefaultUser from '@/assets/wallpaper-default-user.svg'
 
 // App components
 import ExperienceForm from '@/components/ExperienceForm.vue'
-
-// Shadcn-vue components
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger
-} from '@/components/ui/dialog'
+import AppDialog from '@/components/AppDialog.vue'
 
 import { Button } from '@/components/ui/button'
 
@@ -48,28 +38,25 @@ import { Ellipsis, Plus, Pencil } from 'lucide-vue-next'
         <div class="flex items-center">
           <h2 class="text-2xl mr-auto">Experiências acadêmicas</h2>
 
-          <Dialog>
-            <DialogTrigger>
+          <AppDialog>
+            <template #trigger>
               <Button variant="outline" size="icon" class="bg-transparent hover:bg-black/40">
                 <Plus class="w-5 h-5" />
               </Button>
-            </DialogTrigger>
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>Adicionar experiência acadêmica</DialogTitle>
-                <DialogDescription>
-                  Adicione suas experiências acadêmicas para que outros usuários possam ver seu
-                  perfil acadêmico.
-                </DialogDescription>
-              </DialogHeader>
-
+            </template>
+            <template #title> Adicionar experiência acadêmica </template>
+            <template #description>
+              Adicione suas experiências acadêmicas para que outros usuários possam ver seu perfil
+              acadêmico.
+            </template>
+            <template #main>
               <ExperienceForm
                 title-label="Instituição de ensino"
                 title-placeholder="Ex.: UFRN"
                 type="ACADEMIC"
               />
-            </DialogContent>
-          </Dialog>
+            </template>
+          </AppDialog>
 
           <Button variant="outline" size="icon" class="bg-transparent hover:bg-black/40">
             <Pencil class="w-5 h-5" />
