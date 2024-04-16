@@ -12,11 +12,13 @@ export abstract class ProjectsService {
   ): Promise<ProjectData | null>;
   public abstract getProjectById(id: number): Promise<ProjectEntity | null>;
   public abstract getUsersOfProject(id: number): Promise<UserEntity[]>;
+  public abstract search(searchName: string): Promise<ProjectEntity[]>;
 }
 
 @Injectable()
 export class ProjectsServiceImpl implements ProjectsService {
   constructor(private repo: ProjectsRepository, private userService: UserService) {}
+ 
 
   public async create(data: ProjectData): Promise<ProjectEntity> {
     return await this.repo.createProject(data);
@@ -36,5 +38,9 @@ export class ProjectsServiceImpl implements ProjectsService {
   public async getUsersOfProject(id: number): Promise<UserEntity[]> {
     const userIds = await this.repo.findUserIdsOfProject(id);
     return await this.userService.findUsersByIds(userIds);
+  }
+  
+  public async search(searchName: string): Promise<ProjectEntity[]> {
+    return await this.repo.search(searchName);
   }
 }

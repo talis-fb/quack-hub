@@ -10,11 +10,13 @@ export abstract class ProjectsRepository {
     project: Partial<ProjectData>,
   ): Promise<ProjectEntity | null>;
   abstract findUserIdsOfProject(id: number): Promise<number[]>;
+  public abstract search(searchName: string): Promise<ProjectEntity[]>;
 }
 
 @Injectable()
 export class ProjectsRepositoryImpl implements ProjectsRepository {
   constructor(private prisma: PrismaService) {}
+
 
   async getProjectById(id: number): Promise<ProjectEntity | null> {
     const output = await this.prisma.project.findUnique({
@@ -33,6 +35,8 @@ export class ProjectsRepositoryImpl implements ProjectsRepository {
     });
     return output;
   }
+
+
 
   async updateProject(
     id: number,
@@ -72,5 +76,19 @@ export class ProjectsRepositoryImpl implements ProjectsRepository {
       },
     });
     return output.flatMap((el) => el.experiences.map((el) => el.userId));
+  }
+
+  public async search(searchName: string): Promise<ProjectEntity[]> {
+    const output = await this.prisma.project.findMany({
+      where: {
+        title: {
+          contains: searchName,
+          mode: 'insensitive',
+        }
+      }
+    })
+
+    return output;
+
   }
 }
