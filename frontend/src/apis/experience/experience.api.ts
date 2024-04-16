@@ -4,6 +4,7 @@ import { api } from "@/network/api";
 
 export interface IExperienceApi {
     create(data: ICreateExperience): Promise<IExperienceEntity>
+
 }
 
 export class ExperienceApiImpl implements IExperienceApi {

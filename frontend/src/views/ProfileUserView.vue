@@ -4,8 +4,7 @@ import WalpaperDefaultUser from '@/assets/wallpaper-default-user.svg'
 import UserPhotoDefault from '@/assets/user-icon.jpg'
 
 // App components
-import ExperienceForm from '@/components/ExperienceForm.vue'
-import AppDialog from '@/components/AppDialog.vue'
+import AcademicExperiences from '@/components/AcademicExperiences.vue';
 
 import { Button } from '@/components/ui/button'
 
@@ -48,34 +47,9 @@ onBeforeMount(async () => {
       </section>
 
       <section class="flex flex-col gap-3 p-5 bg-secondary rounded-md">
-        <div class="flex items-center">
-          <h2 class="text-2xl mr-auto">Experiências acadêmicas</h2>
+        <AcademicExperiences :user-id="user?.id">
 
-          <AppDialog>
-            <template #trigger>
-              <Button variant="outline" size="icon" class="bg-transparent hover:bg-black/40">
-                <Plus class="w-5 h-5" />
-              </Button>
-            </template>
-            <template #title> Adicionar experiência acadêmica </template>
-            <template #description>
-              Adicione suas experiências acadêmicas para que outros usuários possam ver seu perfil
-              acadêmico.
-            </template>
-            <template #main>
-              <ExperienceForm
-                title-label="Instituição de ensino"
-                title-placeholder="Ex.: UFRN"
-                type="ACADEMIC"
-              />
-            </template>
-          </AppDialog>
-
-          <Button variant="outline" size="icon" class="bg-transparent hover:bg-black/40">
-            <Pencil class="w-5 h-5" />
-          </Button>
-        </div>
-        <p>Informações do usuario</p>
+        </AcademicExperiences>
       </section>
 
       <section class="flex flex-col gap-3 p-5 bg-secondary rounded-md">
@@ -106,7 +80,6 @@ onBeforeMount(async () => {
             <Pencil class="w-5 h-5" />
           </Button>
         </div>
-        <p>Informações do usuario</p>
       </section>
 
       <section class="flex flex-col gap-3 p-5 bg-secondary rounded-md">
