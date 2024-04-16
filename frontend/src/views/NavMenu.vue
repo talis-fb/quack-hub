@@ -13,7 +13,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Separator } from '@/components/ui/separator'
 </script>
 <template>
-  <nav class="flex px-6 py-2 justify-between">
+  <nav class="flex px-6 py-2 justify-between bg-secondary">
     <header>
       <RouterLink :to="metadataRoutes.HOME.path">
         <img class="max-h-20" :src="Logo" alt="quackhub-logo" />

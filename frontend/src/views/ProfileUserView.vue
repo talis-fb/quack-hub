@@ -1,12 +1,16 @@
 <script setup lang="ts">
 import WalpaperDefaultUser from '@/assets/wallpaper-default-user.svg'
 
-import { Ellipsis } from 'lucide-vue-next'
+// Components
+import { Button } from '@/components/ui/button'
+
+// Icons
+import { Ellipsis, Plus, Pencil } from 'lucide-vue-next'
 </script>
 <template>
   <main class="flex flex-1 flex-col md:flex-row p-3 gap-5">
-    <section class="flex-1 relative rounded-md">
-      <section>
+    <section class="flex-1 flex flex-col gap-5 relative rounded-md">
+      <section class="bg-secondary rounded-md">
         <figure>
           <img class="w-full h-[200px] object-cover" :src="WalpaperDefaultUser" alt="" />
         </figure>
@@ -20,31 +24,46 @@ import { Ellipsis } from 'lucide-vue-next'
           <Ellipsis />
         </button>
 
-        <div class="min-h-36 mt-32 pl-6 border-b-2 border-slate-400">
+        <div class="min-h-36 mt-32 pl-6">
           <p>Cidade, estado, pais + Informações de contato</p>
           <p class="mt-6"><span>Seguidores</span> | <span>Seguindo</span></p>
         </div>
       </section>
 
-      <section>
-        <div class="m-5">
+      <section class="flex flex-col gap-3 p-5 bg-secondary rounded-md">
+        <div class="flex items-center">
+          <h2 class="text-2xl mr-auto">Experiências acadêmicas</h2>
+
+          <Button variant="outline" size="icon" class="bg-transparent hover:bg-black/40">
+            <Plus class="w-5 h-5" />
+          </Button>
+
+          <Button variant="outline" size="icon" class="bg-transparent hover:bg-black/40">
+            <Pencil class="w-5 h-5" />
+          </Button>
+        </div>
+        <p>Informações do usuario</p>
+      </section>
+
+      <section class="flex flex-col gap-3 p-5 bg-secondary rounded-md">
+        <div>
           <h2 class="text-2xl">Sobre</h2>
           <p>Informações do usuario</p>
         </div>
 
-        <div class="m-5">
+        <div>
           <h2 class="text-2xl">Atividades</h2>
           <p>Projetos em que participou</p>
         </div>
 
-        <div class="m-5">
+        <div>
           <h2 class="text-2xl">Formação acadêmica</h2>
           <p>Informações do usuario</p>
         </div>
       </section>
     </section>
 
-    <aside class="flex flex-col gap-6">
+    <aside class="flex flex-col gap-6 p-3 bg-secondary rounded-md">
       <section>
         <h2 class="text-2xl">As pessoas também visualizam</h2>
         <p>Coisas que as pessoas vizualizam aqui</p>
