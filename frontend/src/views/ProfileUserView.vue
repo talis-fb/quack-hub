@@ -10,6 +10,17 @@ import { Button } from '@/components/ui/button'
 
 // Icons
 import { Ellipsis, Plus, Pencil } from 'lucide-vue-next'
+import { useAuthStore } from '@/stores/auth'
+import { onMounted } from 'vue'
+
+// Store pinia
+const {
+  user: { id }
+} = useAuthStore()
+
+onMounted(() => {
+  console.log({ id })
+})
 </script>
 <template>
   <main class="flex flex-1 flex-col md:flex-row p-3 gap-5">
