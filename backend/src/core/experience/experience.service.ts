@@ -14,6 +14,7 @@ import { ServiceClientValidationException } from 'src/excpetions/service/Service
 import { RepositoryClientInitializationException } from 'src/excpetions/repository/RepositoryClientInitializationException';
 import { ServiceClientInitializationException } from 'src/excpetions/service/ServiceClientInitializationException';
 import { ServiceException } from 'src/excpetions/service/ServiceException';
+import { ServiceNotFoundException } from 'src/excpetions/service/ServiceNotFoundException';
 
 @Injectable()
 export abstract class ExperienceService {
@@ -48,6 +49,11 @@ export class ExperienceServiceImpl implements ExperienceService {
   public async getExperienceById(id: number): Promise<ExperienceEntity> {
     try {
       const resExperience = await this.repo.getExperienceById(id);
+      if (!resExperience) {
+        throw new ServiceNotFoundException(
+          `Experience with ID ${id} not found!`,
+        );
+      }
       return resExperience;
     } catch (error) {
       if (error instanceof RepositoryClientKnownRequestException) {

@@ -3,6 +3,7 @@ import { ProjectsRepository } from './project.repository';
 import { ProjectData, ProjectEntity } from './projects.entity';
 import { UserEntity } from '../user/user.entity';
 import { UserService } from '../user/user.service';
+import { ServiceNotFoundException } from 'src/excpetions/service/ServiceNotFoundException';
 
 export abstract class ProjectsService {
   public abstract create(data: ProjectData): Promise<ProjectEntity>;
@@ -10,7 +11,7 @@ export abstract class ProjectsService {
     id: number,
     project: Partial<ProjectData>,
   ): Promise<ProjectData | null>;
-  public abstract getProjectById(id: number): Promise<ProjectEntity | null>;
+  public abstract getProjectById(id: number): Promise<ProjectEntity>;
   public abstract getUsersOfProject(id: number): Promise<UserEntity[]>;
   public abstract search(searchName: string): Promise<ProjectEntity[]>;
 }
@@ -31,8 +32,12 @@ export class ProjectsServiceImpl implements ProjectsService {
     return await this.repo.updateProject(id, project);
   }
 
-  public async getProjectById(id: number): Promise<ProjectEntity | null> {
-    return await this.repo.getProjectById(id);
+  public async getProjectById(id: number): Promise<ProjectEntity> {
+    const resProject = await this.repo.getProjectById(id);
+    if (!resProject) {
+      throw new ServiceNotFoundException(`Project with ID ${id} not found!`);
+    }
+    return resProject;
   }
 
   public async getUsersOfProject(id: number): Promise<UserEntity[]> {
