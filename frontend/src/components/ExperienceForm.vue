@@ -1,4 +1,6 @@
 <script setup lang="ts">
+
+
 // Zod
 import { useForm } from 'vee-validate'
 import { toTypedSchema } from '@vee-validate/zod'
@@ -18,15 +20,6 @@ import {
   FormMessage
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger
-} from '@/components/ui/dialog'
 import { Textarea } from '@/components/ui/textarea'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 
@@ -39,17 +32,18 @@ import {
   SelectValue
 } from '@/components/ui/select'
 import { Calendar } from '@/components/ui/calendar'
-import { Calendar as CalendarIcon } from 'lucide-vue-next'
+
 
 import { useToast } from '@/components/ui/toast/use-toast'
 import { Button } from '@/components/ui/button'
 
 // Icons
-import { Ellipsis, Plus, Pencil } from 'lucide-vue-next'
+import { Calendar as CalendarIcon } from 'lucide-vue-next'
+import { ExperienceTypeValues } from '@/entites/IExperience'
+
 
 // Lifecycle Hooks
 
-const ExperienceTypeValues = ['PROFESSIONAL', 'ACADEMIC'] as const
 
 const formSchema = toTypedSchema(
   z.object({
