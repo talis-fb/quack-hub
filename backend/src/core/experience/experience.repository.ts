@@ -73,17 +73,14 @@ export class ExperienceRepositoryImpl implements ExperienceRepository {
   async createExperience(
     experience: ExperienceData,
   ): Promise<ExperienceEntity> {
+    const {achievements, ...experienceWithoutahievements}= experience
+    
     const output = await this.prisma.experience.create({
       data: {
-        about: experience.about,
-        endDate: experience.endDate,
-        startDate: experience.startDate,
-        title: experience.title,
-        type: experience.type,
-        userId: experience.userId,
+        ...experienceWithoutahievements,
         achievements: {
-          create: experience.achievements,
-        },
+          create: achievements
+        }
       },
       include: {
         achievements: true,

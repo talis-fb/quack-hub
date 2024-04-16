@@ -68,6 +68,7 @@ export class ExperienceServiceImpl implements ExperienceService {
   public async createExperience(
     data: ExperienceData,
   ): Promise<ExperienceEntity> {
+    console.log({ExperienceData})
     return await this.repo.createExperience(data);
   }
 

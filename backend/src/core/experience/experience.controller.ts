@@ -51,6 +51,8 @@ export class ExperienceController {
   async create(@Req() req, @Body() createExperienceDto: CreateExperienceDto) {
     const { userId } = req.user;
 
+    console.log({createExperienceDto})
+
     return await this.experienceService.createExperience({
       ...createExperienceDto,
       userId,
