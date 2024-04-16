@@ -1,8 +1,10 @@
 <script setup lang="ts">
+// Zod
 import { useForm } from 'vee-validate'
 import { toTypedSchema } from '@vee-validate/zod'
 import * as z from 'zod'
 
+// Componentes
 import {
   FormControl,
   FormDescription,
@@ -13,12 +15,16 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
+import { useToast } from '@/components/ui/toast/use-toast'
 import BaseAuth from '@/components/BaseAuth.vue'
 
+// Pinia
 import { useAuthStore } from '@/stores/auth'
 
+// Vue Riuter
 import router from '../router/index'
-import { useToast } from '@/components/ui/toast/use-toast'
+
+// Lifecycle Hooks
 import { onUnmounted } from 'vue'
 
 const formSchema = toTypedSchema(

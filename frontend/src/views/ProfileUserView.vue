@@ -1,11 +1,71 @@
 <script setup lang="ts">
+// Images
 import WalpaperDefaultUser from '@/assets/wallpaper-default-user.svg'
 
+// Zod
+import { useForm } from 'vee-validate'
+import { toTypedSchema } from '@vee-validate/zod'
+import * as z from 'zod'
+
 // Components
+import {
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage
+} from '@/components/ui/form'
+import { Input } from '@/components/ui/input'
+import { useToast } from '@/components/ui/toast/use-toast'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger
+} from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
 
 // Icons
 import { Ellipsis, Plus, Pencil } from 'lucide-vue-next'
+
+// Lifecycle Hooks
+
+const ExperienceTypeValues = ['PROFESSIONAL', 'ACADEMIC'] as const
+
+const formSchema = toTypedSchema(
+  z.object({
+    title: z.string().min(1, { message: 'Esse campo deve ser preenchido.' }),
+    about: z.string().min(10, { message: 'A descrição deve ter no mínimo 10 caracteres.' }),
+    startDate: z.date().max(new Date(), { message: 'Data inválida.' }),
+    endDate: z.date().max(new Date(), { message: 'Data inválida.' }),
+    type: z.enum(ExperienceTypeValues),
+    projectId: z.number()
+  })
+)
+
+const { toast, dismiss } = useToast()
+
+const form = useForm({
+  validationSchema: formSchema
+})
+
+const onSubmit = form.handleSubmit(async (values) => {
+  try {
+    const {} = values
+
+    console.log({ values })
+  } catch (error: any) {
+    toast({
+      title: 'Erro ao efetuar login.',
+      description: error?.message || 'Erro desconhecido, por favor contatar os desenvolvedores.',
+      variant: 'destructive'
+    })
+  }
+})
 </script>
 <template>
   <main class="flex flex-1 flex-col md:flex-row p-3 gap-5">
@@ -34,9 +94,23 @@ import { Ellipsis, Plus, Pencil } from 'lucide-vue-next'
         <div class="flex items-center">
           <h2 class="text-2xl mr-auto">Experiências acadêmicas</h2>
 
-          <Button variant="outline" size="icon" class="bg-transparent hover:bg-black/40">
-            <Plus class="w-5 h-5" />
-          </Button>
+          <Dialog>
+            <DialogTrigger>
+              <Button variant="outline" size="icon" class="bg-transparent hover:bg-black/40">
+                <Plus class="w-5 h-5" />
+              </Button>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Adicionar experiência acadêmica</DialogTitle>
+                <DialogDescription>
+                  Adicione suas experiências acadêmicas para que outros usuários possam ver
+                </DialogDescription>
+              </DialogHeader>
+
+              <DialogFooter> Salvar </DialogFooter>
+            </DialogContent>
+          </Dialog>
 
           <Button variant="outline" size="icon" class="bg-transparent hover:bg-black/40">
             <Pencil class="w-5 h-5" />
