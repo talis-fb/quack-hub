@@ -1,8 +1,11 @@
 <script setup lang="ts">
 // Images
 import WalpaperDefaultUser from '@/assets/wallpaper-default-user.svg'
-import ExperienceForm from '@/components/ExperienceForm.vue';
 
+// App components
+import ExperienceForm from '@/components/ExperienceForm.vue'
+
+// Shadcn-vue components
 import {
   Dialog,
   DialogContent,
@@ -13,14 +16,10 @@ import {
   DialogTrigger
 } from '@/components/ui/dialog'
 
-
-
 import { Button } from '@/components/ui/button'
 
 // Icons
 import { Ellipsis, Plus, Pencil } from 'lucide-vue-next'
-
-
 </script>
 <template>
   <main class="flex flex-1 flex-col md:flex-row p-3 gap-5">
@@ -64,8 +63,11 @@ import { Ellipsis, Plus, Pencil } from 'lucide-vue-next'
                 </DialogDescription>
               </DialogHeader>
 
-              <ExperienceForm />
-
+              <ExperienceForm
+                title-label="Instituição de ensino"
+                title-placeholder="Ex.: UFRN"
+                type="ACADEMIC"
+              />
             </DialogContent>
           </Dialog>
 

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-
+import { type ExperienceType } from '@/entites/IExperience'
 
 // Zod
 import { useForm } from 'vee-validate'
@@ -10,7 +10,7 @@ import * as z from 'zod'
 import { cn } from '@/lib/utils'
 import { formatDateInFull } from '@/utils/DateFormat'
 
-// Components
+// Shadcn-vue components
 import {
   FormControl,
   FormDescription,
@@ -23,27 +23,26 @@ import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectTrigger,
-  SelectValue
-} from '@/components/ui/select'
 import { Calendar } from '@/components/ui/calendar'
-
 
 import { useToast } from '@/components/ui/toast/use-toast'
 import { Button } from '@/components/ui/button'
 
 // Icons
 import { Calendar as CalendarIcon } from 'lucide-vue-next'
-import { ExperienceTypeValues } from '@/entites/IExperience'
-
 
 // Lifecycle Hooks
 
+export interface IExperienceFormProps {
+  titleLabel?: string
+  titlePlaceholder?: string
+  type: ExperienceType
+}
+
+const props = withDefaults(defineProps<IExperienceFormProps>(), {
+  titleLabel: 'Título',
+  titlePlaceholder: 'Título...'
+})
 
 const formSchema = toTypedSchema(
   z.object({
@@ -66,10 +65,7 @@ const formSchema = toTypedSchema(
       .date({
         required_error: 'Campo fim obrigatório'
       })
-      .max(new Date(), { message: 'Data inválida.' }),
-    type: z.enum(ExperienceTypeValues, {
-      required_error: 'Campo tipo obrigatório'
-    })
+      .max(new Date(), { message: 'Data inválida.' })
     // projectId: z.number()
   })
 )
@@ -99,11 +95,16 @@ const onSubmit = form.handleSubmit(async (values) => {
   <form @submit="onSubmit" class="w-full flex flex-col gap-4">
     <FormField v-slot="{ componentField }" name="title">
       <FormItem>
-        <FormLabel>Título</FormLabel>
+        <FormLabel>{{ props.titleLabel }}</FormLabel>
 
         <FormLabel />
         <FormControl>
-          <Input type="text" placeholder="Título..." v-bind="componentField" autocomplete="title" />
+          <Input
+            type="text"
+            :placeholder="props.titlePlaceholder"
+            v-bind="componentField"
+            autocomplete="title"
+          />
         </FormControl>
         <FormDescription />
         <FormMessage />
@@ -168,28 +169,6 @@ const onSubmit = form.handleSubmit(async (values) => {
           </PopoverContent>
         </Popover>
         <FormDescription />
-        <FormMessage />
-      </FormItem>
-    </FormField>
-
-    <FormField v-slot="{ componentField }" name="type">
-      <FormItem>
-        <FormLabel>Tipo</FormLabel>
-
-        <Select v-bind="componentField">
-          <FormControl>
-            <SelectTrigger>
-              <SelectValue placeholder="Selecione o tipo da experiência" />
-            </SelectTrigger>
-          </FormControl>
-          <SelectContent>
-            <SelectGroup>
-              <SelectItem v-for="experience in ExperienceTypeValues" :value="experience">
-                {{ experience }}
-              </SelectItem>
-            </SelectGroup>
-          </SelectContent>
-        </Select>
         <FormMessage />
       </FormItem>
     </FormField>
