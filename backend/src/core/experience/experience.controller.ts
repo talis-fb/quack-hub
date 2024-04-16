@@ -8,6 +8,7 @@ import {
   Post,
   Put,
   Query,
+  Req,
 } from '@nestjs/common';
 
 import {
@@ -19,8 +20,9 @@ import { Public } from 'src/common/decorators/public.decorator';
 import { UpdateExperienceDto } from './dtos/UpdateExperienceDto';
 import { ExperienceService } from './experience.service';
 import { GetExperiencesByUserIdQueryDto } from './dtos/GetExperiencesByUserIdQueryDto';
+import { CreateExperienceDto } from './dtos/CreateExperienceDto';
 
-@Public()
+// @Public()
 @Controller('experience')
 export class ExperienceController {
   constructor(private readonly experienceService: ExperienceService) {}
@@ -38,16 +40,21 @@ export class ExperienceController {
   @Get('/type/:userId')
   async getExperiencesUserByType(
     @Param('userId', ParseIntPipe) userId: number,
-    @Query() query: GetExperiencesByUserIdQueryDto
+    @Query() query: GetExperiencesByUserIdQueryDto,
   ) {
-
     const { type } = query;
+
     return await this.experienceService.getExperiencesUserByType(userId, type);
   }
 
   @Post()
-  async create(@Body() experienceData: ExperienceData) {
-    return await this.experienceService.createExperience(experienceData);
+  async create(@Req() req, @Body() createExperienceDto: CreateExperienceDto) {
+    const { userId } = req.user;
+
+    return await this.experienceService.createExperience({
+      ...createExperienceDto,
+      userId,
+    });
   }
 
   @Put(':id')
