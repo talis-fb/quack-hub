@@ -61,15 +61,21 @@ const formSchema = toTypedSchema(
         required_error: 'Campo título obrigatório'
       })
       .min(1, { message: 'Esse campo deve ser preenchido.' }),
-    about: z.string({
-      required_error: 'Campo descrição obrigatório'
-    }).min(10, { message: 'A descrição deve ter no mínimo 10 caracteres.' }),
-    startDate: z.date({
-      required_error: 'Campo início obrigatório'
-    }).max(new Date(), { message: 'Data inválida.' }),
-    endDate: z.date({
-      required_error: 'Campo fim obrigatório'
-    }).max(new Date(), { message: 'Data inválida.' }),
+    about: z
+      .string({
+        required_error: 'Campo descrição obrigatório'
+      })
+      .min(10, { message: 'A descrição deve ter no mínimo 10 caracteres.' }),
+    startDate: z
+      .date({
+        required_error: 'Campo início obrigatório'
+      })
+      .max(new Date(), { message: 'Data inválida.' }),
+    endDate: z
+      .date({
+        required_error: 'Campo fim obrigatório'
+      })
+      .max(new Date(), { message: 'Data inválida.' }),
     type: z.enum(ExperienceTypeValues, {
       required_error: 'Campo tipo obrigatório'
     })
@@ -134,7 +140,8 @@ const onSubmit = form.handleSubmit(async (values) => {
               <DialogHeader>
                 <DialogTitle>Adicionar experiência acadêmica</DialogTitle>
                 <DialogDescription>
-                  Adicione suas experiências acadêmicas para que outros usuários possam ver
+                  Adicione suas experiências acadêmicas para que outros usuários possam ver seu
+                  perfil acadêmico.
                 </DialogDescription>
               </DialogHeader>
 
@@ -240,18 +247,12 @@ const onSubmit = form.handleSubmit(async (values) => {
                         </SelectGroup>
                       </SelectContent>
                     </Select>
-                    <FormDescription>
-                      You can manage email addresses in your
-                      <a href="/examples/forms">email settings</a>.
-                    </FormDescription>
                     <FormMessage />
                   </FormItem>
                 </FormField>
 
                 <Button type="submit" class="w-full">Salvar</Button>
               </form>
-
-              <!-- <DialogFooter> Salvar </DialogFooter> -->
             </DialogContent>
           </Dialog>
 
