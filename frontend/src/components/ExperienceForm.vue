@@ -30,6 +30,7 @@ import { Button } from '@/components/ui/button'
 
 // Icons
 import { Calendar as CalendarIcon } from 'lucide-vue-next'
+import { experienceService } from '@/services'
 
 // Lifecycle Hooks
 
@@ -78,12 +79,14 @@ const form = useForm({
 
 const onSubmit = form.handleSubmit(async (values) => {
   try {
-    const {} = values
+    const res = await experienceService.create({...values, type: props.type, projectId: 110, achievements: []})
 
-    console.log({ values })
+    console.log({res});
+
+    
   } catch (error: any) {
     toast({
-      title: 'Erro ao efetuar login.',
+      title: 'Erro ao criar a experiência',
       description: error?.message || 'Erro desconhecido, por favor contatar os desenvolvedores.',
       variant: 'destructive'
     })
