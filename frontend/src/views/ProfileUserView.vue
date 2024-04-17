@@ -16,18 +16,19 @@ import { Ellipsis, Plus, Pencil } from 'lucide-vue-next'
 import { onBeforeMount, onMounted, reactive, ref } from 'vue'
 import { userService } from '@/services'
 import type { IUserResponse } from '@/apis/auth/models/IUserResponse'
+import { id } from 'date-fns/locale'
 
 /**
  * Recebendo o userId pelo param da rota.
  */
-defineProps({
+const props = defineProps({
   id: String
 })
 
 const user = ref<IUserResponse | null>(null)
 
 onBeforeMount(async () => {
-  const res = await userService.getProfile()
+  const res = await userService.getUserById((props as any).id as number)
 
   user.value = res
 })
