@@ -4,6 +4,8 @@ import WalpaperDefaultUser from '@/assets/wallpaper-default-user.svg'
 import UserPhotoDefault from '@/assets/user-icon.jpg'
 
 // App components
+import ExperienceForm from '@/components/ExperienceForm.vue'
+import AppDialog from '@/components/AppDialog.vue'
 import AcademicExperiences from '@/components/AcademicExperiences.vue';
 
 import { Button } from '@/components/ui/button'
