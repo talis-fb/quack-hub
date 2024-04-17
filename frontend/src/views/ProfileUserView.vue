@@ -6,16 +6,20 @@ import UserPhotoDefault from '@/assets/user-icon.jpg'
 // App components
 import ExperienceForm from '@/components/ExperienceForm.vue'
 import AppDialog from '@/components/AppDialog.vue'
-import AcademicExperiences from '@/components/AcademicExperiences.vue'
-import ProfessionalExperiences from '@/components/ProfessionalExperiences.vue'
+import ExperiencesList from '@/components/ExperiencesList.vue'
 
+// Shadcn-vue components
+import { useToast } from '@/components/ui/toast/use-toast'
 import { Button } from '@/components/ui/button'
 
 // Icons
 import { Ellipsis, Plus, Pencil } from 'lucide-vue-next'
 import { onBeforeMount, onMounted, reactive, ref } from 'vue'
-import { userService } from '@/services'
+import { userService, experienceService } from '@/services'
 import type { IUserResponse } from '@/apis/auth/models/IUserResponse'
+
+// Types
+import { type ExperienceDataForm } from '@/components/ExperienceForm.vue'
 
 /**
  * Recebendo o userId pelo param da rota.
@@ -31,6 +35,31 @@ onBeforeMount(async () => {
 
   user.value = res
 })
+
+const { toast, dismiss } = useToast()
+
+const handleSubmit = async (values: ExperienceDataForm) => {
+  try {
+    await experienceService.create({
+      ...values,
+      projectId: null,
+      achievements: []
+    })
+
+    toast({
+      title: `Experiência ${values.type == 'ACADEMIC' ? 'acadêmica' : 'profissional'}`,
+      description: 'Experiência cadastrada com sucesso!',
+      variant: 'default',
+      duration: 1000
+    })
+  } catch (error: any) {
+    toast({
+      title: 'Erro ao criar a experiência',
+      description: error?.message || 'Erro desconhecido, por favor contatar os desenvolvedores.',
+      variant: 'destructive'
+    })
+  }
+}
 </script>
 <template>
   <main class="flex flex-1 flex-col md:flex-row p-3 gap-5">
@@ -56,11 +85,69 @@ onBeforeMount(async () => {
       </section>
 
       <section class="flex flex-col gap-3 px-3 py-5 bg-secondary rounded-md">
-        <AcademicExperiences v-if="user" :user-id="user.id" />
+        <header class="flex items-center">
+          <h2 class="text-2xl mr-auto">Experiências acadêmicas</h2>
+
+          <AppDialog>
+            <template #trigger>
+              <Button variant="outline" size="icon" class="bg-transparent hover:bg-black/40">
+                <Plus class="w-5 h-5" />
+              </Button>
+            </template>
+            <template #title> Adicionar experiência acadêmica </template>
+            <template #description>
+              Adicione suas experiências acadêmicas para que outros usuários possam ver seu perfil
+              acadêmico.
+            </template>
+            <template #main>
+              <ExperienceForm
+                :handle-submit="handleSubmit"
+                title-label="Instituição de ensino"
+                title-placeholder="Ex.: UFRN"
+                type="ACADEMIC"
+              />
+            </template>
+          </AppDialog>
+
+          <Button variant="outline" size="icon" class="bg-transparent hover:bg-black/40">
+            <Pencil class="w-5 h-5" />
+          </Button>
+        </header>
+
+        <ExperiencesList v-if="user" :user-id="user.id" type="ACADEMIC" />
       </section>
 
       <section class="flex flex-col gap-3 px-3 py-5 bg-secondary rounded-md">
-        <ProfessionalExperiences v-if="user" :user-id="user.id" />
+        <header class="flex items-center">
+          <h2 class="text-2xl mr-auto">Experiências profissionais</h2>
+
+          <AppDialog>
+            <template #trigger>
+              <Button variant="outline" size="icon" class="bg-transparent hover:bg-black/40">
+                <Plus class="w-5 h-5" />
+              </Button>
+            </template>
+            <template #title> Adicionar experiência profissional </template>
+            <template #description>
+              Adicione suas experiências profissionais para que outros usuários possam ver seu
+              perfil profissional.
+            </template>
+            <template #main>
+              <ExperienceForm
+                :handle-submit="handleSubmit"
+                title-label="Título"
+                title-placeholder="Ex.: Desenvolvedor Backend"
+                type="PROFESSIONAL"
+              />
+            </template>
+          </AppDialog>
+
+          <Button variant="outline" size="icon" class="bg-transparent hover:bg-black/40">
+            <Pencil class="w-5 h-5" />
+          </Button>
+        </header>
+
+        <ExperiencesList v-if="user" :user-id="user.id" type="PROFESSIONAL" />
       </section>
 
       <section class="flex flex-col gap-3 px-3 py-5 bg-secondary rounded-md">

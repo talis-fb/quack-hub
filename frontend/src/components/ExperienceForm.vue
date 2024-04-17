@@ -1,4 +1,5 @@
 <script setup lang="ts">
+// Types
 import { type ExperienceType } from '@/entites/IExperience'
 
 // Zod
@@ -25,14 +26,10 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 
 import { Calendar } from '@/components/ui/calendar'
 
-import { useToast } from '@/components/ui/toast/use-toast'
 import { Button } from '@/components/ui/button'
 
 // Icons
 import { Calendar as CalendarIcon } from 'lucide-vue-next'
-import { experienceService } from '@/services'
-import { onUnmounted } from 'vue'
-import { type ICreateExperience } from '@/apis/experience/types/ICreateExperience'
 
 // Lifecycle Hooks
 
@@ -41,11 +38,17 @@ export interface ExperienceDataForm {
   about: string
   startDate: Date
   endDate: Date
+  type: ExperienceType
   projectId: number | null
   achievements: []
 }
 
 export interface IExperienceFormProps {
+  title?: string
+  about?: string
+  startDate?: Date
+  endDate?: Date
+
   titleLabel?: string
   titlePlaceholder?: string
   type: ExperienceType
@@ -89,8 +92,15 @@ const form = useForm({
   validationSchema: formSchema
 })
 
+form.setValues({
+  title: props.title,
+  about: props.about,
+  startDate: props.startDate,
+  endDate: props.endDate
+})
+
 const onSubmit = form.handleSubmit(async (values) => {
-  await props.handleSubmit({ ...values, projectId: null, achievements: [] })
+  await props.handleSubmit({ ...values, projectId: null, achievements: [], type: props.type })
 })
 
 // const onSubmit = form.handleSubmit(async (values) => {

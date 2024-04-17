@@ -1,6 +1,9 @@
+<!-- OBS: NÃO ESTOU USANDO ESSE COMPONENTE. DEIXEI ESSE DEAD CODE APENAS CASO EU NECESSITE FUTURAMENTE -->
+
 <script setup lang="ts">
 // App Components
 import ExperienceForm from '@/components/ExperienceForm.vue'
+import ExperienceItem from '@/components/ExperienceItem.vue'
 import AppDialog from '@/components/AppDialog.vue'
 
 // Shadcn-vue components
@@ -91,48 +94,8 @@ const handleSubmit = async (values: ExperienceDataForm) => {
   </header>
 
   <div class="flex flex-col gap-5">
-    <div class="text-xl" v-for="(experience, index) in experiences">
-      <Separator class="mb-4 bg-white/30" />
-      <div class="group relative cursor-pointer hover:bg-black/40 p-3">
-        <p>
-          {{ experience.title }}
-        </p>
-        <p class="text-sm text-muted-foreground">
-          {{ `${experience.startDate} - ${experience.endDate}` }}
-        </p>
-        <p class="text-base">
-          {{ experience.about }}
-        </p>
-
-        <div
-          class="hidden group-hover:flex absolute top-1/2 right-2 transform -translate-y-1/2 gap-2"
-        >
-          <AppDialog>
-            <template #trigger>
-              <Button variant="default" size="icon">
-                <Pencil class="w-5 h-5" />
-              </Button>
-            </template>
-            <template #title> Editer experiência {{ experience.title }} </template>
-            <template #description>
-              Edite suas experiências acadêmicas para que outros usuários possam ver seu
-              perfil atualizado.
-            </template>
-            <template #main>
-              <ExperienceForm
-                :handle-submit="handleSubmit"
-                title-label="Título"
-                title-placeholder="Ex.: Desenvolvedor Backend"
-                type="PROFESSIONAL"
-              />
-            </template>
-          </AppDialog>
-
-          <Button variant="destructive" size="icon">
-            <Trash class="w-5 h-5" />
-          </Button>
-        </div>
-      </div>
+    <div v-for="(experience, index) in experiences">
+      <ExperienceItem :experience="experience" />
     </div>
   </div>
 </template>

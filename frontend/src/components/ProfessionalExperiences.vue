@@ -1,3 +1,5 @@
+<!-- OBS: NÃO ESTOU USANDO ESSE COMPONENTE. DEIXEI ESSE DEAD CODE APENAS CASO EU NECESSITE FUTURAMENTE -->
+
 <script setup lang="ts">
 import ExperienceForm from '@/components/ExperienceForm.vue'
 import AppDialog from '@/components/AppDialog.vue'
@@ -106,7 +108,6 @@ onMounted(async () => {
         <div
           class="hidden group-hover:flex absolute top-1/2 right-2 transform -translate-y-1/2 gap-2"
         >
-        
           <Button variant="default" size="icon">
             <Pencil class="w-5 h-5" />
           </Button>
