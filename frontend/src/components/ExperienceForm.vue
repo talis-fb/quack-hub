@@ -30,6 +30,7 @@ import { Button } from '@/components/ui/button'
 
 // Icons
 import { Calendar as CalendarIcon } from 'lucide-vue-next'
+import type { IAchievementData } from '@/entites/IAchievement'
 
 // Lifecycle Hooks
 
@@ -40,14 +41,14 @@ export interface ExperienceDataForm {
   endDate: Date
   type: ExperienceType
   projectId: number | null
-  achievements: []
+  achievements: Omit<IAchievementData, 'experienceId'>[]
 }
 
 export interface IExperienceFormProps {
   title?: string
   about?: string
-  startDate?: Date
-  endDate?: Date
+  startDate?: string
+  endDate?: string
 
   titleLabel?: string
   titlePlaceholder?: string
@@ -86,8 +87,6 @@ const formSchema = toTypedSchema(
   })
 )
 
-// const { toast, dismiss } = useToast()
-
 const form = useForm({
   validationSchema: formSchema
 })
@@ -95,40 +94,13 @@ const form = useForm({
 form.setValues({
   title: props.title,
   about: props.about,
-  startDate: props.startDate,
-  endDate: props.endDate
+  startDate: undefined,
+  endDate: undefined
 })
 
 const onSubmit = form.handleSubmit(async (values) => {
   await props.handleSubmit({ ...values, projectId: null, achievements: [], type: props.type })
 })
-
-// const onSubmit = form.handleSubmit(async (values) => {
-//   try {
-//     const res = await experienceService.create({
-//       ...values,
-//       type: props.type,
-//       projectId: null,
-//       achievements: []
-//     })
-
-//     toast({
-//       title: 'Experiência',
-//       description: 'Experiência cadastrada com sucesso!',
-//       variant: 'default'
-//     })
-//   } catch (error: any) {
-//     toast({
-//       title: 'Erro ao criar a experiência',
-//       description: error?.message || 'Erro desconhecido, por favor contatar os desenvolvedores.',
-//       variant: 'destructive'
-//     })
-//   }
-// })
-
-// onUnmounted(() => {
-//   dismiss()
-// })
 </script>
 
 <template>

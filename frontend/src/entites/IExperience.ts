@@ -7,8 +7,8 @@ export type ExperienceType = (typeof ExperienceTypeValues)[number]
 export interface IExperienceData {
   title: string
   about: string
-  startDate: Date
-  endDate: Date
+  startDate: string
+  endDate: string
   type: ExperienceType
   userId: number
   projectId: number | null

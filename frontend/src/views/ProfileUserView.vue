@@ -13,8 +13,8 @@ import { useToast } from '@/components/ui/toast/use-toast'
 import { Button } from '@/components/ui/button'
 
 // Icons
-import { Ellipsis, Plus, Pencil } from 'lucide-vue-next'
-import { onBeforeMount, onMounted, reactive, ref } from 'vue'
+import { Ellipsis, Plus, Pencil, Info } from 'lucide-vue-next'
+import { onBeforeMount, ref } from 'vue'
 import { userService, experienceService } from '@/services'
 import type { IUserResponse } from '@/apis/auth/models/IUserResponse'
 

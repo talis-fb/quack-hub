@@ -10,8 +10,6 @@ import { useToast } from '@/components/ui/toast/use-toast'
 // Icons
 import { Pencil, Trash } from 'lucide-vue-next'
 
-import { experienceService } from '@/services'
-
 // Types
 import { type ExperienceDataForm } from '@/components/ExperienceForm.vue'
 import type { IExperienceEntity } from '@/entites/IExperience'
@@ -24,29 +22,8 @@ const props = defineProps<ExperienceItemProps>()
 
 const { toast, dismiss } = useToast()
 
-console.log(typeof props.experience.startDate)
 const handleSubmit = async (values: ExperienceDataForm) => {
-  try {
-    const res = await experienceService.create({
-      ...values,
-      type: 'ACADEMIC',
-      projectId: null,
-      achievements: []
-    })
-
-    toast({
-      title: 'Experiência',
-      description: 'Experiência cadastrada com sucesso!',
-      variant: 'default',
-      duration: 1000
-    })
-  } catch (error: any) {
-    toast({
-      title: 'Erro ao criar a experiência',
-      description: error?.message || 'Erro desconhecido, por favor contatar os desenvolvedores.',
-      variant: 'destructive'
-    })
-  }
+  console.log({ values })
 }
 </script>
 
