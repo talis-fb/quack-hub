@@ -30,7 +30,7 @@ onMounted(async () => {
 
 <template>
   <div class="flex items-center">
-    <h2 class="text-2xl mr-auto">Experiências acadêmicas</h2>
+    <h2 class="text-2xl mr-auto">Experiências profissionais</h2>
 
     <AppDialog>
       <template #trigger>
