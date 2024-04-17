@@ -11,6 +11,7 @@ import { Plus, Pencil } from 'lucide-vue-next'
 import { onMounted, ref } from 'vue'
 import { experienceService } from '@/services'
 import type { IExperienceEntity } from '@/entites/IExperience'
+import { Separator } from '@/components/ui/separator'
 
 export interface AcademicExperiencesProps {
   userId: number
@@ -57,7 +58,7 @@ onMounted(async () => {
   </div>
 
   <div class="flex flex-col gap-5">
-    <div class="text-xl" v-for="experience in experiences">
+    <div class="text-xl" v-for="(experience, index) in experiences">
       <p>
         {{ experience.title }}
       </p>
@@ -67,6 +68,8 @@ onMounted(async () => {
       <p class="text-base">
         {{ experience.about }}
       </p>
+      <Separator v-if="index % 2 == 0" class="mt-4 bg-white/30"/>
+
     </div>
   </div>
 
