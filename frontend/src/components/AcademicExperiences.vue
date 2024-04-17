@@ -9,7 +9,8 @@ import { Separator } from '@/components/ui/separator'
 import { useToast } from '@/components/ui/toast/use-toast'
 
 // Icons
-import { Plus, Pencil } from 'lucide-vue-next'
+import { Plus, Pencil, Trash } from 'lucide-vue-next'
+
 import { onMounted, ref } from 'vue'
 import { experienceService } from '@/services'
 
@@ -92,7 +93,7 @@ const handleSubmit = async (values: ExperienceDataForm) => {
   <div class="flex flex-col gap-5">
     <div class="text-xl" v-for="(experience, index) in experiences">
       <Separator class="mb-4 bg-white/30" />
-      <div class="cursor-pointer hover:bg-black/40 p-3 ">
+      <div class="group relative cursor-pointer hover:bg-black/40 p-3">
         <p>
           {{ experience.title }}
         </p>
@@ -102,6 +103,15 @@ const handleSubmit = async (values: ExperienceDataForm) => {
         <p class="text-base">
           {{ experience.about }}
         </p>
+
+        <div class="hidden group-hover:flex absolute top-1/2 right-2 transform -translate-y-1/2  gap-2">
+          <Button variant="default" size="icon">
+            <Pencil class="w-5 h-5" />
+          </Button>
+          <Button variant="destructive" size="icon">
+            <Trash class="w-5 h-5" />
+          </Button>
+        </div>
       </div>
     </div>
   </div>

@@ -1,19 +1,22 @@
 <script setup lang="ts">
-// App Components
 import ExperienceForm from '@/components/ExperienceForm.vue'
 import AppDialog from '@/components/AppDialog.vue'
 
 // Shadcn-vue components
 import { Button } from '@/components/ui/button'
-
-// Icons
-import { Plus, Pencil } from 'lucide-vue-next'
-import { onMounted, ref } from 'vue'
-import { experienceService } from '@/services'
-import type { IExperienceEntity } from '@/entites/IExperience'
 import { Separator } from '@/components/ui/separator'
 import { useToast } from '@/components/ui/toast/use-toast'
-import { type ExperienceDataForm } from './ExperienceForm.vue'
+
+// Icons
+import { Plus, Pencil, Trash } from 'lucide-vue-next'
+
+import { onMounted, ref } from 'vue'
+import { experienceService } from '@/services'
+
+// Types
+import type { IExperienceEntity } from '@/entites/IExperience'
+import { type ICreateExperience } from '@/apis/experience/types/ICreateExperience'
+import { type ExperienceDataForm } from '@/components/ExperienceForm.vue'
 
 export interface ProfessionalExperiencesProps {
   userId: number
@@ -89,15 +92,28 @@ onMounted(async () => {
   <div class="flex flex-col gap-5">
     <div class="text-xl" v-for="(experience, index) in experiences">
       <Separator class="mb-4 bg-white/30" />
-      <p>
-        {{ experience.title }}
-      </p>
-      <p class="text-sm text-muted-foreground">
-        {{ `${experience.startDate} - ${experience.endDate}` }}
-      </p>
-      <p class="text-base">
-        {{ experience.about }}
-      </p>
+      <div class="group relative cursor-pointer hover:bg-black/40 p-3">
+        <p>
+          {{ experience.title }}
+        </p>
+        <p class="text-sm text-muted-foreground">
+          {{ `${experience.startDate} - ${experience.endDate}` }}
+        </p>
+        <p class="text-base">
+          {{ experience.about }}
+        </p>
+
+        <div
+          class="hidden group-hover:flex absolute top-1/2 right-2 transform -translate-y-1/2 gap-2"
+        >
+          <Button variant="default" size="icon">
+            <Pencil class="w-5 h-5" />
+          </Button>
+          <Button variant="destructive" size="icon">
+            <Trash class="w-5 h-5" />
+          </Button>
+        </div>
+      </div>
     </div>
   </div>
 </template>
