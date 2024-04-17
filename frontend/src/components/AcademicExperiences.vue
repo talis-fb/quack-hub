@@ -104,10 +104,30 @@ const handleSubmit = async (values: ExperienceDataForm) => {
           {{ experience.about }}
         </p>
 
-        <div class="hidden group-hover:flex absolute top-1/2 right-2 transform -translate-y-1/2  gap-2">
-          <Button variant="default" size="icon">
-            <Pencil class="w-5 h-5" />
-          </Button>
+        <div
+          class="hidden group-hover:flex absolute top-1/2 right-2 transform -translate-y-1/2 gap-2"
+        >
+          <AppDialog>
+            <template #trigger>
+              <Button variant="default" size="icon">
+                <Pencil class="w-5 h-5" />
+              </Button>
+            </template>
+            <template #title> Editer experiência {{ experience.title }} </template>
+            <template #description>
+              Edite suas experiências acadêmicas para que outros usuários possam ver seu
+              perfil atualizado.
+            </template>
+            <template #main>
+              <ExperienceForm
+                :handle-submit="handleSubmit"
+                title-label="Título"
+                title-placeholder="Ex.: Desenvolvedor Backend"
+                type="PROFESSIONAL"
+              />
+            </template>
+          </AppDialog>
+
           <Button variant="destructive" size="icon">
             <Trash class="w-5 h-5" />
           </Button>
