@@ -6,7 +6,8 @@ import UserPhotoDefault from '@/assets/user-icon.jpg'
 // App components
 import ExperienceForm from '@/components/ExperienceForm.vue'
 import AppDialog from '@/components/AppDialog.vue'
-import AcademicExperiences from '@/components/AcademicExperiences.vue';
+import AcademicExperiences from '@/components/AcademicExperiences.vue'
+import ProfessionalExperiences from '@/components/ProfessionalExperiences.vue'
 
 import { Button } from '@/components/ui/button'
 
@@ -23,7 +24,6 @@ onBeforeMount(async () => {
 
   user.value = res
 })
-
 </script>
 <template>
   <main class="flex flex-1 flex-col md:flex-row p-3 gap-5">
@@ -53,39 +53,13 @@ onBeforeMount(async () => {
       </section>
 
       <section class="flex flex-col gap-3 p-5 bg-secondary rounded-md">
-        <div class="flex items-center">
-          <h2 class="text-2xl mr-auto">Experiências profissionais</h2>
-
-          <AppDialog>
-            <template #trigger>
-              <Button variant="outline" size="icon" class="bg-transparent hover:bg-black/40">
-                <Plus class="w-5 h-5" />
-              </Button>
-            </template>
-            <template #title> Adicionar experiência profissional </template>
-            <template #description>
-              Adicione suas experiências profissionais para que outros usuários possam ver seu
-              perfil profissional.
-            </template>
-            <template #main>
-              <ExperienceForm
-                title-label="Título"
-                title-placeholder="Ex.: Desenvolvedor Backend"
-                type="PROFESSIONAL"
-              />
-            </template>
-          </AppDialog>
-
-          <Button variant="outline" size="icon" class="bg-transparent hover:bg-black/40">
-            <Pencil class="w-5 h-5" />
-          </Button>
-        </div>
+        <ProfessionalExperiences v-if="user" :user-id="user.id" />
       </section>
 
       <section class="flex flex-col gap-3 p-5 bg-secondary rounded-md">
         <div>
           <h2 class="text-2xl">Sobre</h2>
-          <p>{{user?.aboutDescription}}</p>
+          <p>{{ user?.aboutDescription }}</p>
         </div>
       </section>
     </section>
