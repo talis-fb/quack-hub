@@ -1,4 +1,7 @@
 <script setup lang="ts">
+// Services
+import { userService, experienceService } from '@/services'
+
 // Images
 import WalpaperDefaultUser from '@/assets/wallpaper-default-user.svg'
 import UserPhotoDefault from '@/assets/user-icon.jpg'
@@ -15,7 +18,6 @@ import { Button } from '@/components/ui/button'
 // Icons
 import { Ellipsis, Plus, Pencil, Info } from 'lucide-vue-next'
 import { onBeforeMount, ref } from 'vue'
-import { userService, experienceService } from '@/services'
 import type { IUserResponse } from '@/apis/auth/models/IUserResponse'
 
 // Types

@@ -1,3 +1,10 @@
-import type { IExperienceData } from '@/entites/IExperience'
+import { type ExperienceType } from '@/entites/IExperience'
 
-export interface IUpdateExperinece extends Partial<Omit<IExperienceData, 'userId'>> {}
+export interface IUpdateExperinece {
+  title: string
+  about: string
+  startDate: Date
+  endDate: Date
+  type: ExperienceType
+  projectId: number | null
+}

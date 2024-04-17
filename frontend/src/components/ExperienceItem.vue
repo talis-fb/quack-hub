@@ -1,6 +1,10 @@
 <script setup lang="ts">
+// App components
 import ExperienceForm from '@/components/ExperienceForm.vue'
 import AppDialog from '@/components/AppDialog.vue'
+
+// Services
+import { experienceService } from '@/services'
 
 // Shadcn-vue components
 import { Button } from '@/components/ui/button'
@@ -23,7 +27,24 @@ const props = defineProps<ExperienceItemProps>()
 const { toast, dismiss } = useToast()
 
 const handleSubmit = async (values: ExperienceDataForm) => {
-  console.log({ values })
+  try {
+    await experienceService.update(props.experience.id, {
+      ...values
+    })
+
+    toast({
+      title: `Experiência ${values.type == 'ACADEMIC' ? 'acadêmica' : 'profissional'}`,
+      description: 'Experiência atualizada com sucesso!',
+      variant: 'default',
+      duration: 1000
+    })
+  } catch (error: any) {
+    toast({
+      title: 'Erro ao atualizar a experiência',
+      description: error?.message || 'Erro desconhecido, por favor contatar os desenvolvedores.',
+      variant: 'destructive'
+    })
+  }
 }
 </script>
 
@@ -61,7 +82,7 @@ const handleSubmit = async (values: ExperienceDataForm) => {
             :handle-submit="handleSubmit"
             title-label="Título"
             title-placeholder="Ex.: Desenvolvedor Backend"
-            type="PROFESSIONAL"
+            :type="experience.type"
           />
         </template>
       </AppDialog>
