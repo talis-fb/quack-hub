@@ -59,6 +59,7 @@ onMounted(async () => {
 
   <div class="flex flex-col gap-5">
     <div class="text-xl" v-for="(experience, index) in experiences">
+      <Separator class="mb-4 bg-white/30" />
       <p>
         {{ experience.title }}
       </p>
@@ -68,7 +69,6 @@ onMounted(async () => {
       <p class="text-base">
         {{ experience.about }}
       </p>
-      <Separator v-if="index % 2 == 0" class="mt-4 bg-white/30" />
     </div>
   </div>
 </template>
