@@ -5,16 +5,18 @@ import AppDialog from '@/components/AppDialog.vue'
 
 // Shadcn-vue components
 import { Button } from '@/components/ui/button'
+import { Separator } from '@/components/ui/separator'
+import { useToast } from '@/components/ui/toast/use-toast'
 
 // Icons
 import { Plus, Pencil } from 'lucide-vue-next'
 import { onMounted, ref } from 'vue'
 import { experienceService } from '@/services'
+
+// Types
 import type { IExperienceEntity } from '@/entites/IExperience'
-import { Separator } from '@/components/ui/separator'
 import { type ICreateExperience } from '@/apis/experience/types/ICreateExperience'
-import { useToast } from '@/components/ui/toast/use-toast'
-import { type ExperienceDataForm } from './ExperienceForm.vue';
+import { type ExperienceDataForm } from '@/components/ExperienceForm.vue'
 
 export interface AcademicExperiencesProps {
   userId: number
@@ -58,7 +60,7 @@ const handleSubmit = async (values: ExperienceDataForm) => {
 </script>
 
 <template>
-  <div class="flex items-center">
+  <header class="flex items-center">
     <h2 class="text-2xl mr-auto">Experiências acadêmicas</h2>
 
     <AppDialog>
@@ -85,20 +87,22 @@ const handleSubmit = async (values: ExperienceDataForm) => {
     <Button variant="outline" size="icon" class="bg-transparent hover:bg-black/40">
       <Pencil class="w-5 h-5" />
     </Button>
-  </div>
+  </header>
 
   <div class="flex flex-col gap-5">
     <div class="text-xl" v-for="(experience, index) in experiences">
       <Separator class="mb-4 bg-white/30" />
-      <p>
-        {{ experience.title }}
-      </p>
-      <p class="text-sm text-muted-foreground">
-        {{ `${experience.startDate} - ${experience.endDate}` }}
-      </p>
-      <p class="text-base">
-        {{ experience.about }}
-      </p>
+      <div class="cursor-pointer hover:bg-black/40 p-3 ">
+        <p>
+          {{ experience.title }}
+        </p>
+        <p class="text-sm text-muted-foreground">
+          {{ `${experience.startDate} - ${experience.endDate}` }}
+        </p>
+        <p class="text-base">
+          {{ experience.about }}
+        </p>
+      </div>
     </div>
   </div>
 </template>

@@ -55,15 +55,15 @@ onBeforeMount(async () => {
         </div>
       </section>
 
-      <section class="flex flex-col gap-3 p-5 bg-secondary rounded-md">
+      <section class="flex flex-col gap-3 px-3 py-5 bg-secondary rounded-md">
         <AcademicExperiences v-if="user" :user-id="user.id" />
       </section>
 
-      <section class="flex flex-col gap-3 p-5 bg-secondary rounded-md">
+      <section class="flex flex-col gap-3 px-3 py-5 bg-secondary rounded-md">
         <ProfessionalExperiences v-if="user" :user-id="user.id" />
       </section>
 
-      <section class="flex flex-col gap-3 p-5 bg-secondary rounded-md">
+      <section class="flex flex-col gap-3 px-3 py-5 bg-secondary rounded-md">
         <div>
           <h2 class="text-2xl">Sobre</h2>
           <p>{{ user?.aboutDescription }}</p>

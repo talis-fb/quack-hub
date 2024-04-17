@@ -41,7 +41,7 @@ export interface ExperienceDataForm {
   about: string
   startDate: Date
   endDate: Date
-  projectId: null
+  projectId: number | null
   achievements: []
 }
 

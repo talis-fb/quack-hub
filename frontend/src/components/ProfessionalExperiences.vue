@@ -29,7 +29,7 @@ const handleSubmit = async (values: ExperienceDataForm) => {
   try {
     const res = await experienceService.create({
       ...values,
-      type: 'ACADEMIC',
+      type: 'PROFESSIONAL',
       projectId: null,
       achievements: []
     })
