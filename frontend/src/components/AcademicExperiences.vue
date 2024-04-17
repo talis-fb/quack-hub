@@ -1,5 +1,4 @@
 <script setup lang="ts">
-
 // App Components
 import ExperienceForm from '@/components/ExperienceForm.vue'
 import AppDialog from '@/components/AppDialog.vue'
@@ -9,14 +8,23 @@ import { Button } from '@/components/ui/button'
 
 // Icons
 import { Plus, Pencil } from 'lucide-vue-next'
+import { onMounted, ref } from 'vue'
+import { experienceService } from '@/services'
+import type { IExperienceEntity } from '@/entites/IExperience'
 
 export interface AcademicExperiencesProps {
-  userId: number;
+  userId: number
 }
 
-defineProps<AcademicExperiencesProps>();
+const props = defineProps<AcademicExperiencesProps>()
 
+const experiences = ref<IExperienceEntity[]>([])
 
+onMounted(async () => {
+  const res = await experienceService.getExperiencesByUserId(props.userId, 'ACADEMIC')
+
+  experiences.value = res
+})
 </script>
 
 <template>
@@ -47,7 +55,22 @@ defineProps<AcademicExperiencesProps>();
       <Pencil class="w-5 h-5" />
     </Button>
   </div>
-</template>
 
+  <div class="flex flex-col gap-5">
+    <div class="text-xl" v-for="experience in experiences">
+      <p>
+        {{ experience.title }}
+      </p>
+      <p class="text-sm text-muted-foreground">
+        {{ `${experience.startDate} - ${experience.endDate}` }}
+      </p>
+      <p class="text-base">
+        {{ experience.about }}
+      </p>
+    </div>
+  </div>
+
+
+</template>
 
 <style scoped></style>

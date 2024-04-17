@@ -49,9 +49,7 @@ onBeforeMount(async () => {
       </section>
 
       <section class="flex flex-col gap-3 p-5 bg-secondary rounded-md">
-        <AcademicExperiences :user-id="user?.id">
-
-        </AcademicExperiences>
+        <AcademicExperiences v-if="user" :user-id="user.id" />
       </section>
 
       <section class="flex flex-col gap-3 p-5 bg-secondary rounded-md">

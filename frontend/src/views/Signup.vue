@@ -77,7 +77,6 @@ const onSubmit = form.handleSubmit(async (values) => {
       description: 'Agora você poderá utilizar as funcionalidads do sistema!'
     })
   } catch (error) {
-    console.log({ error })
     toast({
       title: 'Erro ao efetuar o cadastro.',
       description: error?.message || 'Erro desconhecido, por favor contatar os desenvolvedores.',

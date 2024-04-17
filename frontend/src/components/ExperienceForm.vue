@@ -81,7 +81,6 @@ const onSubmit = form.handleSubmit(async (values) => {
   try {
     const res = await experienceService.create({...values, type: props.type, projectId: 110, achievements: []})
 
-    console.log({res});
 
     
   } catch (error: any) {

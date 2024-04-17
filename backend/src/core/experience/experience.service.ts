@@ -46,7 +46,6 @@ export class ExperienceServiceImpl implements ExperienceService {
     userId: number,
     type?: ExperienceType,
   ): Promise<ExperienceEntity[]> {
-    console.log({ type });
     const resExperiences = await this.repo.getExperiencesByUserId(userId, type);
     return resExperiences;
   }
