@@ -32,13 +32,24 @@ import { Button } from '@/components/ui/button'
 import { Calendar as CalendarIcon } from 'lucide-vue-next'
 import { experienceService } from '@/services'
 import { onUnmounted } from 'vue'
+import { type ICreateExperience } from '@/apis/experience/types/ICreateExperience'
 
 // Lifecycle Hooks
+
+export interface ExperienceDataForm {
+  title: string
+  about: string
+  startDate: Date
+  endDate: Date
+  projectId: null
+  achievements: []
+}
 
 export interface IExperienceFormProps {
   titleLabel?: string
   titlePlaceholder?: string
   type: ExperienceType
+  handleSubmit: (values: ExperienceDataForm) => Promise<void>
 }
 
 const props = withDefaults(defineProps<IExperienceFormProps>(), {
@@ -72,38 +83,42 @@ const formSchema = toTypedSchema(
   })
 )
 
-const { toast, dismiss } = useToast()
+// const { toast, dismiss } = useToast()
 
 const form = useForm({
   validationSchema: formSchema
 })
 
 const onSubmit = form.handleSubmit(async (values) => {
-  try {
-    const res = await experienceService.create({
-      ...values,
-      type: props.type,
-      projectId: null,
-      achievements: []
-    })
-
-    toast({
-      title: 'Experiência',
-      description: 'Experiência cadastrada com sucesso!',
-      variant: 'default'
-    })
-  } catch (error: any) {
-    toast({
-      title: 'Erro ao criar a experiência',
-      description: error?.message || 'Erro desconhecido, por favor contatar os desenvolvedores.',
-      variant: 'destructive'
-    })
-  }
+  await props.handleSubmit({ ...values, projectId: null, achievements: [] })
 })
 
-onUnmounted(() => {
-  dismiss()
-})
+// const onSubmit = form.handleSubmit(async (values) => {
+//   try {
+//     const res = await experienceService.create({
+//       ...values,
+//       type: props.type,
+//       projectId: null,
+//       achievements: []
+//     })
+
+//     toast({
+//       title: 'Experiência',
+//       description: 'Experiência cadastrada com sucesso!',
+//       variant: 'default'
+//     })
+//   } catch (error: any) {
+//     toast({
+//       title: 'Erro ao criar a experiência',
+//       description: error?.message || 'Erro desconhecido, por favor contatar os desenvolvedores.',
+//       variant: 'destructive'
+//     })
+//   }
+// })
+
+// onUnmounted(() => {
+//   dismiss()
+// })
 </script>
 
 <template>

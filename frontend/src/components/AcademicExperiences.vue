@@ -12,10 +12,15 @@ import { onMounted, ref } from 'vue'
 import { experienceService } from '@/services'
 import type { IExperienceEntity } from '@/entites/IExperience'
 import { Separator } from '@/components/ui/separator'
+import { type ICreateExperience } from '@/apis/experience/types/ICreateExperience'
+import { useToast } from '@/components/ui/toast/use-toast'
+import { type ExperienceDataForm } from './ExperienceForm.vue';
 
 export interface AcademicExperiencesProps {
   userId: number
 }
+
+const { toast, dismiss } = useToast()
 
 const props = defineProps<AcademicExperiencesProps>()
 
@@ -26,6 +31,30 @@ onMounted(async () => {
 
   experiences.value = res
 })
+
+const handleSubmit = async (values: ExperienceDataForm) => {
+  try {
+    const res = await experienceService.create({
+      ...values,
+      type: 'ACADEMIC',
+      projectId: null,
+      achievements: []
+    })
+
+    toast({
+      title: 'Experiência',
+      description: 'Experiência cadastrada com sucesso!',
+      variant: 'default',
+      duration: 1000
+    })
+  } catch (error: any) {
+    toast({
+      title: 'Erro ao criar a experiência',
+      description: error?.message || 'Erro desconhecido, por favor contatar os desenvolvedores.',
+      variant: 'destructive'
+    })
+  }
+}
 </script>
 
 <template>
@@ -45,6 +74,7 @@ onMounted(async () => {
       </template>
       <template #main>
         <ExperienceForm
+          :handle-submit="handleSubmit"
           title-label="Instituição de ensino"
           title-placeholder="Ex.: UFRN"
           type="ACADEMIC"
@@ -69,11 +99,8 @@ onMounted(async () => {
       <p class="text-base">
         {{ experience.about }}
       </p>
-
     </div>
   </div>
-
-
 </template>
 
 <style scoped></style>

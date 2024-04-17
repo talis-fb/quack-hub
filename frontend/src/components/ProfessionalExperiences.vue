@@ -12,14 +12,42 @@ import { onMounted, ref } from 'vue'
 import { experienceService } from '@/services'
 import type { IExperienceEntity } from '@/entites/IExperience'
 import { Separator } from '@/components/ui/separator'
+import { useToast } from '@/components/ui/toast/use-toast'
+import { type ExperienceDataForm } from './ExperienceForm.vue'
 
 export interface ProfessionalExperiencesProps {
   userId: number
 }
 
+const { toast, dismiss } = useToast()
+
 const props = defineProps<ProfessionalExperiencesProps>()
 
 const experiences = ref<IExperienceEntity[]>([])
+
+const handleSubmit = async (values: ExperienceDataForm) => {
+  try {
+    const res = await experienceService.create({
+      ...values,
+      type: 'ACADEMIC',
+      projectId: null,
+      achievements: []
+    })
+
+    toast({
+      title: 'Experiência',
+      description: 'Experiência cadastrada com sucesso!',
+      variant: 'default',
+      duration: 1000
+    })
+  } catch (error: any) {
+    toast({
+      title: 'Erro ao criar a experiência',
+      description: error?.message || 'Erro desconhecido, por favor contatar os desenvolvedores.',
+      variant: 'destructive'
+    })
+  }
+}
 
 onMounted(async () => {
   const res = await experienceService.getExperiencesByUserId(props.userId, 'PROFESSIONAL')
@@ -45,6 +73,7 @@ onMounted(async () => {
       </template>
       <template #main>
         <ExperienceForm
+          :handle-submit="handleSubmit"
           title-label="Título"
           title-placeholder="Ex.: Desenvolvedor Backend"
           type="PROFESSIONAL"

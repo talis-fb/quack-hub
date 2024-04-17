@@ -16,7 +16,6 @@ import { Ellipsis, Plus, Pencil } from 'lucide-vue-next'
 import { onBeforeMount, onMounted, reactive, ref } from 'vue'
 import { userService } from '@/services'
 import type { IUserResponse } from '@/apis/auth/models/IUserResponse'
-import { id } from 'date-fns/locale'
 
 /**
  * Recebendo o userId pelo param da rota.
