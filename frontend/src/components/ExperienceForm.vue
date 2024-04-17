@@ -31,6 +31,7 @@ import { Button } from '@/components/ui/button'
 // Icons
 import { Calendar as CalendarIcon } from 'lucide-vue-next'
 import { experienceService } from '@/services'
+import { onUnmounted } from 'vue'
 
 // Lifecycle Hooks
 
@@ -79,10 +80,18 @@ const form = useForm({
 
 const onSubmit = form.handleSubmit(async (values) => {
   try {
-    const res = await experienceService.create({...values, type: props.type, projectId: 110, achievements: []})
+    const res = await experienceService.create({
+      ...values,
+      type: props.type,
+      projectId: null,
+      achievements: []
+    })
 
-
-    
+    toast({
+      title: 'Experiência',
+      description: 'Experiência cadastrada com sucesso!',
+      variant: 'default'
+    })
   } catch (error: any) {
     toast({
       title: 'Erro ao criar a experiência',
@@ -90,6 +99,10 @@ const onSubmit = form.handleSubmit(async (values) => {
       variant: 'destructive'
     })
   }
+})
+
+onUnmounted(() => {
+  dismiss()
 })
 </script>
 
