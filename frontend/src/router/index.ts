@@ -51,6 +51,7 @@ export const router = createRouter({
         Navbar: NavMenu,
         default: ProfileUserView
       },
+      props: true,
       meta: { ...metadataRoutes.USER_PROFILE }
     },
     {

@@ -17,6 +17,13 @@ import { onBeforeMount, onMounted, reactive, ref } from 'vue'
 import { userService } from '@/services'
 import type { IUserResponse } from '@/apis/auth/models/IUserResponse'
 
+/**
+ * Recebendo o userId pelo param da rota.
+ */
+defineProps({
+  id: String
+})
+
 const user = ref<IUserResponse | null>(null)
 
 onBeforeMount(async () => {
