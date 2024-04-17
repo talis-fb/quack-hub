@@ -30,7 +30,6 @@ import { Button } from '@/components/ui/button'
 
 // Icons
 import { Calendar as CalendarIcon } from 'lucide-vue-next'
-import type { IAchievementData } from '@/entites/IAchievement'
 
 // Lifecycle Hooks
 
@@ -41,7 +40,10 @@ export interface ExperienceDataForm {
   endDate: Date
   type: ExperienceType
   projectId: number | null
-  achievements: Omit<IAchievementData, 'experienceId'>[]
+  achievements: {
+    title: string
+    description: string
+  }[]
 }
 
 export interface IExperienceFormProps {
@@ -94,8 +96,8 @@ const form = useForm({
 form.setValues({
   title: props.title,
   about: props.about,
-  startDate: undefined,
-  endDate: undefined
+  startDate: props.startDate ? new Date(props.startDate) : undefined,
+  endDate: props.endDate ? new Date(props.endDate) : undefined
 })
 
 const onSubmit = form.handleSubmit(async (values) => {

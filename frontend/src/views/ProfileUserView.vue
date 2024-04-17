@@ -42,8 +42,7 @@ const handleSubmit = async (values: ExperienceDataForm) => {
   try {
     await experienceService.create({
       ...values,
-      projectId: null,
-      achievements: []
+      userId: (props as any).id
     })
 
     toast({
