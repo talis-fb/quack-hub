@@ -3,13 +3,26 @@ import type { IUserApi } from '@/apis/user/user.api'
 import type { IUserData } from '@/entites/IUser'
 
 export interface IUserService {
-    updateUser(id: number, user: IUserData): Promise<IUserResponse>
+  getUserById(id: number): Promise<IUserResponse>
+  getProfile(): Promise<IUserResponse>
+  updateUser(id: number, user: IUserData): Promise<IUserResponse>
 }
 
 export class UserServiceImpl implements IUserService {
-    constructor(private readonly userApi: IUserApi) {}
+  constructor(private readonly userApi: IUserApi) {}
+  async getUserById(id: number): Promise<IUserResponse> {
+    const res = await this.userApi.getUserById(id)
 
-    async updateUser(id: number, user: IUserData): Promise<IUserResponse> {
-        return await this.userApi.updateUser(id, user)
-    }
+    return res
+  }
+
+  async getProfile(): Promise<IUserResponse> {
+    const res = await this.userApi.getProfile()
+
+    return res
+  }
+
+  async updateUser(id: number, user: IUserData): Promise<IUserResponse> {
+    return await this.userApi.updateUser(id, user)
+  }
 }

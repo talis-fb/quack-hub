@@ -39,10 +39,7 @@ export abstract class ExperienceService {
 
 @Injectable()
 export class ExperienceServiceImpl implements ExperienceService {
-  constructor(
-    private repo: ExperienceRepository,
-    private userService: UserService,
-  ) {}
+  constructor(private repo: ExperienceRepository) {}
 
   public async getExperienceById(id: number): Promise<ExperienceEntity> {
     try {

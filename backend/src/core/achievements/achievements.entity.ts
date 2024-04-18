@@ -10,7 +10,7 @@ export class AchievementData {
   @IsString()
   @MinLength(3)
   @ApiProperty()
-  description: string | null;
+  description: string;
 }
 
 export class AchievementEntity extends AchievementData {

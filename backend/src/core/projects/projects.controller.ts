@@ -45,7 +45,6 @@ export class ProjectsController {
 
   @Get('')
   async searchProjects(@Query('q') query: string) {
-    console.log({query})
     return await this.projectsService.search(query);
   } 
 }

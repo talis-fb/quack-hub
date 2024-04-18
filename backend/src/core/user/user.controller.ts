@@ -9,6 +9,7 @@ import {
   ParseIntPipe,
   Put,
   Query,
+  Req,
 } from '@nestjs/common';
 import { UserData } from './user.entity';
 import { UserService } from './user.service';
@@ -22,6 +23,19 @@ export class UserController {
     return await this.userService.search(query);
   }
 
+  @Get('auth')
+  async getProfile(@Req() req) {
+    const { userId } = req.user;
+
+    const output = await this.userService.getUserById(userId);
+
+    if (output === null) {
+      throw new NotFoundException('Usuário não encontrado.');
+    }
+
+    return output;
+  }
+
   @Get(':id')
   async findOneById(@Param('id', ParseIntPipe) id: number) {
     const output = await this.userService.getUserById(id);
@@ -30,6 +44,7 @@ export class UserController {
     }
     return output;
   }
+
 
   @Put(':id')
   async update(@Param('id', ParseIntPipe) id: number, @Body() body: UserData) {

@@ -48,8 +48,9 @@ export class ExperienceData {
   @IsInt()
   userId: number;
 
+  @IsOptional()
   @IsInt()
-  projectId: number;
+  projectId: number | null;
 
   constructor(partial: Partial<ExperienceData>) {
     Object.assign(this, partial);

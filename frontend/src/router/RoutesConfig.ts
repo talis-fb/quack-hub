@@ -21,7 +21,7 @@ export const metadataRoutes = {
     name: 'about'
   },
   USER_PROFILE: {
-    path: '/user-profile',
+    path: '/user-profile/:id',
     name: 'user-profile'
   },
   USER_EDIT: {

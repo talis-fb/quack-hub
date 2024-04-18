@@ -35,14 +35,24 @@ import { onUnmounted } from 'vue'
 const formSchema = toTypedSchema(
   z
     .object({
-      name: z.string().min(3, { message: 'Nome deve ter no mínimo 3 caracteres' }),
+      name: z.string({
+        required_error: 'Campo nome obrigatório'
+      }).min(3, { message: 'Nome deve ter no mínimo 3 caracteres' }),
       email: z
-        .string()
+        .string({
+          required_error: 'Campo email obrigatório'
+        })
         .min(1, { message: 'Esse campo deve ser preenchido.' })
         .email('Esse não é um e-mail válido.'),
-      password: z.string().min(5, { message: 'Senha deve ter no mínimo 5 caracteres.' }),
-      confirmPassword: z.string(),
-      birthday: z.date()
+      password: z.string({
+        required_error: 'Campo senha obrigatório'
+      }).min(5, { message: 'Senha deve ter no mínimo 5 caracteres.' }),
+      confirmPassword: z.string({
+        required_error: 'Campo confirmar senha obrigatório'
+      }),
+      birthday: z.date({
+        required_error: 'Campo aniversário obrigatório'
+      })
     })
     .refine((data) => data.password === data.confirmPassword, {
       message: 'Senhas não correspondem',
@@ -67,7 +77,6 @@ const onSubmit = form.handleSubmit(async (values) => {
       description: 'Agora você poderá utilizar as funcionalidads do sistema!'
     })
   } catch (error) {
-    console.log({ error })
     toast({
       title: 'Erro ao efetuar o cadastro.',
       description: error?.message || 'Erro desconhecido, por favor contatar os desenvolvedores.',
