@@ -21,11 +21,10 @@ import { Button } from '@/components/ui/button'
 // Icons
 import { Ellipsis, Plus, Pencil, Info } from 'lucide-vue-next'
 
-import type { IUserResponse } from '@/apis/auth/models/IUserResponse'
-
 // Types
 import { type ExperienceDataForm } from '@/components/ExperienceForm.vue'
 import { useExperienceStore } from '@/stores/experience'
+import type { IUserEntity } from '@/entites/IUser'
 
 const experienceStore = useExperienceStore()
 
@@ -36,7 +35,7 @@ const props = defineProps<{
   id: string
 }>()
 
-const user = ref<IUserResponse | null>(null)
+const user = ref<IUserEntity | null>(null)
 
 onBeforeMount(async () => {
   const res = await userService.getUserById((props as any).id as number)
