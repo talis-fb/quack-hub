@@ -1,4 +1,7 @@
 <script setup lang="ts">
+// Vue imports
+import { Suspense, onBeforeMount, ref } from 'vue'
+
 // Services
 import { userService, experienceService } from '@/services'
 
@@ -17,20 +20,22 @@ import { Button } from '@/components/ui/button'
 
 // Icons
 import { Ellipsis, Plus, Pencil, Info } from 'lucide-vue-next'
-import { onBeforeMount, ref } from 'vue'
-import type { IUserResponse } from '@/apis/auth/models/IUserResponse'
 
 // Types
 import { type ExperienceDataForm } from '@/components/ExperienceForm.vue'
+import { useExperienceStore } from '@/stores/experience'
+import type { IUserEntity } from '@/entites/IUser'
+
+const experienceStore = useExperienceStore()
 
 /**
  * Recebendo o userId pelo param da rota.
  */
-const props = defineProps({
-  id: String
-})
+const props = defineProps<{
+  id: string
+}>()
 
-const user = ref<IUserResponse | null>(null)
+const user = ref<IUserEntity | null>(null)
 
 onBeforeMount(async () => {
   const res = await userService.getUserById((props as any).id as number)
@@ -42,7 +47,7 @@ const { toast, dismiss } = useToast()
 
 const handleSubmit = async (values: ExperienceDataForm) => {
   try {
-    await experienceService.create({
+    await experienceStore.createExperience({
       ...values,
       userId: (props as any).id
     })
@@ -81,7 +86,11 @@ const handleSubmit = async (values: ExperienceDataForm) => {
 
         <div class="min-h-36 mt-32 pl-6">
           <p>Informações de contato</p>
-          <p class="mt-6"><span>Seguidores</span> | <span>Seguindo</span></p>
+          <p class="mt-6">
+            <span class="text-xl font-bold">{{ user?.followedBy }}</span> Seguidores |
+            <span class="text-xl font-bold">{{ user?.following }}</span>
+            Seguindo
+          </p>
         </div>
       </section>
 
@@ -115,7 +124,7 @@ const handleSubmit = async (values: ExperienceDataForm) => {
           </Button>
         </header>
 
-        <ExperiencesList v-if="user" :user-id="user.id" type="ACADEMIC" />
+        <ExperiencesList :user-id="+props.id" type="ACADEMIC" />
       </section>
 
       <section class="flex flex-col gap-3 px-3 py-5 bg-secondary rounded-md">
@@ -148,7 +157,7 @@ const handleSubmit = async (values: ExperienceDataForm) => {
           </Button>
         </header>
 
-        <ExperiencesList v-if="user" :user-id="user.id" type="PROFESSIONAL" />
+        <ExperiencesList :user-id="+props.id" type="PROFESSIONAL" />
       </section>
 
       <section class="flex flex-col gap-3 px-3 py-5 bg-secondary rounded-md">

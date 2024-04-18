@@ -1,5 +1,5 @@
 export interface IUserResponse {
-  id: any
+  id: number
   email: string
   password: string
 
@@ -10,6 +10,11 @@ export interface IUserResponse {
   avatarUrl?: string
   phone?: string
   blog?: string
+
+  _count: {
+    followedBy: number
+    following: number
+  }
 
   createdAt: string
   updatedAt: string

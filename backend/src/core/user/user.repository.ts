@@ -35,6 +35,11 @@ export class UserRepositoryImpl implements UserRepository {
         where: {
           id,
         },
+        include: {
+          _count: {
+            select: { following: true, followedBy: true },
+          },
+        },
       });
       return output;
     } catch (error) {
