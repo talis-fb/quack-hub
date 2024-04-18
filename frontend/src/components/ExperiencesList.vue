@@ -1,36 +1,34 @@
 <script setup lang="ts">
 // Vue imports
-import { onMounted, ref } from 'vue'
+import { onMounted } from 'vue'
 
 // types
 import { type ExperienceType } from '@/entites/IExperience'
-import { type IExperienceEntity } from '@/entites/IExperience'
-
-// Services
-import { experienceService } from '@/services'
 
 // App components
 import ExperienceItem from '@/components/ExperienceItem.vue'
+import { useExperienceStore } from '../stores/experience'
+import { storeToRefs } from 'pinia'
 
-export interface ExperienceList {
+export interface ExperienceListProps {
   userId: number
   type: ExperienceType
 }
 
-const props = defineProps<ExperienceList>()
+const props = defineProps<ExperienceListProps>()
 
-const experiences = ref<IExperienceEntity[]>([])
+const experienceStore = useExperienceStore()
+
+const { experiences } = storeToRefs(experienceStore)
 
 onMounted(async () => {
-  const res = await experienceService.getExperiencesByUserId(props.userId, props.type)
-
-  experiences.value = res
+  await experienceStore.getExperiennces(props.userId, props.type)
 })
 </script>
 
 <template>
   <div class="flex flex-col gap-5">
-    <div v-for="(experience, index) in experiences">
+    <div v-for="(experience, index) in experiences[type]">
       <ExperienceItem :experience="experience" />
     </div>
   </div>

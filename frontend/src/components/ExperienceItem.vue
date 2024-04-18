@@ -18,10 +18,13 @@ import { Pencil, Trash } from 'lucide-vue-next'
 // Types
 import { type ExperienceDataForm } from '@/components/ExperienceForm.vue'
 import type { IExperienceEntity } from '@/entites/IExperience'
+import { useExperienceStore } from '@/stores/experience'
 
 export interface ExperienceItemProps {
   experience: IExperienceEntity
 }
+
+const experienceStore = useExperienceStore()
 
 const props = defineProps<ExperienceItemProps>()
 
@@ -29,7 +32,7 @@ const { toast, dismiss } = useToast()
 
 const handleUpdateExperience = async (values: ExperienceDataForm) => {
   try {
-    await experienceService.update(props.experience.id, {
+    await experienceStore.updateExperience(props.experience.id, {
       ...values
     })
 
@@ -50,7 +53,7 @@ const handleUpdateExperience = async (values: ExperienceDataForm) => {
 
 const handleDeleteExperience = async () => {
   try {
-    await experienceService.delete(props.experience.id)
+    await experienceStore.deleteExperience(props.experience.id)
 
     toast({
       title: `Experiência`,

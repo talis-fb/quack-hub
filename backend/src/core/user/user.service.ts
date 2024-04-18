@@ -31,17 +31,13 @@ export class UserServiceImpl implements UserService {
 
   public async getUserByEmail(email: string): Promise<UserEntity> {
     const resUser = await this.repo.getUserByEmail(email);
-    if (!resUser) {
-      throw new ServiceNotFoundException(`User with email ${email} not found!`);
-    }
+
     return resUser;
   }
 
   public async getUserById(id: number): Promise<UserEntity> {
     const resUser = await this.repo.getUserById(id);
-    if (!resUser) {
-      throw new ServiceNotFoundException(`User with ID ${id} not found!`);
-    }
+
     return resUser;
   }
 
