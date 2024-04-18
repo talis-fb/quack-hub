@@ -9,8 +9,8 @@ export interface IUserData {
   phone?: string
   blog?: string
 
-  followedBy?: number
-  following?: number
+  followedBy: number
+  following: number
 }
 
 export interface IUserEntity extends IUserData {
