@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { Suspense } from 'vue'
+// Vue imports
+import { Suspense, onBeforeMount, ref } from 'vue'
 
 // Services
 import { userService, experienceService } from '@/services'
@@ -19,12 +20,11 @@ import { Button } from '@/components/ui/button'
 
 // Icons
 import { Ellipsis, Plus, Pencil, Info } from 'lucide-vue-next'
-import { onBeforeMount, ref } from 'vue'
+
 import type { IUserResponse } from '@/apis/auth/models/IUserResponse'
 
 // Types
 import { type ExperienceDataForm } from '@/components/ExperienceForm.vue'
-import { useExperienceStore } from '../stores/experience'
 
 /**
  * Recebendo o userId pelo param da rota.
@@ -35,14 +35,11 @@ const props = defineProps<{
 
 const user = ref<IUserResponse | null>(null)
 
-const experienceStore = useExperienceStore()
 
 onBeforeMount(async () => {
   const res = await userService.getUserById((props as any).id as number)
 
   user.value = res
-
-  // experienceStore.getExperiennces((props as any).id)
 })
 
 const { toast, dismiss } = useToast()
@@ -68,6 +65,12 @@ const handleSubmit = async (values: ExperienceDataForm) => {
     })
   }
 }
+import { onBeforeRouteLeave, onBeforeRouteUpdate } from 'vue-router'
+
+
+onBeforeRouteUpdate(async (to, from) => {
+  console.log({to, from})
+})
 </script>
 <template>
   <main class="flex flex-1 flex-col md:flex-row p-3 gap-5">

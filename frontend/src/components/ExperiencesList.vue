@@ -1,6 +1,6 @@
 <script setup lang="ts">
 // Vue imports
-import { onMounted, ref, computed } from 'vue'
+import { onMounted } from 'vue'
 
 // types
 import { type ExperienceType } from '@/entites/IExperience'
