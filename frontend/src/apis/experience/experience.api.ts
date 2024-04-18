@@ -6,12 +6,19 @@ import { api } from '@/network/api'
 import type { IUpdateExperinece } from '@/apis/experience/types/IUpdateExperinece'
 
 export interface IExperienceApi {
+  delete(experienceId: number): Promise<IExperienceEntity>
   update(experienceId: number, data: IUpdateExperinece): Promise<IExperienceEntity>
   getExperiencesByUserId(userId: number, type?: ExperienceType): Promise<IExperienceEntity[]>
   create(data: ICreateExperience): Promise<IExperienceEntity>
 }
 
 export class ExperienceApiImpl implements IExperienceApi {
+  async delete(experienceId: number): Promise<IExperienceEntity> {
+    const res = await api.delete<IExperienceEntity>(`/experience/${experienceId}`)
+
+    return res.data
+  }
+
   async update(experienceId: number, data: IUpdateExperinece): Promise<IExperienceEntity> {
     const res = await api.put<IExperienceEntity>(`/experience/${experienceId}`, data)
 
