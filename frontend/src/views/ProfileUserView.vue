@@ -25,6 +25,9 @@ import type { IUserResponse } from '@/apis/auth/models/IUserResponse'
 
 // Types
 import { type ExperienceDataForm } from '@/components/ExperienceForm.vue'
+import { useExperienceStore } from '@/stores/experience'
+
+const experienceStore = useExperienceStore()
 
 /**
  * Recebendo o userId pelo param da rota.
@@ -34,7 +37,6 @@ const props = defineProps<{
 }>()
 
 const user = ref<IUserResponse | null>(null)
-
 
 onBeforeMount(async () => {
   const res = await userService.getUserById((props as any).id as number)
@@ -46,7 +48,7 @@ const { toast, dismiss } = useToast()
 
 const handleSubmit = async (values: ExperienceDataForm) => {
   try {
-    await experienceService.create({
+    await experienceStore.createExperience({
       ...values,
       userId: (props as any).id
     })
@@ -65,12 +67,6 @@ const handleSubmit = async (values: ExperienceDataForm) => {
     })
   }
 }
-import { onBeforeRouteLeave, onBeforeRouteUpdate } from 'vue-router'
-
-
-onBeforeRouteUpdate(async (to, from) => {
-  console.log({to, from})
-})
 </script>
 <template>
   <main class="flex flex-1 flex-col md:flex-row p-3 gap-5">
