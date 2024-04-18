@@ -51,6 +51,7 @@ export const router = createRouter({
         Navbar: NavMenu,
         default: ProfileUserView
       },
+      props: true,
       meta: { ...metadataRoutes.USER_PROFILE }
     },
     {
@@ -77,6 +78,6 @@ export const router = createRouter({
 
 router.beforeEach(authGuard)
 
-// router.beforeEach(redirectToHomeIfAuthenticatedGuard)
+router.beforeEach(redirectToHomeIfAuthenticatedGuard)
 
 export default router

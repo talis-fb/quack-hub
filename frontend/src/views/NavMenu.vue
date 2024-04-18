@@ -11,6 +11,11 @@ import { ChevronDown } from 'lucide-vue-next'
 // Components shadcn-vue
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Separator } from '@/components/ui/separator'
+import { useAuthStore } from '@/stores/auth'
+
+const {
+  user: { id }
+} = useAuthStore()
 </script>
 <template>
   <nav class="flex px-6 py-2 justify-between bg-secondary">
@@ -41,7 +46,7 @@ import { Separator } from '@/components/ui/separator'
 
       <RouterLink
         class="flex flex-col justify-center items-center gap-1 hover:text-blue-500"
-        :to="metadataRoutes.USER_PROFILE.path"
+        :to="{ name: metadataRoutes.USER_PROFILE.name, params: { id } }"
       >
         <Avatar>
           <AvatarImage src="umaurlai" alt="user-avatar" />

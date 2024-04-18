@@ -1,8 +1,10 @@
 <script setup lang="ts">
+// Zod
 import { useForm } from 'vee-validate'
 import { toTypedSchema } from '@vee-validate/zod'
 import * as z from 'zod'
 
+// Componentes
 import {
   FormControl,
   FormDescription,
@@ -13,21 +15,29 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
+import { useToast } from '@/components/ui/toast/use-toast'
 import BaseAuth from '@/components/BaseAuth.vue'
 
+// Pinia
 import { useAuthStore } from '@/stores/auth'
 
+// Vue Riuter
 import router from '../router/index'
-import { useToast } from '@/components/ui/toast/use-toast'
+
+// Lifecycle Hooks
 import { onUnmounted } from 'vue'
 
 const formSchema = toTypedSchema(
   z.object({
     email: z
-      .string()
+      .string({
+        required_error: 'Campo email obrigatório'
+      })
       .min(1, { message: 'Esse campo deve ser preenchido.' })
       .email('Esse não é um e-mail válido.'),
-    password: z.string().min(5, { message: 'Senha deve ter no mínimo 5 caracteres.' })
+    password: z.string({
+      required_error: 'Campo senha obrigatório'
+    }).min(5, { message: 'Senha deve ter no mínimo 5 caracteres.' })
   })
 )
 

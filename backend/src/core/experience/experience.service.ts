@@ -12,11 +12,9 @@ import { UpdateExperienceDto } from './dtos/UpdateExperienceDto';
 export abstract class ExperienceService {
   abstract getExperienceById(id: number): Promise<ExperienceEntity | null>;
 
-  abstract getExperiencesByUserId(userId: number): Promise<ExperienceEntity[]>;
-
-  abstract getExperiencesUserByType(
+  abstract getExperiencesByUserId(
     userId: number,
-    type: ExperienceType,
+    type?: ExperienceType,
   ): Promise<ExperienceEntity[]>;
 
   abstract createExperience(
@@ -33,10 +31,7 @@ export abstract class ExperienceService {
 
 @Injectable()
 export class ExperienceServiceImpl implements ExperienceService {
-  constructor(
-    private repo: ExperienceRepository,
-    private userService: UserService,
-  ) {}
+  constructor(private repo: ExperienceRepository) {}
 
   public async getExperienceById(id: number): Promise<ExperienceEntity> {
     const resExperience = await this.repo.getExperienceById(id);
@@ -49,19 +44,9 @@ export class ExperienceServiceImpl implements ExperienceService {
 
   public async getExperiencesByUserId(
     userId: number,
+    type?: ExperienceType,
   ): Promise<ExperienceEntity[]> {
-    const resExperiences = await this.repo.getExperiencesByUserId(userId);
-    return resExperiences;
-  }
-
-  public async getExperiencesUserByType(
-    userId: number,
-    type: ExperienceType,
-  ): Promise<ExperienceEntity[]> {
-    const resExperiences = await this.repo.getExperiencesUserByType(
-      userId,
-      type,
-    );
+    const resExperiences = await this.repo.getExperiencesByUserId(userId, type);
     return resExperiences;
   }
 

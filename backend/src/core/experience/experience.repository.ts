@@ -8,10 +8,9 @@ import { PrismaService } from 'src/common/prisma/prisma.service';
 
 export abstract class ExperienceRepository {
   abstract getExperienceById(id: number): Promise<ExperienceEntity | null>;
-  abstract getExperiencesByUserId(userId: number): Promise<ExperienceEntity[]>;
-  abstract getExperiencesUserByType(
+  abstract getExperiencesByUserId(
     userId: number,
-    type: ExperienceType,
+    type?: ExperienceType,
   ): Promise<ExperienceEntity[]>;
   abstract createExperience(
     experience: ExperienceData,
@@ -40,22 +39,9 @@ export class ExperienceRepositoryImpl implements ExperienceRepository {
     return output;
   }
 
-  async getExperiencesByUserId(userId: number): Promise<ExperienceEntity[]> {
-    const output = await this.prisma.experience.findMany({
-      where: {
-        userId,
-      },
-      include: {
-        achievements: true,
-      },
-    });
-
-    return output;
-  }
-
-  async getExperiencesUserByType(
+  async getExperiencesByUserId(
     userId: number,
-    type: ExperienceType,
+    type?: ExperienceType,
   ): Promise<ExperienceEntity[]> {
     const output = await this.prisma.experience.findMany({
       where: {
@@ -73,16 +59,13 @@ export class ExperienceRepositoryImpl implements ExperienceRepository {
   async createExperience(
     experience: ExperienceData,
   ): Promise<ExperienceEntity> {
+    const { achievements, ...experienceWithoutahievements } = experience;
+
     const output = await this.prisma.experience.create({
       data: {
-        about: experience.about,
-        endDate: experience.endDate,
-        startDate: experience.startDate,
-        title: experience.title,
-        type: experience.type,
-        userId: experience.userId,
+        ...experienceWithoutahievements,
         achievements: {
-          create: experience.achievements,
+          create: achievements,
         },
       },
       include: {
