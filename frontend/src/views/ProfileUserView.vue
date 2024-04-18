@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { Suspense } from 'vue'
+
 // Services
 import { userService, experienceService } from '@/services'
 
@@ -22,20 +24,25 @@ import type { IUserResponse } from '@/apis/auth/models/IUserResponse'
 
 // Types
 import { type ExperienceDataForm } from '@/components/ExperienceForm.vue'
+import { useExperienceStore } from '../stores/experience'
 
 /**
  * Recebendo o userId pelo param da rota.
  */
-const props = defineProps({
-  id: String
-})
+const props = defineProps<{
+  id: string
+}>()
 
 const user = ref<IUserResponse | null>(null)
+
+const experienceStore = useExperienceStore()
 
 onBeforeMount(async () => {
   const res = await userService.getUserById((props as any).id as number)
 
   user.value = res
+
+  // experienceStore.getExperiennces((props as any).id)
 })
 
 const { toast, dismiss } = useToast()
@@ -115,7 +122,7 @@ const handleSubmit = async (values: ExperienceDataForm) => {
           </Button>
         </header>
 
-        <ExperiencesList v-if="user" :user-id="user.id" type="ACADEMIC" />
+        <ExperiencesList :user-id="+props.id" type="ACADEMIC" />
       </section>
 
       <section class="flex flex-col gap-3 px-3 py-5 bg-secondary rounded-md">
@@ -148,7 +155,7 @@ const handleSubmit = async (values: ExperienceDataForm) => {
           </Button>
         </header>
 
-        <ExperiencesList v-if="user" :user-id="user.id" type="PROFESSIONAL" />
+        <ExperiencesList :user-id="+props.id" type="PROFESSIONAL" />
       </section>
 
       <section class="flex flex-col gap-3 px-3 py-5 bg-secondary rounded-md">
