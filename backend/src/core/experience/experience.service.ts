@@ -20,11 +20,9 @@ import { ServiceNotFoundException } from 'src/excpetions/service/ServiceNotFound
 export abstract class ExperienceService {
   abstract getExperienceById(id: number): Promise<ExperienceEntity | null>;
 
-  abstract getExperiencesByUserId(userId: number): Promise<ExperienceEntity[]>;
-
-  abstract getExperiencesUserByType(
+  abstract getExperiencesByUserId(
     userId: number,
-    type: ExperienceType,
+    type?: ExperienceType,
   ): Promise<ExperienceEntity[]>;
 
   abstract createExperience(
@@ -70,29 +68,10 @@ export class ExperienceServiceImpl implements ExperienceService {
 
   public async getExperiencesByUserId(
     userId: number,
+    type?: ExperienceType,
   ): Promise<ExperienceEntity[]> {
     try {
-      const resExperiences = await this.repo.getExperiencesByUserId(userId);
-      return resExperiences;
-    } catch (error) {
-      if (error instanceof RepositoryClientKnownRequestException) {
-        throw new ServiceClientKnownRequestException(error.message);
-      } else if (error instanceof RepositoryClientValidationException) {
-        throw new ServiceClientValidationException(error.message);
-      } else if (error instanceof RepositoryClientInitializationException) {
-        throw new ServiceClientInitializationException(error.message);
-      } else {
-        throw new ServiceException(error.message);
-      }
-    }
-  }
-
-  public async getExperiencesUserByType(
-    userId: number,
-    type: ExperienceType,
-  ): Promise<ExperienceEntity[]> {
-    try {
-      const resExperiences = await this.repo.getExperiencesUserByType(
+      const resExperiences = await this.repo.getExperiencesByUserId(
         userId,
         type,
       );

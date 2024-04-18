@@ -12,10 +12,9 @@ import { RepositoryClientInitializationException } from 'src/excpetions/reposito
 
 export abstract class ExperienceRepository {
   abstract getExperienceById(id: number): Promise<ExperienceEntity | null>;
-  abstract getExperiencesByUserId(userId: number): Promise<ExperienceEntity[]>;
-  abstract getExperiencesUserByType(
+  abstract getExperiencesByUserId(
     userId: number,
-    type: ExperienceType,
+    type?: ExperienceType,
   ): Promise<ExperienceEntity[]>;
   abstract createExperience(
     experience: ExperienceData,
@@ -64,11 +63,15 @@ export class ExperienceRepositoryImpl implements ExperienceRepository {
     }
   }
 
-  async getExperiencesByUserId(userId: number): Promise<ExperienceEntity[]> {
+  async getExperiencesByUserId(
+    userId: number,
+    type?: ExperienceType,
+  ): Promise<ExperienceEntity[]> {
     try {
       const output = await this.prisma.experience.findMany({
         where: {
           userId,
+          type,
         },
         include: {
           achievements: true,
@@ -97,57 +100,17 @@ export class ExperienceRepositoryImpl implements ExperienceRepository {
     }
   }
 
-  async getExperiencesUserByType(
-    userId: number,
-    type: ExperienceType,
-  ): Promise<ExperienceEntity[]> {
-    try {
-      const output = await this.prisma.experience.findMany({
-        where: {
-          userId,
-          type,
-        },
-        include: {
-          achievements: true,
-        },
-      });
-
-      return output;
-    } catch (error) {
-      if (error.code === 'P2025') {
-        throw new RepositoryClientKnownRequestException(
-          `Error of single constraint violation during consult of experience of user with ID ${userId} and type ${type}!`,
-        );
-      } else if (error.code === 'P2001') {
-        throw new RepositoryClientValidationException(
-          `An error of validation occurred during consult of experience of user with ID ${userId} and type ${type}!`,
-        );
-      } else if (error.code === 'P2002') {
-        throw new RepositoryClientInitializationException(
-          `Error in inicialization of Database!`,
-        );
-      } else {
-        throw new RepositoryException(
-          `An unexpected error occurred during consult of experience of user with ID ${userId} and type ${type}!`,
-        );
-      }
-    }
-  }
-
   async createExperience(
     experience: ExperienceData,
   ): Promise<ExperienceEntity> {
     try {
+      const { achievements, ...experienceWithoutahievements } = experience;
+
       const output = await this.prisma.experience.create({
         data: {
-          about: experience.about,
-          endDate: experience.endDate,
-          startDate: experience.startDate,
-          title: experience.title,
-          type: experience.type,
-          userId: experience.userId,
+          ...experienceWithoutahievements,
           achievements: {
-            create: experience.achievements,
+            create: achievements,
           },
         },
         include: {
