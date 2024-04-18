@@ -22,6 +22,8 @@ export class UserApiImpl implements IUserApi {
   }
 
   async updateUser(id: number, user: IUserData): Promise<IUserResponse> {
-    return (await api.put<IUserResponse>(`/users/${id}`, user)).data
+    const res = await api.put<IUserResponse>(`/users/${id}`, user)
+
+    return res.data
   }
 }
