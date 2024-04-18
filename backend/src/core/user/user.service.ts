@@ -1,11 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { UserRepository } from './user.repository';
 import { UserData, UserEntity } from './user.entity';
-import { ServiceNotFoundException } from 'src/excpetions/service/ServiceNotFoundException';
 
 export abstract class UserService {
-  public abstract getUserById(id: number): Promise<UserEntity>;
-  public abstract getUserByEmail(email: string): Promise<UserEntity>;
+  public abstract getUserById(id: number): Promise<UserEntity | null>;
+  public abstract getUserByEmail(email: string): Promise<UserEntity | null>;
   public abstract findAll(): Promise<UserEntity[]>;
   public abstract findUsersByIds(ids: number[]): Promise<UserEntity[]>;
   public abstract search(searchName: string): Promise<UserEntity[]>;
@@ -29,19 +28,13 @@ export class UserServiceImpl implements UserService {
     return await this.repo.findAll();
   }
 
-  public async getUserByEmail(email: string): Promise<UserEntity> {
+  public async getUserByEmail(email: string): Promise<UserEntity | null> {
     const resUser = await this.repo.getUserByEmail(email);
-    if (!resUser) {
-      throw new ServiceNotFoundException(`User with email ${email} not found!`);
-    }
     return resUser;
   }
 
-  public async getUserById(id: number): Promise<UserEntity> {
+  public async getUserById(id: number): Promise<UserEntity | null> {
     const resUser = await this.repo.getUserById(id);
-    if (!resUser) {
-      throw new ServiceNotFoundException(`User with ID ${id} not found!`);
-    }
     return resUser;
   }
 

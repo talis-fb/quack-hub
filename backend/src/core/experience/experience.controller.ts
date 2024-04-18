@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  NotFoundException,
   Param,
   ParseIntPipe,
   Post,
@@ -24,7 +25,11 @@ export class ExperienceController {
 
   @Get(':id')
   async getExperienceById(@Param('id', ParseIntPipe) id: number) {
-    return await this.experienceService.getExperienceById(id);
+    const resExperience = await this.experienceService.getExperienceById(id);
+    if (!resExperience) {
+      throw new NotFoundException(`User with ID ${id} not found!`);
+    }
+    return resExperience;
   }
 
   @Get('/user/:userId')
