@@ -2,6 +2,7 @@
 // App components
 import ExperienceForm from '@/components/ExperienceForm.vue'
 import AppDialog from '@/components/AppDialog.vue'
+import AppAlertDialog from '@/components/AppAlertDialog.vue'
 
 // Services
 import { experienceService } from '@/services'
@@ -26,7 +27,7 @@ const props = defineProps<ExperienceItemProps>()
 
 const { toast, dismiss } = useToast()
 
-const handleSubmit = async (values: ExperienceDataForm) => {
+const handleUpdateExperience = async (values: ExperienceDataForm) => {
   try {
     await experienceService.update(props.experience.id, {
       ...values
@@ -41,6 +42,25 @@ const handleSubmit = async (values: ExperienceDataForm) => {
   } catch (error: any) {
     toast({
       title: 'Erro ao atualizar a experiência',
+      description: error?.message || 'Erro desconhecido, por favor contatar os desenvolvedores.',
+      variant: 'destructive'
+    })
+  }
+}
+
+const handleDeleteExperience = async () => {
+  try {
+    await experienceService.delete(props.experience.id)
+
+    toast({
+      title: `Experiência`,
+      description: 'Experiência deletada com sucesso!',
+      variant: 'default',
+      duration: 1000
+    })
+  } catch (error: any) {
+    toast({
+      title: 'Erro ao deletar a experiência',
       description: error?.message || 'Erro desconhecido, por favor contatar os desenvolvedores.',
       variant: 'destructive'
     })
@@ -79,7 +99,7 @@ const handleSubmit = async (values: ExperienceDataForm) => {
             :about="props.experience.about"
             :start-date="props.experience.startDate"
             :end-date="props.experience.endDate"
-            :handle-submit="handleSubmit"
+            :handle-submit="handleUpdateExperience"
             title-label="Título"
             title-placeholder="Ex.: Desenvolvedor Backend"
             :type="experience.type"
@@ -87,9 +107,22 @@ const handleSubmit = async (values: ExperienceDataForm) => {
         </template>
       </AppDialog>
 
-      <Button variant="destructive" size="icon">
-        <Trash class="w-5 h-5" />
-      </Button>
+      <AppAlertDialog :handleAction="handleDeleteExperience">
+        <template #trigger>
+          <Button variant="destructive" size="icon">
+            <Trash class="w-5 h-5" />
+          </Button>
+        </template>
+
+        <template #title>
+          <p>Você tem certeza absoluta?</p>
+        </template>
+        <template #description>
+          Essa ação não pode ser desfeita. Isso excluirá sua experência.
+        </template>
+        <template #action> Continuar </template>
+        <template #cancel> Cancelar </template>
+      </AppAlertDialog>
     </div>
   </div>
 </template>
