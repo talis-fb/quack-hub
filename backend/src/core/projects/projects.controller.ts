@@ -7,6 +7,8 @@ import {
   ParseIntPipe,
   Put,
   Query,
+  NotFoundException,
+  Delete,
 } from '@nestjs/common';
 import { ProjectData, ProjectEntity } from './projects.entity';
 import { ProjectsService } from './projects.service';
@@ -35,7 +37,11 @@ export class ProjectsController {
   async findOneById(
     @Param('id', ParseIntPipe) id: number,
   ): Promise<ProjectEntity> {
-    return await this.projectsService.getProjectById(id);
+    const resProject = await this.projectsService.getProjectById(id);
+    if (!resProject) {
+      throw new NotFoundException(`Project with ID ${id} not found!`);
+    }
+    return resProject;
   }
 
   @Get(':id/users')
@@ -47,4 +53,11 @@ export class ProjectsController {
   async searchProjects(@Query('q') query: string) {
     return await this.projectsService.search(query);
   } 
+
+  @Delete(':id')
+  async deleteProject(
+    @Param('id', ParseIntPipe) id: number,
+  ): Promise<ProjectEntity> {
+    return await this.projectsService.deleteProject(id);
+  }
 }

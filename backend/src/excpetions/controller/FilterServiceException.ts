@@ -8,7 +8,6 @@ import { ServiceException } from '../service/ServiceException';
 import { ServiceClientKnownRequestException } from '../service/ServiceClientKnownRequestException';
 import { ServiceClientValidationException } from '../service/ServiceClientValidationException';
 import { ServiceClientInitializationException } from '../service/ServiceClientInitializationException';
-import { ServiceNotFoundException } from '../service/ServiceNotFoundException';
 
 function verifyStatusCode(exception: ServiceException) {
   if (exception instanceof ServiceClientKnownRequestException) {
@@ -17,8 +16,6 @@ function verifyStatusCode(exception: ServiceException) {
     return HttpStatus.UNPROCESSABLE_ENTITY;
   } else if (exception instanceof ServiceClientInitializationException) {
     return HttpStatus.INTERNAL_SERVER_ERROR;
-  } else if (exception instanceof ServiceNotFoundException) {
-    return HttpStatus.NOT_FOUND;
   } else {
     return HttpStatus.INTERNAL_SERVER_ERROR;
   }
