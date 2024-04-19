@@ -60,6 +60,9 @@ export class ProjectsRepositoryImpl implements ProjectsRepository {
         data: {
           ...project,
         },
+        include: {
+          vacancies: true,
+        },
       });
       return output;
     } catch (error) {
@@ -96,11 +99,9 @@ export class ProjectsRepositoryImpl implements ProjectsRepository {
           vacancies: true,
         },
         data: project,
-
       });
       return output;
     } catch (error) {
-      console.log({error})
       if (error.code === 'P2025') {
         throw new RepositoryClientKnownRequestException(
           `Error of single constraint violation during update of project with ID ${id}!`,

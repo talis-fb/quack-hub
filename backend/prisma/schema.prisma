@@ -96,7 +96,7 @@ model Vacancy {
   id           Int          @id @default(autoincrement())
   title        String
   description  String
-  requirements String
+  requirements String[]
   state        StateVacancy @default(OPEN)
 
   Project   Project @relation(fields: [projectId], references: [id])
