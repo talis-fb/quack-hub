@@ -40,23 +40,23 @@ const {
     </header>
 
     <div class="flex items-center md:gap-4 gap-8">
-      <RouterLink class="flex gap-2 text-lg hover:text-blue-500" :to="metadataRoutes.HOME.path">
+      <RouterLink class="flex gap-2 text-lg text-white/70 hover:text-white" :to="metadataRoutes.HOME.path">
         <Home />
         <p class="md:block hidden">Home</p>
       </RouterLink>
 
-      <RouterLink class="flex gap-2 text-lg hover:text-blue-500" :to="metadataRoutes.ABOUT.path">
+      <RouterLink class="flex gap-2 text-lg text-white/70 hover:text-white" :to="metadataRoutes.ABOUT.path">
         <BadgeInfo />
         <p class="md:block hidden">About</p>
       </RouterLink>
 
-      <a href="#" class="flex gap-2 text-lg hover:text-blue-500" @click="handleLogout">
+      <a href="#" class="flex gap-2 text-lg text-white/70 hover:text-white" @click="handleLogout">
         <LogOut />
         <span class="md:block hidden">Sair</span>
       </a>
 
       <RouterLink
-        class="flex flex-col justify-center gap-1 hover:text-blue-500"
+        class="flex flex-col justify-center gap-1 text-white/70 hover:text-white"
         :to="{ name: metadataRoutes.USER_PROFILE.name, params: { id } }"
       >
         <Avatar>
