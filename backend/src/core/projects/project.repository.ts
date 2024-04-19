@@ -55,6 +55,7 @@ export class ProjectsRepositoryImpl implements ProjectsRepository {
   }
 
   async createProject(project: ProjectData): Promise<ProjectEntity> {
+    // TODO: Ver um melhor jeito pra não precisar desse without. Criar uma nova tipagem ou algo do tipo
     const { vacancies, ...projectWithoutVacancies } = project;
 
     try {
@@ -96,6 +97,7 @@ export class ProjectsRepositoryImpl implements ProjectsRepository {
     id: number,
     project: Partial<ProjectData>,
   ): Promise<ProjectEntity | null> {
+    // TODO: Ver um melhor jeito pra não precisar desse without. Criar uma nova tipagem ou algo do tipo
     const { vacancies, ...projectWithoutVacancies } = project;
 
     try {
