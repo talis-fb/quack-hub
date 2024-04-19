@@ -3,7 +3,13 @@ import { ProjectsRepository } from './project.repository';
 import { ProjectData, ProjectEntity } from './projects.entity';
 import { UserEntity } from '../user/user.entity';
 import { UserService } from '../user/user.service';
-import { ServiceNotFoundException } from 'src/excpetions/service/ServiceNotFoundException';
+import { RepositoryClientKnownRequestException } from 'src/excpetions/repository/RepositoryClientKnownRequestException';
+import { ServiceClientKnownRequestException } from 'src/excpetions/service/ServiceClientKnownRequestException';
+import { RepositoryClientValidationException } from 'src/excpetions/repository/RepositoryClientValidationException';
+import { ServiceClientValidationException } from 'src/excpetions/service/ServiceClientValidationException';
+import { RepositoryClientInitializationException } from 'src/excpetions/repository/RepositoryClientInitializationException';
+import { ServiceClientInitializationException } from 'src/excpetions/service/ServiceClientInitializationException';
+import { ServiceException } from 'src/excpetions/service/ServiceException';
 
 export abstract class ProjectsService {
   public abstract create(data: ProjectData): Promise<ProjectEntity>;
@@ -11,41 +17,116 @@ export abstract class ProjectsService {
     id: number,
     project: Partial<ProjectData>,
   ): Promise<ProjectData | null>;
-  public abstract getProjectById(id: number): Promise<ProjectEntity>;
+  public abstract getProjectById(id: number): Promise<ProjectEntity | null>;
   public abstract getUsersOfProject(id: number): Promise<UserEntity[]>;
   public abstract search(searchName: string): Promise<ProjectEntity[]>;
+  public abstract deleteProject(id: number): Promise<ProjectEntity>;
 }
 
 @Injectable()
 export class ProjectsServiceImpl implements ProjectsService {
-  constructor(private repo: ProjectsRepository, private userService: UserService) {}
- 
+  constructor(
+    private repo: ProjectsRepository,
+    private userService: UserService,
+  ) {}
 
   public async create(data: ProjectData): Promise<ProjectEntity> {
-    return await this.repo.createProject(data);
+    try {
+      return await this.repo.createProject(data);
+    } catch (error) {
+      if (error instanceof RepositoryClientKnownRequestException) {
+        throw new ServiceClientKnownRequestException(error.message);
+      } else if (error instanceof RepositoryClientValidationException) {
+        throw new ServiceClientValidationException(error.message);
+      } else if (error instanceof RepositoryClientInitializationException) {
+        throw new ServiceClientInitializationException(error.message);
+      } else {
+        throw new ServiceException(error.message);
+      }
+    }
   }
 
   public async update(
     id: number,
     project: Partial<ProjectData>,
   ): Promise<ProjectData | null> {
-    return await this.repo.updateProject(id, project);
+    try {
+      return await this.repo.updateProject(id, project);
+    } catch (error) {
+      if (error instanceof RepositoryClientKnownRequestException) {
+        throw new ServiceClientKnownRequestException(error.message);
+      } else if (error instanceof RepositoryClientValidationException) {
+        throw new ServiceClientValidationException(error.message);
+      } else if (error instanceof RepositoryClientInitializationException) {
+        throw new ServiceClientInitializationException(error.message);
+      } else {
+        throw new ServiceException(error.message);
+      }
+    }
   }
 
-  public async getProjectById(id: number): Promise<ProjectEntity> {
-    const resProject = await this.repo.getProjectById(id);
-    if (!resProject) {
-      throw new ServiceNotFoundException(`Project with ID ${id} not found!`);
+  public async getProjectById(id: number): Promise<ProjectEntity | null> {
+    try {
+      const resProject = await this.repo.getProjectById(id);
+      return resProject;
+    } catch (error) {
+      if (error instanceof RepositoryClientKnownRequestException) {
+        throw new ServiceClientKnownRequestException(error.message);
+      } else if (error instanceof RepositoryClientValidationException) {
+        throw new ServiceClientValidationException(error.message);
+      } else if (error instanceof RepositoryClientInitializationException) {
+        throw new ServiceClientInitializationException(error.message);
+      } else {
+        throw new ServiceException(error.message);
+      }
     }
-    return resProject;
   }
 
   public async getUsersOfProject(id: number): Promise<UserEntity[]> {
-    const userIds = await this.repo.findUserIdsOfProject(id);
-    return await this.userService.findUsersByIds(userIds);
+    try {
+      const userIds = await this.repo.findUserIdsOfProject(id);
+      return await this.userService.findUsersByIds(userIds);
+    } catch (error) {
+      if (error instanceof RepositoryClientKnownRequestException) {
+        throw new ServiceClientKnownRequestException(error.message);
+      } else if (error instanceof RepositoryClientValidationException) {
+        throw new ServiceClientValidationException(error.message);
+      } else if (error instanceof RepositoryClientInitializationException) {
+        throw new ServiceClientInitializationException(error.message);
+      } else {
+        throw new ServiceException(error.message);
+      }
+    }
   }
-  
+
   public async search(searchName: string): Promise<ProjectEntity[]> {
-    return await this.repo.search(searchName);
+    try {
+      return await this.repo.search(searchName);
+    } catch (error) {
+      if (error instanceof RepositoryClientKnownRequestException) {
+        throw new ServiceClientKnownRequestException(error.message);
+      } else if (error instanceof RepositoryClientValidationException) {
+        throw new ServiceClientValidationException(error.message);
+      } else if (error instanceof RepositoryClientInitializationException) {
+        throw new ServiceClientInitializationException(error.message);
+      } else {
+        throw new ServiceException(error.message);
+      }
+    }
+  }
+  public async deleteProject(id: number): Promise<ProjectEntity> {
+    try {
+      return await this.repo.deleteProject(id);
+    } catch (error) {
+      if (error instanceof RepositoryClientKnownRequestException) {
+        throw new ServiceClientKnownRequestException(error.message);
+      } else if (error instanceof RepositoryClientValidationException) {
+        throw new ServiceClientValidationException(error.message);
+      } else if (error instanceof RepositoryClientInitializationException) {
+        throw new ServiceClientInitializationException(error.message);
+      } else {
+        throw new ServiceException(error.message);
+      }
+    }
   }
 }
