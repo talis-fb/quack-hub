@@ -8,7 +8,9 @@ import {
   IsIn,
   IsInt,
   ArrayNotEmpty,
+  ValidateNested,
 } from 'class-validator';
+import { VacancyData } from '../vacancies/vacancies.entity';
 
 export const StateProjectValues = [
   'IDLE',
@@ -55,9 +57,14 @@ export class ProjectData {
   @ApiProperty()
   endDate: Date;
 
+  @IsOptional()
   @ArrayNotEmpty()
   @ApiProperty()
   methodologies: string[];
+
+  @ValidateNested()
+  @ApiProperty()
+  vacancies: Array<VacancyData>;
 }
 
 export class ProjectEntity extends ProjectData {

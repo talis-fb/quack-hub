@@ -28,6 +28,9 @@ export class ProjectsRepositoryImpl implements ProjectsRepository {
         where: {
           id,
         },
+        include: {
+          vacancies: true,
+        },
       });
       return output;
     } catch (error) {
@@ -52,10 +55,20 @@ export class ProjectsRepositoryImpl implements ProjectsRepository {
   }
 
   async createProject(project: ProjectData): Promise<ProjectEntity> {
+    // TODO: Ver um melhor jeito pra não precisar desse without. Criar uma nova tipagem ou algo do tipo
+    const { vacancies, ...projectWithoutVacancies } = project;
+
     try {
       const output = await this.prisma.project.create({
         data: {
-          ...project,
+          ...projectWithoutVacancies,
+          vacancies: {
+            create: vacancies,
+          },
+        },
+
+        include: {
+          vacancies: true,
         },
       });
       return output;
@@ -84,12 +97,18 @@ export class ProjectsRepositoryImpl implements ProjectsRepository {
     id: number,
     project: Partial<ProjectData>,
   ): Promise<ProjectEntity | null> {
+    // TODO: Ver um melhor jeito pra não precisar desse without. Criar uma nova tipagem ou algo do tipo
+    const { vacancies, ...projectWithoutVacancies } = project;
+
     try {
       const output = await this.prisma.project.update({
         where: {
           id,
         },
-        data: project,
+        include: {
+          vacancies: true,
+        },
+        data: projectWithoutVacancies,
       });
       return output;
     } catch (error) {
@@ -120,6 +139,9 @@ export class ProjectsRepositoryImpl implements ProjectsRepository {
           id: {
             in: ids,
           },
+        },
+        include: {
+          vacancies: true,
         },
       });
       return output;
@@ -189,6 +211,9 @@ export class ProjectsRepositoryImpl implements ProjectsRepository {
             mode: 'insensitive',
           },
         },
+        include: {
+          vacancies: true,
+        },
       });
 
       return output;
@@ -219,8 +244,11 @@ export class ProjectsRepositoryImpl implements ProjectsRepository {
         where: {
           id,
         },
+        include: {
+          vacancies: true,
+        },
       });
-  
+
       return output;
     } catch (error) {
       if (error.code === 'P2025') {
