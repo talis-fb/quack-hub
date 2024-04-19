@@ -50,10 +50,7 @@ const {
         <p class="md:block hidden">About</p>
       </RouterLink>
 
-      <a href="#" class="flex gap-2 text-lg text-white/70 hover:text-white" @click="handleLogout">
-        <LogOut />
-        <span class="md:block hidden">Sair</span>
-      </a>
+    
 
       <RouterLink
         class="flex flex-col justify-center gap-1 text-white/70 hover:text-white"
@@ -70,6 +67,11 @@ const {
           <ChevronDown class="inline-block" :size="22" />
         </div>
       </RouterLink>
+
+      <a href="#" class="flex gap-2 text-lg text-white/70 hover:text-white" @click="handleLogout">
+        <LogOut />
+        <span class="md:block hidden">Sair</span>
+      </a>
     </div>
   </nav>
 </template>
