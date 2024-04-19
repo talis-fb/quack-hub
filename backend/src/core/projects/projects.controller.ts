@@ -14,6 +14,7 @@ import { ProjectData, ProjectEntity } from './projects.entity';
 import { ProjectsService } from './projects.service';
 import { UserEntity } from '../user/user.entity';
 import { Public } from 'src/common/decorators/public.decorator';
+import { UpdateProjectDto } from './dtos/UpdateProjectDto';
 
 @Public()
 @Controller('projects')
@@ -28,7 +29,7 @@ export class ProjectsController {
   @Put(':id')
   async update(
     @Param('id', ParseIntPipe) id: number,
-    @Body() body: Partial<ProjectData>,
+    @Body() body: UpdateProjectDto,
   ) {
     return await this.projectsService.update(id, body);
   }
@@ -52,7 +53,7 @@ export class ProjectsController {
   @Get('')
   async searchProjects(@Query('q') query: string) {
     return await this.projectsService.search(query);
-  } 
+  }
 
   @Delete(':id')
   async deleteProject(
