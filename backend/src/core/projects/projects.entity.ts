@@ -55,6 +55,7 @@ export class ProjectData {
   @ApiProperty()
   endDate: Date;
 
+  @IsOptional()
   @ArrayNotEmpty()
   @ApiProperty()
   methodologies: string[];
