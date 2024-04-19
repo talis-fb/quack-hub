@@ -1,19 +1,33 @@
 <script setup lang="ts">
-import { metadataRoutes } from '@/router/RoutesConfig'
+// Images
 import AvatarDefault from '@/assets/user-icon.jpg'
 import Logo from '@/assets/logo.png'
 
+// Configs
+import { metadataRoutes } from '@/router/RoutesConfig'
+
 // Icons
-import { Home } from 'lucide-vue-next'
-import { BadgeInfo } from 'lucide-vue-next'
-import { ChevronDown } from 'lucide-vue-next'
+import { Home, BadgeInfo, ChevronDown, LogOut } from 'lucide-vue-next'
 
 // Components shadcn-vue
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { Separator } from '@/components/ui/separator'
+
+// Vue Hooks
+import { useRouter } from 'vue-router'
+
+// Store pinia
 import { useAuthStore } from '@/stores/auth'
 
+const router = useRouter()
+
+const handleLogout = (e: MouseEvent) => {
+  logout()
+
+  router.push({ name: metadataRoutes.SIGNIN.name })
+}
+
 const {
+  logout,
   user: { id }
 } = useAuthStore()
 </script>
@@ -25,27 +39,24 @@ const {
       </RouterLink>
     </header>
 
-    <div class="flex md:gap-4 gap-8">
-      <RouterLink
-        class="flex gap-2 items-center text-lg hover:text-blue-500"
-        :to="metadataRoutes.HOME.path"
-      >
+    <div class="flex items-center md:gap-4 gap-8">
+      <RouterLink class="flex gap-2 text-lg hover:text-blue-500" :to="metadataRoutes.HOME.path">
         <Home />
         <p class="md:block hidden">Home</p>
       </RouterLink>
 
-      <RouterLink
-        class="flex gap-2 items-center text-lg hover:text-blue-500"
-        :to="metadataRoutes.ABOUT.path"
-      >
+      <RouterLink class="flex gap-2 text-lg hover:text-blue-500" :to="metadataRoutes.ABOUT.path">
         <BadgeInfo />
         <p class="md:block hidden">About</p>
       </RouterLink>
 
-      <Separator orientation="vertical" class="w-1" />
+      <a href="#" class="flex gap-2 text-lg hover:text-blue-500" @click="handleLogout">
+        <LogOut />
+        <span class="md:block hidden">Sair</span>
+      </a>
 
       <RouterLink
-        class="flex flex-col justify-center items-center gap-1 hover:text-blue-500"
+        class="flex flex-col justify-center gap-1 hover:text-blue-500"
         :to="{ name: metadataRoutes.USER_PROFILE.name, params: { id } }"
       >
         <Avatar>
