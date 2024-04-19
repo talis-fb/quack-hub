@@ -55,11 +55,17 @@ export class ProjectsRepositoryImpl implements ProjectsRepository {
   }
 
   async createProject(project: ProjectData): Promise<ProjectEntity> {
+    const { vacancies, ...projectWithoutVacancies } = project;
+
     try {
       const output = await this.prisma.project.create({
         data: {
-          ...project,
+          ...projectWithoutVacancies,
+          vacancies: {
+            create: vacancies,
+          },
         },
+
         include: {
           vacancies: true,
         },
@@ -90,6 +96,8 @@ export class ProjectsRepositoryImpl implements ProjectsRepository {
     id: number,
     project: Partial<ProjectData>,
   ): Promise<ProjectEntity | null> {
+    const { vacancies, ...projectWithoutVacancies } = project;
+
     try {
       const output = await this.prisma.project.update({
         where: {
@@ -98,7 +106,7 @@ export class ProjectsRepositoryImpl implements ProjectsRepository {
         include: {
           vacancies: true,
         },
-        data: project,
+        data: projectWithoutVacancies,
       });
       return output;
     } catch (error) {
