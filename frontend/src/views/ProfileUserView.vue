@@ -73,20 +73,24 @@ const handleSubmit = async (values: ExperienceDataForm) => {
   <main class="flex flex-1 flex-col md:flex-row p-3 gap-5">
     <section class="flex-1 flex flex-col gap-5 relative rounded-md">
       <section class="bg-secondary rounded-md">
-        <figure>
-          <img class="w-full h-[200px] object-cover" :src="WalpaperDefaultUser" alt="" />
-        </figure>
+        <div class="bg-default-walpaper h-[200px]"></div>
 
-        <figure class="ml-6 mt-3 absolute top-28 flex flex-col items-center justify-center">
-          <img class="max-h-36 rounded-full" :src="UserPhotoDefault" alt="user-icon" />
+        <div class="p-5">
+          <div class="flex">
+            <img
+              class="mt-[-60px] w-32 rounded-full border-4 border-black"
+              :src="UserPhotoDefault"
+              alt="user-icon"
+            />
+
+            <div class="flex-1 flex justify-end">
+              <Button variant="outline" size="icon" class="bg-transparent hover:bg-black/40">
+                <Pencil class="w-5 h-5" />
+              </Button>
+            </div>
+          </div>
+
           <figcaption class="text-lg">{{ user?.name }}</figcaption>
-        </figure>
-
-        <button class="absolute right-5">
-          <Ellipsis />
-        </button>
-
-        <div class="min-h-36 mt-32 pl-6">
           <p>Informações de contato</p>
           <p class="mt-6">
             <span class="text-xl font-bold">{{ user?.followedBy }}</span> Seguidores |
@@ -129,7 +133,7 @@ const handleSubmit = async (values: ExperienceDataForm) => {
         <Suspense>
           <ExperiencesList :user-id="+props.id" type="ACADEMIC" />
           <template #fallback>
-            <ExperienceListFallback :length="3"/>
+            <ExperienceListFallback :length="3" />
           </template>
         </Suspense>
       </section>
@@ -168,7 +172,7 @@ const handleSubmit = async (values: ExperienceDataForm) => {
           <ExperiencesList :user-id="+props.id" type="PROFESSIONAL" />
 
           <template #fallback>
-            <ExperienceListFallback :length="3"/>
+            <ExperienceListFallback :length="3" />
           </template>
         </Suspense>
       </section>
