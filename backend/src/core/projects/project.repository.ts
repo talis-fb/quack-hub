@@ -14,7 +14,7 @@ export abstract class ProjectsRepository {
     project: Partial<ProjectData>,
   ): Promise<ProjectEntity | null>;
   abstract findUserIdsOfProject(id: number): Promise<number[]>;
-  public abstract search(searchName: string): Promise<ProjectEntity[]>;
+  public abstract search(searchTitle: string): Promise<ProjectEntity[]>;
   public abstract deleteProject(id: number): Promise<ProjectEntity>;
 }
 
@@ -202,12 +202,12 @@ export class ProjectsRepositoryImpl implements ProjectsRepository {
     }
   }
 
-  public async search(searchName: string): Promise<ProjectEntity[]> {
+  public async search(searchTitle: string): Promise<ProjectEntity[]> {
     try {
       const output = await this.prisma.project.findMany({
         where: {
           title: {
-            contains: searchName,
+            contains: searchTitle,
             mode: 'insensitive',
           },
         },
@@ -220,11 +220,11 @@ export class ProjectsRepositoryImpl implements ProjectsRepository {
     } catch (error) {
       if (error.code === 'P2025') {
         throw new RepositoryClientKnownRequestException(
-          `Error of single constraint violation during search of projects with name ${searchName}!`,
+          `Error of single constraint violation during search of projects with name ${searchTitle}!`,
         );
       } else if (error.code === 'P2001') {
         throw new RepositoryClientValidationException(
-          `An error of validation occurred during search of projects with name ${searchName}!`,
+          `An error of validation occurred during search of projects with name ${searchTitle}!`,
         );
       } else if (error.code === 'P2002') {
         throw new RepositoryClientInitializationException(
@@ -232,7 +232,7 @@ export class ProjectsRepositoryImpl implements ProjectsRepository {
         );
       } else {
         throw new RepositoryException(
-          `An unexpected error occurred during search of projects with name ${searchName}!`,
+          `An unexpected error occurred during search of projects with name ${searchTitle}!`,
         );
       }
     }

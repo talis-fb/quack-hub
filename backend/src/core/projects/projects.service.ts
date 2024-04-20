@@ -19,7 +19,7 @@ export abstract class ProjectsService {
   ): Promise<ProjectData | null>;
   public abstract getProjectById(id: number): Promise<ProjectEntity | null>;
   public abstract getUsersOfProject(id: number): Promise<UserEntity[]>;
-  public abstract search(searchName: string): Promise<ProjectEntity[]>;
+  public abstract search(searchTitle: string): Promise<ProjectEntity[]>;
   public abstract deleteProject(id: number): Promise<ProjectEntity>;
 }
 
@@ -99,9 +99,9 @@ export class ProjectsServiceImpl implements ProjectsService {
     }
   }
 
-  public async search(searchName: string): Promise<ProjectEntity[]> {
+  public async search(searchTitle: string): Promise<ProjectEntity[]> {
     try {
-      return await this.repo.search(searchName);
+      return await this.repo.search(searchTitle);
     } catch (error) {
       if (error instanceof RepositoryClientKnownRequestException) {
         throw new ServiceClientKnownRequestException(error.message);
