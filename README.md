@@ -15,6 +15,7 @@ O QuackHub foi inspirado em funcionalidades presentes no Linkedin e Github, conv
 # :wrench: Tecnologias utilizadas
 ## Back end
 * NestJS;
+* Swagger;
 * Prisma;
 * PostgreSQL;
   
