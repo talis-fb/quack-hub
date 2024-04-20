@@ -13,6 +13,7 @@ export abstract class VacanciesRepository {
   abstract findVacanciesByProjectId(
     projectId: number,
   ): Promise<VacancyEntity[]>;
+  abstract searchVacancies(searchTitle: string): Promise<VacancyEntity[]>;
 }
 
 @Injectable()
@@ -59,6 +60,19 @@ export class VacanciesRepositoryImpl implements VacanciesRepository {
     const output = await this.prisma.vacancy.findMany({
       where: {
         projectId,
+      },
+    });
+
+    return output;
+  }
+
+  async searchVacancies(searchTitle: string): Promise<VacancyEntity[]> {
+    const output = await this.prisma.vacancy.findMany({
+      where: {
+        title: {
+          contains: searchTitle,
+          mode: 'insensitive',
+        },
       },
     });
 
