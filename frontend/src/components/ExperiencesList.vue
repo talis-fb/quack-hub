@@ -10,6 +10,9 @@ import ExperienceItem from '@/components/ExperienceItem.vue'
 import { useExperienceStore } from '../stores/experience'
 import { storeToRefs } from 'pinia'
 
+// Shadcn-vue components
+import { Separator } from '@/components/ui/separator'
+
 export interface ExperienceListProps {
   userId: number
   type: ExperienceType
@@ -21,14 +24,15 @@ const experienceStore = useExperienceStore()
 
 const { experiences } = storeToRefs(experienceStore)
 
-onMounted(async () => {
-  await experienceStore.getExperiennces(props.userId, props.type)
-})
+// onMounted(async () => {
+// })
+await experienceStore.getExperiennces(props.userId, props.type)
 </script>
 
 <template>
   <div class="flex flex-col gap-5">
     <div v-for="(experience, index) in experiences[type]">
+      <Separator class="mb-4 bg-white/30" />
       <ExperienceItem :experience="experience" />
     </div>
   </div>

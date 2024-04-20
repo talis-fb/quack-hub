@@ -13,8 +13,10 @@ import UserPhotoDefault from '@/assets/user-icon.jpg'
 import ExperienceForm from '@/components/ExperienceForm.vue'
 import AppDialog from '@/components/AppDialog.vue'
 import ExperiencesList from '@/components/ExperiencesList.vue'
+import ExperienceListFallback from '@/components/ExperienceListFallback.vue'
 
 // Shadcn-vue components
+import { Skeleton } from '@/components/ui/skeleton'
 import { useToast } from '@/components/ui/toast/use-toast'
 import { Button } from '@/components/ui/button'
 
@@ -124,7 +126,12 @@ const handleSubmit = async (values: ExperienceDataForm) => {
           </Button>
         </header>
 
-        <ExperiencesList :user-id="+props.id" type="ACADEMIC" />
+        <Suspense>
+          <ExperiencesList :user-id="+props.id" type="ACADEMIC" />
+          <template #fallback>
+            <ExperienceListFallback :length="3"/>
+          </template>
+        </Suspense>
       </section>
 
       <section class="flex flex-col gap-3 px-3 py-5 bg-secondary rounded-md">
@@ -157,7 +164,13 @@ const handleSubmit = async (values: ExperienceDataForm) => {
           </Button>
         </header>
 
-        <ExperiencesList :user-id="+props.id" type="PROFESSIONAL" />
+        <Suspense>
+          <ExperiencesList :user-id="+props.id" type="PROFESSIONAL" />
+
+          <template #fallback>
+            <ExperienceListFallback :length="3"/>
+          </template>
+        </Suspense>
       </section>
 
       <section class="flex flex-col gap-3 px-3 py-5 bg-secondary rounded-md">
