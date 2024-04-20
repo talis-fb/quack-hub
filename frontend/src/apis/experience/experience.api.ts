@@ -29,6 +29,12 @@ export class ExperienceApiImpl implements IExperienceApi {
     userId: number,
     type?: ExperienceType
   ): Promise<IExperienceEntity[]> {
+    await new Promise((resolve) => {
+      setTimeout(() => {
+        resolve('')
+      }, 3000)
+    })
+
     const res = await api.get<IExperienceEntity[]>(`/experience/user/${userId}`, {
       params: {
         type

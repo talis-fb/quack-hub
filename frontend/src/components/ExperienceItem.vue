@@ -4,12 +4,8 @@ import ExperienceForm from '@/components/ExperienceForm.vue'
 import AppDialog from '@/components/AppDialog.vue'
 import AppAlertDialog from '@/components/AppAlertDialog.vue'
 
-// Services
-import { experienceService } from '@/services'
-
 // Shadcn-vue components
 import { Button } from '@/components/ui/button'
-import { Separator } from '@/components/ui/separator'
 import { useToast } from '@/components/ui/toast/use-toast'
 
 // Icons
@@ -72,7 +68,6 @@ const handleDeleteExperience = async () => {
 </script>
 
 <template>
-  <Separator class="mb-4 bg-white/30" />
   <div class="group relative cursor-pointer hover:bg-black/40 p-3">
     <p class="text-xl">
       {{ experience.title }}
