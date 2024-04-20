@@ -1,15 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Transform } from 'class-transformer';
 import {
   IsString,
-  IsDate,
   IsOptional,
   MinLength,
   IsIn,
   IsInt,
   ArrayNotEmpty,
-  IsArray,
-  IsNotEmpty,
 } from 'class-validator';
 
 export const StateVacancy = ['OPEN', 'CLOSED', 'IN_SELECTION_PROCESS'] as const;
@@ -35,6 +31,9 @@ export class VacancyData {
   @IsIn(StateVacancy)
   @ApiProperty()
   state: StateVacancy;
+
+  @IsInt()
+  projectId: number;
 }
 
 export class VacancyEntity extends VacancyData {
