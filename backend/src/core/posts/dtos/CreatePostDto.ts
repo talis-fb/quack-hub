@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsInt, IsOptional, IsString, MinLength } from 'class-validator';
+import { IsString, MinLength } from 'class-validator';
 
 export class CreatePostDto {
   @IsString()
@@ -8,7 +8,6 @@ export class CreatePostDto {
   title: string;
 
   @IsString()
-  @IsOptional()
   @ApiProperty()
-  content: string | null;
+  content: string;
 }

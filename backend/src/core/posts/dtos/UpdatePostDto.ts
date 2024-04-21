@@ -3,12 +3,13 @@ import { IsOptional, IsString, MinLength } from 'class-validator';
 
 export class UpdatePostDto {
   @IsString()
+  @IsOptional()
   @MinLength(3)
   @ApiProperty()
-  title: string;
+  title?: string;
 
   @IsString()
   @IsOptional()
   @ApiProperty()
-  content: string | null;
+  content?: string;
 }
