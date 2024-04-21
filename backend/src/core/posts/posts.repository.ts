@@ -8,7 +8,7 @@ import { UpdatePostDto } from './dtos/UpdatePostDto';
 export abstract class PostsRepository {
   abstract getPostById(id: number): Promise<PostEntity | null>;
   abstract getPostsByUserId(userId: number): Promise<PostEntity[]>;
-  abstract create(data: CreatePostDto): Promise<PostEntity>;
+  abstract create(data: CreatePostDto, userId: number): Promise<PostEntity>;
   abstract update(id: number, data: UpdatePostDto): Promise<PostEntity | null>;
   abstract delete(id: number): Promise<PostEntity | null>;
 }
@@ -53,9 +53,12 @@ export class PostsRepositoryImpl implements PostsRepository {
     return output;
   }
 
-  async create(data: CreatePostDto): Promise<PostEntity> {
+  async create(data: CreatePostDto, userId: number): Promise<PostEntity> {
     const output = await this.prisma.post.create({
-      data,
+      data: {
+        ...data,
+        userId,
+      },
       include: {
         _count: {
           select: {

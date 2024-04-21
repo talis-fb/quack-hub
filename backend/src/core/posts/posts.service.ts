@@ -7,7 +7,7 @@ import { PostsRepository } from './posts.repository';
 export abstract class PostsService {
   abstract getPostById(id: number): Promise<PostEntity | null>;
   abstract getPostsByUserId(userId: number): Promise<PostEntity[]>;
-  abstract create(data: CreatePostDto): Promise<PostEntity>;
+  abstract create(data: CreatePostDto, userId: number): Promise<PostEntity>;
   abstract update(id: number, data: UpdatePostDto): Promise<PostEntity | null>;
   abstract delete(id: number): Promise<PostEntity | null>;
 }
@@ -28,8 +28,8 @@ export class PostsServiceImpl implements PostsService {
     return output;
   }
 
-  async create(data: CreatePostDto): Promise<PostEntity> {
-    const output = await this.postsRepository.create(data);
+  async create(data: CreatePostDto, userId: number): Promise<PostEntity> {
+    const output = await this.postsRepository.create(data, userId);
 
     return output;
   }

@@ -11,7 +11,4 @@ export class CreatePostDto {
   @IsOptional()
   @ApiProperty()
   content: string | null;
-
-  @IsInt()
-  userId: number;
 }
