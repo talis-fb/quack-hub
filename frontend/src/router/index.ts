@@ -17,7 +17,7 @@ import HomeView from '@/views/HomeView.vue'
 import ProfileUserTeste from '@/views/UserProfileView.vue'
 
 export const router = createRouter({
-  linkActiveClass: 'text-white',
+  linkActiveClass: 'text-white/100',
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
