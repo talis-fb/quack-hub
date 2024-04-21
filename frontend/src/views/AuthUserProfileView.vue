@@ -37,8 +37,8 @@ import { type ExperienceDataForm } from '@/components/ExperienceForm.vue'
 import { useExperienceStore } from '@/stores/experience'
 import type { IUserEntity } from '@/entites/IUser'
 import ProfileEdit from './ProfileEdit.vue'
-
-const experienceStore = useExperienceStore()
+import { useUserAuth } from '@/stores/userAuth'
+import { storeToRefs } from 'pinia'
 
 /**
  * Recebendo o userId pelo param da rota.
@@ -47,12 +47,14 @@ const props = defineProps<{
   id: string
 }>()
 
-const user = ref<IUserEntity | null>(null)
+const experienceStore = useExperienceStore()
+
+const userAuthStore = useUserAuth()
+
+const { user } = storeToRefs(userAuthStore)
 
 onBeforeMount(async () => {
-  const res = await userService.getUserById((props as any).id as number)
-
-  user.value = res
+  userAuthStore.getProfile(+props.id)
 })
 
 const { toast, dismiss } = useToast()
@@ -61,7 +63,7 @@ const handleSubmit = async (values: ExperienceDataForm) => {
   try {
     await experienceStore.createExperience({
       ...values,
-      userId: (props as any).id
+      userId: +props.id
     })
 
     toast({

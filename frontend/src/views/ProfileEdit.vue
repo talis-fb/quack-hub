@@ -23,7 +23,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { useToast } from '@/components/ui/toast/use-toast'
 
 // Store pinia
-import { useAuthStore } from '@/stores/auth'
+import { useUserAuth } from '@/stores/userAuth'
 
 // Services
 import { userService } from '@/services'
@@ -35,9 +35,9 @@ interface IProfileEditProps {
   user: IUserEntity
 }
 
-const props = defineProps<IProfileEditProps>()
+const userAuthStore = useUserAuth()
 
-const { user } = useAuthStore()
+const props = defineProps<IProfileEditProps>()
 
 const formSchema = toTypedSchema(
   z.object({
@@ -82,11 +82,11 @@ const onSubmit = form.handleSubmit(async (values) => {
   console.log({ values })
   const valuesToSubmit: IUserData = {
     ...values,
-    email: user.email as string
+    email: props.user.email as string
   }
 
   try {
-    const userState = await userService.updateUser(user.id as number, valuesToSubmit)
+    await userAuthStore.update(props.user.id, valuesToSubmit)
 
     toast({
       title: 'Modificações salvas',
