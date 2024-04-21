@@ -3,10 +3,9 @@
 import { Suspense, onBeforeMount, ref } from 'vue'
 
 // Services
-import { userService, experienceService } from '@/services'
+import { userService } from '@/services'
 
 // Images
-import WalpaperDefaultUser from '@/assets/wallpaper-default-user.svg'
 import UserPhotoDefault from '@/assets/user-icon.jpg'
 
 // App components
@@ -16,7 +15,6 @@ import ExperiencesList from '@/components/ExperiencesList.vue'
 import ExperienceListFallback from '@/components/ExperienceListFallback.vue'
 
 // Shadcn-vue components
-import { Skeleton } from '@/components/ui/skeleton'
 import { useToast } from '@/components/ui/toast/use-toast'
 import { Button } from '@/components/ui/button'
 
@@ -30,10 +28,9 @@ import {
   SheetTitle,
   SheetTrigger
 } from '@/components/ui/sheet'
-import { Input } from '@/components/ui/input'
 
 // Icons
-import { Ellipsis, Plus, Pencil, Info } from 'lucide-vue-next'
+import { Plus, Pencil } from 'lucide-vue-next'
 
 // Types
 import { type ExperienceDataForm } from '@/components/ExperienceForm.vue'
@@ -156,10 +153,6 @@ const handleSubmit = async (values: ExperienceDataForm) => {
               />
             </template>
           </AppDialog>
-
-          <Button variant="outline" size="icon" class="bg-transparent hover:bg-black/40">
-            <Pencil class="w-5 h-5" />
-          </Button>
         </header>
 
         <Suspense>
@@ -194,10 +187,6 @@ const handleSubmit = async (values: ExperienceDataForm) => {
               />
             </template>
           </AppDialog>
-
-          <Button variant="outline" size="icon" class="bg-transparent hover:bg-black/40">
-            <Pencil class="w-5 h-5" />
-          </Button>
         </header>
 
         <Suspense>

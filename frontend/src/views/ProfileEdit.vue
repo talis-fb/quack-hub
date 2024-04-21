@@ -87,6 +87,7 @@ const onSubmit = form.handleSubmit(async (values) => {
 
   try {
     const userState = await userService.updateUser(user.id as number, valuesToSubmit)
+
     toast({
       title: 'Modificações salvas',
       variant: 'default'

@@ -10,10 +10,11 @@ import { authGuard, redirectToHomeIfAuthenticatedGuard } from './RoutesGuards'
 import Signin from '@/views/Signin.vue'
 import Signup from '@/views/Signup.vue'
 import NavMenu from '@/views/NavMenu.vue'
-import ProfileUserView from '@/views/ProfileUserView.vue'
+import ProfileUserView from '@/views/NonAuthUserProfileView.vue'
 import AboutView from '@/views/AboutView.vue'
 import ProfileEdit from '@/views/ProfileEdit.vue'
 import HomeView from '@/views/HomeView.vue'
+import ProfileUserTeste from '@/views/UserProfileView.vue'
 
 export const router = createRouter({
   linkActiveClass: 'text-white',
@@ -49,7 +50,7 @@ export const router = createRouter({
       name: metadataRoutes.USER_PROFILE.name,
       components: {
         Navbar: NavMenu,
-        default: ProfileUserView
+        default: ProfileUserTeste
       },
       props: true,
       meta: { ...metadataRoutes.USER_PROFILE }
