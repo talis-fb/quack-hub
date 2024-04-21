@@ -1,6 +1,6 @@
 <script setup lang="ts">
 // Vue imports
-import { Suspense, onBeforeMount, ref } from 'vue'
+import { Suspense, onBeforeMount, ref, computed } from 'vue';
 
 // Services
 import { userService } from '@/services'
@@ -29,11 +29,21 @@ const props = defineProps<{
 
 const user = ref<IUserEntity | null>(null)
 
+const userPhoto = computed(() => {
+  if (user.value?.avatarUrl) {
+    return user.value.avatarUrl
+  }
+
+  return UserPhotoDefault
+})
+
 onBeforeMount(async () => {
   const res = await userService.getUserById((props as any).id as number)
 
   user.value = res
 })
+
+
 </script>
 <template>
   <main class="flex flex-1 flex-col md:flex-row p-3 gap-5">
@@ -45,7 +55,7 @@ onBeforeMount(async () => {
           <div class="flex">
             <img
               class="mt-[-60px] w-32 rounded-full border-4 border-black"
-              :src="UserPhotoDefault"
+              :src="userPhoto"
               alt="user-icon"
             />
           </div>

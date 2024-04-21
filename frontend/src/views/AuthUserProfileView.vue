@@ -1,6 +1,6 @@
 <script setup lang="ts">
 // Vue imports
-import { Suspense, onBeforeMount, ref } from 'vue'
+import { Suspense, computed, onBeforeMount, ref } from 'vue'
 
 // Services
 import { userService } from '@/services'
@@ -80,6 +80,15 @@ const handleSubmit = async (values: ExperienceDataForm) => {
     })
   }
 }
+
+const userPhoto = computed(() => {
+  if (user.value?.avatarUrl) {
+    return user.value.avatarUrl
+  }
+
+  return UserPhotoDefault
+})
+
 </script>
 <template>
   <main class="flex flex-1 flex-col md:flex-row p-3 gap-5">
@@ -91,7 +100,7 @@ const handleSubmit = async (values: ExperienceDataForm) => {
           <div class="flex">
             <img
               class="mt-[-60px] w-32 rounded-full border-4 border-black"
-              :src="UserPhotoDefault"
+              :src="userPhoto"
               alt="user-icon"
             />
 
