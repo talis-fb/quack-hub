@@ -1,46 +1,57 @@
 <script setup lang="ts">
+// Images
 import AvatarDefault from '@/assets/user-icon.jpg'
 
+// Form Validation
 import { useForm } from 'vee-validate'
 import { toTypedSchema } from '@vee-validate/zod'
 import * as z from 'zod'
 import { format } from 'date-fns'
 import { cn } from '@/lib/utils'
 
-import { ImageIcon } from 'lucide-vue-next'
+// Icons
+import { Calendar as CalendarIcon, ImageIcon } from 'lucide-vue-next'
 
+// Shadcn-vue componentns
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { Calendar } from '@/components/ui/calendar'
-import { Calendar as CalendarIcon } from 'lucide-vue-next'
-
-import {
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage
-} from '@/components/ui/form'
+import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { Separator } from '@/components/ui/separator'
 import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import BaseAuth from '@/components/BaseAuth.vue'
-
-import { useAuthStore } from '@/stores/auth'
-import { userService } from '@/services'
-import type { IUserData } from '@/entites/IUser'
 import { useToast } from '@/components/ui/toast/use-toast'
+
+// Store pinia
+import { useAuthStore } from '@/stores/auth'
+
+// Services
+import { userService } from '@/services'
+
+// Types
+import type { IUserData, IUserEntity } from '@/entites/IUser'
+
+interface IProfileEditProps {
+  user: IUserEntity
+}
+
+const props = defineProps<IProfileEditProps>()
 
 const { user } = useAuthStore()
 
 const formSchema = toTypedSchema(
   z.object({
-    name: z.string().optional(),
+    name: z.string().min(3, { message: 'Nome deve ter no mínimo 3 caracteres' }),
     aboutDescription: z.string().optional(),
     birthday: z.date().max(new Date(), { message: 'Data inválida.' }).optional(),
-    avatarUrl: z.string().url({ message: 'Esse não é um link válido.' }).optional(),
+    avatarUrl: z
+      .string({
+        required_error: 'Campo avatarUrl obrigatório.'
+      })
+      .url({ message: 'Esse não é um link válido.' })
+      .nullish()
+      .or(z.literal(''))
+      .transform((e) => (e === '' ? null : e)),
     phone: z
       .string()
       .regex(/^\d{2}\d{5}\d{4}$/, 'Esse não é um telefone válido.')
@@ -49,6 +60,8 @@ const formSchema = toTypedSchema(
   })
 )
 
+const { toast } = useToast()
+
 const form = useForm({
   validationSchema: formSchema,
   initialValues: {
@@ -56,9 +69,17 @@ const form = useForm({
   }
 })
 
-const { toast } = useToast()
+form.setValues({
+  name: props.user.name,
+  aboutDescription: props.user.aboutDescription,
+  birthday: props.user.birthday ? new Date(props.user.birthday) : undefined,
+  avatarUrl: props.user.avatarUrl,
+  phone: props.user.phone,
+  bio: props.user.bio
+})
 
 const onSubmit = form.handleSubmit(async (values) => {
+  console.log({ values })
   const valuesToSubmit: IUserData = {
     ...values,
     email: user.email as string
@@ -72,7 +93,7 @@ const onSubmit = form.handleSubmit(async (values) => {
     })
   } catch (error) {
     toast({
-      title: 'Erro ao efetuar login.',
+      title: 'Erro ao atualizar o perfil do usuário.',
       description: error?.message || 'Erro desconhecido, por favor contatar os desenvolvedores.',
       variant: 'destructive'
     })
@@ -81,26 +102,24 @@ const onSubmit = form.handleSubmit(async (values) => {
 </script>
 
 <template>
-  <main class="pt-5 relative flex flex-col justify-center items-center flex-1 p-5">
-    <form @submit="onSubmit" class="space-y-8 w-full max-w-[450px]">
+  <main class="flex flex-col justify-center items-center flex-1">
+    <form @submit="onSubmit" class="space-y-2 w-full">
       <FormField v-slot="{ componentField }" name="name">
         <FormItem>
           <FormLabel>Nome</FormLabel>
           <FormControl>
             <Input type="text" placeholder="Nome do seu usuário" v-bind="componentField" />
           </FormControl>
-          <FormDescription> Nome visisel para os outros </FormDescription>
           <FormMessage />
         </FormItem>
       </FormField>
 
       <FormField v-slot="{ componentField }" name="aboutDescription">
         <FormItem>
-          <FormLabel>About</FormLabel>
+          <FormLabel>Sobre</FormLabel>
           <FormControl>
             <Input type="text" placeholder="Breve descrição sobre você" v-bind="componentField" />
           </FormControl>
-          <FormDescription> Breve descrição sobre você </FormDescription>
           <FormMessage />
         </FormItem>
       </FormField>
@@ -129,6 +148,7 @@ const onSubmit = form.handleSubmit(async (values) => {
               </AvatarFallback>
             </Avatar>
           </FormControl>
+          <FormMessage />
         </FormItem>
       </FormField>
 
@@ -136,16 +156,15 @@ const onSubmit = form.handleSubmit(async (values) => {
         <FormItem>
           <FormLabel>Bio</FormLabel>
           <FormControl>
-            <Textarea placeholder="Tell us a little bit about yourself" v-bind="componentField" />
+            <Textarea placeholder="Conte-nos um pouco sobre você" v-bind="componentField" />
           </FormControl>
-          <FormDescription> Describe about you </FormDescription>
           <FormMessage />
         </FormItem>
       </FormField>
 
       <FormField v-slot="{ componentField, value }" name="birthday">
         <FormItem class="flex flex-col">
-          <FormLabel>Date of birth</FormLabel>
+          <FormLabel>Data de aniversário</FormLabel>
           <Popover>
             <PopoverTrigger as-child>
               <FormControl>
@@ -155,7 +174,7 @@ const onSubmit = form.handleSubmit(async (values) => {
                     cn('w-[280px] pl-3 text-left font-normal', !value && 'text-muted-foreground')
                   "
                 >
-                  <span>{{ value ? format(value, 'PPP') : 'Pick a date' }}</span>
+                  <span>{{ value ? format(value, 'PPP') : 'Escolha uma data' }}</span>
                   <CalendarIcon class="ms-auto h-4 w-4 opacity-50" />
                 </Button>
               </FormControl>
@@ -164,7 +183,6 @@ const onSubmit = form.handleSubmit(async (values) => {
               <Calendar v-bind="componentField" />
             </PopoverContent>
           </Popover>
-          <FormDescription> Your date of birth is used to calculate your age. </FormDescription>
           <FormMessage />
         </FormItem>
       </FormField>
@@ -173,14 +191,13 @@ const onSubmit = form.handleSubmit(async (values) => {
         <FormItem>
           <FormLabel>Telefone</FormLabel>
           <FormControl>
-            <Input type="text" placeholder="Nome do seu usuário" v-bind="componentField" />
+            <Input type="text" placeholder="Ex.: 84987878787" v-bind="componentField" />
           </FormControl>
-          <FormDescription> Seu numero de telefone (no formato 84987878787) </FormDescription>
           <FormMessage />
         </FormItem>
       </FormField>
 
-      <Button type="submit"> Submit </Button>
+      <Button type="submit" class="w-full">Salvar mudanças</Button>
     </form>
   </main>
 </template>

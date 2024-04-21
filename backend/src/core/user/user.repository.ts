@@ -130,6 +130,11 @@ export class UserRepositoryImpl implements UserRepository {
         data: {
           ...user,
         },
+        include: {
+          _count: {
+            select: { following: true, followedBy: true },
+          },
+        },
       });
     } catch (error) {
       if (error.code === 'P2025') {

@@ -20,6 +20,18 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { useToast } from '@/components/ui/toast/use-toast'
 import { Button } from '@/components/ui/button'
 
+import {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetDescription,
+  SheetFooter,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger
+} from '@/components/ui/sheet'
+import { Input } from '@/components/ui/input'
+
 // Icons
 import { Ellipsis, Plus, Pencil, Info } from 'lucide-vue-next'
 
@@ -27,6 +39,7 @@ import { Ellipsis, Plus, Pencil, Info } from 'lucide-vue-next'
 import { type ExperienceDataForm } from '@/components/ExperienceForm.vue'
 import { useExperienceStore } from '@/stores/experience'
 import type { IUserEntity } from '@/entites/IUser'
+import ProfileEdit from './ProfileEdit.vue'
 
 const experienceStore = useExperienceStore()
 
@@ -68,7 +81,6 @@ const handleSubmit = async (values: ExperienceDataForm) => {
     })
   }
 }
-
 </script>
 <template>
   <main class="flex flex-1 flex-col md:flex-row p-3 gap-5">
@@ -85,9 +97,28 @@ const handleSubmit = async (values: ExperienceDataForm) => {
             />
 
             <div class="flex-1 flex justify-end">
-              <Button variant="outline" size="icon" class="bg-transparent hover:bg-black/40">
-                <Pencil class="w-5 h-5" />
-              </Button>
+              <Sheet>
+                <SheetTrigger as-child>
+                  <Button variant="outline" size="icon" class="bg-transparent hover:bg-black/40">
+                    <Pencil class="w-5 h-5" />
+                  </Button>
+                </SheetTrigger>
+                <SheetContent class="overflow-auto">
+                  <SheetHeader>
+                    <SheetTitle>Editar perfil</SheetTitle>
+                    <SheetDescription>
+                      Faça alterações em seu perfil aqui. Clique em salvar mudanças quando terminar.
+                    </SheetDescription>
+                  </SheetHeader>
+
+                  <ProfileEdit :user="user as IUserEntity" />
+                  <!-- <SheetFooter>
+                    <SheetClose as-child>
+                      <Button type="submit"> Save changes </Button>
+                    </SheetClose>
+                  </SheetFooter> -->
+                </SheetContent>
+              </Sheet>
             </div>
           </div>
 
