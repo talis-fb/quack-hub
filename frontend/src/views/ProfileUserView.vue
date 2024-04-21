@@ -68,6 +68,7 @@ const handleSubmit = async (values: ExperienceDataForm) => {
     })
   }
 }
+
 </script>
 <template>
   <main class="flex flex-1 flex-col md:flex-row p-3 gap-5">
@@ -90,7 +91,7 @@ const handleSubmit = async (values: ExperienceDataForm) => {
             </div>
           </div>
 
-          <figcaption class="text-lg">{{ user?.name }}</figcaption>
+          <p class="text-lg">{{ user?.name }}</p>
           <p>Informações de contato</p>
           <p class="mt-6">
             <span class="text-xl font-bold">{{ user?.followedBy }}</span> Seguidores |
