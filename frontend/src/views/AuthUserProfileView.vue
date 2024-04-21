@@ -1,12 +1,11 @@
 <script setup lang="ts">
 // Vue imports
-import { Suspense, onBeforeMount, ref } from 'vue'
+import { Suspense, computed, onBeforeMount, ref } from 'vue'
 
 // Services
-import { userService, experienceService } from '@/services'
+import { userService } from '@/services'
 
 // Images
-import WalpaperDefaultUser from '@/assets/wallpaper-default-user.svg'
 import UserPhotoDefault from '@/assets/user-icon.jpg'
 
 // App components
@@ -16,19 +15,30 @@ import ExperiencesList from '@/components/ExperiencesList.vue'
 import ExperienceListFallback from '@/components/ExperienceListFallback.vue'
 
 // Shadcn-vue components
-import { Skeleton } from '@/components/ui/skeleton'
 import { useToast } from '@/components/ui/toast/use-toast'
 import { Button } from '@/components/ui/button'
 
+import {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetDescription,
+  SheetFooter,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger
+} from '@/components/ui/sheet'
+
 // Icons
-import { Ellipsis, Plus, Pencil, Info } from 'lucide-vue-next'
+import { Plus, Pencil } from 'lucide-vue-next'
 
 // Types
 import { type ExperienceDataForm } from '@/components/ExperienceForm.vue'
 import { useExperienceStore } from '@/stores/experience'
 import type { IUserEntity } from '@/entites/IUser'
-
-const experienceStore = useExperienceStore()
+import ProfileEdit from './ProfileEdit.vue'
+import { useUserAuth } from '@/stores/userAuth'
+import { storeToRefs } from 'pinia'
 
 /**
  * Recebendo o userId pelo param da rota.
@@ -37,12 +47,14 @@ const props = defineProps<{
   id: string
 }>()
 
-const user = ref<IUserEntity | null>(null)
+const experienceStore = useExperienceStore()
+
+const userAuthStore = useUserAuth()
+
+const { user } = storeToRefs(userAuthStore)
 
 onBeforeMount(async () => {
-  const res = await userService.getUserById((props as any).id as number)
-
-  user.value = res
+  userAuthStore.getProfile(+props.id)
 })
 
 const { toast, dismiss } = useToast()
@@ -51,7 +63,7 @@ const handleSubmit = async (values: ExperienceDataForm) => {
   try {
     await experienceStore.createExperience({
       ...values,
-      userId: (props as any).id
+      userId: +props.id
     })
 
     toast({
@@ -68,25 +80,57 @@ const handleSubmit = async (values: ExperienceDataForm) => {
     })
   }
 }
+
+const userPhoto = computed(() => {
+  if (user.value?.avatarUrl) {
+    return user.value.avatarUrl
+  }
+
+  return UserPhotoDefault
+})
+
 </script>
 <template>
   <main class="flex flex-1 flex-col md:flex-row p-3 gap-5">
     <section class="flex-1 flex flex-col gap-5 relative rounded-md">
       <section class="bg-secondary rounded-md">
-        <figure>
-          <img class="w-full h-[200px] object-cover" :src="WalpaperDefaultUser" alt="" />
-        </figure>
+        <div class="bg-default-walpaper h-[200px]"></div>
 
-        <figure class="ml-6 mt-3 absolute top-28 flex flex-col items-center justify-center">
-          <img class="max-h-36 rounded-full" :src="UserPhotoDefault" alt="user-icon" />
-          <figcaption class="text-lg">{{ user?.name }}</figcaption>
-        </figure>
+        <div class="p-5">
+          <div class="flex">
+            <img
+              class="mt-[-60px] w-32 rounded-full border-4 border-black"
+              :src="userPhoto"
+              alt="user-icon"
+            />
 
-        <button class="absolute right-5">
-          <Ellipsis />
-        </button>
+            <div class="flex-1 flex justify-end">
+              <Sheet>
+                <SheetTrigger as-child>
+                  <Button variant="outline" size="icon" class="bg-transparent hover:bg-black/40">
+                    <Pencil class="w-5 h-5" />
+                  </Button>
+                </SheetTrigger>
+                <SheetContent class="overflow-auto">
+                  <SheetHeader>
+                    <SheetTitle>Editar perfil</SheetTitle>
+                    <SheetDescription>
+                      Faça alterações em seu perfil aqui. Clique em salvar mudanças quando terminar.
+                    </SheetDescription>
+                  </SheetHeader>
 
-        <div class="min-h-36 mt-32 pl-6">
+                  <ProfileEdit :user="user as IUserEntity" />
+                  <!-- <SheetFooter>
+                    <SheetClose as-child>
+                      <Button type="submit"> Save changes </Button>
+                    </SheetClose>
+                  </SheetFooter> -->
+                </SheetContent>
+              </Sheet>
+            </div>
+          </div>
+
+          <p class="text-lg">{{ user?.name }}</p>
           <p>Informações de contato</p>
           <p class="mt-6">
             <span class="text-xl font-bold">{{ user?.followedBy }}</span> Seguidores |
@@ -120,16 +164,12 @@ const handleSubmit = async (values: ExperienceDataForm) => {
               />
             </template>
           </AppDialog>
-
-          <Button variant="outline" size="icon" class="bg-transparent hover:bg-black/40">
-            <Pencil class="w-5 h-5" />
-          </Button>
         </header>
 
         <Suspense>
           <ExperiencesList :user-id="+props.id" type="ACADEMIC" />
           <template #fallback>
-            <ExperienceListFallback :length="3"/>
+            <ExperienceListFallback :length="3" />
           </template>
         </Suspense>
       </section>
@@ -158,17 +198,13 @@ const handleSubmit = async (values: ExperienceDataForm) => {
               />
             </template>
           </AppDialog>
-
-          <Button variant="outline" size="icon" class="bg-transparent hover:bg-black/40">
-            <Pencil class="w-5 h-5" />
-          </Button>
         </header>
 
         <Suspense>
           <ExperiencesList :user-id="+props.id" type="PROFESSIONAL" />
 
           <template #fallback>
-            <ExperienceListFallback :length="3"/>
+            <ExperienceListFallback :length="3" />
           </template>
         </Suspense>
       </section>

@@ -22,6 +22,9 @@ module.exports = {
       },
     },
     extend: {
+      backgroundImage: {
+        'default-walpaper': "url('/src/assets/wallpaper-default-user.svg')"
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
