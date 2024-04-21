@@ -42,8 +42,8 @@ const props = defineProps<IProfileEditProps>()
 const formSchema = toTypedSchema(
   z.object({
     name: z.string().min(3, { message: 'Nome deve ter no mínimo 3 caracteres' }),
-    aboutDescription: z.string().optional(),
-    birthday: z.date().max(new Date(), { message: 'Data inválida.' }).optional(),
+    aboutDescription: z.string().nullish(),
+    birthday: z.date().max(new Date(), { message: 'Data inválida.' }).nullish(),
     avatarUrl: z
       .string({
         required_error: 'Campo avatarUrl obrigatório.'
@@ -55,8 +55,8 @@ const formSchema = toTypedSchema(
     phone: z
       .string()
       .regex(/^\d{2}\d{5}\d{4}$/, 'Esse não é um telefone válido.')
-      .optional(),
-    bio: z.string().optional()
+      .nullish(),
+    bio: z.string().nullish()
   })
 )
 
