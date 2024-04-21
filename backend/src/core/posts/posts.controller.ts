@@ -23,9 +23,8 @@ export class PostsController {
 
     return output;
   }
-
   @Get('/user/:userId')
-  async getPostsByUserId(@Param('id', ParseIntPipe) userId: number) {
+  async getPostsByUserId(@Param('userId', ParseIntPipe) userId: number) {
     const output = await this.postsService.getPostsByUserId(userId);
 
     return output;
