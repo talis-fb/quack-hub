@@ -4,14 +4,14 @@ import type { IProjectResponse } from './models/IProjectResponse'
 import { api } from '@/network/api'
 
 export interface IProjectApi {
-  search(title: string): Promise<IProjectResponse[]>
+  search(title?: string): Promise<IProjectResponse[]>
   delete(projectId: number): Promise<IProjectResponse>
   update(projectId: number, data: IUpdateProject): Promise<IProjectResponse>
   create(data: ICreateProject): Promise<IProjectResponse>
 }
 
 export class ProjectApiImpl implements IProjectApi {
-  async search(title: string): Promise<IProjectResponse[]> {
+  async search(title?: string): Promise<IProjectResponse[]> {
     const res = await api.get<IProjectResponse[]>('/projects', {
       params: {
         title
