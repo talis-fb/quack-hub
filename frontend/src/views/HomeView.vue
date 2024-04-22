@@ -17,24 +17,28 @@ import { ChevronDown } from 'lucide-vue-next'
     </aside>
 
     <main class="bg-secondary flex flex-col lg:col-span-3 rounded-md">
-      <section class="flex justify-between gap-2 p-8 text-lg">
-        <figure class="flex gap-1 items-center">
+      <section class="flex justify-between gap-2text-lg">
+        <!-- <figure class="flex gap-1 items-center">
           <Image />
           <figcaption>Mídia</figcaption>
-        </figure>
+        </figure> -->
 
-        <figure class="flex gap-1 items-center">
-          <Presentation />
-          <figcaption>Projetos</figcaption>
-        </figure>
-
-        <figure class="flex gap-1 items-center">
+        <div
+          class="transition delay-50 p-5 cursor-pointer hover:bg-black/40 flex-1 flex gap-1 items-center justify-center"
+        >
           <NotebookPen />
-          <figcaption>Criar postagem</figcaption>
-        </figure>
+          <span>Postagens</span>
+        </div>
+
+        <div
+          class="transition delay-50 p-5 cursor-pointer hover:bg-black/40 flex-1 flex gap-1 items-center justify-center"
+        >
+          <Presentation />
+          <span>Projetos</span>
+        </div>
       </section>
 
-      <Separator class="h-[2px] bg-white" />
+      <Separator class="h-[1px] bg-white" />
 
       <section class="flex-1 flex gap-6 p-8 text-lg rounded-lg">Posts aqui</section>
     </main>
