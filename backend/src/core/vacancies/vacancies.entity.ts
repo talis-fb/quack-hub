@@ -6,6 +6,7 @@ import {
   IsIn,
   IsInt,
   ArrayNotEmpty,
+  IsDate,
 } from 'class-validator';
 
 export const StateVacancy = ['OPEN', 'CLOSED', 'IN_SELECTION_PROCESS'] as const;
@@ -39,4 +40,10 @@ export class VacancyData {
 export class VacancyEntity extends VacancyData {
   @IsInt()
   id: number;
+
+  @IsDate()
+  createdAt: Date;
+
+  @IsDate()
+  updatedAt: Date;
 }
