@@ -6,6 +6,7 @@ import { ProjectsModule } from './core/projects/projects.module';
 import { ExperienceModule } from './core/experience/experience.module';
 import { VacanciesModule } from './core/vacancies/vacancies.module';
 import { PostsModule } from './core/posts/posts.module';
+import { CommentsModule } from './core/comments/comments.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { PostsModule } from './core/posts/posts.module';
     VacanciesModule,
     VacanciesModule,
     PostsModule,
+    CommentsModule,
   ],
   providers: [],
 })
