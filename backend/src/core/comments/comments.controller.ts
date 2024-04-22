@@ -12,25 +12,39 @@ import {
 import { CommentsService } from './comments.service';
 import { CreateCommentDto } from './dtos/CreateCommentDto';
 import { UpdateCommentDto } from './dtos/UpdateCommentDto';
+import { ApiResponse, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('comments')
 @Controller('comments')
 export class CommentsController {
   constructor(private readonly commentsService: CommentsService) {}
 
+  @ApiResponse({
+    status: 200,
+    description: 'Comment filtered by id returned successfully.',
+  })
   @Get(':id')
-  async getCommentById(@Param('id', ParseIntPipe) id: number) {
+  async findOneById(@Param('id', ParseIntPipe) id: number) {
     const output = await this.commentsService.getCommentById(id);
 
     return output;
   }
 
+  @ApiResponse({
+    status: 200,
+    description: 'Successfully retrieved the list of comments by project id.',
+  })
   @Get('/post/:postId')
-  async getCommentsByPostId(@Param('postId', ParseIntPipe) postId: number) {
+  async findManyByPostId(@Param('postId', ParseIntPipe) postId: number) {
     const output = await this.commentsService.getCommentsByPostId(postId);
 
     return output;
   }
 
+  @ApiResponse({
+    status: 201,
+    description: 'The comment has been successfully created',
+  })
   @Post()
   async create(@Req() req, @Body() data: CreateCommentDto) {
     const { userId } = req.user;
@@ -40,6 +54,10 @@ export class CommentsController {
     return output;
   }
 
+  @ApiResponse({
+    status: 200,
+    description: 'The comment has been successfully updated',
+  })
   @Put(':id')
   async update(
     @Param('id', ParseIntPipe) id: number,
@@ -50,6 +68,10 @@ export class CommentsController {
     return output;
   }
 
+  @ApiResponse({
+    status: 200,
+    description: 'The comment has been successfully removed',
+  })
   @Delete(':id')
   async delete(@Param('id', ParseIntPipe) id: number) {
     const output = await this.commentsService.delete(id);
