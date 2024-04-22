@@ -27,10 +27,10 @@ onMounted(async () => {
         <Separator class="h-[1px] bg-white mb-2" />
 
         <header class="flex items-center space-x-2">
-          <span class="font-bold text-2xl text-indigo-600">{{ project.title }}</span>
-          <Badge variant="secondary">{{ project.state }}</Badge>
+          <span class="font-bold text-2xl">{{ project.title }}</span>
+          <Badge variant="secondary" class="tracking-wide">{{ project.state }}</Badge>
         </header>
-        <p class="text-sm text-muted-foreground">{{ project.summary }}</p>
+        <p class="text-sm text-muted-foreground ">{{ project.summary }}</p>
         <!-- <p>Estado do projeto: {{ project.state }}</p> -->
 
         <!-- <p>Setor: {{ project.sector }}</p> -->
