@@ -49,7 +49,7 @@ import { Presentation, NotebookPen, ChevronDown } from 'lucide-vue-next'
 
       <Separator class="h-[1px] bg-white" />
 
-      <section class="flex-1 flex gap-6 p-5 text-lg rounded-lg">
+      <section class="flex-1 flex gap-6 text-lg rounded-lg">
         <RouterView />
       </section>
     </main>
