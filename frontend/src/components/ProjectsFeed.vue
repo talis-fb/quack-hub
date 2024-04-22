@@ -5,7 +5,7 @@ import type { IProjectEntity, StateProject } from '@/entites/IProject'
 import { Button } from './ui/button'
 import { Badge } from '@/components/ui/badge'
 import Separator from './ui/separator/Separator.vue'
-import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area'
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 
 // Icons
 import {} from 'lucide-vue-next'
@@ -97,6 +97,7 @@ const data = [
 
               <div class="overflow-auto p-4 flex gap-3">
                 <div
+                  v-if="project.vacancies.length"
                   v-for="vacancy in project.vacancies"
                   class="p-4 flex flex-col border rounded-md gap-2"
                 >
@@ -108,6 +109,12 @@ const data = [
                   </span>
                   <Badge variant="default" class="tracking-wide">{{ vacancy.state }}</Badge>
                 </div>
+
+                <Alert v-else>
+                  <Terminal className="h-4 w-4" />
+                  <AlertTitle>Projetos sem vagas abertas</AlertTitle>
+                  <AlertDescription> Fique ligado para as próximas vagas! </AlertDescription>
+                </Alert>
               </div>
 
               <DrawerFooter>
