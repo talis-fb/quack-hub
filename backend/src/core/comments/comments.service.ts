@@ -22,23 +22,33 @@ export abstract class CommentsService {
 export class CommentsServiceImpl implements CommentsService {
   constructor(private readonly commentsRepository: CommentsRepository) {}
 
-  getCommentById(id: number): Promise<CommentEntity> {
-    throw new Error('Method not implemented.');
+  async getCommentById(id: number): Promise<CommentEntity> {
+    const output = await this.commentsRepository.getCommentById(id);
+
+    return output;
   }
 
-  getCommentsByPostId(postId: number): Promise<CommentEntity[]> {
-    throw new Error('Method not implemented.');
+  async getCommentsByPostId(postId: number): Promise<CommentEntity[]> {
+    const output = await this.commentsRepository.getCommentsByPostId(postId);
+
+    return output;
   }
 
-  create(data: CreateCommentDto, userId: number): Promise<CommentEntity> {
-    throw new Error('Method not implemented.');
+  async create(data: CreateCommentDto, userId: number): Promise<CommentEntity> {
+    const output = await this.commentsRepository.create({ ...data, userId });
+
+    return output;
   }
 
-  update(id: number, data: UpdateCommentDto): Promise<CommentEntity> {
-    throw new Error('Method not implemented.');
+  async update(id: number, data: UpdateCommentDto): Promise<CommentEntity> {
+    const output = await this.commentsRepository.update(id, data);
+
+    return output;
   }
 
-  delete(id: number): Promise<CommentEntity> {
-    throw new Error('Method not implemented.');
+  async delete(id: number): Promise<CommentEntity> {
+    const output = await this.commentsRepository.delete(id);
+
+    return output;
   }
 }

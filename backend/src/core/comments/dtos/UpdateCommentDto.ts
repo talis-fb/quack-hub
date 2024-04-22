@@ -1,9 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsOptional, IsString, Min, MinLength } from 'class-validator';
+import { IsOptional, IsString, MinLength } from 'class-validator';
 
 export class UpdateCommentDto {
   @IsString()
-  @Min(1)
+  @MinLength(1)
   @IsOptional()
   @ApiProperty()
   content?: string;

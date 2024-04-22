@@ -17,23 +17,53 @@ export abstract class CommentsRepository {
 @Injectable()
 export class CommentsRepositoryImpl implements CommentsRepository {
   constructor(private prisma: PrismaService) {}
-  getCommentById(id: number): Promise<CommentEntity> {
-    throw new Error('Method not implemented.');
+
+  async getCommentById(id: number): Promise<CommentEntity> {
+    const output = await this.prisma.comment.findUnique({
+      where: {
+        id,
+      },
+    });
+
+    return output;
   }
 
-  getCommentsByPostId(postId: number): Promise<CommentEntity[]> {
-    throw new Error('Method not implemented.');
+  async getCommentsByPostId(postId: number): Promise<CommentEntity[]> {
+    const output = await this.prisma.comment.findMany({
+      where: {
+        postId,
+      },
+    });
+
+    return output;
   }
 
-  create(data: CommentData): Promise<CommentEntity> {
-    throw new Error('Method not implemented.');
+  async create(data: CommentData): Promise<CommentEntity> {
+    const output = await this.prisma.comment.create({
+      data,
+    });
+
+    return output;
   }
 
-  update(id: number, data: Partial<CommentData>): Promise<CommentEntity> {
-    throw new Error('Method not implemented.');
+  async update(id: number, data: Partial<CommentData>): Promise<CommentEntity> {
+    const output = await this.prisma.comment.update({
+      where: {
+        id,
+      },
+      data,
+    });
+
+    return output;
   }
 
-  delete(id: number): Promise<CommentEntity> {
-    throw new Error('Method not implemented.');
+  async delete(id: number): Promise<CommentEntity> {
+    const output = await this.prisma.comment.delete({
+      where: {
+        id,
+      },
+    });
+
+    return output;
   }
 }
