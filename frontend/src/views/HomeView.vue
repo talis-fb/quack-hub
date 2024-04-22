@@ -1,9 +1,9 @@
 <script setup lang="ts">
+// Shadcn-vue components
 import Separator from '@/components/ui/separator/Separator.vue'
-import { Image } from 'lucide-vue-next'
-import { Presentation } from 'lucide-vue-next'
-import { NotebookPen } from 'lucide-vue-next'
-import { ChevronDown } from 'lucide-vue-next'
+// Icons
+
+import { Presentation, NotebookPen, ChevronDown } from 'lucide-vue-next'
 </script>
 
 <template>
@@ -17,30 +17,41 @@ import { ChevronDown } from 'lucide-vue-next'
     </aside>
 
     <main class="bg-secondary flex flex-col lg:col-span-3 rounded-md">
-      <section class="flex justify-between gap-2text-lg">
-        <!-- <figure class="flex gap-1 items-center">
-          <Image />
-          <figcaption>Mídia</figcaption>
-        </figure> -->
-
-        <div
-          class="transition delay-50 p-5 cursor-pointer hover:bg-black/40 flex-1 flex gap-1 items-center justify-center"
+      <section class="flex justify-between gap-2 text-lg">
+        <RouterLink
+          v-slot="{ isExactActive }"
+          :to="{ name: 'posts' }"
+          class="border transition delay-50 p-5 cursor-pointer hover:bg-black/40 flex-1 flex gap-1 items-center justify-center"
         >
-          <NotebookPen />
-          <span>Postagens</span>
-        </div>
+          <div
+            class="pb-3 flex space-x-1 border-b-2"
+            :class="isExactActive ? 'border-secondary-foreground' : 'border-transparent'"
+          >
+            <NotebookPen />
+            <span>Postagens</span>
+          </div>
+        </RouterLink>
 
-        <div
-          class="transition delay-50 p-5 cursor-pointer hover:bg-black/40 flex-1 flex gap-1 items-center justify-center"
+        <RouterLink
+          v-slot="{ isExactActive }"
+          :to="{ name: 'projects' }"
+          class="border transition delay-50 p-5 cursor-pointer hover:bg-black/40 flex-1 flex gap-1 items-center justify-center"
         >
-          <Presentation />
-          <span>Projetos</span>
-        </div>
+          <div
+            class="pb-3 flex space-x-1 border-b-2"
+            :class="isExactActive ? 'border-secondary-foreground' : 'border-transparent'"
+          >
+            <Presentation />
+            <span>Projetos</span>
+          </div>
+        </RouterLink>
       </section>
 
       <Separator class="h-[1px] bg-white" />
 
-      <section class="flex-1 flex gap-6 p-8 text-lg rounded-lg">Posts aqui</section>
+      <section class="flex-1 flex gap-6 p-5 text-lg rounded-lg">
+        <RouterView />
+      </section>
     </main>
 
     <aside class="bg-secondary flex flex-col md:col-start-2 lg:col-start-5">
