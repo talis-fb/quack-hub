@@ -1,7 +1,9 @@
 <script setup lang="ts">
-// Shadcn-vue components
 import type { IProjectEntity } from '@/entites/IProject'
+
+// Shadcn-vue components
 import { Button } from './ui/button'
+import { Badge } from '@/components/ui/badge'
 
 import { projectService } from '@/services'
 import { onMounted, ref } from 'vue'
@@ -21,19 +23,23 @@ onMounted(async () => {
     <Button type="button" variant="default"> Adicionar projeto </Button>
 
     <div class="mt-6 flex flex-col space-y-4">
-      <div v-for="project in projects">
+      <article v-for="project in projects">
         <Separator class="h-[1px] bg-white mb-2" />
 
-        <p>Título: {{ project.title }}</p>
-        <p>Estado do projeto: {{ project.state }}</p>
+        <header class="flex items-center space-x-2">
+          <span class="font-bold text-2xl text-indigo-600">{{ project.title }}</span>
+          <Badge variant="secondary">{{ project.state }}</Badge>
+        </header>
+        <p class="text-sm text-muted-foreground">{{ project.summary }}</p>
+        <!-- <p>Estado do projeto: {{ project.state }}</p> -->
 
-        <p>Setor: {{ project.sector }}</p>
+        <!-- <p>Setor: {{ project.sector }}</p> -->
 
-        <p>Resumo: {{ project.summary }}</p>
-        <p>Metodologias: {{ project.methodologies }}</p>
+        <!-- <p>Resumo: {{ project.summary }}</p> -->
+        <!-- <p>Metodologias: {{ project.methodologies }}</p> -->
 
-        <p>Vagas: {{ project.vacancies }}</p>
-      </div>
+        <!-- <p>Vagas: {{ project.vacancies }}</p> -->
+      </article>
     </div>
   </div>
 </template>

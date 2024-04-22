@@ -8,7 +8,7 @@ import { Presentation, NotebookPen, ChevronDown } from 'lucide-vue-next'
 
 <template>
   <div class="flex-1 p-2 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 mt-6 gap-6">
-    <aside class="bg-secondary p-6 flex flex-col items-center gap-4 rounded-md">
+    <aside class="border p-6 flex flex-col items-center gap-4 rounded-md">
       <div class="flex flex-col items-center border-b-2 border-slate-300 text-lg pb-6">
         <img class="h-14 rounded-full" src="@/assets/user-icon.jpg" />
         <p>User name</p>
@@ -16,7 +16,7 @@ import { Presentation, NotebookPen, ChevronDown } from 'lucide-vue-next'
       <p>Lista de amigos</p>
     </aside>
 
-    <main class="bg-secondary flex flex-col lg:col-span-3 rounded-md">
+    <main class="border flex flex-col lg:col-span-3 rounded-md">
       <section class="flex justify-between gap-2 text-lg">
         <RouterLink
           v-slot="{ isExactActive }"
@@ -25,7 +25,7 @@ import { Presentation, NotebookPen, ChevronDown } from 'lucide-vue-next'
         >
           <div
             class="pb-3 flex space-x-1 border-b-2"
-            :class="isExactActive ? 'border-secondary-foreground' : 'border-transparent'"
+            :class="isExactActive ? 'border-primary' : 'border-transparent'"
           >
             <NotebookPen />
             <span>Postagens</span>
@@ -39,7 +39,7 @@ import { Presentation, NotebookPen, ChevronDown } from 'lucide-vue-next'
         >
           <div
             class="pb-3 flex space-x-1 border-b-2"
-            :class="isExactActive ? 'border-secondary-foreground' : 'border-transparent'"
+            :class="isExactActive ? 'border-primary' : 'border-transparent'"
           >
             <Presentation />
             <span>Projetos</span>
@@ -54,7 +54,7 @@ import { Presentation, NotebookPen, ChevronDown } from 'lucide-vue-next'
       </section>
     </main>
 
-    <aside class="bg-secondary flex flex-col md:col-start-2 lg:col-start-5">
+    <aside class="border flex flex-col md:col-start-2 lg:col-start-5">
       <section class="text-lg p-12 rounded-md">
         <h1 class="text-xl mb-2">QuackHub Notícias</h1>
         <ul>

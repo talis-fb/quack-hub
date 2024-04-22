@@ -32,7 +32,7 @@ const {
 } = useAuthStore()
 </script>
 <template>
-  <nav class="flex px-6 py-2 justify-between bg-secondary">
+  <nav class="flex px-6 py-2 justify-between border">
     <header>
       <RouterLink :to="metadataRoutes.HOME.path">
         <img class="max-h-20" :src="Logo" alt="quackhub-logo" />
