@@ -5,9 +5,10 @@ import type { IProjectEntity, StateProject } from '@/entites/IProject'
 import { Button } from './ui/button'
 import { Badge } from '@/components/ui/badge'
 import Separator from './ui/separator/Separator.vue'
+import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area'
 
 // Icons
-import { Minus, Plus } from 'lucide-vue-next'
+import {} from 'lucide-vue-next'
 
 // Services
 import { projectService } from '@/services'
@@ -94,17 +95,17 @@ const data = [
                 <DrawerDescription>Visualize as vagas e participe do projeto!</DrawerDescription>
               </DrawerHeader>
 
-              <div class="overflow-auto flex p-4 gap-3">
+              <div class="overflow-auto p-4 flex gap-3">
                 <div
                   v-for="vacancy in project.vacancies"
-                  class="p-4 flex flex-col bg-neutral-800 rounded-md space-y-2"
+                  class="p-4 flex flex-col border rounded-md gap-2"
                 >
-                  <p class="text-xl font-bold">
+                  <span class="text-xl font-bold">
                     {{ vacancy.title }}
-                  </p>
-                  <p>
+                  </span>
+                  <span class="mb-auto">
                     {{ vacancy.description }}
-                  </p>
+                  </span>
                   <Badge variant="default" class="tracking-wide">{{ vacancy.state }}</Badge>
                 </div>
               </div>
