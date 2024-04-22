@@ -107,7 +107,7 @@ const userPhoto = computed(() => {
             <div class="flex-1 flex justify-end">
               <Sheet>
                 <SheetTrigger as-child>
-                  <Button variant="outline" size="icon" class="bg-transparent hover:bg-black/40">
+                  <Button variant="outline" size="icon" >
                     <Pencil class="w-5 h-5" />
                   </Button>
                 </SheetTrigger>
@@ -146,7 +146,7 @@ const userPhoto = computed(() => {
 
           <AppDialog>
             <template #trigger>
-              <Button variant="outline" size="icon" class="bg-transparent hover:bg-black/40">
+              <Button variant="outline" size="icon" >
                 <Plus class="w-5 h-5" />
               </Button>
             </template>
@@ -180,7 +180,7 @@ const userPhoto = computed(() => {
 
           <AppDialog>
             <template #trigger>
-              <Button variant="outline" size="icon" class="bg-transparent hover:bg-black/40">
+              <Button variant="outline" size="icon" >
                 <Plus class="w-5 h-5" />
               </Button>
             </template>

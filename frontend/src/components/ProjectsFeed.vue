@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { IProjectEntity } from '@/entites/IProject'
+import type { IProjectEntity, StateProject } from '@/entites/IProject'
 
 // Shadcn-vue components
 import { Button } from './ui/button'
@@ -16,6 +16,13 @@ onMounted(async () => {
 
   projects.value = res
 })
+
+const badgeColors: Record<StateProject, String> = {
+  IDLE: 'bg-blue-500',
+  PROGRESS: 'bg-green-500',
+  COMPLETED: 'bg-purple-500',
+  CANCELLED: 'bg-red-500'
+}
 </script>
 
 <template>
@@ -29,16 +36,19 @@ onMounted(async () => {
         <header class="flex items-center space-x-2">
           <span class="font-bold text-2xl">{{ project.title }}</span>
           <Badge variant="secondary" class="tracking-wide">{{ project.state }}</Badge>
+          <Badge variant="secondary" class="tracking-wide">{{ project.sector }}</Badge>
         </header>
-        <p class="text-sm text-muted-foreground ">{{ project.summary }}</p>
-        <!-- <p>Estado do projeto: {{ project.state }}</p> -->
 
-        <!-- <p>Setor: {{ project.sector }}</p> -->
+        <p class="text-sm text-muted-foreground">{{ project.summary }}</p>
 
-        <!-- <p>Resumo: {{ project.summary }}</p> -->
         <!-- <p>Metodologias: {{ project.methodologies }}</p> -->
 
-        <!-- <p>Vagas: {{ project.vacancies }}</p> -->
+        <section>
+          <p>Vagas</p>
+          <div v-for="vacancy in project.vacancies">
+            <span>{{ vacancy.title }}</span>
+          </div>
+        </section>
       </article>
     </div>
   </div>
