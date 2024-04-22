@@ -86,7 +86,10 @@ const data = [
 
         <Drawer>
           <DrawerTrigger as-child>
-            <Button variant="outline" class="self-start">Vagas</Button>
+            <Button variant="outline" class="self-start">
+              <span class="font-bold underline mr-1">{{ project.vacancies.length }}</span
+              >Vagas
+            </Button>
           </DrawerTrigger>
           <DrawerContent>
             <div class="h-max-[500px]">
