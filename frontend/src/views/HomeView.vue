@@ -4,6 +4,9 @@ import Separator from '@/components/ui/separator/Separator.vue'
 // Icons
 
 import { Presentation, NotebookPen, ChevronDown } from 'lucide-vue-next'
+
+
+
 </script>
 
 <template>
@@ -14,6 +17,7 @@ import { Presentation, NotebookPen, ChevronDown } from 'lucide-vue-next'
         <p>User name</p>
       </div>
       <p>Lista de amigos</p>
+      <!-- <ProjectsList /> -->
     </aside>
 
     <main class="border flex flex-col lg:col-span-3 rounded-md">
