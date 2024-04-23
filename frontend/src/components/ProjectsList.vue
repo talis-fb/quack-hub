@@ -28,11 +28,8 @@ import { onMounted, ref } from 'vue'
 
 const projects = ref<IProjectEntity[]>([])
 
-onMounted(async () => {
-  const res = await projectService.search()
-
-  projects.value = res
-})
+const res = await projectService.search()
+projects.value = res
 
 const badgeColors: Record<StateProject, String> = {
   IDLE: 'bg-blue-500',

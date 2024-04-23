@@ -14,7 +14,6 @@ import { Presentation, NotebookPen, ChevronDown } from 'lucide-vue-next'
         <p>User name</p>
       </div>
       <p>Lista de amigos</p>
-      <!-- <ProjectsList /> -->
     </aside>
 
     <main class="border flex flex-col lg:col-span-3 rounded-md">
