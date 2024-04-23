@@ -44,7 +44,7 @@ const badgeColors: Record<StateProject, String> = {
 
 <template>
   <article class="flex flex-col space-y-2" v-for="project in projects">
-    <Separator class="h-[1px] bg-white mb-2" />
+    <Separator class="h-[1px]mb-2" />
 
     <header class="flex items-center space-x-2">
       <span class="font-bold text-2xl">{{ project.title }}</span>

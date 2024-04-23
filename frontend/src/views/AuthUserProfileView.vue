@@ -88,7 +88,6 @@ const userPhoto = computed(() => {
 
   return UserPhotoDefault
 })
-
 </script>
 <template>
   <main class="flex flex-1 flex-col md:flex-row p-3 gap-5">
@@ -107,7 +106,7 @@ const userPhoto = computed(() => {
             <div class="flex-1 flex justify-end">
               <Sheet>
                 <SheetTrigger as-child>
-                  <Button variant="outline" size="icon" >
+                  <Button variant="outline" size="icon">
                     <Pencil class="w-5 h-5" />
                   </Button>
                 </SheetTrigger>
@@ -146,7 +145,7 @@ const userPhoto = computed(() => {
 
           <AppDialog>
             <template #trigger>
-              <Button variant="outline" size="icon" >
+              <Button variant="outline" size="icon">
                 <Plus class="w-5 h-5" />
               </Button>
             </template>
@@ -180,7 +179,7 @@ const userPhoto = computed(() => {
 
           <AppDialog>
             <template #trigger>
-              <Button variant="outline" size="icon" >
+              <Button variant="outline" size="icon">
                 <Plus class="w-5 h-5" />
               </Button>
             </template>
@@ -199,7 +198,6 @@ const userPhoto = computed(() => {
             </template>
           </AppDialog>
         </header>
-
         <Suspense>
           <ExperiencesList :user-id="+props.id" type="PROFESSIONAL" />
 

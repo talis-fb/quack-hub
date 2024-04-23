@@ -15,10 +15,10 @@ const props = withDefaults(defineProps<ExperienceListFallbackProps>(), {
 <template>
   <div class="flex flex-col gap-5">
     <div class="space-y-2" v-for="item in Array(props.length).fill(1)">
-      <Separator class="mb-4 bg-white/30" />
-      <Skeleton class="h-4 w-[250px] bg-white" />
-      <Skeleton class="h-4 w-[225px] bg-white" />
-      <Skeleton class="h-4 w-[275px] bg-white" />
+      <Separator class="mb-4" />
+      <Skeleton class="h-4 w-[250px]" />
+      <Skeleton class="h-4 w-[225px]" />
+      <Skeleton class="h-4 w-[275px]" />
     </div>
   </div>
 </template>
