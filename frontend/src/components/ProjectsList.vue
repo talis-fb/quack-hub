@@ -77,13 +77,13 @@ const badgeColors: Record<StateProject, String> = {
               v-for="vacancy in project.vacancies"
               class="p-4 flex flex-col border rounded-md gap-2"
             >
-              <span class="text-xl font-bold">
+              <span class="text-2xl font-bold">
                 {{ vacancy.title }}
               </span>
-              <span class="mb-auto">
+              <span>
                 {{ vacancy.description }}
               </span>
-              <Badge variant="default" class="tracking-wide">{{ vacancy.state }}</Badge>
+              <Badge variant="default" class="tracking-wide mt-auto">{{ vacancy.state }}</Badge>
             </div>
 
             <Alert v-else>
