@@ -15,6 +15,7 @@ import ExperiencesList from '@/components/ExperiencesList.vue'
 import ExperienceListFallback from '@/components/ExperienceListFallback.vue'
 import ProjectsList from '@/components/ProjectsList.vue'
 import ProjectsListFallback from '@/components/ProjectsListFallback.vue'
+import ProjectForm from '@/components/ProjectForm.vue'
 
 // Shadcn-vue components
 import { useToast } from '@/components/ui/toast/use-toast'
@@ -41,6 +42,7 @@ import ProfileEdit from './ProfileEdit.vue'
 import { useUserAuth } from '@/stores/userAuth'
 import { storeToRefs } from 'pinia'
 import type { ICreateExperience } from '@/apis/experience/types/ICreateExperience'
+import type { ICreateProject } from '@/apis/project/types/ICreateProject'
 import { useProjectStore } from '@/stores/project'
 
 /**
@@ -54,7 +56,6 @@ const projectStore = useProjectStore()
 const experienceStore = useExperienceStore()
 const userAuthStore = useUserAuth()
 
-const { projects } = storeToRefs(projectStore)
 const { user } = storeToRefs(userAuthStore)
 
 onBeforeMount(async () => {
@@ -63,7 +64,7 @@ onBeforeMount(async () => {
 
 const { toast, dismiss } = useToast()
 
-const handleSubmit = async (values: ICreateExperience) => {
+const handleSubmitExperience = async (values: ICreateExperience) => {
   try {
     await experienceStore.createExperience({
       ...values
@@ -78,6 +79,25 @@ const handleSubmit = async (values: ICreateExperience) => {
   } catch (error: any) {
     toast({
       title: 'Erro ao criar a experiência',
+      description: error?.message || 'Erro desconhecido, por favor contatar os desenvolvedores.',
+      variant: 'destructive'
+    })
+  }
+}
+
+const handleSubmitProject = async (values: ICreateProject) => {
+  try {
+    await projectStore.createProject(values)
+
+    toast({
+      title: ``,
+      description: 'Projeto cadastrado com sucesso!',
+      variant: 'default',
+      duration: 1000
+    })
+  } catch (error: any) {
+    toast({
+      title: 'Erro ao criar projeto',
       description: error?.message || 'Erro desconhecido, por favor contatar os desenvolvedores.',
       variant: 'destructive'
     })
@@ -154,27 +174,19 @@ provide('hasPermissions', true)
                 <Plus class="w-5 h-5" />
               </Button>
             </template>
-            <template #title> Adicionar experiência acadêmica </template>
+            <template #title> Adicionar projeto </template>
             <template #description>
-              Adicione suas experiências acadêmicas para que outros usuários possam ver seu perfil
-              acadêmico.
+              Adicione seus projetos para serem vistos por outros usuários e vincule-os às
+              experiências acadêmicas ou profissionais.
             </template>
             <template #main>
-              <ExperienceForm
-                :handle-submit="handleSubmit"
-                title-label="Instituição de ensino"
-                title-placeholder="Ex.: UFRN"
-                type="ACADEMIC"
-              />
+              <ProjectForm :handle-submit="handleSubmitProject" />
             </template>
           </AppDialog>
         </header>
 
         <Suspense>
-          <ProjectsList
-            :projects="projects"
-            :get-projects="async () => await projectStore.getProjects()"
-          />
+          <ProjectsList :user-id="+props.id" />
           <template #fallback>
             <ProjectsListFallback :length="5" />
           </template>
@@ -198,7 +210,7 @@ provide('hasPermissions', true)
             </template>
             <template #main>
               <ExperienceForm
-                :handle-submit="handleSubmit"
+                :handle-submit="handleSubmitExperience"
                 title-label="Instituição de ensino"
                 title-placeholder="Ex.: UFRN"
                 type="ACADEMIC"
@@ -232,7 +244,7 @@ provide('hasPermissions', true)
             </template>
             <template #main>
               <ExperienceForm
-                :handle-submit="handleSubmit"
+                :handle-submit="handleSubmitExperience"
                 title-label="Título"
                 title-placeholder="Ex.: Desenvolvedor Backend"
                 type="PROFESSIONAL"

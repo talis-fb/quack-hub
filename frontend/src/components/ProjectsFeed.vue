@@ -61,10 +61,7 @@ provide('hasPermissions', false)
 
     <div class="mt-6 flex flex-col space-y-5">
       <Suspense>
-        <ProjectsList
-          :projects="projects"
-          :get-projects="async () => await projectStore.getProjects()"
-        />
+        <ProjectsList />
         <template #fallback>
           <ProjectsListFallback :length="5" />
         </template>

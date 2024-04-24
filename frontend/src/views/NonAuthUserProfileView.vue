@@ -78,7 +78,7 @@ provide('hasPermissions', false)
         </header>
 
         <Suspense>
-          <ProjectsList />
+          <ProjectsList :user-id="+props.id"/>
           <template #fallback>
             <ProjectsListFallback :length="5" />
           </template>
