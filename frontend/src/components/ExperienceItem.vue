@@ -12,9 +12,9 @@ import { useToast } from '@/components/ui/toast/use-toast'
 import { Pencil, Trash } from 'lucide-vue-next'
 
 // Types
-import { type ExperienceDataForm } from '@/components/ExperienceForm.vue'
 import type { IExperienceEntity } from '@/entites/IExperience'
 import { useExperienceStore } from '@/stores/experience'
+import type { ICreateExperience } from '@/apis/experience/types/ICreateExperience'
 
 export interface ExperienceItemProps {
   experience: IExperienceEntity
@@ -26,7 +26,7 @@ const props = defineProps<ExperienceItemProps>()
 
 const { toast, dismiss } = useToast()
 
-const handleUpdateExperience = async (values: ExperienceDataForm) => {
+const handleUpdateExperience = async (values: ICreateExperience) => {
   try {
     await experienceStore.updateExperience(props.experience.id, {
       ...values

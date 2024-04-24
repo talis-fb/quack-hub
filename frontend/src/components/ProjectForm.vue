@@ -14,14 +14,7 @@ import { cn } from '@/lib/utils'
 import { formatDateInFull } from '@/utils/DateFormat'
 
 // Shadcn-vue components
-import {
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage
-} from '@/components/ui/form'
+import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
@@ -41,20 +34,21 @@ import { Button } from '@/components/ui/button'
 // Icons
 import { Calendar as CalendarIcon } from 'lucide-vue-next'
 import { type StateProject, StateProjectValues } from '../entites/IProject'
+import type { ICreateProject } from '@/apis/project/types/ICreateProject'
 
 // Lifecycle Hooks
 
-export interface ProjectDataForm {
-  title: string
-  summary: string
-  about: string
-  sector: string
-  state: StateProject
-  startDate: Date
-  endDate: Date
-}
+// export interface ProjectDataForm {
+//   title: string
+//   summary: string
+//   about: string
+//   sector: string
+//   state: StateProject
+//   startDate: Date
+//   endDate: Date
+// }
 
-export interface IExperienceFormProps {
+export interface IProjectFormProps {
   title?: string
   summary?: string
   about?: string
@@ -63,10 +57,10 @@ export interface IExperienceFormProps {
   startDate?: string
   endDate?: string
 
-  handleSubmit: (values: ProjectDataForm) => Promise<void>
+  handleSubmit: (values: ICreateProject) => Promise<void>
 }
 
-const props = withDefaults(defineProps<IExperienceFormProps>(), {})
+const props = withDefaults(defineProps<IProjectFormProps>(), {})
 
 const formSchema = toTypedSchema(
   z.object({
@@ -74,7 +68,7 @@ const formSchema = toTypedSchema(
       .string({
         required_error: 'Campo título obrigatório'
       })
-      .min(1, { message: 'Esse campo deve ser preenchido.' }),
+      .min(3, { message: 'O título deve ter no mínimo 3 caracteres' }),
     summary: z
       .string({
         required_error: 'Campo descrição resumo'
@@ -136,6 +130,7 @@ const onSubmit = form.handleSubmit(async (values) => {
             autocomplete="title"
           />
         </FormControl>
+        <FormMessage />
       </FormItem>
     </FormField>
 
@@ -150,6 +145,7 @@ const onSubmit = form.handleSubmit(async (values) => {
             autocomplete="summary"
           />
         </FormControl>
+        <FormMessage />
       </FormItem>
     </FormField>
 
@@ -166,6 +162,7 @@ const onSubmit = form.handleSubmit(async (values) => {
             autocomplete="about"
           />
         </FormControl>
+        <FormMessage />
       </FormItem>
     </FormField>
 
@@ -177,6 +174,7 @@ const onSubmit = form.handleSubmit(async (values) => {
         <FormControl>
           <Input placeholder="Ex.: Software" v-bind="componentField" autocomplete="sector" />
         </FormControl>
+        <FormMessage />
       </FormItem>
     </FormField>
 
@@ -214,6 +212,7 @@ const onSubmit = form.handleSubmit(async (values) => {
                 <CalendarIcon class="ms-auto h-4 w-4 opacity-50" />
               </Button>
             </FormControl>
+            <FormMessage />
           </PopoverTrigger>
           <PopoverContent class="p-0">
             <Calendar v-bind="componentField" />
@@ -234,6 +233,7 @@ const onSubmit = form.handleSubmit(async (values) => {
                 <CalendarIcon class="ms-auto h-4 w-4 opacity-50" />
               </Button>
             </FormControl>
+            <FormMessage />
           </PopoverTrigger>
           <PopoverContent class="p-0">
             <Calendar v-bind="componentField" />

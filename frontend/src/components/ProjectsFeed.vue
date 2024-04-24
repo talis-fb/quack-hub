@@ -2,7 +2,7 @@
 // App components
 import ProjectsList from '@/components/ProjectsList.vue'
 import ProjectsListFallback from '@/components/ProjectsListFallback.vue'
-import ProjectForm, { type ProjectDataForm } from '@/components/ProjectForm.vue'
+import ProjectForm from '@/components/ProjectForm.vue'
 import AppDialog from '@/components/AppDialog.vue'
 
 // Shadcn-vue components
@@ -12,12 +12,13 @@ import { useToast } from './ui/toast'
 
 // Store pinia
 import { useProjectStore } from '@/stores/project'
+import type { ICreateProject } from '@/apis/project/types/ICreateProject'
 
 const { createProject } = useProjectStore()
 
 const { toast } = useToast()
 
-const handleSubmit = async (values: ProjectDataForm) => {
+const handleSubmit = async (values: ICreateProject) => {
   try {
     await createProject(values)
 

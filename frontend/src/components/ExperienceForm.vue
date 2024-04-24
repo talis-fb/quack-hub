@@ -12,14 +12,7 @@ import { cn } from '@/lib/utils'
 import { formatDateInFull } from '@/utils/DateFormat'
 
 // Shadcn-vue components
-import {
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage
-} from '@/components/ui/form'
+import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
@@ -30,21 +23,9 @@ import { Button } from '@/components/ui/button'
 
 // Icons
 import { Calendar as CalendarIcon } from 'lucide-vue-next'
+import type { ICreateExperience } from '@/apis/experience/types/ICreateExperience'
 
 // Lifecycle Hooks
-
-export interface ExperienceDataForm {
-  title: string
-  about: string
-  startDate: Date
-  endDate: Date
-  type: ExperienceType
-  projectId: number | null
-  achievements: {
-    title: string
-    description: string
-  }[]
-}
 
 export interface IExperienceFormProps {
   title?: string
@@ -55,7 +36,7 @@ export interface IExperienceFormProps {
   titleLabel?: string
   titlePlaceholder?: string
   type: ExperienceType
-  handleSubmit: (values: ExperienceDataForm) => Promise<void>
+  handleSubmit: (values: ICreateExperience) => Promise<void>
 }
 
 const props = withDefaults(defineProps<IExperienceFormProps>(), {
@@ -69,7 +50,7 @@ const formSchema = toTypedSchema(
       .string({
         required_error: 'Campo título obrigatório'
       })
-      .min(1, { message: 'Esse campo deve ser preenchido.' }),
+      .min(3, { message: 'O título deve ter no mínimo 3 caracteres.' }),
     about: z
       .string({
         required_error: 'Campo descrição obrigatório'
@@ -101,6 +82,7 @@ form.setValues({
 })
 
 const onSubmit = form.handleSubmit(async (values) => {
+  // TODO: Tirar esse valores 'mockados' de projectId e achievements.
   await props.handleSubmit({ ...values, projectId: null, achievements: [], type: props.type })
 })
 </script>
@@ -110,8 +92,6 @@ const onSubmit = form.handleSubmit(async (values) => {
     <FormField v-slot="{ componentField }" name="title">
       <FormItem>
         <FormLabel>{{ props.titleLabel }}</FormLabel>
-
-        <FormLabel />
         <FormControl>
           <Input
             type="text"
@@ -120,7 +100,6 @@ const onSubmit = form.handleSubmit(async (values) => {
             autocomplete="title"
           />
         </FormControl>
-        <FormDescription />
         <FormMessage />
       </FormItem>
     </FormField>
@@ -129,7 +108,6 @@ const onSubmit = form.handleSubmit(async (values) => {
       <FormItem>
         <FormLabel>Descrição</FormLabel>
 
-        <FormLabel />
         <FormControl>
           <Textarea
             placeholder="Fale um pouco sobre sua experiência"
@@ -138,7 +116,6 @@ const onSubmit = form.handleSubmit(async (values) => {
             autocomplete="about"
           />
         </FormControl>
-        <FormDescription />
         <FormMessage />
       </FormItem>
     </FormField>
@@ -155,13 +132,12 @@ const onSubmit = form.handleSubmit(async (values) => {
                 <CalendarIcon class="ms-auto h-4 w-4 opacity-50" />
               </Button>
             </FormControl>
+            <FormMessage />
           </PopoverTrigger>
           <PopoverContent class="p-0">
             <Calendar v-bind="componentField" />
           </PopoverContent>
         </Popover>
-        <FormDescription />
-        <FormMessage />
       </FormItem>
     </FormField>
 
@@ -177,13 +153,12 @@ const onSubmit = form.handleSubmit(async (values) => {
                 <CalendarIcon class="ms-auto h-4 w-4 opacity-50" />
               </Button>
             </FormControl>
+            <FormMessage />
           </PopoverTrigger>
           <PopoverContent class="p-0">
             <Calendar v-bind="componentField" />
           </PopoverContent>
         </Popover>
-        <FormDescription />
-        <FormMessage />
       </FormItem>
     </FormField>
 

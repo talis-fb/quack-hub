@@ -33,12 +33,12 @@ import {
 import { Plus, Pencil } from 'lucide-vue-next'
 
 // Types
-import { type ExperienceDataForm } from '@/components/ExperienceForm.vue'
 import { useExperienceStore } from '@/stores/experience'
 import type { IUserEntity } from '@/entites/IUser'
 import ProfileEdit from './ProfileEdit.vue'
 import { useUserAuth } from '@/stores/userAuth'
 import { storeToRefs } from 'pinia'
+import type { ICreateExperience } from '@/apis/experience/types/ICreateExperience'
 
 /**
  * Recebendo o userId pelo param da rota.
@@ -59,11 +59,10 @@ onBeforeMount(async () => {
 
 const { toast, dismiss } = useToast()
 
-const handleSubmit = async (values: ExperienceDataForm) => {
+const handleSubmit = async (values: ICreateExperience) => {
   try {
     await experienceStore.createExperience({
-      ...values,
-      userId: +props.id
+      ...values
     })
 
     toast({
