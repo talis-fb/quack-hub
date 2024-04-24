@@ -14,6 +14,7 @@ import { ServiceClientValidationException } from 'src/excpetions/service/Service
 import { RepositoryClientInitializationException } from 'src/excpetions/repository/RepositoryClientInitializationException';
 import { ServiceClientInitializationException } from 'src/excpetions/service/ServiceClientInitializationException';
 import { ServiceException } from 'src/excpetions/service/ServiceException';
+import { CreateExperienceDto } from './dtos/CreateExperienceDto';
 
 @Injectable()
 export abstract class ExperienceService {
@@ -25,7 +26,8 @@ export abstract class ExperienceService {
   ): Promise<ExperienceEntity[]>;
 
   abstract createExperience(
-    experience: ExperienceData,
+    experience: CreateExperienceDto,
+    userid: number,
   ): Promise<ExperienceEntity>;
 
   abstract updateExperience(
@@ -81,10 +83,14 @@ export class ExperienceServiceImpl implements ExperienceService {
   }
 
   public async createExperience(
-    data: ExperienceData,
+    experience: CreateExperienceDto,
+    userId: number,
   ): Promise<ExperienceEntity> {
     try {
-      const resExperience = await this.repo.createExperience(data);
+      const resExperience = await this.repo.createExperience({
+        ...experience,
+        userId,
+      });
       return resExperience;
     } catch (error) {
       if (error instanceof RepositoryClientKnownRequestException) {

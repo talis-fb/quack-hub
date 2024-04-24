@@ -9,6 +9,7 @@ import {
   Query,
   NotFoundException,
   Delete,
+  Req,
 } from '@nestjs/common';
 import { ProjectData, ProjectEntity } from './projects.entity';
 import { ProjectsService } from './projects.service';
@@ -16,9 +17,9 @@ import { UserEntity } from '../user/user.entity';
 import { Public } from 'src/common/decorators/public.decorator';
 import { UpdateProjectDto } from './dtos/UpdateProjectDto';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
+import { CreateProjectDto } from './dtos/CreateProjectDto';
 
 @ApiTags('projects')
-@Public()
 @Controller('projects')
 export class ProjectsController {
   constructor(private projectsService: ProjectsService) {}
@@ -28,8 +29,13 @@ export class ProjectsController {
     description: 'The project has been successfully created',
   })
   @Post('')
-  async create(@Body() body: ProjectData): Promise<ProjectEntity> {
-    return await this.projectsService.create(body);
+  async create(
+    @Req() req,
+    @Body() body: CreateProjectDto,
+  ): Promise<ProjectEntity> {
+    const { userId } = req.user;
+
+    return await this.projectsService.create(body, userId);
   }
 
   @ApiResponse({
@@ -74,8 +80,12 @@ export class ProjectsController {
     description: 'List of projects filtered by title returned successfully.',
   })
   @Get('')
-  async searchProjects(@Query('title') title: string) {
-    return await this.projectsService.search(title);
+  async searchProjects(
+    @Query('title') title?: string,
+    @Query('userId') userId?: number,
+  ) {
+ 
+    return await this.projectsService.search(title, userId);
   }
 
   @ApiResponse({

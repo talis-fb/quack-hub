@@ -57,6 +57,10 @@ export class ProjectData {
   @ApiProperty()
   endDate: Date;
 
+  @IsInt()
+  @ApiProperty()
+  userId: number;
+
   @IsOptional()
   @ArrayNotEmpty()
   @ApiProperty()
