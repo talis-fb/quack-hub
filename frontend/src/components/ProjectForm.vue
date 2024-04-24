@@ -23,6 +23,14 @@ import {
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue
+} from '@/components/ui/select'
 
 import { Calendar } from '@/components/ui/calendar'
 
@@ -86,7 +94,7 @@ const formSchema = toTypedSchema(
       })
       .min(2, { message: 'O setor deve ter no mínimo 2 caracteres.' }),
     state: z.enum(StateProjectValues, {
-      required_error: 'Campo estado do projeto obrigatório'
+      required_error: 'Campo status obrigatório'
     }),
     startDate: z
       .date({
@@ -116,15 +124,20 @@ form.setValues({
 const onSubmit = form.handleSubmit(async (values) => {
   await props.handleSubmit({ ...values })
 })
+
+const projectStateLabel: Record<StateProject, string> = {
+  IDLE: 'Iniciado',
+  CANCELLED: 'Cancelado',
+  COMPLETED: 'Finalizado',
+  PROGRESS: 'Em progresso'
+}
 </script>
 
 <template>
-  <form @submit="onSubmit" class="w-full flex flex-col gap-1">
+  <form @submit="onSubmit" class="w-full flex flex-col gap-4">
     <FormField v-slot="{ componentField }" name="title">
       <FormItem>
         <FormLabel>{{ props.titleLabel }}</FormLabel>
-
-        <FormLabel />
         <FormControl>
           <Input
             type="text"
@@ -133,8 +146,6 @@ const onSubmit = form.handleSubmit(async (values) => {
             autocomplete="title"
           />
         </FormControl>
-        <FormDescription />
-        <FormMessage />
       </FormItem>
     </FormField>
 
@@ -142,17 +153,13 @@ const onSubmit = form.handleSubmit(async (values) => {
       <FormItem>
         <FormLabel>Resumo</FormLabel>
 
-        <FormLabel />
         <FormControl>
-          <Textarea
+          <Input
             placeholder="Resume sobre seu projeto"
             v-bind="componentField"
-            class="resize-none"
             autocomplete="summary"
           />
         </FormControl>
-        <FormDescription />
-        <FormMessage />
       </FormItem>
     </FormField>
 
@@ -169,8 +176,6 @@ const onSubmit = form.handleSubmit(async (values) => {
             autocomplete="about"
           />
         </FormControl>
-        <FormDescription />
-        <FormMessage />
       </FormItem>
     </FormField>
 
@@ -180,15 +185,12 @@ const onSubmit = form.handleSubmit(async (values) => {
 
         <FormLabel />
         <FormControl>
-          <Textarea
+          <Input
             placeholder="Escopo do seu projeto..."
             v-bind="componentField"
-            class="resize-none"
             autocomplete="sector"
           />
         </FormControl>
-        <FormDescription />
-        <FormMessage />
       </FormItem>
     </FormField>
 
@@ -196,7 +198,27 @@ const onSubmit = form.handleSubmit(async (values) => {
       <FormItem>
         <FormLabel>Status</FormLabel>
 
-        <FormLabel />
+        <Select v-bind="componentField">
+          <FormControl>
+            <SelectTrigger>
+              <SelectValue placeholder="Selecione o status do projeto" />
+            </SelectTrigger>
+          </FormControl>
+          <SelectContent>
+            <SelectGroup>
+              <SelectItem v-for="item in Object.entries(projectStateLabel)" :value="item[0]">
+                {{ item[1] }}
+              </SelectItem>
+            </SelectGroup>
+          </SelectContent>
+        </Select>
+        <FormMessage />
+      </FormItem>
+    </FormField>
+
+    <!-- <FormField v-slot="{ componentField }" name="state">
+      <FormItem>
+        <FormLabel>Status</FormLabel>
         <FormControl>
           <Textarea
             placeholder="Status do seu projeto..."
@@ -205,10 +227,8 @@ const onSubmit = form.handleSubmit(async (values) => {
             autocomplete="state"
           />
         </FormControl>
-        <FormDescription />
-        <FormMessage />
       </FormItem>
-    </FormField>
+    </FormField> -->
 
     <FormField v-slot="{ componentField, value }" name="startDate">
       <FormItem class="flex flex-col">
@@ -227,8 +247,6 @@ const onSubmit = form.handleSubmit(async (values) => {
             <Calendar v-bind="componentField" />
           </PopoverContent>
         </Popover>
-        <FormDescription />
-        <FormMessage />
       </FormItem>
     </FormField>
 
@@ -249,8 +267,6 @@ const onSubmit = form.handleSubmit(async (values) => {
             <Calendar v-bind="componentField" />
           </PopoverContent>
         </Popover>
-        <FormDescription />
-        <FormMessage />
       </FormItem>
     </FormField>
 
