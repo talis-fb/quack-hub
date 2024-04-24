@@ -15,10 +15,16 @@ import { Pencil, Trash } from 'lucide-vue-next'
 import type { IExperienceEntity } from '@/entites/IExperience'
 import { useExperienceStore } from '@/stores/experience'
 import type { ICreateExperience } from '@/apis/experience/types/ICreateExperience'
+import { inject } from 'vue'
 
 export interface ExperienceItemProps {
   experience: IExperienceEntity
 }
+
+/**
+ * O provedor desse inject ẽ um componente pai. No caso o componente AuthUserProfileView ou NonAuthUserProfileView
+ */
+const hasPermissions = inject('hasPermissions', false)
 
 const experienceStore = useExperienceStore()
 
@@ -79,7 +85,10 @@ const handleDeleteExperience = async () => {
       {{ experience.about }}
     </p>
 
-    <div class="hidden group-hover:flex absolute top-1/2 right-2 transform -translate-y-1/2 gap-2">
+    <div
+      v-if="hasPermissions"
+      class="hidden group-hover:flex absolute top-1/2 right-2 transform -translate-y-1/2 gap-2"
+    >
       <AppDialog>
         <template #trigger>
           <Button variant="default" size="icon">

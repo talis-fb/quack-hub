@@ -38,6 +38,11 @@ export interface ProjectItemProps {
   project: IProjectEntity
 }
 
+/**
+ * O provedor desse inject ẽ um componente pai. No caso o componente AuthUserProfileView ou NonAuthUserProfileView
+ */
+const hasPermissions = inject('hasPermissions', false)
+
 const projectStore = useProjectStore()
 
 const props = defineProps<ProjectItemProps>()
@@ -83,12 +88,12 @@ const handleDeleteProject = async () => {
     })
   }
 }
-
-const hasPermissions = inject('hasPermissions', false)
 </script>
 
 <template>
-  <div class="group relative cursor-pointer hover:bg-black/40 px-4 py-3 flex flex-col space-y-2 rounded-sm">
+  <div
+    class="group relative cursor-pointer hover:bg-black/40 px-4 py-3 flex flex-col space-y-2 rounded-sm"
+  >
     <header class="flex items-center space-x-2">
       <span class="font-bold text-2xl">{{ project.title }}</span>
       <Badge variant="secondary" class="tracking-wide">{{
