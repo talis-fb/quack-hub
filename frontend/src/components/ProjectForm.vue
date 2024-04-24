@@ -1,4 +1,7 @@
 <script setup lang="ts">
+// Utils
+import { projectStateLabel } from '@/utils/labels'
+
 // Types
 import { type ExperienceType } from '@/entites/IExperience'
 
@@ -124,13 +127,6 @@ form.setValues({
 const onSubmit = form.handleSubmit(async (values) => {
   await props.handleSubmit({ ...values })
 })
-
-const projectStateLabel: Record<StateProject, string> = {
-  IDLE: 'Iniciado',
-  CANCELLED: 'Cancelado',
-  COMPLETED: 'Finalizado',
-  PROGRESS: 'Em progresso'
-}
 </script>
 
 <template>

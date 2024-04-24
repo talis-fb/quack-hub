@@ -1,4 +1,7 @@
 <script setup lang="ts">
+// Utils
+import { vacancyLabelState, projectStateLabel } from '@/utils/labels'
+
 import type { IProjectEntity, StateProject } from '@/entites/IProject'
 
 // Shadcn-vue components
@@ -25,18 +28,12 @@ import { projectService } from '@/services'
 
 // Vue imports
 import { onMounted, ref } from 'vue'
+import type { StateVacancy } from '@/entites/IVacancy'
 
 const projects = ref<IProjectEntity[]>([])
 
 const res = await projectService.search()
 projects.value = res
-
-const badgeColors: Record<StateProject, String> = {
-  IDLE: 'bg-blue-500',
-  PROGRESS: 'bg-green-500',
-  COMPLETED: 'bg-purple-500',
-  CANCELLED: 'bg-red-500'
-}
 </script>
 
 <template>
@@ -45,7 +42,9 @@ const badgeColors: Record<StateProject, String> = {
 
     <header class="flex items-center space-x-2">
       <span class="font-bold text-2xl">{{ project.title }}</span>
-      <Badge variant="secondary" class="tracking-wide">{{ project.state }}</Badge>
+      <Badge variant="secondary" class="tracking-wide">{{
+        projectStateLabel[project.state]
+      }}</Badge>
       <Badge variant="secondary" class="tracking-wide">{{ project.sector }}</Badge>
     </header>
 
@@ -83,7 +82,9 @@ const badgeColors: Record<StateProject, String> = {
               <span>
                 {{ vacancy.description }}
               </span>
-              <Badge variant="default" class="tracking-wide mt-auto">{{ vacancy.state }}</Badge>
+              <Badge variant="default" class="tracking-wide mt-auto">{{
+                vacancyLabelState[vacancy.state]
+              }}</Badge>
             </div>
 
             <Alert v-else>
