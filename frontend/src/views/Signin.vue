@@ -58,7 +58,7 @@ const onSubmit = form.handleSubmit(async (values) => {
     if (!userState) return
 
     router.push({
-      name: 'home'
+      name: 'posts'
     })
   } catch (error) {
     toast({

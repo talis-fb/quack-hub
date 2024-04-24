@@ -16,9 +16,9 @@ const props = withDefaults(defineProps<ExperienceListFallbackProps>(), {
   <div class="flex flex-col gap-5">
     <div class="space-y-2" v-for="item in Array(props.length).fill(1)">
       <Separator class="mb-4" />
-      <Skeleton class="h-4 w-[250px]" />
+      <Skeleton class="h-4 w-[300px]" />
       <Skeleton class="h-4 w-[225px]" />
-      <Skeleton class="h-4 w-[275px]" />
+      <Skeleton class="h-4 w-[175px]" />
     </div>
   </div>
 </template>

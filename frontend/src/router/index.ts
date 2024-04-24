@@ -6,7 +6,7 @@ import { metadataRoutes } from '@/router/RoutesConfig'
 // Guards
 import { authGuard, redirectToHomeIfAuthenticatedGuard } from './RoutesGuards'
 
-// Components
+// Views
 import Signin from '@/views/Signin.vue'
 import Signup from '@/views/Signup.vue'
 import NavMenu from '@/views/NavMenu.vue'
@@ -14,6 +14,10 @@ import AboutView from '@/views/AboutView.vue'
 import ProfileEdit from '@/views/ProfileEdit.vue'
 import HomeView from '@/views/HomeView.vue'
 import ProfileUserTeste from '@/views/UserProfileView.vue'
+
+// Components
+import PostsFeed from '@/components/PostsFeed.vue'
+import ProjectsFeed from '@/components/ProjectsFeed.vue'
 
 export const router = createRouter({
   linkActiveClass: 'text-white',
@@ -38,6 +42,18 @@ export const router = createRouter({
     {
       path: metadataRoutes.HOME.path,
       name: metadataRoutes.HOME.name,
+      children: [
+        {
+          path: '',
+          name: 'posts',
+          component: PostsFeed
+        },
+        {
+          path: 'projects',
+          name: 'projects',
+          component: ProjectsFeed
+        }
+      ],
       components: {
         Navbar: NavMenu,
         default: HomeView

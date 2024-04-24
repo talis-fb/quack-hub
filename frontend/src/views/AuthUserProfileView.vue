@@ -33,12 +33,12 @@ import {
 import { Plus, Pencil } from 'lucide-vue-next'
 
 // Types
-import { type ExperienceDataForm } from '@/components/ExperienceForm.vue'
 import { useExperienceStore } from '@/stores/experience'
 import type { IUserEntity } from '@/entites/IUser'
 import ProfileEdit from './ProfileEdit.vue'
 import { useUserAuth } from '@/stores/userAuth'
 import { storeToRefs } from 'pinia'
+import type { ICreateExperience } from '@/apis/experience/types/ICreateExperience'
 
 /**
  * Recebendo o userId pelo param da rota.
@@ -59,11 +59,10 @@ onBeforeMount(async () => {
 
 const { toast, dismiss } = useToast()
 
-const handleSubmit = async (values: ExperienceDataForm) => {
+const handleSubmit = async (values: ICreateExperience) => {
   try {
     await experienceStore.createExperience({
-      ...values,
-      userId: +props.id
+      ...values
     })
 
     toast({
@@ -88,12 +87,11 @@ const userPhoto = computed(() => {
 
   return UserPhotoDefault
 })
-
 </script>
 <template>
   <main class="flex flex-1 flex-col md:flex-row p-3 gap-5">
     <section class="flex-1 flex flex-col gap-5 relative rounded-md">
-      <section class="bg-secondary rounded-md">
+      <section class="border rounded-md">
         <div class="bg-default-walpaper h-[200px]"></div>
 
         <div class="p-5">
@@ -107,7 +105,7 @@ const userPhoto = computed(() => {
             <div class="flex-1 flex justify-end">
               <Sheet>
                 <SheetTrigger as-child>
-                  <Button variant="outline" size="icon" class="bg-transparent hover:bg-black/40">
+                  <Button variant="outline" size="icon">
                     <Pencil class="w-5 h-5" />
                   </Button>
                 </SheetTrigger>
@@ -140,13 +138,13 @@ const userPhoto = computed(() => {
         </div>
       </section>
 
-      <section class="flex flex-col gap-3 px-3 py-5 bg-secondary rounded-md">
+      <section class="flex flex-col gap-3 px-3 py-5 border rounded-md">
         <header class="flex items-center">
           <h2 class="text-2xl mr-auto">Experiências acadêmicas</h2>
 
           <AppDialog>
             <template #trigger>
-              <Button variant="outline" size="icon" class="bg-transparent hover:bg-black/40">
+              <Button variant="outline" size="icon">
                 <Plus class="w-5 h-5" />
               </Button>
             </template>
@@ -174,13 +172,13 @@ const userPhoto = computed(() => {
         </Suspense>
       </section>
 
-      <section class="flex flex-col gap-3 px-3 py-5 bg-secondary rounded-md">
+      <section class="flex flex-col gap-3 px-3 py-5 border rounded-md">
         <header class="flex items-center">
           <h2 class="text-2xl mr-auto">Experiências profissionais</h2>
 
           <AppDialog>
             <template #trigger>
-              <Button variant="outline" size="icon" class="bg-transparent hover:bg-black/40">
+              <Button variant="outline" size="icon">
                 <Plus class="w-5 h-5" />
               </Button>
             </template>
@@ -199,7 +197,6 @@ const userPhoto = computed(() => {
             </template>
           </AppDialog>
         </header>
-
         <Suspense>
           <ExperiencesList :user-id="+props.id" type="PROFESSIONAL" />
 
@@ -209,7 +206,7 @@ const userPhoto = computed(() => {
         </Suspense>
       </section>
 
-      <section class="flex flex-col gap-3 px-3 py-5 bg-secondary rounded-md">
+      <section class="flex flex-col gap-3 px-3 py-5 border rounded-md">
         <div>
           <h2 class="text-2xl">Sobre</h2>
           <p>{{ user?.aboutDescription }}</p>
@@ -217,7 +214,7 @@ const userPhoto = computed(() => {
       </section>
     </section>
 
-    <aside class="flex flex-col gap-6 p-3 bg-secondary rounded-md">
+    <aside class="flex flex-col gap-6 p-3 border rounded-md">
       <section>
         <h2 class="text-2xl">As pessoas também visualizam</h2>
         <p>Coisas que as pessoas vizualizam aqui</p>

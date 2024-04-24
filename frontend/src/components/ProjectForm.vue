@@ -1,6 +1,8 @@
 <script setup lang="ts">
+// Utils
+import { projectStateLabel } from '@/utils/labels'
+
 // Types
-import { type ExperienceType } from '@/entites/IExperience'
 
 // Zod
 import { useForm } from 'vee-validate'
@@ -16,6 +18,14 @@ import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/comp
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue
+} from '@/components/ui/select'
 
 import { Calendar } from '@/components/ui/calendar'
 
@@ -23,26 +33,34 @@ import { Button } from '@/components/ui/button'
 
 // Icons
 import { Calendar as CalendarIcon } from 'lucide-vue-next'
-import type { ICreateExperience } from '@/apis/experience/types/ICreateExperience'
+import { type StateProject, StateProjectValues } from '../entites/IProject'
+import type { ICreateProject } from '@/apis/project/types/ICreateProject'
 
 // Lifecycle Hooks
 
-export interface IExperienceFormProps {
+// export interface ProjectDataForm {
+//   title: string
+//   summary: string
+//   about: string
+//   sector: string
+//   state: StateProject
+//   startDate: Date
+//   endDate: Date
+// }
+
+export interface IProjectFormProps {
   title?: string
+  summary?: string
   about?: string
+  sector?: string
+  state?: StateProject
   startDate?: string
   endDate?: string
 
-  titleLabel?: string
-  titlePlaceholder?: string
-  type: ExperienceType
-  handleSubmit: (values: ICreateExperience) => Promise<void>
+  handleSubmit: (values: ICreateProject) => Promise<void>
 }
 
-const props = withDefaults(defineProps<IExperienceFormProps>(), {
-  titleLabel: 'Título',
-  titlePlaceholder: 'Título...'
-})
+const props = withDefaults(defineProps<IProjectFormProps>(), {})
 
 const formSchema = toTypedSchema(
   z.object({
@@ -50,12 +68,25 @@ const formSchema = toTypedSchema(
       .string({
         required_error: 'Campo título obrigatório'
       })
-      .min(3, { message: 'O título deve ter no mínimo 3 caracteres.' }),
+      .min(3, { message: 'O título deve ter no mínimo 3 caracteres' }),
+    summary: z
+      .string({
+        required_error: 'Campo descrição resumo'
+      })
+      .min(5, { message: 'O resumo deve ter no mínimo 5 caracteres.' }),
     about: z
       .string({
         required_error: 'Campo descrição obrigatório'
       })
       .min(10, { message: 'A descrição deve ter no mínimo 10 caracteres.' }),
+    sector: z
+      .string({
+        required_error: 'Campo setor obrigatório'
+      })
+      .min(2, { message: 'O setor deve ter no mínimo 2 caracteres.' }),
+    state: z.enum(StateProjectValues, {
+      required_error: 'Campo status obrigatório'
+    }),
     startDate: z
       .date({
         required_error: 'Campo início obrigatório'
@@ -82,8 +113,7 @@ form.setValues({
 })
 
 const onSubmit = form.handleSubmit(async (values) => {
-  // TODO: Tirar esse valores 'mockados' de projectId e achievements.
-  await props.handleSubmit({ ...values, projectId: null, achievements: [], type: props.type })
+  await props.handleSubmit({ ...values })
 })
 </script>
 
@@ -91,11 +121,11 @@ const onSubmit = form.handleSubmit(async (values) => {
   <form @submit="onSubmit" class="w-full flex flex-col gap-4">
     <FormField v-slot="{ componentField }" name="title">
       <FormItem>
-        <FormLabel>{{ props.titleLabel }}</FormLabel>
+        <FormLabel>Título</FormLabel>
         <FormControl>
           <Input
             type="text"
-            :placeholder="props.titlePlaceholder"
+            placeholder="Ex.: Duckchat"
             v-bind="componentField"
             autocomplete="title"
           />
@@ -104,18 +134,68 @@ const onSubmit = form.handleSubmit(async (values) => {
       </FormItem>
     </FormField>
 
-    <FormField v-slot="{ componentField }" name="about">
+    <FormField v-slot="{ componentField }" name="summary">
       <FormItem>
-        <FormLabel>Descrição</FormLabel>
+        <FormLabel>Resumo</FormLabel>
 
         <FormControl>
+          <Input
+            placeholder="Ex.: Cópia do discord"
+            v-bind="componentField"
+            autocomplete="summary"
+          />
+        </FormControl>
+        <FormMessage />
+      </FormItem>
+    </FormField>
+
+    <FormField v-slot="{ componentField }" name="about">
+      <FormItem>
+        <FormLabel>Sobre</FormLabel>
+
+        <FormLabel />
+        <FormControl>
           <Textarea
-            placeholder="Fale um pouco sobre sua experiência"
+            placeholder="Ex.: Projeto baseado nas funcionalidades básicas de chat em tempo real."
             v-bind="componentField"
             class="resize-none"
             autocomplete="about"
           />
         </FormControl>
+        <FormMessage />
+      </FormItem>
+    </FormField>
+
+    <FormField v-slot="{ componentField }" name="sector">
+      <FormItem>
+        <FormLabel>Setor</FormLabel>
+
+        <FormLabel />
+        <FormControl>
+          <Input placeholder="Ex.: Software" v-bind="componentField" autocomplete="sector" />
+        </FormControl>
+        <FormMessage />
+      </FormItem>
+    </FormField>
+
+    <FormField v-slot="{ componentField }" name="state">
+      <FormItem>
+        <FormLabel>Status</FormLabel>
+
+        <Select v-bind="componentField">
+          <FormControl>
+            <SelectTrigger>
+              <SelectValue placeholder="Selecione o status do projeto" />
+            </SelectTrigger>
+          </FormControl>
+          <SelectContent>
+            <SelectGroup>
+              <SelectItem v-for="item in Object.entries(projectStateLabel)" :value="item[0]">
+                {{ item[1] }}
+              </SelectItem>
+            </SelectGroup>
+          </SelectContent>
+        </Select>
         <FormMessage />
       </FormItem>
     </FormField>

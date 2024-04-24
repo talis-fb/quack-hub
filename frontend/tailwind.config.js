@@ -22,6 +22,9 @@ module.exports = {
       },
     },
     extend: {
+      transitionDelay:{
+        '50': '50ms'
+      },
       backgroundImage: {
         'default-walpaper': "url('/src/assets/wallpaper-default-user.svg')"
       },

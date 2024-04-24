@@ -48,7 +48,7 @@ onBeforeMount(async () => {
 <template>
   <main class="flex flex-1 flex-col md:flex-row p-3 gap-5">
     <section class="flex-1 flex flex-col gap-5 relative rounded-md">
-      <section class="bg-secondary rounded-md">
+      <section class="border rounded-md">
         <div class="bg-default-walpaper h-[200px]"></div>
 
         <div class="p-5">
@@ -70,7 +70,7 @@ onBeforeMount(async () => {
         </div>
       </section>
 
-      <section class="flex flex-col gap-3 px-3 py-5 bg-secondary rounded-md">
+      <section class="flex flex-col gap-3 px-3 py-5 border rounded-md">
         <header class="flex items-center">
           <h2 class="text-2xl mr-auto">Experiências acadêmicas</h2>
         </header>
@@ -83,7 +83,7 @@ onBeforeMount(async () => {
         </Suspense>
       </section>
 
-      <section class="flex flex-col gap-3 px-3 py-5 bg-secondary rounded-md">
+      <section class="flex flex-col gap-3 px-3 py-5 border rounded-md">
         <header class="flex items-center">
           <h2 class="text-2xl mr-auto">Experiências profissionais</h2>
         </header>
@@ -97,7 +97,7 @@ onBeforeMount(async () => {
         </Suspense>
       </section>
 
-      <section class="flex flex-col gap-3 px-3 py-5 bg-secondary rounded-md">
+      <section class="flex flex-col gap-3 px-3 py-5 border rounded-md">
         <div>
           <h2 class="text-2xl">Sobre</h2>
           <p>{{ user?.aboutDescription }}</p>
@@ -105,7 +105,7 @@ onBeforeMount(async () => {
       </section>
     </section>
 
-    <aside class="flex flex-col gap-6 p-3 bg-secondary rounded-md">
+    <aside class="flex flex-col gap-6 p-3 border rounded-md">
       <section>
         <h2 class="text-2xl">As pessoas também visualizam</h2>
         <p>Coisas que as pessoas vizualizam aqui</p>

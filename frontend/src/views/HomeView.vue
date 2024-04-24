@@ -1,14 +1,14 @@
 <script setup lang="ts">
+// Shadcn-vue components
 import Separator from '@/components/ui/separator/Separator.vue'
-import { Image } from 'lucide-vue-next'
-import { Presentation } from 'lucide-vue-next'
-import { NotebookPen } from 'lucide-vue-next'
-import { ChevronDown } from 'lucide-vue-next'
+// Icons
+
+import { Presentation, NotebookPen, ChevronDown } from 'lucide-vue-next'
 </script>
 
 <template>
   <div class="flex-1 p-2 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 mt-6 gap-6">
-    <aside class="bg-secondary p-6 flex flex-col items-center gap-4 rounded-md">
+    <aside class="border p-6 flex flex-col items-center gap-4 rounded-md">
       <div class="flex flex-col items-center border-b-2 border-slate-300 text-lg pb-6">
         <img class="h-14 rounded-full" src="@/assets/user-icon.jpg" />
         <p>User name</p>
@@ -16,30 +16,45 @@ import { ChevronDown } from 'lucide-vue-next'
       <p>Lista de amigos</p>
     </aside>
 
-    <main class="bg-secondary flex flex-col lg:col-span-3 rounded-md">
-      <section class="flex justify-between gap-2 p-8 text-lg">
-        <figure class="flex gap-1 items-center">
-          <Image />
-          <figcaption>Mídia</figcaption>
-        </figure>
+    <main class="border flex flex-col lg:col-span-3 rounded-md">
+      <section class="flex justify-between gap-2 text-lg">
+        <RouterLink
+          v-slot="{ isExactActive }"
+          :to="{ name: 'posts' }"
+          class="border transition delay-50 p-5 cursor-pointer hover:bg-black/40 flex-1 flex gap-1 items-center justify-center"
+        >
+          <div
+            class="pb-3 flex space-x-1 border-b-2"
+            :class="isExactActive ? 'border-primary' : 'border-transparent'"
+          >
+            <NotebookPen />
+            <span>Postagens</span>
+          </div>
+        </RouterLink>
 
-        <figure class="flex gap-1 items-center">
-          <Presentation />
-          <figcaption>Projetos</figcaption>
-        </figure>
-
-        <figure class="flex gap-1 items-center">
-          <NotebookPen />
-          <figcaption>Criar postagem</figcaption>
-        </figure>
+        <RouterLink
+          v-slot="{ isExactActive }"
+          :to="{ name: 'projects' }"
+          class="border transition delay-50 p-5 cursor-pointer hover:bg-black/40 flex-1 flex gap-1 items-center justify-center"
+        >
+          <div
+            class="pb-3 flex space-x-1 border-b-2"
+            :class="isExactActive ? 'border-primary' : 'border-transparent'"
+          >
+            <Presentation />
+            <span>Projetos</span>
+          </div>
+        </RouterLink>
       </section>
 
-      <Separator class="h-[2px] bg-white" />
+      <Separator class="h-[1px]" />
 
-      <section class="flex-1 flex gap-6 p-8 text-lg rounded-lg">Posts aqui</section>
+      <section class="flex-1 flex gap-6 text-lg rounded-lg">
+        <RouterView />
+      </section>
     </main>
 
-    <aside class="bg-secondary flex flex-col md:col-start-2 lg:col-start-5">
+    <aside class="border flex flex-col md:col-start-2 lg:col-start-5">
       <section class="text-lg p-12 rounded-md">
         <h1 class="text-xl mb-2">QuackHub Notícias</h1>
         <ul>

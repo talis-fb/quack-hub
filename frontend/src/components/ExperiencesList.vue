@@ -1,7 +1,4 @@
 <script setup lang="ts">
-// Vue imports
-import { onMounted } from 'vue'
-
 // types
 import { type ExperienceType } from '@/entites/IExperience'
 
@@ -33,7 +30,7 @@ await experienceStore.getExperiennces(props.userId, props.type)
 <template>
   <div class="flex flex-col gap-5">
     <div v-if="experiences[type].length" v-for="(experience, index) in experiences[type]">
-      <Separator class="mb-4 bg-white/30" />
+      <Separator class="mb-4" />
       <ExperienceItem :experience="experience" />
     </div>
 
