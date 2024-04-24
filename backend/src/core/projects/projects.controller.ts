@@ -35,7 +35,7 @@ export class ProjectsController {
   ): Promise<ProjectEntity> {
     const { userId } = req.user;
 
-    return await this.projectsService.create({ ...body, userId });
+    return await this.projectsService.create(body, userId);
   }
 
   @ApiResponse({

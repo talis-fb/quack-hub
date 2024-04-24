@@ -48,11 +48,11 @@ export class ExperienceController {
   async create(@Req() req, @Body() createExperienceDto: CreateExperienceDto) {
     const { userId } = req.user;
 
-    return await this.experienceService.createExperience({
-      ...createExperienceDto,
+    return await this.experienceService.createExperience(
+      createExperienceDto,
       userId,
-    });
-  } 
+    );
+  }
 
   @Put(':id')
   async update(

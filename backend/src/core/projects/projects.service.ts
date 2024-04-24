@@ -10,12 +10,17 @@ import { ServiceClientValidationException } from 'src/excpetions/service/Service
 import { RepositoryClientInitializationException } from 'src/excpetions/repository/RepositoryClientInitializationException';
 import { ServiceClientInitializationException } from 'src/excpetions/service/ServiceClientInitializationException';
 import { ServiceException } from 'src/excpetions/service/ServiceException';
+import { CreateProjectDto } from './dtos/CreateProjectDto';
+import { UpdateProjectDto } from './dtos/UpdateProjectDto';
 
 export abstract class ProjectsService {
-  public abstract create(data: ProjectData): Promise<ProjectEntity>;
+  public abstract create(
+    data: CreateProjectDto,
+    userId: number,
+  ): Promise<ProjectEntity>;
   public abstract update(
     id: number,
-    project: Partial<ProjectData>,
+    project: UpdateProjectDto,
   ): Promise<ProjectData | null>;
   public abstract getProjectById(id: number): Promise<ProjectEntity | null>;
   public abstract getUsersOfProject(id: number): Promise<UserEntity[]>;
@@ -30,9 +35,12 @@ export class ProjectsServiceImpl implements ProjectsService {
     private userService: UserService,
   ) {}
 
-  public async create(data: ProjectData): Promise<ProjectEntity> {
+  public async create(
+    data: CreateProjectDto,
+    userId: number,
+  ): Promise<ProjectEntity> {
     try {
-      return await this.repo.createProject(data);
+      return await this.repo.createProject({ ...data, userId });
     } catch (error) {
       if (error instanceof RepositoryClientKnownRequestException) {
         throw new ServiceClientKnownRequestException(error.message);
