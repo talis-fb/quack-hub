@@ -10,11 +10,17 @@ import { Button } from './ui/button'
 import { Suspense } from 'vue'
 import { useToast } from './ui/toast'
 
+// Store pinia
+import { useProjectStore } from '@/stores/project'
+
+const { createProject } = useProjectStore()
+
 const { toast } = useToast()
 
 const handleSubmit = async (values: ProjectDataForm) => {
   try {
-    console.log({ values })
+    await createProject(values)
+
     toast({
       title: ``,
       description: 'Projeto cadastrado com sucesso!',
