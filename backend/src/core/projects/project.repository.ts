@@ -14,7 +14,10 @@ export abstract class ProjectsRepository {
     project: Partial<ProjectData>,
   ): Promise<ProjectEntity | null>;
   abstract findUserIdsOfProject(id: number): Promise<number[]>;
-  public abstract search(searchTitle: string): Promise<ProjectEntity[]>;
+  public abstract search(
+    searchTitle?: string,
+    userId?: number,
+  ): Promise<ProjectEntity[]>;
   public abstract deleteProject(id: number): Promise<ProjectEntity>;
 }
 
@@ -202,7 +205,10 @@ export class ProjectsRepositoryImpl implements ProjectsRepository {
     }
   }
 
-  public async search(searchTitle: string): Promise<ProjectEntity[]> {
+  public async search(
+    searchTitle?: string,
+    userId?: number,
+  ): Promise<ProjectEntity[]> {
     try {
       const output = await this.prisma.project.findMany({
         where: {
@@ -210,6 +216,7 @@ export class ProjectsRepositoryImpl implements ProjectsRepository {
             contains: searchTitle,
             mode: 'insensitive',
           },
+          userId,
         },
         include: {
           vacancies: true,

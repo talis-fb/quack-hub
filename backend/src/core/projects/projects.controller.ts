@@ -80,8 +80,12 @@ export class ProjectsController {
     description: 'List of projects filtered by title returned successfully.',
   })
   @Get('')
-  async searchProjects(@Query('title') title: string) {
-    return await this.projectsService.search(title);
+  async searchProjects(
+    @Query('title') title?: string,
+    @Query('userId') userId?: number,
+  ) {
+ 
+    return await this.projectsService.search(title, userId);
   }
 
   @ApiResponse({
