@@ -56,7 +56,7 @@ const handleSubmit = async (values: ICreateProject) => {
 
     <div class="mt-6 flex flex-col space-y-5">
       <Suspense>
-        <ProjectsList />
+        <ProjectsList class="bg-red-300"/>
         <template #fallback>
           <ProjectsListFallback :length="5" />
         </template>

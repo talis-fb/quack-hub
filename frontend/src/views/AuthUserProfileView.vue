@@ -13,6 +13,8 @@ import ExperienceForm from '@/components/ExperienceForm.vue'
 import AppDialog from '@/components/AppDialog.vue'
 import ExperiencesList from '@/components/ExperiencesList.vue'
 import ExperienceListFallback from '@/components/ExperienceListFallback.vue'
+import ProjectsList from '@/components/ProjectsList.vue'
+import ProjectsListFallback from '@/components/ProjectsListFallback.vue'
 
 // Shadcn-vue components
 import { useToast } from '@/components/ui/toast/use-toast'
@@ -136,6 +138,40 @@ const userPhoto = computed(() => {
             Seguindo
           </p>
         </div>
+      </section>
+
+      <section class="flex flex-col gap-3 px-3 py-5 border rounded-md">
+        <header class="flex items-center">
+          <h2 class="text-2xl mr-auto">Projetos cadastrados</h2>
+
+          <AppDialog>
+            <template #trigger>
+              <Button variant="outline" size="icon">
+                <Plus class="w-5 h-5" />
+              </Button>
+            </template>
+            <template #title> Adicionar experiência acadêmica </template>
+            <template #description>
+              Adicione suas experiências acadêmicas para que outros usuários possam ver seu perfil
+              acadêmico.
+            </template>
+            <template #main>
+              <ExperienceForm
+                :handle-submit="handleSubmit"
+                title-label="Instituição de ensino"
+                title-placeholder="Ex.: UFRN"
+                type="ACADEMIC"
+              />
+            </template>
+          </AppDialog>
+        </header>
+
+        <Suspense>
+          <ProjectsList />
+          <template #fallback>
+            <ProjectsListFallback :length="5" />
+          </template>
+        </Suspense>
       </section>
 
       <section class="flex flex-col gap-3 px-3 py-5 border rounded-md">
