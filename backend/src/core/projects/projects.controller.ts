@@ -18,6 +18,7 @@ import { Public } from 'src/common/decorators/public.decorator';
 import { UpdateProjectDto } from './dtos/UpdateProjectDto';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CreateProjectDto } from './dtos/CreateProjectDto';
+import { SearchProjectsQueryDto } from './dtos/SearchProjectsQueryDto';
 
 @ApiTags('projects')
 @Controller('projects')
@@ -80,11 +81,9 @@ export class ProjectsController {
     description: 'List of projects filtered by title returned successfully.',
   })
   @Get('')
-  async searchProjects(
-    @Query('title') title?: string,
-    @Query('userId') userId?: number,
-  ) {
- 
+  async searchProjects(@Query() query: SearchProjectsQueryDto) {
+    const { title, userId } = query;
+
     return await this.projectsService.search(title, userId);
   }
 

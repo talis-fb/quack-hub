@@ -209,6 +209,7 @@ export class ProjectsRepositoryImpl implements ProjectsRepository {
     searchTitle?: string,
     userId?: number,
   ): Promise<ProjectEntity[]> {
+    console.log({searchTitle, userId})
     try {
       const output = await this.prisma.project.findMany({
         where: {
@@ -225,6 +226,7 @@ export class ProjectsRepositoryImpl implements ProjectsRepository {
 
       return output;
     } catch (error) {
+      console.log({error})
       if (error.code === 'P2025') {
         throw new RepositoryClientKnownRequestException(
           `Error of single constraint violation during search of projects with name ${searchTitle}!`,

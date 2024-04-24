@@ -1,3 +1,4 @@
+import { Transform } from 'class-transformer';
 import { IsInt, IsOptional } from 'class-validator';
 
 export class SearchProjectsQueryDto {
@@ -6,5 +7,8 @@ export class SearchProjectsQueryDto {
 
   @IsOptional()
   @IsInt()
+  @Transform(({ value }) => {
+    return Number(value);
+  })
   userId?: number;
 }
