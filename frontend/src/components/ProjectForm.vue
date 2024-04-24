@@ -3,7 +3,6 @@
 import { projectStateLabel } from '@/utils/labels'
 
 // Types
-import { type ExperienceType } from '@/entites/IExperience'
 
 // Zod
 import { useForm } from 'vee-validate'
@@ -64,15 +63,10 @@ export interface IExperienceFormProps {
   startDate?: string
   endDate?: string
 
-  titleLabel?: string
-  titlePlaceholder?: string
   handleSubmit: (values: ProjectDataForm) => Promise<void>
 }
 
-const props = withDefaults(defineProps<IExperienceFormProps>(), {
-  titleLabel: 'Título',
-  titlePlaceholder: 'Título...'
-})
+const props = withDefaults(defineProps<IExperienceFormProps>(), {})
 
 const formSchema = toTypedSchema(
   z.object({
@@ -133,11 +127,11 @@ const onSubmit = form.handleSubmit(async (values) => {
   <form @submit="onSubmit" class="w-full flex flex-col gap-4">
     <FormField v-slot="{ componentField }" name="title">
       <FormItem>
-        <FormLabel>{{ props.titleLabel }}</FormLabel>
+        <FormLabel>Título</FormLabel>
         <FormControl>
           <Input
             type="text"
-            :placeholder="props.titlePlaceholder"
+            placeholder="Ex.: Duckchat"
             v-bind="componentField"
             autocomplete="title"
           />
@@ -151,7 +145,7 @@ const onSubmit = form.handleSubmit(async (values) => {
 
         <FormControl>
           <Input
-            placeholder="Resume sobre seu projeto"
+            placeholder="Ex.: Cópia do discord"
             v-bind="componentField"
             autocomplete="summary"
           />
@@ -166,7 +160,7 @@ const onSubmit = form.handleSubmit(async (values) => {
         <FormLabel />
         <FormControl>
           <Textarea
-            placeholder="Fale sobre seu projeto detalhadamente"
+            placeholder="Ex.: Projeto baseado nas funcionalidades básicas de chat em tempo real."
             v-bind="componentField"
             class="resize-none"
             autocomplete="about"
@@ -181,11 +175,7 @@ const onSubmit = form.handleSubmit(async (values) => {
 
         <FormLabel />
         <FormControl>
-          <Input
-            placeholder="Escopo do seu projeto..."
-            v-bind="componentField"
-            autocomplete="sector"
-          />
+          <Input placeholder="Ex.: Software" v-bind="componentField" autocomplete="sector" />
         </FormControl>
       </FormItem>
     </FormField>
@@ -211,20 +201,6 @@ const onSubmit = form.handleSubmit(async (values) => {
         <FormMessage />
       </FormItem>
     </FormField>
-
-    <!-- <FormField v-slot="{ componentField }" name="state">
-      <FormItem>
-        <FormLabel>Status</FormLabel>
-        <FormControl>
-          <Textarea
-            placeholder="Status do seu projeto..."
-            v-bind="componentField"
-            class="resize-none"
-            autocomplete="state"
-          />
-        </FormControl>
-      </FormItem>
-    </FormField> -->
 
     <FormField v-slot="{ componentField, value }" name="startDate">
       <FormItem class="flex flex-col">

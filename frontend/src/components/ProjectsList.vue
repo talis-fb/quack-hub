@@ -2,6 +2,7 @@
 // Utils
 import { vacancyLabelState, projectStateLabel } from '@/utils/labels'
 
+// Types
 import type { IProjectEntity, StateProject } from '@/entites/IProject'
 
 // Shadcn-vue components
@@ -23,17 +24,17 @@ import {
 // Icons
 import {} from 'lucide-vue-next'
 
-// Services
-import { projectService } from '@/services'
 
-// Vue imports
-import { onMounted, ref } from 'vue'
-import type { StateVacancy } from '@/entites/IVacancy'
+// Store pinia
+import { useProjectStore } from '@/stores/project'
+import { storeToRefs } from 'pinia'
 
-const projects = ref<IProjectEntity[]>([])
 
-const res = await projectService.search()
-projects.value = res
+const projectStore = useProjectStore()
+
+const { projects } = storeToRefs(projectStore)
+
+await projectStore.getProjects()
 </script>
 
 <template>
