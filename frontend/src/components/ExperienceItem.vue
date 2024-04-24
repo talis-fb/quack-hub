@@ -68,7 +68,7 @@ const handleDeleteExperience = async () => {
 </script>
 
 <template>
-  <div class="group relative cursor-pointer hover:bg-black/40 p-3">
+  <div class="group relative cursor-pointer hover:bg-black/40 px-4 py-3 rounded-sm">
     <p class="text-xl">
       {{ experience.title }}
     </p>

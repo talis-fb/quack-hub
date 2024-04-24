@@ -1,6 +1,6 @@
 <script setup lang="ts">
 // Vue imports
-import { Suspense, computed, onBeforeMount, ref } from 'vue'
+import { Suspense, computed, onBeforeMount, provide, ref } from 'vue'
 
 // Services
 import { userService } from '@/services'
@@ -41,6 +41,7 @@ import ProfileEdit from './ProfileEdit.vue'
 import { useUserAuth } from '@/stores/userAuth'
 import { storeToRefs } from 'pinia'
 import type { ICreateExperience } from '@/apis/experience/types/ICreateExperience'
+import { useProjectStore } from '@/stores/project'
 
 /**
  * Recebendo o userId pelo param da rota.
@@ -49,10 +50,11 @@ const props = defineProps<{
   id: string
 }>()
 
+const projectStore = useProjectStore()
 const experienceStore = useExperienceStore()
-
 const userAuthStore = useUserAuth()
 
+const { projects } = storeToRefs(projectStore)
 const { user } = storeToRefs(userAuthStore)
 
 onBeforeMount(async () => {
@@ -89,6 +91,8 @@ const userPhoto = computed(() => {
 
   return UserPhotoDefault
 })
+
+provide('hasPermissions', true)
 </script>
 <template>
   <main class="flex flex-1 flex-col md:flex-row p-3 gap-5">
@@ -167,7 +171,10 @@ const userPhoto = computed(() => {
         </header>
 
         <Suspense>
-          <ProjectsList />
+          <ProjectsList
+            :projects="projects"
+            :get-projects="async () => await projectStore.getProjects()"
+          />
           <template #fallback>
             <ProjectsListFallback :length="5" />
           </template>

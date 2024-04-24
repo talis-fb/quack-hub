@@ -7,20 +7,23 @@ import AppDialog from '@/components/AppDialog.vue'
 
 // Shadcn-vue components
 import { Button } from './ui/button'
-import { Suspense } from 'vue'
+import { provide, Suspense } from 'vue'
 import { useToast } from './ui/toast'
 
 // Store pinia
 import { useProjectStore } from '@/stores/project'
 import type { ICreateProject } from '@/apis/project/types/ICreateProject'
+import { storeToRefs } from 'pinia'
 
-const { createProject } = useProjectStore()
+const projectStore = useProjectStore()
+
+const { projects } = storeToRefs(projectStore)
 
 const { toast } = useToast()
 
 const handleSubmit = async (values: ICreateProject) => {
   try {
-    await createProject(values)
+    await projectStore.createProject(values)
 
     toast({
       title: ``,
@@ -36,6 +39,8 @@ const handleSubmit = async (values: ICreateProject) => {
     })
   }
 }
+
+provide('hasPermissions', false)
 </script>
 
 <template>
@@ -56,7 +61,10 @@ const handleSubmit = async (values: ICreateProject) => {
 
     <div class="mt-6 flex flex-col space-y-5">
       <Suspense>
-        <ProjectsList class="bg-red-300"/>
+        <ProjectsList
+          :projects="projects"
+          :get-projects="async () => await projectStore.getProjects()"
+        />
         <template #fallback>
           <ProjectsListFallback :length="5" />
         </template>

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 // Vue imports
-import { Suspense, onBeforeMount, ref, computed } from 'vue';
+import { Suspense, onBeforeMount, ref, computed, provide } from 'vue'
 
 // Services
 import { userService } from '@/services'
@@ -12,6 +12,8 @@ import UserPhotoDefault from '@/assets/user-icon.jpg'
 // App components
 import ExperiencesList from '@/components/ExperiencesList.vue'
 import ExperienceListFallback from '@/components/ExperienceListFallback.vue'
+import ProjectsList from '@/components/ProjectsList.vue'
+import ProjectsListFallback from '@/components/ProjectsListFallback.vue'
 
 // Shadcn-vue components
 
@@ -43,7 +45,7 @@ onBeforeMount(async () => {
   user.value = res
 })
 
-
+provide('hasPermissions', false)
 </script>
 <template>
   <main class="flex flex-1 flex-col md:flex-row p-3 gap-5">
@@ -68,6 +70,19 @@ onBeforeMount(async () => {
             Seguindo
           </p>
         </div>
+      </section>
+
+      <section class="flex flex-col gap-3 px-3 py-5 border rounded-md">
+        <header class="flex items-center">
+          <h2 class="text-2xl mr-auto">Projetos cadastrados</h2>
+        </header>
+
+        <Suspense>
+          <ProjectsList />
+          <template #fallback>
+            <ProjectsListFallback :length="5" />
+          </template>
+        </Suspense>
       </section>
 
       <section class="flex flex-col gap-3 px-3 py-5 border rounded-md">

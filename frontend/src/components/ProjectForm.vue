@@ -2,8 +2,6 @@
 // Utils
 import { projectStateLabel } from '@/utils/labels'
 
-// Types
-
 // Zod
 import { useForm } from 'vee-validate'
 import { toTypedSchema } from '@vee-validate/zod'
@@ -26,9 +24,7 @@ import {
   SelectTrigger,
   SelectValue
 } from '@/components/ui/select'
-
 import { Calendar } from '@/components/ui/calendar'
-
 import { Button } from '@/components/ui/button'
 
 // Icons
@@ -36,17 +32,6 @@ import { Calendar as CalendarIcon } from 'lucide-vue-next'
 import { type StateProject, StateProjectValues } from '../entites/IProject'
 import type { ICreateProject } from '@/apis/project/types/ICreateProject'
 
-// Lifecycle Hooks
-
-// export interface ProjectDataForm {
-//   title: string
-//   summary: string
-//   about: string
-//   sector: string
-//   state: StateProject
-//   startDate: Date
-//   endDate: Date
-// }
 
 export interface IProjectFormProps {
   title?: string
@@ -54,8 +39,8 @@ export interface IProjectFormProps {
   about?: string
   sector?: string
   state?: StateProject
-  startDate?: string
-  endDate?: string
+  startDate?: Date
+  endDate?: Date
 
   handleSubmit: (values: ICreateProject) => Promise<void>
 }
@@ -97,7 +82,6 @@ const formSchema = toTypedSchema(
         required_error: 'Campo fim obrigatório'
       })
       .max(new Date(), { message: 'Data inválida.' })
-    // projectId: z.number()
   })
 )
 
@@ -107,9 +91,12 @@ const form = useForm({
 
 form.setValues({
   title: props.title,
+  summary: props.summary,
   about: props.about,
-  startDate: props.startDate ? new Date(props.startDate) : undefined,
-  endDate: props.endDate ? new Date(props.endDate) : undefined
+  sector: props.sector,
+  state: props.state,
+  startDate: props.startDate,
+  endDate: props.endDate
 })
 
 const onSubmit = form.handleSubmit(async (values) => {
