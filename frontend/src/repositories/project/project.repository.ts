@@ -1,7 +1,10 @@
 import type { IProjectApi } from '@/apis/project/project.api'
 import type { ICreateProject } from '@/apis/project/types/ICreateProject'
+import type { ICreateVacancy } from '@/apis/project/types/ICreateVacancy'
 import type { IUpdateProject } from '@/apis/project/types/IUpdateProject'
+import type { IUpdateVacancy } from '@/apis/project/types/IUpdateVacancy'
 import type { IProjectEntity } from '@/entites/IProject'
+import type { IVacancyEntity } from '@/entites/IVacancy'
 
 export interface IProjectRepository {
   search(title?: string, userId?: number): Promise<IProjectEntity[]>
@@ -9,6 +12,10 @@ export interface IProjectRepository {
   delete(projectId: number): Promise<IProjectEntity>
   update(projectId: number, data: IUpdateProject): Promise<IProjectEntity>
   create(data: ICreateProject): Promise<IProjectEntity>
+
+  createVacancy(data: ICreateVacancy): Promise<IVacancyEntity>
+  deleteVacancy(vacancyId: number): Promise<IVacancyEntity>
+  updateVacancy(vacancyId: number, data: IUpdateVacancy): Promise<IVacancyEntity>
 }
 
 export class ProjectRepositoryImpl implements IProjectRepository {
@@ -114,6 +121,57 @@ export class ProjectRepositoryImpl implements IProjectRepository {
       startDate: new Date(res.startDate),
       endDate: new Date(res.endDate),
       vacancies: res.vacancies
+    }
+
+    return newRes
+  }
+
+  async createVacancy(data: ICreateVacancy): Promise<IVacancyEntity> {
+    const res = await this.projectApi.createVacancy(data)
+
+    const newRes: IVacancyEntity = {
+      id: res.id,
+      createdAt: new Date(res.createdAt),
+      updatedAt: new Date(res.updatedAt),
+      title: res.title,
+      description: res.description,
+      requirements: res.requirements,
+      state: res.state,
+      projectId: res.projectId
+    }
+
+    return newRes
+  }
+
+  async updateVacancy(vacancyId: number, data: IUpdateVacancy): Promise<IVacancyEntity> {
+    const res = await this.projectApi.updateVacancy(vacancyId, data)
+
+    const newRes: IVacancyEntity = {
+      id: res.id,
+      createdAt: new Date(res.createdAt),
+      updatedAt: new Date(res.updatedAt),
+      title: res.title,
+      description: res.description,
+      requirements: res.requirements,
+      state: res.state,
+      projectId: res.projectId
+    }
+
+    return newRes
+  }
+
+  async deleteVacancy(vacancyId: number): Promise<IVacancyEntity> {
+    const res = await this.projectApi.deleteVacancy(vacancyId)
+
+    const newRes: IVacancyEntity = {
+      id: res.id,
+      createdAt: new Date(res.createdAt),
+      updatedAt: new Date(res.updatedAt),
+      title: res.title,
+      description: res.description,
+      requirements: res.requirements,
+      state: res.state,
+      projectId: res.projectId
     }
 
     return newRes

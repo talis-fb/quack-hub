@@ -14,6 +14,7 @@ import UserPhotoDefault from '@/assets/user-icon.jpg'
 
 // App components
 import AppDialog from '@/components/AppDialog.vue'
+import VacancyBox from '@/components/VacancyBox.vue'
 
 // Shadcn-vue components
 import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert'
@@ -123,29 +124,16 @@ onMounted(async () => {
           </AppDialog>
         </header>
         <Suspense>
-          <div class="p-4 flex flex-wrap gap-3">
-            <div
-              v-if="project?.vacancies.length"
-              v-for="vacancy in project.vacancies"
-              class="p-4 flex flex-col border rounded-md gap-2"
-            >
-              <span class="text-2xl font-bold">
-                {{ vacancy.title }}
-              </span>
-              <span>
-                {{ vacancy.description }}
-              </span>
-              <Badge variant="default" class="tracking-wide mt-auto">{{
-                vacancyLabelState[vacancy.state]
-              }}</Badge>
-            </div>
-
-            <Alert v-else>
-              <AlertTitle>Projetos sem vagas abertas</AlertTitle>
-              <AlertDescription> Fique ligado para as próximas vagas! </AlertDescription>
-            </Alert>
+          <div class="p-4 flex flex-wrap gap-3" v-if="project?.vacancies.length">
+            <VacancyBox v-for="vacancy in project.vacancies" :vacancy="vacancy" />
           </div>
-          <template #fallback> </template>
+          <Alert v-else>
+            <AlertTitle>Projetos sem vagas abertas</AlertTitle>
+            <AlertDescription> Fique ligado para as próximas vagas! </AlertDescription>
+          </Alert>
+          <template #fallback>
+            
+          </template>
         </Suspense>
       </section>
     </section>
