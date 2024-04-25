@@ -153,13 +153,15 @@ provide('hasPermissions', true)
             </div>
           </div>
 
-          <p class="text-lg">{{ user?.name }}</p>
-          <p>Informações de contato</p>
-          <p class="mt-6">
-            <span class="text-xl font-bold">{{ user?.followedBy }}</span> Seguidores |
-            <span class="text-xl font-bold">{{ user?.following }}</span>
-            Seguindo
-          </p>
+          <div class="mt-2">
+            <p class="text-lg">{{ user?.name }}</p>
+            <p>Informações de contato</p>
+            <p class="mt-6">
+              <span class="text-xl font-bold">{{ user?.followedBy }}</span> Seguidores |
+              <span class="text-xl font-bold">{{ user?.following }}</span>
+              Seguindo
+            </p>
+          </div>
         </div>
       </section>
 

@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { vacancyLabelState, projectStateLabel } from '@/utils/labels'
+
 import type { IProjectEntity } from '@/entites/IProject'
 
 import { projectService } from '@/services'
@@ -14,6 +16,8 @@ import UserPhotoDefault from '@/assets/user-icon.jpg'
 import AppDialog from '@/components/AppDialog.vue'
 
 // Shadcn-vue components
+import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert'
+import { Badge } from '@/components/ui/badge'
 import { useToast } from '@/components/ui/toast/use-toast'
 import { Button } from '@/components/ui/button'
 import {
@@ -75,8 +79,10 @@ onMounted(async () => {
             </div>
           </div>
 
-          <p class="text-2xl">{{ project?.title }}</p>
-          <p class="text-muted-foreground">{{ project?.summary }}</p>
+          <div class="mt-2">
+            <p class="text-2xl">{{ project?.title }}</p>
+            <p class="text-muted-foreground">{{ project?.summary }}</p>
+          </div>
         </div>
       </section>
 
@@ -91,7 +97,11 @@ onMounted(async () => {
         <header class="flex items-center">
           <h2 class="text-2xl mr-auto">Pessoas que trabalham</h2>
         </header>
+
         <Suspense>
+          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Facere quasi dolorum molestias
+          voluptas quo est hic, quam voluptatum ad ex et accusantium tempore enim blanditiis fugit
+          eum amet rerum rem!
           <template #fallback> </template>
         </Suspense>
       </section>
@@ -99,7 +109,6 @@ onMounted(async () => {
       <section class="flex flex-col gap-3 px-3 py-5 border rounded-md">
         <header class="flex items-center">
           <h2 class="text-2xl mr-auto">Vagas</h2>
-
           <AppDialog>
             <template #trigger>
               <Button variant="outline" size="icon">
@@ -110,14 +119,32 @@ onMounted(async () => {
             <template #description>
               Adicione vagas do projeto para que outros usuários possam ver e se interessar.
             </template>
-            <template #main>
-              Lorem ipsum dolor, sit amet consectetur adipisicing elit. Impedit sit dolor
-              repellendus pariatur libero. Quaerat quas consectetur, totam labore fugiat, ratione
-              maxime maiores nemo, neque modi quidem exercitationem impedit nisi.
-            </template>
+            <template #main> </template>
           </AppDialog>
         </header>
         <Suspense>
+          <div class="p-4 flex flex-wrap gap-3">
+            <div
+              v-if="project?.vacancies.length"
+              v-for="vacancy in project.vacancies"
+              class="p-4 flex flex-col border rounded-md gap-2"
+            >
+              <span class="text-2xl font-bold">
+                {{ vacancy.title }}
+              </span>
+              <span>
+                {{ vacancy.description }}
+              </span>
+              <Badge variant="default" class="tracking-wide mt-auto">{{
+                vacancyLabelState[vacancy.state]
+              }}</Badge>
+            </div>
+
+            <Alert v-else>
+              <AlertTitle>Projetos sem vagas abertas</AlertTitle>
+              <AlertDescription> Fique ligado para as próximas vagas! </AlertDescription>
+            </Alert>
+          </div>
           <template #fallback> </template>
         </Suspense>
       </section>

@@ -171,7 +171,7 @@ const toProject = (e: MouseEvent) => {
     >
       <AppDialog>
         <template #trigger>
-          <Button variant="default" size="icon"  @click.stop="">
+          <Button variant="default" size="icon" @click.stop="">
             <Pencil class="w-5 h-5" />
           </Button>
         </template>
