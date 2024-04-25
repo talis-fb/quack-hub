@@ -121,7 +121,7 @@ const toProject = (e: MouseEvent) => {
 
     <Drawer>
       <DrawerTrigger as-child>
-        <Button variant="outline" class="self-start">
+        <Button variant="outline" class="self-start" @click.stop="">
           <span class="font-bold underline mr-1">{{ project.vacancies.length }}</span
           >Vagas
         </Button>
