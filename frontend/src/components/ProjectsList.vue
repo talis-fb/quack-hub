@@ -10,7 +10,7 @@ import { Alert, AlertTitle } from '@/components/ui/alert'
 import {} from 'lucide-vue-next'
 
 // Store pinia
-import { useProjectStore } from '@/stores/project'
+import { useProjectsStore } from '@/stores/projects'
 import { storeToRefs } from 'pinia'
 
 export interface IProjectsListProps {
@@ -20,7 +20,7 @@ export interface IProjectsListProps {
 
 const props = defineProps<IProjectsListProps>()
 
-const projectStore = useProjectStore()
+const projectStore = useProjectsStore()
 
 const { projects } = storeToRefs(projectStore)
 

@@ -11,11 +11,11 @@ import { provide, Suspense } from 'vue'
 import { useToast } from './ui/toast'
 
 // Store pinia
-import { useProjectStore } from '@/stores/project'
+import { useProjectsStore } from '@/stores/projects'
 import type { ICreateProject } from '@/apis/project/types/ICreateProject'
 import { storeToRefs } from 'pinia'
 
-const projectStore = useProjectStore()
+const projectStore = useProjectsStore()
 
 const { projects } = storeToRefs(projectStore)
 

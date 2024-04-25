@@ -42,7 +42,7 @@ import { useUserAuth } from '@/stores/userAuth'
 import { storeToRefs } from 'pinia'
 import type { ICreateExperience } from '@/apis/experience/types/ICreateExperience'
 import type { ICreateProject } from '@/apis/project/types/ICreateProject'
-import { useProjectStore } from '@/stores/project'
+import { useProjectsStore } from '@/stores/projects'
 
 /**
  * Recebendo o userId pelo param da rota.
@@ -51,7 +51,7 @@ const props = defineProps<{
   id: string
 }>()
 
-const projectStore = useProjectStore()
+const projectStore = useProjectsStore()
 const experienceStore = useExperienceStore()
 const userAuthStore = useUserAuth()
 

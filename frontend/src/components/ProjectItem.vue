@@ -32,7 +32,7 @@ import { useToast } from '@/components/ui/toast'
 import { Pencil, Trash } from 'lucide-vue-next'
 
 // Store pinia
-import { useProjectStore } from '@/stores/project'
+import { useProjectsStore } from '@/stores/projects'
 import { inject } from 'vue'
 import { useRouter } from 'vue-router'
 import { metadataRoutes } from '../router/RoutesConfig'
@@ -47,7 +47,7 @@ export interface ProjectItemProps {
 
 const hasPermissions = inject('hasPermissions', false)
 
-const projectStore = useProjectStore()
+const projectStore = useProjectsStore()
 const router = useRouter()
 
 const props = defineProps<ProjectItemProps>()
