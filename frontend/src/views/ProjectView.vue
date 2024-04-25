@@ -15,6 +15,7 @@ import UserPhotoDefault from '@/assets/user-icon.jpg'
 // App components
 import AppDialog from '@/components/AppDialog.vue'
 import VacancyBox from '@/components/VacancyBox.vue'
+import VacancyForm from '@/components/VacancyForm.vue'
 
 // Shadcn-vue components
 import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert'
@@ -31,14 +32,36 @@ import {
   SheetTitle,
   SheetTrigger
 } from '@/components/ui/sheet'
+import type { ICreateVacancy } from '@/apis/project/types/ICreateVacancy'
 
 export interface IProjectViewProps {
   id: string
 }
 
+const { toast } = useToast()
+
 const props = defineProps<IProjectViewProps>()
 
 const project = ref<IProjectEntity | null>(null)
+
+const handleSubmitVacancy = async (values: ICreateVacancy) => {
+  try {
+    console.log({ values })
+
+    toast({
+      title: `Vaga`,
+      description: 'Vaga cadastrada com sucesso!',
+      variant: 'default',
+      duration: 1000
+    })
+  } catch (error: any) {
+    toast({
+      title: 'Erro ao criar a vaga',
+      description: error?.message || 'Erro desconhecido, por favor contatar os desenvolvedores.',
+      variant: 'destructive'
+    })
+  }
+}
 
 onMounted(async () => {
   project.value = await projectService.getProjectById(+props.id)
@@ -120,7 +143,9 @@ onMounted(async () => {
             <template #description>
               Adicione vagas do projeto para que outros usuários possam ver e se interessar.
             </template>
-            <template #main> </template>
+            <template #main>
+              <VacancyForm :handle-submit="handleSubmitVacancy" />
+            </template>
           </AppDialog>
         </header>
         <Suspense>
@@ -131,9 +156,7 @@ onMounted(async () => {
             <AlertTitle>Projetos sem vagas abertas</AlertTitle>
             <AlertDescription> Fique ligado para as próximas vagas! </AlertDescription>
           </Alert>
-          <template #fallback>
-            
-          </template>
+          <template #fallback> </template>
         </Suspense>
       </section>
     </section>
