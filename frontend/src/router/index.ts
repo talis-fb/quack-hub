@@ -14,6 +14,7 @@ import AboutView from '@/views/AboutView.vue'
 import ProfileEdit from '@/views/ProfileEdit.vue'
 import HomeView from '@/views/HomeView.vue'
 import ProfileUserTeste from '@/views/UserProfileView.vue'
+import ProjectView from '@/views/ProjectView.vue'
 
 // Components
 import PostsFeed from '@/components/PostsFeed.vue'
@@ -87,6 +88,15 @@ export const router = createRouter({
         default: ProfileEdit
       },
       meta: { ...metadataRoutes.USER_EDIT }
+    },
+    {
+      path: metadataRoutes.PROJECT.path,
+      name: metadataRoutes.PROJECT.name,
+      components: {
+        Navbar: NavMenu,
+        default: ProjectView
+      },
+      meta: { ...metadataRoutes.PROJECT }
     },
     { path: '/:pathMatch(.*)*', redirect: metadataRoutes.HOME.path }
   ]

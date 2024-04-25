@@ -28,7 +28,7 @@ import { Presentation, NotebookPen, ChevronDown } from 'lucide-vue-next'
             :class="isExactActive ? 'border-primary' : 'border-transparent'"
           >
             <NotebookPen />
-            <span>Postagens</span>
+            -<span>Postagens</span>
           </div>
         </RouterLink>
 

@@ -4,7 +4,7 @@ import ProjectItem from '@/components/ProjectItem.vue'
 
 // Shadcn-vue components
 import { Separator } from '@/components/ui/separator'
-import { Alert } from '@/components/ui/alert'
+import { Alert, AlertTitle } from '@/components/ui/alert'
 
 // Icons
 import {} from 'lucide-vue-next'

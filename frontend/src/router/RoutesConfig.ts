@@ -3,13 +3,13 @@ export const metadataRoutes = {
     path: '/signin',
     name: 'signin',
     isPublic: true,
-    tags: ['require-no-auth'],
+    tags: ['require-no-auth']
   },
   SIGNUP: {
     path: '/signup',
     name: 'signup',
     isPublic: true,
-    tags: ['require-no-auth'],
+    tags: ['require-no-auth']
   },
   HOME: {
     path: '/',
@@ -27,6 +27,10 @@ export const metadataRoutes = {
   USER_EDIT: {
     path: '/edit',
     name: 'user-edit'
+  },
+  PROJECT: {
+    path: '/project',
+    name: 'project'
   }
 }
 
