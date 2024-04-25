@@ -5,6 +5,7 @@ import type { IProjectRepository } from '@/repositories/project/project.reposito
 
 export interface IProjectService {
   search(title?: string, userId?: number): Promise<IProjectEntity[]>
+  getProjectById(id: number): Promise<IProjectEntity>
   delete(projectId: number): Promise<IProjectEntity>
   update(projectId: number, data: IUpdateProject): Promise<IProjectEntity>
   create(data: ICreateProject): Promise<IProjectEntity>
@@ -15,6 +16,12 @@ export class ProjectServiceImpl implements IProjectService {
 
   async search(title?: string, userId?: number): Promise<IProjectEntity[]> {
     const res = await this.projectRepository.search(title, userId)
+
+    return res
+  }
+
+  async getProjectById(id: number): Promise<IProjectEntity> {
+    const res = await this.projectRepository.getProjectById(id)
 
     return res
   }

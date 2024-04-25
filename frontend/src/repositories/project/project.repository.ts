@@ -5,6 +5,7 @@ import type { IProjectEntity } from '@/entites/IProject'
 
 export interface IProjectRepository {
   search(title?: string, userId?: number): Promise<IProjectEntity[]>
+  getProjectById(id: number): Promise<IProjectEntity>
   delete(projectId: number): Promise<IProjectEntity>
   update(projectId: number, data: IUpdateProject): Promise<IProjectEntity>
   create(data: ICreateProject): Promise<IProjectEntity>
@@ -35,6 +36,28 @@ export class ProjectRepositoryImpl implements IProjectRepository {
 
     return newRes
   }
+
+  async getProjectById(id: number): Promise<IProjectEntity> {
+    const res = await this.projectApi.getProjectById(id)
+
+    const newRes: IProjectEntity = {
+      id: res.id,
+      createdAt: res.createdAt,
+      updatedAt: res.updatedAt,
+      title: res.title,
+      summary: res.summary,
+      about: res.about,
+      sector: res.sector,
+      state: res.state,
+      methodologies: res.methodologies,
+      startDate: new Date(res.startDate),
+      endDate: new Date(res.endDate),
+      vacancies: res.vacancies
+    }
+
+    return newRes
+  }
+
   async delete(projectId: number): Promise<IProjectEntity> {
     const res = await this.projectApi.delete(projectId)
 
