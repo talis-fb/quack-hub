@@ -33,6 +33,8 @@ import { Pencil, Trash } from 'lucide-vue-next'
 // Store pinia
 import { useProjectStore } from '@/stores/project'
 import { inject } from 'vue'
+import { useRouter } from 'vue-router'
+import { metadataRoutes } from '../router/RoutesConfig'
 
 export interface ProjectItemProps {
   project: IProjectEntity
@@ -41,9 +43,11 @@ export interface ProjectItemProps {
 /**
  * O provedor desse inject ẽ um componente pai. No caso o componente AuthUserProfileView ou NonAuthUserProfileView
  */
+
 const hasPermissions = inject('hasPermissions', false)
 
 const projectStore = useProjectStore()
+const router = useRouter()
 
 const props = defineProps<ProjectItemProps>()
 
@@ -88,11 +92,16 @@ const handleDeleteProject = async () => {
     })
   }
 }
+
+const toProject = (e: MouseEvent) => {
+  router.push({ name: metadataRoutes.PROJECT.name, params: { id: props.project.id } })
+}
 </script>
 
 <template>
   <div
     class="group relative cursor-pointer hover:bg-black/40 px-4 py-3 flex flex-col space-y-2 rounded-sm"
+    @click="toProject"
   >
     <header class="flex items-center space-x-2">
       <span class="font-bold text-2xl">{{ project.title }}</span>

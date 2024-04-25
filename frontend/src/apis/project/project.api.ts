@@ -5,6 +5,7 @@ import { api } from '@/network/api'
 
 export interface IProjectApi {
   search(title?: string, userId?: number): Promise<IProjectResponse[]>
+  getProjectById(id: number): Promise<IProjectResponse>
   delete(projectId: number): Promise<IProjectResponse>
   update(projectId: number, data: IUpdateProject): Promise<IProjectResponse>
   create(data: ICreateProject): Promise<IProjectResponse>
@@ -18,6 +19,12 @@ export class ProjectApiImpl implements IProjectApi {
         userId
       }
     })
+
+    return res.data
+  }
+
+  async getProjectById(id: number): Promise<IProjectResponse> {
+    const res = await api.get<IProjectResponse>(`/projects/${id}`)
 
     return res.data
   }
