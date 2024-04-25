@@ -13,7 +13,7 @@ import {
 
 <template>
   <Dialog>
-    <DialogTrigger>
+    <DialogTrigger as-child>
       <slot name="trigger"></slot>
     </DialogTrigger>
     <DialogContent>

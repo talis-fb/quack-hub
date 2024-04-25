@@ -171,13 +171,13 @@ const toProject = (e: MouseEvent) => {
     >
       <AppDialog>
         <template #trigger>
-          <Button variant="default" size="icon">
+          <Button variant="default" size="icon"  @click.stop="">
             <Pencil class="w-5 h-5" />
           </Button>
         </template>
         <template #title> Editer Projeto '{{ props.project.title }}' </template>
         <template #description>
-          Edite suas Projetos acadêmicas para que outros usuários possam ver seu perfil atualizado.
+          Edite seu projeto para que outras pessoas possam visualizar.
         </template>
         <template #main>
           <ProjectForm
@@ -195,7 +195,7 @@ const toProject = (e: MouseEvent) => {
 
       <AppAlertDialog :handleAction="handleDeleteProject">
         <template #trigger>
-          <Button variant="destructive" size="icon">
+          <Button variant="destructive" size="icon" @click.stop="">
             <Trash class="w-5 h-5" />
           </Button>
         </template>

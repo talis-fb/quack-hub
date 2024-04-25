@@ -75,7 +75,8 @@ onMounted(async () => {
             </div>
           </div>
 
-          <p class="text-lg">{{ project?.title }}</p>
+          <p class="text-2xl">{{ project?.title }}</p>
+          <p class="text-muted-foreground">{{ project?.summary }}</p>
         </div>
       </section>
 

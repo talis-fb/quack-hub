@@ -209,7 +209,7 @@ export class ProjectsRepositoryImpl implements ProjectsRepository {
     searchTitle?: string,
     userId?: number,
   ): Promise<ProjectEntity[]> {
-    console.log({searchTitle, userId})
+    
     try {
       const output = await this.prisma.project.findMany({
         where: {
