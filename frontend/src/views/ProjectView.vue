@@ -15,7 +15,7 @@ import UserPhotoDefault from '@/assets/user-icon.jpg'
 // App components
 import AppDialog from '@/components/AppDialog.vue'
 import VacancyBox from '@/components/VacancyBox.vue'
-import VacancyForm from '@/components/VacancyForm.vue'
+import VacancyForm, { type IVacancyFormData } from '@/components/VacancyForm.vue'
 
 // Shadcn-vue components
 import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert'
@@ -33,6 +33,8 @@ import {
   SheetTrigger
 } from '@/components/ui/sheet'
 import type { ICreateVacancy } from '@/apis/project/types/ICreateVacancy'
+import { useProjectStore } from '@/stores/project'
+import { storeToRefs } from 'pinia'
 
 export interface IProjectViewProps {
   id: string
@@ -40,13 +42,17 @@ export interface IProjectViewProps {
 
 const { toast } = useToast()
 
+const projectStore = useProjectStore()
+
+const { project } = storeToRefs(projectStore)
+
 const props = defineProps<IProjectViewProps>()
 
-const project = ref<IProjectEntity | null>(null)
+// const project = ref<IProjectEntity | null>(null)
 
-const handleSubmitVacancy = async (values: ICreateVacancy) => {
+const handleSubmitVacancy = async (values: IVacancyFormData) => {
   try {
-    console.log({ values })
+    await projectStore.createVacancy({ ...values, projectId: +props.id })
 
     toast({
       title: `Vaga`,
@@ -64,7 +70,7 @@ const handleSubmitVacancy = async (values: ICreateVacancy) => {
 }
 
 onMounted(async () => {
-  project.value = await projectService.getProjectById(+props.id)
+  projectStore.getProject(+props.id)
 })
 </script>
 

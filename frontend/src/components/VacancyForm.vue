@@ -26,12 +26,18 @@ import { Button } from '@/components/ui/button'
 import { StateVacancyValues, type StateVacancy } from '@/entites/IVacancy'
 import type { ICreateVacancy } from '@/apis/project/types/ICreateVacancy'
 
+export interface IVacancyFormData {
+  title: string
+  description: string
+  state: StateVacancy
+}
+
 export interface IProjectFormProps {
   title?: string
   description?: string
   state?: StateVacancy
 
-  handleSubmit: (values: ICreateVacancy) => Promise<void>
+  handleSubmit: (values: IVacancyFormData) => Promise<void>
 }
 
 const props = withDefaults(defineProps<IProjectFormProps>(), {})

@@ -5,7 +5,7 @@ import { projectService } from '@/services'
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 
-export const useProjectsStore = defineStore('project', () => {
+export const useProjectsStore = defineStore('projects', () => {
   const projects = ref<IProjectEntity[]>([])
 
   async function getProjects(title?: string, userId?: number) {

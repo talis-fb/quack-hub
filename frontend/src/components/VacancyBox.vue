@@ -16,7 +16,9 @@ defineProps<IVacancyBoxProps>()
 </script>
 
 <template>
-  <div class="p-4 transition-all delay-50 flex flex-col border rounded-md gap-2 shadow-lg hover:shadow-primary/50">
+  <div
+    class="p-4 transition-all delay-50 flex flex-col border rounded-md gap-2 shadow-lg hover:shadow-primary/50"
+  >
     <span class="text-2xl font-bold">
       {{ vacancy.title }}
     </span>
