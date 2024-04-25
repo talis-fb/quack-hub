@@ -29,7 +29,7 @@ export const metadataRoutes = {
     name: 'user-edit'
   },
   PROJECT: {
-    path: '/project',
+    path: '/project/:id',
     name: 'project'
   }
 }

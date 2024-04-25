@@ -96,6 +96,7 @@ export const router = createRouter({
         Navbar: NavMenu,
         default: ProjectView
       },
+      props: true,
       meta: { ...metadataRoutes.PROJECT }
     },
     { path: '/:pathMatch(.*)*', redirect: metadataRoutes.HOME.path }

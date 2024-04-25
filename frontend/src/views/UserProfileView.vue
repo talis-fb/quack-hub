@@ -6,12 +6,14 @@ import { useAuthStore } from '../stores/auth'
 import NonAuthUserProfileView from '@/views/NonAuthUserProfileView.vue'
 import AuthUserProfileView from '@/views/AuthUserProfileView.vue'
 
+export interface IUserProfileViewProps {
+  id: string
+}
+
 /**
  * Recebendo o userId pelo param da rota.
  */
-const props = defineProps<{
-  id: string
-}>()
+const props = defineProps<IUserProfileViewProps>()
 
 const { user } = useAuthStore()
 
