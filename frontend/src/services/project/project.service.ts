@@ -12,10 +12,6 @@ export interface IProjectService {
   delete(projectId: number): Promise<IProjectEntity>
   update(projectId: number, data: IUpdateProject): Promise<IProjectEntity>
   create(data: ICreateProject): Promise<IProjectEntity>
-
-  createVacancy(data: ICreateVacancy): Promise<IVacancyEntity>
-  deleteVacancy(vacancyId: number): Promise<IVacancyEntity>
-  updateVacancy(vacancyId: number, data: IUpdateVacancy): Promise<IVacancyEntity>
 }
 
 export class ProjectServiceImpl implements IProjectService {
@@ -47,24 +43,6 @@ export class ProjectServiceImpl implements IProjectService {
 
   async create(data: ICreateProject): Promise<IProjectEntity> {
     const res = await this.projectRepository.create(data)
-
-    return res
-  }
-
-  async createVacancy(data: ICreateVacancy): Promise<IVacancyEntity> {
-    const res = await this.projectRepository.createVacancy(data)
-
-    return res
-  }
-
-  async updateVacancy(vacancyId: number, data: IUpdateVacancy): Promise<IVacancyEntity> {
-    const res = await this.projectRepository.updateVacancy(vacancyId, data)
-
-    return res
-  }
-
-  async deleteVacancy(vacancyId: number): Promise<IVacancyEntity> {
-    const res = await this.projectRepository.deleteVacancy(vacancyId)
 
     return res
   }

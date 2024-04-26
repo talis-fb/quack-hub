@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted } from 'vue'
+import { computed, onMounted, provide } from 'vue'
 
 // Icons
 import { Plus, Pencil, MoreHorizontalIcon } from 'lucide-vue-next'
@@ -9,12 +9,11 @@ import UserPhotoDefault from '@/assets/user-icon.jpg'
 
 // App components
 import AppDialog from '@/components/AppDialog.vue'
-import VacancyBox from '@/components/VacancyBox.vue'
 import VacancyForm, { type IVacancyFormData } from '@/components/VacancyForm.vue'
+import VacanciesList from '@/components/VacanciesList.vue'
+import VacanciesListFallback from '@/components/VacanciesListFallback.vue';
 
 // Shadcn-vue components
-import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert'
-import { Badge } from '@/components/ui/badge'
 import { useToast } from '@/components/ui/toast/use-toast'
 import { Button } from '@/components/ui/button'
 import {
@@ -27,7 +26,6 @@ import {
   SheetTitle,
   SheetTrigger
 } from '@/components/ui/sheet'
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 
 import { useProjectStore } from '@/stores/project'
 import { storeToRefs } from 'pinia'
@@ -47,9 +45,11 @@ const { user } = storeToRefs(authStore)
 
 const props = defineProps<IProjectViewProps>()
 
-const hasPermission = computed(() => {
+const hasPermissions = computed(() => {
   return user.value.id == project.value?.userId
 })
+
+provide('hasPermissions', hasPermissions)
 
 const handleSubmitVacancy = async (values: IVacancyFormData) => {
   try {
@@ -70,43 +70,7 @@ const handleSubmitVacancy = async (values: IVacancyFormData) => {
   }
 }
 
-const handleUpdateVacancy = async (vacancyId: number, values: IVacancyFormData) => {
-  try {
-    await projectStore.updateVacancy(vacancyId, { ...values })
 
-    toast({
-      title: `Vaga`,
-      description: 'Vaga atualizada com sucesso!',
-      variant: 'default',
-      duration: 1000
-    })
-  } catch (error: any) {
-    toast({
-      title: 'Erro ao atualizar a vaga',
-      description: error?.message || 'Erro desconhecido, por favor contatar os desenvolvedores.',
-      variant: 'destructive'
-    })
-  }
-}
-
-const handleDelete = async (vacancyId: number) => {
-  try {
-    await projectStore.deleteVacancy(vacancyId)
-
-    toast({
-      title: `Vaga`,
-      description: 'Vaga excluída com sucesso!',
-      variant: 'default',
-      duration: 1000
-    })
-  } catch (error: any) {
-    toast({
-      title: 'Erro ao excluir a vaga',
-      description: error?.message || 'Erro desconhecido, por favor contatar os desenvolvedores.',
-      variant: 'destructive'
-    })
-  }
-}
 onMounted(async () => {
   projectStore.getProject(+props.id)
 })
@@ -126,7 +90,7 @@ onMounted(async () => {
               alt="user-icon"
             />
 
-            <div v-if="hasPermission" class="flex-1 flex justify-end">
+            <div v-if="hasPermissions" class="flex-1 flex justify-end">
               <Sheet>
                 <SheetTrigger as-child>
                   <Button variant="outline" size="icon">
@@ -177,7 +141,7 @@ onMounted(async () => {
       <section class="flex flex-col gap-3 px-3 py-5 border rounded-md">
         <header class="flex items-center">
           <h2 class="text-2xl mr-auto">Vagas</h2>
-          <AppDialog v-if="hasPermission">
+          <AppDialog v-if="hasPermissions">
             <template #trigger>
               <Button variant="outline" size="icon">
                 <Plus class="w-5 h-5" />
@@ -193,50 +157,10 @@ onMounted(async () => {
           </AppDialog>
         </header>
         <Suspense>
-          <div class="p-4 flex flex-wrap gap-3" v-if="project?.vacancies.length">
-            <VacancyBox v-for="vacancy in project.vacancies" :vacancy="vacancy">
-              <template #actions>
-                <Popover v-if="hasPermission" :modal="true">
-                  <PopoverTrigger as-child>
-                    <MoreHorizontalIcon class="cursor-pointer" />
-                  </PopoverTrigger>
-                  <PopoverContent class="max-w-[150px] p-0">
-                    <div class="flex flex-col">
-                      <AppDialog>
-                        <template #trigger>
-                          <div class="cursor-pointer p-3 text-center hover:bg-muted">Editar</div>
-                        </template>
-                        <template #title> Editer vaga '{{ vacancy.title }}' </template>
-                        <template #description>
-                          Edite sua vaga para que outras pessoas possam visualizar.
-                        </template>
-                        <template #main>
-                          <VacancyForm
-                            :title="vacancy.title"
-                            :description="vacancy.description"
-                            :state="vacancy.state"
-                            :handle-submit="(values) => handleUpdateVacancy(vacancy.id, values)"
-                          />
-                        </template>
-                      </AppDialog>
-
-                      <div
-                        @click="(e) => handleDelete(vacancy.id)"
-                        class="cursor-pointer p-3 text-center hover:bg-muted"
-                      >
-                        Remover
-                      </div>
-                    </div>
-                  </PopoverContent>
-                </Popover>
-              </template>
-            </VacancyBox>
-          </div>
-          <Alert v-else>
-            <AlertTitle>Projetos sem vagas abertas</AlertTitle>
-            <AlertDescription> Fique ligado para as próximas vagas! </AlertDescription>
-          </Alert>
-          <template #fallback> </template>
+          <VacanciesList :project-id="+props.id" />
+          <template #fallback>
+            <VacanciesListFallback :length="5"/>
+          </template>
         </Suspense>
       </section>
     </section>

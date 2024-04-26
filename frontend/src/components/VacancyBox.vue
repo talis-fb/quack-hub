@@ -29,7 +29,7 @@ defineProps<IVacancyBoxProps>()
     <span>
       {{ vacancy.description }}
     </span>
-    <Badge variant="default" class="tracking-wide mt-auto">{{
+    <Badge variant="default" class="self-start tracking-wide mt-auto">{{
       vacancyLabelState[vacancy.state]
     }}</Badge>
   </div>

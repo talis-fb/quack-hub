@@ -123,7 +123,7 @@ const toProject = (e: MouseEvent) => {
     <Drawer>
       <DrawerTrigger as-child>
         <Button variant="outline" class="self-start" @click.stop="">
-          <span class="font-bold underline mr-1">{{ project.vacancies.length }}</span
+          <span class="font-bold underline mr-1">{{ 0 }}</span
           >Vagas
         </Button>
       </DrawerTrigger>
@@ -134,7 +134,7 @@ const toProject = (e: MouseEvent) => {
             <DrawerDescription>Visualize as vagas e participe do projeto!</DrawerDescription>
           </DrawerHeader>
 
-          <div class="overflow-auto p-4 flex gap-3" v-if="project?.vacancies.length">
+          <div class="overflow-auto p-4 flex gap-3" v-if="0">
             <VacancyBox v-for="vacancy in project.vacancies" :vacancy="vacancy" />
           </div>
           <Alert v-else>
