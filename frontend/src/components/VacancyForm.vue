@@ -29,7 +29,7 @@ export interface IVacancyFormData {
   state: StateVacancy
 }
 
-export interface IProjectFormProps {
+export interface IVacancyFormProps {
   title?: string
   description?: string
   state?: StateVacancy
@@ -37,7 +37,7 @@ export interface IProjectFormProps {
   handleSubmit: (values: IVacancyFormData) => Promise<void>
 }
 
-const props = withDefaults(defineProps<IProjectFormProps>(), {})
+const props = withDefaults(defineProps<IVacancyFormProps>(), {})
 
 const formSchema = toTypedSchema(
   z.object({
