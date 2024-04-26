@@ -2,7 +2,7 @@
 import { computed, onMounted, provide } from 'vue'
 
 // Icons
-import { Plus, Pencil, MoreHorizontalIcon } from 'lucide-vue-next'
+import { Plus, Pencil } from 'lucide-vue-next'
 
 // Images
 import UserPhotoDefault from '@/assets/user-icon.jpg'
@@ -11,7 +11,7 @@ import UserPhotoDefault from '@/assets/user-icon.jpg'
 import AppDialog from '@/components/AppDialog.vue'
 import VacancyForm, { type IVacancyFormData } from '@/components/VacancyForm.vue'
 import VacanciesList from '@/components/VacanciesList.vue'
-import VacanciesListFallback from '@/components/VacanciesListFallback.vue';
+import VacanciesListFallback from '@/components/VacanciesListFallback.vue'
 
 // Shadcn-vue components
 import { useToast } from '@/components/ui/toast/use-toast'
@@ -69,7 +69,6 @@ const handleSubmitVacancy = async (values: IVacancyFormData) => {
     })
   }
 }
-
 
 onMounted(async () => {
   projectStore.getProject(+props.id)
@@ -157,9 +156,14 @@ onMounted(async () => {
           </AppDialog>
         </header>
         <Suspense>
-          <VacanciesList :project-id="+props.id" />
+          <div class="p-4 flex flex-wrap gap-3">
+            <VacanciesList :project-id="+props.id" />
+          </div>
+
           <template #fallback>
-            <VacanciesListFallback :length="5"/>
+            <div class="p-4 flex flex-wrap gap-3">
+              <VacanciesListFallback :length="5" />
+            </div>
           </template>
         </Suspense>
       </section>

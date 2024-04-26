@@ -14,12 +14,6 @@ export class VacancyApiImpl implements IVacancyApi {
   async getVacanciesByProjectId(projectId: number): Promise<IVacancyResponse[]> {
     const res = await api.get<IVacancyResponse[]>(`/vacancies/projects/${projectId}`)
 
-    await new Promise((res) =>
-      setTimeout(() => {
-        res('')
-      }, 3000)
-    )
-
     return res.data
   }
 

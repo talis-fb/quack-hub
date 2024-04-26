@@ -1,6 +1,6 @@
 <script setup lang="ts">
 // Utils
-import { vacancyLabelState, projectStateLabel } from '@/utils/labels'
+import { projectStateLabel } from '@/utils/labels'
 
 // Types
 import type { IProjectEntity } from '@/entites/IProject'
@@ -10,12 +10,11 @@ import type { IUpdateProject } from '@/apis/project/types/IUpdateProject'
 import AppDialog from '@/components/AppDialog.vue'
 import AppAlertDialog from '@/components/AppAlertDialog.vue'
 import ProjectForm from '@/components/ProjectForm.vue'
-import VacancyBox from '@/components/VacancyBox.vue'
+import VacanciesListFallback from '@/components/VacanciesListFallback.vue'
 
 // Shadcn-vue components
 import { Button } from './ui/button'
 import { Badge } from '@/components/ui/badge'
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import {
   Drawer,
   DrawerClose,
@@ -36,6 +35,7 @@ import { useProjectsStore } from '@/stores/projects'
 import { inject } from 'vue'
 import { useRouter } from 'vue-router'
 import { metadataRoutes } from '../router/RoutesConfig'
+import VacanciesList from './VacanciesList.vue'
 
 export interface ProjectItemProps {
   project: IProjectEntity
@@ -44,7 +44,6 @@ export interface ProjectItemProps {
 /**
  * O provedor desse inject ẽ um componente pai. No caso o componente UserProfileView
  */
-
 const hasPermissions = inject('hasPermissions', false)
 
 const projectStore = useProjectsStore()
@@ -123,24 +122,28 @@ const toProject = (e: MouseEvent) => {
     <Drawer>
       <DrawerTrigger as-child>
         <Button variant="outline" class="self-start" @click.stop="">
-          <span class="font-bold underline mr-1">{{ 0 }}</span
-          >Vagas
+          <!-- TODO: Ver como carregar a quantidade de vagas. Criar um componente pra esse botão de vagas é uma possibilidade. -->
+          <!-- <span class="font-bold underline mr-1">{{ 0 }}</span> -->
+          Vagas
         </Button>
       </DrawerTrigger>
       <DrawerContent>
         <div class="h-max-[500px]">
           <DrawerHeader>
-            <DrawerTitle>Vagas</DrawerTitle>
+            <DrawerTitle>Vagas para {{ props.project.title }}</DrawerTitle>
             <DrawerDescription>Visualize as vagas e participe do projeto!</DrawerDescription>
           </DrawerHeader>
 
-          <div class="overflow-auto p-4 flex gap-3" v-if="0">
-            <VacancyBox v-for="vacancy in project.vacancies" :vacancy="vacancy" />
-          </div>
-          <Alert v-else>
-            <AlertTitle>Projetos sem vagas abertas</AlertTitle>
-            <AlertDescription> Fique ligado para as próximas vagas! </AlertDescription>
-          </Alert>
+          <Suspense>
+            <div class="overflow-auto p-4 flex gap-3">
+              <VacanciesList :project-id="props.project.id" />
+            </div>
+            <template #fallback>
+              <div class="overflow-auto p-4 flex gap-3">
+                <VacanciesListFallback :length="8" />
+              </div>
+            </template>
+          </Suspense>
 
           <DrawerFooter>
             <DrawerClose as-child>

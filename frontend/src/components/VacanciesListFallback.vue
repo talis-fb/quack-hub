@@ -12,13 +12,14 @@ const props = withDefaults(defineProps<VacanciesListFallbackProps>(), {
 </script>
 
 <template>
-  <div class="p-4 flex flex-wrap gap-3">
-    <div v-for="item in Array(props.length).fill(1)" class="w-[200px] h-[150px] p-4 flex flex-col border rounded-md space-y-5">
-      <Skeleton class="h-4 w-full" />
-      <Skeleton class="h-4 w-[75%]" />
-      <Skeleton class="h-4 w-[75%]" />
-      <Skeleton class="h-4 w-[50%]" />
-    </div>
+  <div
+    v-for="item in Array(props.length).fill(1)"
+    class="p-4 flex flex-col border rounded-md space-y-5"
+  >
+    <Skeleton class="h-4 w-[200px]" />
+    <Skeleton class="h-4 w-[175px]" />
+    <Skeleton class="h-4 w-[175px]" />
+    <Skeleton class="h-4 w-[125px]" />
   </div>
 </template>
 
