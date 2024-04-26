@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { LikesData, LikesEntity } from './likes.entity';
 import { LikesRepository } from './likes.repository';
-import { ServiceAlreadyExistException } from 'src/excpetions/service/ServiceAlreadyExistException';
+import { ConflictException } from 'src/excpetions/service/ConflictException';
 
 export abstract class LikesService {
   abstract getLikes(postId: number): Promise<LikesEntity[]>;
@@ -31,7 +31,7 @@ export class LikesServiceImpl implements LikesService {
   public async createLikes(like: LikesData): Promise<LikesEntity> {
     const likeExist = await this.getLikePost(like.postId, like.userId);
     if (likeExist) {
-      throw new ServiceAlreadyExistException(
+      throw new ConflictException(
         `O like na postagem de ID ${like.postId} do usuario com ID ${like.userId} já existe.`,
       );
     }
