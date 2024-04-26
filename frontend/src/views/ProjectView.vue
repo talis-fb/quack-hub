@@ -73,6 +73,13 @@ const handleSubmitVacancy = async (values: IVacancyFormData) => {
 onMounted(async () => {
   projectStore.getProject(+props.id)
 })
+
+const projectLogo = computed(() => {
+  if (project.value?.logoUrl) {
+    return project.value.logoUrl
+  }
+  return DefaultProjectIcon
+})
 </script>
 
 <template>
@@ -85,7 +92,7 @@ onMounted(async () => {
           <div class="flex">
             <img
               class="mt-[-60px] w-32 rounded-full border-4 border-black"
-              :src="DefaultProjectIcon"
+              :src="projectLogo"
               alt="user-icon"
             />
 

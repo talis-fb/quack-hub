@@ -12,8 +12,8 @@ export interface IProjectData {
   methodologies: string[]
   startDate: Date
   endDate: Date
-
   userId: number
+  logoUrl: string | null
 }
 
 export interface IProjectEntity extends IProjectData {
