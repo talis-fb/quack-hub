@@ -9,6 +9,7 @@ import {
   IsInt,
   ArrayNotEmpty,
   ValidateNested,
+  IsUrl,
 } from 'class-validator';
 import { VacancyData } from '../vacancies/vacancies.entity';
 
@@ -65,6 +66,11 @@ export class ProjectData {
   @ArrayNotEmpty()
   @ApiProperty()
   methodologies: string[];
+
+  @IsUrl()
+  @IsOptional()
+  @ApiProperty()
+  logoUrl: string | null;
 
   // @ValidateNested()
   // @ApiProperty()

@@ -92,8 +92,10 @@ model Project {
   vacancies     Vacancy[]
   startDate     DateTime
   endDate       DateTime
-  User        User         @relation(fields: [userId], references: [id])
-  userId      Int
+  logoUrl       String?
+
+  User   User @relation(fields: [userId], references: [id])
+  userId Int
 
   experiences Experience[]
 }
