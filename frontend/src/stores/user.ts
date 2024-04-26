@@ -5,7 +5,7 @@ import { ref } from 'vue'
 
 // TODO: Ver se move para o authStore
 
-export const useUserAuth = defineStore('userAuth', () => {
+export const useUser = defineStore('user', () => {
   const user = ref<IUserEntity | null>(null)
 
   async function getProfile(id: number) {

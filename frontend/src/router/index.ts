@@ -7,13 +7,13 @@ import { metadataRoutes } from '@/router/RoutesConfig'
 import { authGuard, redirectToHomeIfAuthenticatedGuard } from './RoutesGuards'
 
 // Views
+import UserProfileView from '@/views/UserProfileView.vue';
 import Signin from '@/views/Signin.vue'
 import Signup from '@/views/Signup.vue'
 import NavMenu from '@/views/NavMenu.vue'
 import AboutView from '@/views/AboutView.vue'
 import ProfileEdit from '@/views/ProfileEdit.vue'
 import HomeView from '@/views/HomeView.vue'
-import ProfileUserTeste from '@/views/UserProfileView.vue'
 import ProjectView from '@/views/ProjectView.vue'
 
 // Components
@@ -66,7 +66,7 @@ export const router = createRouter({
       name: metadataRoutes.USER_PROFILE.name,
       components: {
         Navbar: NavMenu,
-        default: ProfileUserTeste
+        default: UserProfileView
       },
       props: true,
       meta: { ...metadataRoutes.USER_PROFILE }

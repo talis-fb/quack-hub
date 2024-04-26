@@ -42,7 +42,7 @@ export interface ProjectItemProps {
 }
 
 /**
- * O provedor desse inject ẽ um componente pai. No caso o componente AuthUserProfileView ou NonAuthUserProfileView
+ * O provedor desse inject ẽ um componente pai. No caso o componente UserProfileView
  */
 
 const hasPermissions = inject('hasPermissions', false)

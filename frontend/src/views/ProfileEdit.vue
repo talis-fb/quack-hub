@@ -23,7 +23,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { useToast } from '@/components/ui/toast/use-toast'
 
 // Store pinia
-import { useUserAuth } from '@/stores/userAuth'
+import { useUser } from '@/stores/user'
 
 // Services
 import { userService } from '@/services'
@@ -35,7 +35,7 @@ interface IProfileEditProps {
   user: IUserEntity
 }
 
-const userAuthStore = useUserAuth()
+const userAuthStore = useUser()
 
 const props = defineProps<IProfileEditProps>()
 
