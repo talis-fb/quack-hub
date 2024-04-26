@@ -104,69 +104,64 @@ const toProject = (e: MouseEvent) => {
 
 <template>
   <div
-    class="group relative cursor-pointer hover:bg-black/40 px-4 py-3 flex flex-col space-y-2 rounded-sm"
+    class="group relative cursor-pointer hover:bg-black/40 flex flex-col space-y-2 rounded-sm"
     @click="toProject"
   >
-    <header class="flex items-center space-x-2">
-      
-      <Avatar class="mr-3" size="base">
+    <div class="px-4 py-3 flex space-x-2">
+      <Avatar class="mr-3 size-20">
         <AvatarImage :src="props.project.logoUrl || ''" />
 
         <AvatarFallback>
           <img :src="DefaultProjectIcon" alt="project-logo" />
         </AvatarFallback>
       </Avatar>
-      
-      <span class="font-bold text-2xl">{{ project.title }}</span>
 
-      <Badge variant="secondary" class="tracking-wide">{{
-        projectStateLabel[project.state]
-      }}</Badge>
-      <Badge variant="secondary" class="tracking-wide">{{ project.sector }}</Badge>
-    </header>
+      <div class="flex flex-col space-y-2">
+        <div class="flex space-x-2">
+          <span class="font-bold text-2xl mr-2">{{ project.title }}</span>
 
-    <p class="text-sm text-muted-foreground">{{ project.summary }}</p>
-
-    <section class="flex flex-wrap space-x-1">
-      <Badge variant="secondary" class="tracking-wide" v-for="met in project.methodologies">{{
-        met
-      }}</Badge>
-    </section>
-
-    <Drawer>
-      <DrawerTrigger as-child>
-        <Button variant="outline" class="self-start" @click.stop="">
-          <!-- TODO: Ver como carregar a quantidade de vagas. Criar um componente pra esse botão de vagas é uma possibilidade. -->
-          <!-- <span class="font-bold underline mr-1">{{ 0 }}</span> -->
-          Vagas
-        </Button>
-      </DrawerTrigger>
-      <DrawerContent>
-        <div class="h-max-[500px]">
-          <DrawerHeader>
-            <DrawerTitle>Vagas para {{ props.project.title }}</DrawerTitle>
-            <DrawerDescription>Visualize as vagas e participe do projeto!</DrawerDescription>
-          </DrawerHeader>
-
-          <Suspense>
-            <div class="overflow-auto p-4 flex gap-3">
-              <VacanciesList :project-id="props.project.id" />
-            </div>
-            <template #fallback>
-              <div class="overflow-auto p-4 flex gap-3">
-                <VacanciesListFallback :length="8" />
-              </div>
-            </template>
-          </Suspense>
-
-          <DrawerFooter>
-            <DrawerClose as-child>
-              <Button variant="outline"> Fechar </Button>
-            </DrawerClose>
-          </DrawerFooter>
+          <Badge variant="secondary" class="tracking-wide">{{
+            projectStateLabel[project.state]
+          }}</Badge>
+          <Badge variant="secondary" class="tracking-wide">{{ project.sector }}</Badge>
         </div>
-      </DrawerContent>
-    </Drawer>
+        <p class="text-sm text-muted-foreground">{{ project.summary }}</p>
+        <Drawer>
+          <DrawerTrigger as-child>
+            <Button variant="outline" class="self-start" @click.stop="">
+              <!-- TODO: Ver como carregar a quantidade de vagas. Criar um componente pra esse botão de vagas é uma possibilidade. -->
+              <!-- <span class="font-bold underline mr-1">{{ 0 }}</span> -->
+              Vagas
+            </Button>
+          </DrawerTrigger>
+          <DrawerContent>
+            <div class="h-max-[500px]">
+              <DrawerHeader>
+                <DrawerTitle>Vagas para {{ props.project.title }}</DrawerTitle>
+                <DrawerDescription>Visualize as vagas e participe do projeto!</DrawerDescription>
+              </DrawerHeader>
+
+              <Suspense>
+                <div class="overflow-auto p-4 flex gap-3">
+                  <VacanciesList :project-id="props.project.id" />
+                </div>
+                <template #fallback>
+                  <div class="overflow-auto p-4 flex gap-3">
+                    <VacanciesListFallback :length="8" />
+                  </div>
+                </template>
+              </Suspense>
+
+              <DrawerFooter>
+                <DrawerClose as-child>
+                  <Button variant="outline"> Fechar </Button>
+                </DrawerClose>
+              </DrawerFooter>
+            </div>
+          </DrawerContent>
+        </Drawer>
+      </div>
+    </div>
 
     <div
       v-if="hasPermissions"

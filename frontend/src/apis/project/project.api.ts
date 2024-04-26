@@ -27,12 +27,6 @@ export class ProjectApiImpl implements IProjectApi {
   async getProjectById(id: number): Promise<IProjectResponse> {
     const res = await api.get<IProjectResponse>(`/projects/${id}`)
 
-    // await new Promise((res) =>
-    //   setTimeout(() => {
-    //     res('')
-    //   }, 3000)
-    // )
-
     return res.data
   }
 
