@@ -47,6 +47,11 @@ export class UserData {
   @IsOptional()
   @ApiProperty()
   phone: string | null;
+
+  @IsString()
+  @IsOptional()
+  @ApiProperty()
+  blog: string | null;
 }
 
 export class UserEntity extends UserData {

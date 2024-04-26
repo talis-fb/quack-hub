@@ -1,4 +1,5 @@
 import type { ICreateVacancy } from '@/apis/project/types/ICreateVacancy'
+import type { IUpdateProject } from '@/apis/project/types/IUpdateProject'
 import type { IUpdateVacancy } from '@/apis/project/types/IUpdateVacancy'
 import type { IProjectEntity } from '@/entites/IProject'
 import type { IVacancyEntity } from '@/entites/IVacancy'
@@ -12,6 +13,12 @@ export const useProjectStore = defineStore('project', () => {
 
   async function getProject(projetId: number) {
     const res = await projectService.getProjectById(projetId)
+
+    project.value = res
+  }
+
+  async function updateProject(projectId: number, data: IUpdateProject) {
+    const res = await projectService.update(projectId, data)
 
     project.value = res
   }
@@ -50,6 +57,7 @@ export const useProjectStore = defineStore('project', () => {
     project,
     vacancies,
     getProject,
+    updateProject,
     getVacancies,
     createVacancy,
     updateVacancy,

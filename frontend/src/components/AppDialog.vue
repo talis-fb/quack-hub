@@ -7,7 +7,8 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger
+  DialogTrigger,
+  DialogScrollContent
 } from '@/components/ui/dialog'
 </script>
 
@@ -16,7 +17,7 @@ import {
     <DialogTrigger as-child>
       <slot name="trigger"></slot>
     </DialogTrigger>
-    <DialogContent>
+    <DialogScrollContent>
       <DialogHeader>
         <DialogTitle>
           <slot name="title"></slot>
@@ -27,7 +28,7 @@ import {
       </DialogHeader>
       <slot name="main"></slot>
       <!-- <DialogFooter> </DialogFooter> -->
-    </DialogContent>
+    </DialogScrollContent>
   </Dialog>
 </template>
 

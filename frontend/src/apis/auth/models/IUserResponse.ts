@@ -1,21 +1,19 @@
 export interface IUserResponse {
   id: number
-  email: string
-  password: string
+  createdAt: string
+  updatedAt: string
 
+  email: string
   name: string
-  birthday: string
-  bio?: string
-  aboutDescription?: string
-  avatarUrl?: string
-  phone?: string
-  blog?: string
+  birthday: string | null
+  bio: string | null
+  aboutDescription: string | null
+  avatarUrl: string | null
+  phone: string | null
+  blog: string | null
 
   _count: {
     followedBy: number
     following: number
   }
-
-  createdAt: string
-  updatedAt: string
 }

@@ -10,7 +10,7 @@ import { Presentation, NotebookPen, ChevronDown } from 'lucide-vue-next'
 </script>
 
 <template>
-  <div class="flex-1 p-2 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 mt-6 gap-6">
+  <div class="flex-1 p-2 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 mt-6 gap-6">
     <aside class="border p-6 flex flex-col items-center gap-4 rounded-md">
       <div class="flex flex-col items-center border-b-2 border-slate-300 text-lg pb-6">
         <img class="h-14 rounded-full" :src="DefaultUserIcon" />
@@ -19,7 +19,7 @@ import { Presentation, NotebookPen, ChevronDown } from 'lucide-vue-next'
       <p>Lista de amigos</p>
     </aside>
 
-    <main class="border flex flex-col lg:col-span-3 rounded-md">
+    <main class="border flex flex-col md:col-span-2 lg:col-span-3 rounded-md">
       <section class="flex justify-between gap-2 text-lg">
         <RouterLink
           v-slot="{ isExactActive }"
@@ -57,7 +57,7 @@ import { Presentation, NotebookPen, ChevronDown } from 'lucide-vue-next'
       </section>
     </main>
 
-    <aside class="border flex flex-col md:col-start-2 lg:col-start-5">
+    <aside class="border flex flex-col md:col-start-2 md:col-span-2 lg:col-start-5">
       <section class="text-lg p-12 rounded-md">
         <h1 class="text-xl mb-2">QuackHub Notícias</h1>
         <ul>

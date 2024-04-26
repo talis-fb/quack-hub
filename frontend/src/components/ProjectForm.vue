@@ -1,4 +1,7 @@
 <script setup lang="ts">
+// Images
+import DefaultProjectIcon from '@/assets/DefaultProjectIcon.jpg'
+
 // Utils
 import { projectStateLabel } from '@/utils/labels'
 
@@ -26,21 +29,15 @@ import {
 } from '@/components/ui/select'
 import { Calendar } from '@/components/ui/calendar'
 import { Button } from '@/components/ui/button'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 
 // Icons
-import { Calendar as CalendarIcon } from 'lucide-vue-next'
-import { type StateProject, StateProjectValues } from '../entites/IProject'
+import { Calendar as CalendarIcon, ImageIcon } from 'lucide-vue-next'
+import { type IProjectEntity, type StateProject, StateProjectValues } from '../entites/IProject'
 import type { ICreateProject } from '@/apis/project/types/ICreateProject'
 
-
 export interface IProjectFormProps {
-  title?: string
-  summary?: string
-  about?: string
-  sector?: string
-  state?: StateProject
-  startDate?: Date
-  endDate?: Date
+  project?: IProjectEntity
 
   handleSubmit: (values: ICreateProject) => Promise<void>
 }
@@ -81,7 +78,15 @@ const formSchema = toTypedSchema(
       .date({
         required_error: 'Campo fim obrigatório'
       })
-      .max(new Date(), { message: 'Data inválida.' })
+      .max(new Date(), { message: 'Data inválida.' }),
+    logoUrl: z
+      .string({
+        required_error: 'Campo logo url obrigatório.'
+      })
+      .url({ message: 'Esse não é um link válido.' })
+      .nullish()
+      .or(z.literal(''))
+      .transform((e) => (e === '' ? null : e))
   })
 )
 
@@ -90,13 +95,14 @@ const form = useForm({
 })
 
 form.setValues({
-  title: props.title,
-  summary: props.summary,
-  about: props.about,
-  sector: props.sector,
-  state: props.state,
-  startDate: props.startDate,
-  endDate: props.endDate
+  title: props.project?.title,
+  summary: props.project?.summary,
+  about: props.project?.about,
+  sector: props.project?.sector,
+  state: props.project?.state,
+  startDate: props.project?.startDate,
+  endDate: props.project?.endDate,
+  logoUrl: props.project?.logoUrl
 })
 
 const onSubmit = form.handleSubmit(async (values) => {
@@ -226,6 +232,34 @@ const onSubmit = form.handleSubmit(async (values) => {
             <Calendar v-bind="componentField" />
           </PopoverContent>
         </Popover>
+      </FormItem>
+    </FormField>
+
+    <FormField v-slot="{ componentField }" name="logoUrl">
+      <FormItem>
+        <FormLabel>Logo</FormLabel>
+        <FormControl>
+          <div class="relative w-full max-w-sm items-center">
+            <Input
+              type="text"
+              id=""
+              placeholder="URL da image..."
+              class="pl-10"
+              v-bind="componentField"
+            />
+            <span class="absolute start-0 inset-y-0 flex items-center justify-center px-2">
+              <ImageIcon class="size-6 text-muted-foreground" />
+            </span>
+          </div>
+          <Avatar class="size-20">
+            <AvatarImage :src="componentField.modelValue ?? ''" />
+
+            <AvatarFallback>
+              <img :src="DefaultProjectIcon" alt="project-logo" />
+            </AvatarFallback>
+          </Avatar>
+        </FormControl>
+        <FormMessage />
       </FormItem>
     </FormField>
 

@@ -30,6 +30,9 @@ import {
 import { useProjectStore } from '@/stores/project'
 import { storeToRefs } from 'pinia'
 import { useAuthStore } from '@/stores/auth'
+import ProjectForm from '@/components/ProjectForm.vue'
+import type { IUpdateProject } from '@/apis/project/types/IUpdateProject'
+import type { IProjectEntity } from '@/entites/IProject'
 
 export interface IProjectViewProps {
   id: string
@@ -70,8 +73,36 @@ const handleSubmitVacancy = async (values: IVacancyFormData) => {
   }
 }
 
+const handleUpdateProject = async (values: IUpdateProject) => {
+  try {
+    await projectStore.updateProject((project.value as IProjectEntity).id, {
+      ...values
+    })
+
+    toast({
+      title: `Projeto ${(project.value as IProjectEntity).title}`,
+      description: 'Projeto atualizada com sucesso!',
+      variant: 'default',
+      duration: 1000
+    })
+  } catch (error: any) {
+    toast({
+      title: 'Erro ao atualizar a Projeto',
+      description: error?.message || 'Erro desconhecido, por favor contatar os desenvolvedores.',
+      variant: 'destructive'
+    })
+  }
+}
+
 onMounted(async () => {
   projectStore.getProject(+props.id)
+})
+
+const projectLogo = computed(() => {
+  if (project.value?.logoUrl) {
+    return project.value.logoUrl
+  }
+  return DefaultProjectIcon
 })
 </script>
 
@@ -85,7 +116,7 @@ onMounted(async () => {
           <div class="flex">
             <img
               class="mt-[-60px] w-32 rounded-full border-4 border-black"
-              :src="DefaultProjectIcon"
+              :src="projectLogo"
               alt="user-icon"
             />
 
@@ -104,7 +135,10 @@ onMounted(async () => {
                     </SheetDescription>
                   </SheetHeader>
 
-                  <!-- <ProfileEdit :user="user as IUserEntity" /> -->
+                  <ProjectForm
+                    :project="project as IProjectEntity"
+                    :handle-submit="handleUpdateProject"
+                  />
                 </SheetContent>
               </Sheet>
             </div>
