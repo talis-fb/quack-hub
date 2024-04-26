@@ -12,7 +12,6 @@ export interface IProjectData {
   methodologies: string[]
   startDate: Date
   endDate: Date
-  vacancies: IVacancyEntity[]
 
   userId: number
 }

@@ -13,7 +13,6 @@ export interface IProjectResponse {
   methodologies: string[]
   startDate: string
   endDate: string
-  vacancies: IVacancyEntity[]
 
-  userId: number;
+  userId: number
 }

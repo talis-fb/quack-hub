@@ -31,9 +31,6 @@ export class ProjectsRepositoryImpl implements ProjectsRepository {
         where: {
           id,
         },
-        include: {
-          vacancies: true,
-        },
       });
       return output;
     } catch (error) {
@@ -58,21 +55,9 @@ export class ProjectsRepositoryImpl implements ProjectsRepository {
   }
 
   async createProject(project: ProjectData): Promise<ProjectEntity> {
-    // TODO: Ver um melhor jeito pra não precisar desse without. Criar uma nova tipagem ou algo do tipo
-    const { vacancies, ...projectWithoutVacancies } = project;
-
     try {
       const output = await this.prisma.project.create({
-        data: {
-          ...projectWithoutVacancies,
-          vacancies: {
-            create: vacancies,
-          },
-        },
-
-        include: {
-          vacancies: true,
-        },
+        data: project,
       });
       return output;
     } catch (error) {
@@ -100,18 +85,13 @@ export class ProjectsRepositoryImpl implements ProjectsRepository {
     id: number,
     project: Partial<ProjectData>,
   ): Promise<ProjectEntity | null> {
-    // TODO: Ver um melhor jeito pra não precisar desse without. Criar uma nova tipagem ou algo do tipo
-    const { vacancies, ...projectWithoutVacancies } = project;
-
     try {
       const output = await this.prisma.project.update({
         where: {
           id,
         },
-        include: {
-          vacancies: true,
-        },
-        data: projectWithoutVacancies,
+
+        data: project,
       });
       return output;
     } catch (error) {
@@ -142,9 +122,6 @@ export class ProjectsRepositoryImpl implements ProjectsRepository {
           id: {
             in: ids,
           },
-        },
-        include: {
-          vacancies: true,
         },
       });
       return output;
@@ -209,7 +186,6 @@ export class ProjectsRepositoryImpl implements ProjectsRepository {
     searchTitle?: string,
     userId?: number,
   ): Promise<ProjectEntity[]> {
-    
     try {
       const output = await this.prisma.project.findMany({
         where: {
@@ -219,14 +195,11 @@ export class ProjectsRepositoryImpl implements ProjectsRepository {
           },
           userId,
         },
-        include: {
-          vacancies: true,
-        },
       });
 
       return output;
     } catch (error) {
-      console.log({error})
+      console.log({ error });
       if (error.code === 'P2025') {
         throw new RepositoryClientKnownRequestException(
           `Error of single constraint violation during search of projects with name ${searchTitle}!`,
@@ -252,9 +225,6 @@ export class ProjectsRepositoryImpl implements ProjectsRepository {
       const output = await this.prisma.project.delete({
         where: {
           id,
-        },
-        include: {
-          vacancies: true,
         },
       });
 
