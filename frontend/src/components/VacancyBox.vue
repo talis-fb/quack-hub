@@ -27,14 +27,14 @@ defineProps<IVacancyBoxProps>()
       <span class="text-2xl font-bold">
         {{ vacancy.title }}
       </span>
-      <Popover>
+      <Popover :modal="true">
         <PopoverTrigger as-child>
           <MoreHorizontalIcon class="cursor-pointer" />
         </PopoverTrigger>
         <PopoverContent class="max-w-[150px] p-0">
           <div class="flex flex-col">
-            <div @click.stop="" class="cursor-pointer p-3 text-center hover:bg-muted">Editar</div>
-            <div @click.stop="" class="cursor-pointer p-3 text-center hover:bg-muted">Remover</div>
+            <div class="cursor-pointer p-3 text-center hover:bg-muted">Editar</div>
+            <div class="cursor-pointer p-3 text-center hover:bg-muted">Remover</div>
           </div>
         </PopoverContent>
       </Popover>
