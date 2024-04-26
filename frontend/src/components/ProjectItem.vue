@@ -50,7 +50,7 @@ export interface ProjectItemProps {
  */
 const hasPermissions = inject('hasPermissions', false)
 
-const projectStore = useProjectsStore()
+const projecstStore = useProjectsStore()
 const router = useRouter()
 
 const props = defineProps<ProjectItemProps>()
@@ -59,7 +59,7 @@ const { toast } = useToast()
 
 const handleUpdateProject = async (values: IUpdateProject) => {
   try {
-    await projectStore.updateProject(props.project.id, {
+    await projecstStore.updateProject(props.project.id, {
       ...values
     })
 
@@ -80,7 +80,7 @@ const handleUpdateProject = async (values: IUpdateProject) => {
 
 const handleDeleteProject = async () => {
   try {
-    await projectStore.deleteProject(props.project.id)
+    await projecstStore.deleteProject(props.project.id)
 
     toast({
       title: `Projeto`,
