@@ -1,4 +1,7 @@
 <script setup lang="ts">
+// Images
+import DefaultProjectIcon from '@/assets/DefaultProjectIcon.jpg'
+
 // Utils
 import { projectStateLabel } from '@/utils/labels'
 
@@ -26,6 +29,7 @@ import {
   DrawerTrigger
 } from '@/components/ui/drawer'
 import { useToast } from '@/components/ui/toast'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 
 // Icons
 import { Pencil, Trash } from 'lucide-vue-next'
@@ -104,7 +108,17 @@ const toProject = (e: MouseEvent) => {
     @click="toProject"
   >
     <header class="flex items-center space-x-2">
+      
+      <Avatar class="mr-3" size="base">
+        <AvatarImage :src="props.project.logoUrl || ''" />
+
+        <AvatarFallback>
+          <img :src="DefaultProjectIcon" alt="project-logo" />
+        </AvatarFallback>
+      </Avatar>
+      
       <span class="font-bold text-2xl">{{ project.title }}</span>
+
       <Badge variant="secondary" class="tracking-wide">{{
         projectStateLabel[project.state]
       }}</Badge>
