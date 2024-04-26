@@ -21,10 +21,7 @@ import {
 } from '@/components/ui/select'
 import { Button } from '@/components/ui/button'
 
-
-
 import { StateVacancyValues, type StateVacancy } from '@/entites/IVacancy'
-import type { ICreateVacancy } from '@/apis/project/types/ICreateVacancy'
 
 export interface IVacancyFormData {
   title: string

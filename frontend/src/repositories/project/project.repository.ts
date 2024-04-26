@@ -37,7 +37,8 @@ export class ProjectRepositoryImpl implements IProjectRepository {
         methodologies: project.methodologies,
         startDate: new Date(project.startDate),
         endDate: new Date(project.endDate),
-        vacancies: project.vacancies
+        vacancies: project.vacancies,
+        userId: project.userId
       }
     })
 
@@ -59,7 +60,8 @@ export class ProjectRepositoryImpl implements IProjectRepository {
       methodologies: res.methodologies,
       startDate: new Date(res.startDate),
       endDate: new Date(res.endDate),
-      vacancies: res.vacancies
+      vacancies: res.vacancies,
+      userId: res.userId
     }
 
     return newRes
@@ -80,7 +82,8 @@ export class ProjectRepositoryImpl implements IProjectRepository {
       methodologies: res.methodologies,
       startDate: new Date(res.startDate),
       endDate: new Date(res.endDate),
-      vacancies: res.vacancies
+      vacancies: res.vacancies,
+      userId: res.userId
     }
 
     return newRes
@@ -100,7 +103,8 @@ export class ProjectRepositoryImpl implements IProjectRepository {
       methodologies: res.methodologies,
       startDate: new Date(res.startDate),
       endDate: new Date(res.endDate),
-      vacancies: res.vacancies
+      vacancies: res.vacancies,
+      userId: res.userId
     }
 
     return newRes
@@ -120,7 +124,8 @@ export class ProjectRepositoryImpl implements IProjectRepository {
       methodologies: res.methodologies,
       startDate: new Date(res.startDate),
       endDate: new Date(res.endDate),
-      vacancies: res.vacancies
+      vacancies: res.vacancies,
+      userId: res.userId
     }
 
     return newRes

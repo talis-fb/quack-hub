@@ -1,5 +1,10 @@
 <script setup lang="ts">
-import { computed, onMounted } from 'vue'
+import { vacancyLabelState, projectStateLabel } from '@/utils/labels'
+
+import type { IProjectEntity } from '@/entites/IProject'
+
+import { projectService } from '@/services'
+import { onMounted, ref } from 'vue'
 
 // Icons
 import { Plus, Pencil, MoreHorizontalIcon } from 'lucide-vue-next'
@@ -29,9 +34,9 @@ import {
 } from '@/components/ui/sheet'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 
+import type { ICreateVacancy } from '@/apis/project/types/ICreateVacancy'
 import { useProjectStore } from '@/stores/project'
 import { storeToRefs } from 'pinia'
-import { useAuthStore } from '@/stores/auth'
 
 export interface IProjectViewProps {
   id: string
@@ -39,17 +44,11 @@ export interface IProjectViewProps {
 
 const { toast } = useToast()
 
-const authStore = useAuthStore()
 const projectStore = useProjectStore()
 
 const { project } = storeToRefs(projectStore)
-const { user } = storeToRefs(authStore)
 
 const props = defineProps<IProjectViewProps>()
-
-const hasPermission = computed(() => {
-  return user.value.id == project.value?.userId
-})
 
 const handleSubmitVacancy = async (values: IVacancyFormData) => {
   try {
@@ -126,7 +125,7 @@ onMounted(async () => {
               alt="user-icon"
             />
 
-            <div v-if="hasPermission" class="flex-1 flex justify-end">
+            <div class="flex-1 flex justify-end">
               <Sheet>
                 <SheetTrigger as-child>
                   <Button variant="outline" size="icon">
@@ -177,7 +176,7 @@ onMounted(async () => {
       <section class="flex flex-col gap-3 px-3 py-5 border rounded-md">
         <header class="flex items-center">
           <h2 class="text-2xl mr-auto">Vagas</h2>
-          <AppDialog v-if="hasPermission">
+          <AppDialog>
             <template #trigger>
               <Button variant="outline" size="icon">
                 <Plus class="w-5 h-5" />
@@ -196,7 +195,7 @@ onMounted(async () => {
           <div class="p-4 flex flex-wrap gap-3" v-if="project?.vacancies.length">
             <VacancyBox v-for="vacancy in project.vacancies" :vacancy="vacancy">
               <template #actions>
-                <Popover v-if="hasPermission" :modal="true">
+                <Popover :modal="true">
                   <PopoverTrigger as-child>
                     <MoreHorizontalIcon class="cursor-pointer" />
                   </PopoverTrigger>

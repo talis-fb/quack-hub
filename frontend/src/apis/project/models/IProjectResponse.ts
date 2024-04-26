@@ -14,4 +14,6 @@ export interface IProjectResponse {
   startDate: string
   endDate: string
   vacancies: IVacancyEntity[]
+
+  userId: number;
 }

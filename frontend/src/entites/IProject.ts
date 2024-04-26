@@ -13,6 +13,8 @@ export interface IProjectData {
   startDate: Date
   endDate: Date
   vacancies: IVacancyEntity[]
+
+  userId: number
 }
 
 export interface IProjectEntity extends IProjectData {
