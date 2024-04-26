@@ -7,7 +7,7 @@ import { projectService } from '@/services'
 import { onMounted, ref } from 'vue'
 
 // Icons
-import { Plus, Pencil } from 'lucide-vue-next'
+import { Plus, Pencil, MoreHorizontalIcon } from 'lucide-vue-next'
 
 // Images
 import UserPhotoDefault from '@/assets/user-icon.jpg'
@@ -32,6 +32,8 @@ import {
   SheetTitle,
   SheetTrigger
 } from '@/components/ui/sheet'
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
+
 import type { ICreateVacancy } from '@/apis/project/types/ICreateVacancy'
 import { useProjectStore } from '@/stores/project'
 import { storeToRefs } from 'pinia'
@@ -69,6 +71,43 @@ const handleSubmitVacancy = async (values: IVacancyFormData) => {
   }
 }
 
+const handleUpdateVacancy = async (vacancyId: number, values: IVacancyFormData) => {
+  try {
+    await projectStore.updateVacancy(vacancyId, { ...values })
+
+    toast({
+      title: `Vaga`,
+      description: 'Vaga atualizada com sucesso!',
+      variant: 'default',
+      duration: 1000
+    })
+  } catch (error: any) {
+    toast({
+      title: 'Erro ao atualizar a vaga',
+      description: error?.message || 'Erro desconhecido, por favor contatar os desenvolvedores.',
+      variant: 'destructive'
+    })
+  }
+}
+
+const handleDelete = async (vacancyId: number) => {
+  try {
+    await projectStore.deleteVacancy(vacancyId)
+
+    toast({
+      title: `Vaga`,
+      description: 'Vaga excluída com sucesso!',
+      variant: 'default',
+      duration: 1000
+    })
+  } catch (error: any) {
+    toast({
+      title: 'Erro ao excluir a vaga',
+      description: error?.message || 'Erro desconhecido, por favor contatar os desenvolvedores.',
+      variant: 'destructive'
+    })
+  }
+}
 onMounted(async () => {
   projectStore.getProject(+props.id)
 })
@@ -156,7 +195,43 @@ onMounted(async () => {
         </header>
         <Suspense>
           <div class="p-4 flex flex-wrap gap-3" v-if="project?.vacancies.length">
-            <VacancyBox v-for="vacancy in project.vacancies" :vacancy="vacancy" />
+            <VacancyBox v-for="vacancy in project.vacancies" :vacancy="vacancy">
+              <template #actions>
+                <Popover :modal="true">
+                  <PopoverTrigger as-child>
+                    <MoreHorizontalIcon class="cursor-pointer" />
+                  </PopoverTrigger>
+                  <PopoverContent class="max-w-[150px] p-0">
+                    <div class="flex flex-col">
+                      <AppDialog>
+                        <template #trigger>
+                          <div class="cursor-pointer p-3 text-center hover:bg-muted">Editar</div>
+                        </template>
+                        <template #title> Editer vaga '{{ vacancy.title }}' </template>
+                        <template #description>
+                          Edite sua vaga para que outras pessoas possam visualizar.
+                        </template>
+                        <template #main>
+                          <VacancyForm
+                            :title="vacancy.title"
+                            :description="vacancy.description"
+                            :state="vacancy.state"
+                            :handle-submit="(values) => handleUpdateVacancy(vacancy.id, values)"
+                          />
+                        </template>
+                      </AppDialog>
+
+                      <div
+                        @click="(e) => handleDelete(vacancy.id)"
+                        class="cursor-pointer p-3 text-center hover:bg-muted"
+                      >
+                        Remover
+                      </div>
+                    </div>
+                  </PopoverContent>
+                </Popover>
+              </template>
+            </VacancyBox>
           </div>
           <Alert v-else>
             <AlertTitle>Projetos sem vagas abertas</AlertTitle>
