@@ -1,6 +1,6 @@
 <script setup lang="ts">
 // Images
-import AvatarDefault from '@/assets/user-icon.jpg'
+import DefaultUserIcon from '@/assets/DefaultUserIcon.jpg'
 import Logo from '@/assets/logo.png'
 
 // Configs
@@ -57,7 +57,7 @@ const {
         <Avatar>
           <AvatarImage src="umaurlai" alt="user-avatar" />
           <AvatarFallback>
-            <img :src="AvatarDefault" alt="user-avatar-default" />
+            <img :src="DefaultUserIcon" alt="user-avatar-default" />
           </AvatarFallback>
         </Avatar>
         <div class="md:block hidden">

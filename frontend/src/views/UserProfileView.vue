@@ -6,7 +6,7 @@ import { Suspense, computed, onBeforeMount, provide, ref } from 'vue'
 import { userService } from '@/services'
 
 // Images
-import UserPhotoDefault from '@/assets/user-icon.jpg'
+import DefaultUserIcon from '@/assets/DefaultUserIcon.jpg'
 
 // App components
 import ExperienceForm from '@/components/ExperienceForm.vue'
@@ -116,7 +116,7 @@ const userPhoto = computed(() => {
     return user.value.avatarUrl
   }
 
-  return UserPhotoDefault
+  return DefaultUserIcon
 })
 </script>
 <template>

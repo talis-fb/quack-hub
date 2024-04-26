@@ -1,6 +1,6 @@
 <script setup lang="ts">
 // Images
-import AvatarDefault from '@/assets/user-icon.jpg'
+import DefaultUserIcon from '@/assets/DefaultUserIcon.jpg'
 
 // Form Validation
 import { useForm } from 'vee-validate'
@@ -145,7 +145,7 @@ const onSubmit = form.handleSubmit(async (values) => {
               <AvatarImage :src="componentField.modelValue ?? ''" />
 
               <AvatarFallback>
-                <img :src="AvatarDefault" alt="user-avatar-default" />
+                <img :src="DefaultUserIcon" alt="user-avatar-default" />
               </AvatarFallback>
             </Avatar>
           </FormControl>

@@ -1,4 +1,7 @@
 <script setup lang="ts">
+// Images
+import DefaultUserIcon from '@/assets/DefaultUserIcon.jpg'
+
 // Shadcn-vue components
 import Separator from '@/components/ui/separator/Separator.vue'
 // Icons
@@ -10,7 +13,7 @@ import { Presentation, NotebookPen, ChevronDown } from 'lucide-vue-next'
   <div class="flex-1 p-2 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 mt-6 gap-6">
     <aside class="border p-6 flex flex-col items-center gap-4 rounded-md">
       <div class="flex flex-col items-center border-b-2 border-slate-300 text-lg pb-6">
-        <img class="h-14 rounded-full" src="@/assets/user-icon.jpg" />
+        <img class="h-14 rounded-full" :src="DefaultUserIcon" />
         <p>User name</p>
       </div>
       <p>Lista de amigos</p>

@@ -5,7 +5,7 @@ import { computed, onMounted, provide } from 'vue'
 import { Plus, Pencil } from 'lucide-vue-next'
 
 // Images
-import UserPhotoDefault from '@/assets/user-icon.jpg'
+import DefaultProjectIcon from '@/assets/DefaultProjectIcon.jpg'
 
 // App components
 import AppDialog from '@/components/AppDialog.vue'
@@ -85,7 +85,7 @@ onMounted(async () => {
           <div class="flex">
             <img
               class="mt-[-60px] w-32 rounded-full border-4 border-black"
-              :src="UserPhotoDefault"
+              :src="DefaultProjectIcon"
               alt="user-icon"
             />
 
