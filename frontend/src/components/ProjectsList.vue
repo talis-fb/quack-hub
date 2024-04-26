@@ -4,13 +4,13 @@ import ProjectItem from '@/components/ProjectItem.vue'
 
 // Shadcn-vue components
 import { Separator } from '@/components/ui/separator'
-import { Alert } from '@/components/ui/alert'
+import { Alert, AlertTitle } from '@/components/ui/alert'
 
 // Icons
 import {} from 'lucide-vue-next'
 
 // Store pinia
-import { useProjectStore } from '@/stores/project'
+import { useProjectsStore } from '@/stores/projects'
 import { storeToRefs } from 'pinia'
 
 export interface IProjectsListProps {
@@ -20,7 +20,7 @@ export interface IProjectsListProps {
 
 const props = defineProps<IProjectsListProps>()
 
-const projectStore = useProjectStore()
+const projectStore = useProjectsStore()
 
 const { projects } = storeToRefs(projectStore)
 

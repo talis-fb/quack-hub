@@ -8,6 +8,7 @@ export const projectStateLabel: Record<StateProject, string> = {
   PROGRESS: 'Em progresso'
 }
 
+
 export const vacancyLabelState: Record<StateVacancy, String> = {
   OPEN: 'Aberto',
   IN_SELECTION_PROCESS: 'Em andamento',

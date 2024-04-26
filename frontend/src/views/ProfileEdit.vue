@@ -1,6 +1,6 @@
 <script setup lang="ts">
 // Images
-import AvatarDefault from '@/assets/user-icon.jpg'
+import DefaultUserIcon from '@/assets/DefaultUserIcon.jpg'
 
 // Form Validation
 import { useForm } from 'vee-validate'
@@ -23,7 +23,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { useToast } from '@/components/ui/toast/use-toast'
 
 // Store pinia
-import { useUserAuth } from '@/stores/userAuth'
+import { useUser } from '@/stores/user'
 
 // Services
 import { userService } from '@/services'
@@ -35,7 +35,7 @@ interface IProfileEditProps {
   user: IUserEntity
 }
 
-const userAuthStore = useUserAuth()
+const userAuthStore = useUser()
 
 const props = defineProps<IProfileEditProps>()
 
@@ -145,7 +145,7 @@ const onSubmit = form.handleSubmit(async (values) => {
               <AvatarImage :src="componentField.modelValue ?? ''" />
 
               <AvatarFallback>
-                <img :src="AvatarDefault" alt="user-avatar-default" />
+                <img :src="DefaultUserIcon" alt="user-avatar-default" />
               </AvatarFallback>
             </Avatar>
           </FormControl>

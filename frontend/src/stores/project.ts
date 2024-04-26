@@ -1,40 +1,58 @@
-import type { ICreateProject } from '@/apis/project/types/ICreateProject'
-import type { IUpdateProject } from '@/apis/project/types/IUpdateProject'
+import type { ICreateVacancy } from '@/apis/project/types/ICreateVacancy'
+import type { IUpdateVacancy } from '@/apis/project/types/IUpdateVacancy'
 import type { IProjectEntity } from '@/entites/IProject'
-import { projectService } from '@/services'
+import type { IVacancyEntity } from '@/entites/IVacancy'
+import { projectService, vacancyService } from '@/services'
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 
 export const useProjectStore = defineStore('project', () => {
-  const projects = ref<IProjectEntity[]>([])
+  const project = ref<IProjectEntity | null>(null)
+  const vacancies = ref<IVacancyEntity[]>([])
 
-  async function getProjects(title?: string, userId?: number) {
-    const res = await projectService.search(title, userId)
+  async function getProject(projetId: number) {
+    const res = await projectService.getProjectById(projetId)
 
-    projects.value = res
+    project.value = res
   }
 
-  async function createProject(data: ICreateProject) {
-    const res = await projectService.create(data)
+  async function getVacancies(projectId: number) {
+    const res = await vacancyService.getVacanciesByProjectId(projectId)
 
-    projects.value.push(res)
+    vacancies.value = res
   }
 
-  async function updateProject(projectId: number, data: IUpdateProject) {
-    const res = await projectService.update(projectId, data)
+  async function createVacancy(data: ICreateVacancy) {
+    const res = await vacancyService.create(data)
 
-    projects.value = projects.value.map((project) => {
-      if (project.id != res.id) return project
+    vacancies.value.push(res)
+  }
 
-      return res
+  async function updateVacancy(vacancyId: number, data: IUpdateVacancy) {
+    const res = await vacancyService.update(vacancyId, data)
+
+    vacancies.value = vacancies.value.map((vacancy) => {
+      if (vacancy.id == res.id) {
+        return res
+      }
+
+      return vacancy
     })
   }
 
-  async function deleteProject(projectId: number) {
-    const res = await projectService.delete(projectId)
+  async function deleteVacancy(vacancyId: number) {
+    const res = await vacancyService.delete(vacancyId)
 
-    projects.value = projects.value.filter((project) => project.id != res.id)
+    vacancies.value = vacancies.value.filter((vacancy) => vacancy.id != res.id)
   }
 
-  return { projects, getProjects, createProject, updateProject, deleteProject }
+  return {
+    project,
+    vacancies,
+    getProject,
+    getVacancies,
+    createVacancy,
+    updateVacancy,
+    deleteVacancy
+  }
 })

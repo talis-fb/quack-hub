@@ -1,6 +1,6 @@
 <script setup lang="ts">
 // Utils
-import { vacancyLabelState, projectStateLabel } from '@/utils/labels'
+import { projectStateLabel } from '@/utils/labels'
 
 // Types
 import type { IProjectEntity } from '@/entites/IProject'
@@ -10,11 +10,11 @@ import type { IUpdateProject } from '@/apis/project/types/IUpdateProject'
 import AppDialog from '@/components/AppDialog.vue'
 import AppAlertDialog from '@/components/AppAlertDialog.vue'
 import ProjectForm from '@/components/ProjectForm.vue'
+import VacanciesListFallback from '@/components/VacanciesListFallback.vue'
 
 // Shadcn-vue components
 import { Button } from './ui/button'
 import { Badge } from '@/components/ui/badge'
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import {
   Drawer,
   DrawerClose,
@@ -31,19 +31,23 @@ import { useToast } from '@/components/ui/toast'
 import { Pencil, Trash } from 'lucide-vue-next'
 
 // Store pinia
-import { useProjectStore } from '@/stores/project'
+import { useProjectsStore } from '@/stores/projects'
 import { inject } from 'vue'
+import { useRouter } from 'vue-router'
+import { metadataRoutes } from '../router/RoutesConfig'
+import VacanciesList from './VacanciesList.vue'
 
 export interface ProjectItemProps {
   project: IProjectEntity
 }
 
 /**
- * O provedor desse inject ẽ um componente pai. No caso o componente AuthUserProfileView ou NonAuthUserProfileView
+ * O provedor desse inject ẽ um componente pai. No caso o componente UserProfileView
  */
 const hasPermissions = inject('hasPermissions', false)
 
-const projectStore = useProjectStore()
+const projectStore = useProjectsStore()
+const router = useRouter()
 
 const props = defineProps<ProjectItemProps>()
 
@@ -88,11 +92,16 @@ const handleDeleteProject = async () => {
     })
   }
 }
+
+const toProject = (e: MouseEvent) => {
+  router.push({ name: metadataRoutes.PROJECT.name, params: { id: props.project.id } })
+}
 </script>
 
 <template>
   <div
     class="group relative cursor-pointer hover:bg-black/40 px-4 py-3 flex flex-col space-y-2 rounded-sm"
+    @click="toProject"
   >
     <header class="flex items-center space-x-2">
       <span class="font-bold text-2xl">{{ project.title }}</span>
@@ -112,40 +121,29 @@ const handleDeleteProject = async () => {
 
     <Drawer>
       <DrawerTrigger as-child>
-        <Button variant="outline" class="self-start">
-          <span class="font-bold underline mr-1">{{ project.vacancies.length }}</span
-          >Vagas
+        <Button variant="outline" class="self-start" @click.stop="">
+          <!-- TODO: Ver como carregar a quantidade de vagas. Criar um componente pra esse botão de vagas é uma possibilidade. -->
+          <!-- <span class="font-bold underline mr-1">{{ 0 }}</span> -->
+          Vagas
         </Button>
       </DrawerTrigger>
       <DrawerContent>
         <div class="h-max-[500px]">
           <DrawerHeader>
-            <DrawerTitle>Vagas</DrawerTitle>
+            <DrawerTitle>Vagas para {{ props.project.title }}</DrawerTitle>
             <DrawerDescription>Visualize as vagas e participe do projeto!</DrawerDescription>
           </DrawerHeader>
 
-          <div class="overflow-auto p-4 flex gap-3">
-            <div
-              v-if="project.vacancies.length"
-              v-for="vacancy in project.vacancies"
-              class="p-4 flex flex-col border rounded-md gap-2"
-            >
-              <span class="text-2xl font-bold">
-                {{ vacancy.title }}
-              </span>
-              <span>
-                {{ vacancy.description }}
-              </span>
-              <Badge variant="default" class="tracking-wide mt-auto">{{
-                vacancyLabelState[vacancy.state]
-              }}</Badge>
+          <Suspense>
+            <div class="overflow-auto p-4 flex gap-3">
+              <VacanciesList :project-id="props.project.id" />
             </div>
-
-            <Alert v-else>
-              <AlertTitle>Projetos sem vagas abertas</AlertTitle>
-              <AlertDescription> Fique ligado para as próximas vagas! </AlertDescription>
-            </Alert>
-          </div>
+            <template #fallback>
+              <div class="overflow-auto p-4 flex gap-3">
+                <VacanciesListFallback :length="8" />
+              </div>
+            </template>
+          </Suspense>
 
           <DrawerFooter>
             <DrawerClose as-child>
@@ -162,13 +160,13 @@ const handleDeleteProject = async () => {
     >
       <AppDialog>
         <template #trigger>
-          <Button variant="default" size="icon">
+          <Button variant="default" size="icon" @click.stop="">
             <Pencil class="w-5 h-5" />
           </Button>
         </template>
         <template #title> Editer Projeto '{{ props.project.title }}' </template>
         <template #description>
-          Edite suas Projetos acadêmicas para que outros usuários possam ver seu perfil atualizado.
+          Edite seu projeto para que outras pessoas possam visualizar.
         </template>
         <template #main>
           <ProjectForm
@@ -186,7 +184,7 @@ const handleDeleteProject = async () => {
 
       <AppAlertDialog :handleAction="handleDeleteProject">
         <template #trigger>
-          <Button variant="destructive" size="icon">
+          <Button variant="destructive" size="icon" @click.stop="">
             <Trash class="w-5 h-5" />
           </Button>
         </template>

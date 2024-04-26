@@ -2,7 +2,8 @@ import {
   authRepository,
   experienceRepository,
   projectRepository,
-  userRepository
+  userRepository,
+  vacancyRepository
 } from '@/repositories'
 import { AuthServiceImpl, type IAuthService } from '@/services/auth/auth.service'
 import { LocalStorageServiceImpl, type IStorageService } from '@/services/storage/storage.service'
@@ -10,6 +11,7 @@ import { JwtServiceImpl, type IJwtService } from '@/services/jwt/jwt.service'
 import { UserServiceImpl, type IUserService } from '@/services/user/user.service'
 import { ExperienceServiceImpl, type IExperienceService } from './experience/experience.service'
 import { ProjectServiceImpl, type IProjectService } from './project/project.service'
+import { VacancyServiceImpl, type IVacancyService } from './vacancies/vacancies.service'
 
 const authService: IAuthService = new AuthServiceImpl(authRepository)
 
@@ -23,4 +25,14 @@ const experienceService: IExperienceService = new ExperienceServiceImpl(experien
 
 const projectService: IProjectService = new ProjectServiceImpl(projectRepository)
 
-export { storageService, authService, jwtService, userService, experienceService, projectService }
+const vacancyService: IVacancyService = new VacancyServiceImpl(vacancyRepository)
+
+export {
+  storageService,
+  authService,
+  jwtService,
+  userService,
+  experienceService,
+  projectService,
+  vacancyService
+}

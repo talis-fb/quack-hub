@@ -12,6 +12,6 @@ export interface IVacancyData {
 
 export interface IVacancyEntity extends IVacancyData {
   id: number
-  createdAt: string
-  updatedAt: string
+  createdAt: Date
+  updatedAt: Date
 }

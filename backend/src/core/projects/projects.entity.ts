@@ -66,9 +66,9 @@ export class ProjectData {
   @ApiProperty()
   methodologies: string[];
 
-  @ValidateNested()
-  @ApiProperty()
-  vacancies: Array<VacancyData>;
+  // @ValidateNested()
+  // @ApiProperty()
+  // vacancies: Array<VacancyData>;
 }
 
 export class ProjectEntity extends ProjectData {
