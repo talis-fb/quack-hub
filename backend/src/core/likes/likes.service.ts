@@ -1,10 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { LikesData, LikesEntity } from './likes.entity';
 import { LikesRepository } from './likes.repository';
-import { ServiceConflictException } from 'src/excpetions/service/ServiceConflictException';
 import { UserService } from '../user/user.service';
 import { PostsService } from '../posts/posts.service';
-import { ServiceNotFoundException } from 'src/excpetions/service/ServiceNotFoundException';
 
 export abstract class LikesService {
   abstract getLikes(postId: number): Promise<LikesEntity[]>;
@@ -37,25 +35,25 @@ export class LikesServiceImpl implements LikesService {
   }
   public async createLikes(like: LikesData): Promise<LikesEntity> {
     const userExist = await this.userService.getUserById(like.userId);
-    if (!userExist) {
-      throw new ServiceNotFoundException(
-        `O usuario que está tentando dar like Não existe!`,
-      );
-    }
+    // if (!userExist) {
+    //   throw new ServiceNotFoundException(
+    //     `O usuario que está tentando dar like Não existe!`,
+    //   );
+    // }
 
     const postExist = await this.postsService.getPostById(like.postId);
-    if (!postExist) {
-      throw new ServiceNotFoundException(
-        `O post em que está tentando dar like não existe!`,
-      );
-    }
+    // if (!postExist) {
+    //   throw new ServiceNotFoundException(
+    //     `O post em que está tentando dar like não existe!`,
+    //   );
+    // }
 
     const likeExist = await this.getLikePost(like.postId, like.userId);
-    if (likeExist) {
-      throw new ServiceConflictException(
-        `O like na postagem de ID ${like.postId} do usuario com ID ${like.userId} já existe.`,
-      );
-    }
+    // if (likeExist) {
+    //   throw new ServiceConflictException(
+    //     `O like na postagem de ID ${like.postId} do usuario com ID ${like.userId} já existe.`,
+    //   );
+    // }
     const resLike = await this.repo.createLike(like);
     return resLike;
   }

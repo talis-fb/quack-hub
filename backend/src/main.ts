@@ -2,12 +2,13 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { ValidationPipe } from '@nestjs/common';
-import { FilterServiceException } from './excpetions/controller/FilterServiceException';
+// import { FilterServiceException } from 'src/common/exceptions/controller/FilterServiceException';
+import { ServiceExceptionFilter } from 'src/common/exceptions/service.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  app.useGlobalFilters(new FilterServiceException());
+  
 
   app.setGlobalPrefix('api/v1');
   app.enableCors();
@@ -18,6 +19,9 @@ async function bootstrap() {
       // transformOptions: { enableImplicitConversion: true },
     }),
   );
+
+  // app.useGlobalFilters(new FilterServiceException());
+  app.useGlobalFilters(new ServiceExceptionFilter());
 
   // Swagger
   const config = new DocumentBuilder()

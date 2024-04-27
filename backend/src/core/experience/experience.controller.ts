@@ -3,7 +3,6 @@ import {
   Controller,
   Delete,
   Get,
-  NotFoundException,
   Param,
   ParseIntPipe,
   Post,
@@ -18,8 +17,9 @@ import { ExperienceService } from './experience.service';
 import { GetExperiencesByUserIdQueryDto } from './dtos/GetExperiencesByUserIdQueryDto';
 import { CreateExperienceDto } from './dtos/CreateExperienceDto';
 import { ApiTags } from '@nestjs/swagger';
+import { NotFoundException } from 'src/common/exceptions/ServiceException';
 
-// @Public()
+@Public()
 @ApiTags('experience')
 @Controller('experience')
 export class ExperienceController {
@@ -28,8 +28,9 @@ export class ExperienceController {
   @Get(':id')
   async getExperienceById(@Param('id', ParseIntPipe) id: number) {
     const resExperience = await this.experienceService.getExperienceById(id);
+
     if (!resExperience) {
-      throw new NotFoundException(`User with ID ${id} not found!`);
+      throw new NotFoundException()
     }
     return resExperience;
   }
