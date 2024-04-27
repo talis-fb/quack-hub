@@ -3,7 +3,7 @@
 <!-- license --> 
 
 ## :memo:  Sobre o projeto
-O QuackHub foi inspirado em funcionalidades presentes no Linkedin e Github, convergindo as funcionalidades em um contexto da universidade. Dessa forma, o QuackHub tem como objetivo criar uma comunidade dentro da UFRN para conectar pessoas e impulsionar a relação entre alunos e empresas. 
+O QuackHub é uma plataforma projetada para promover a interação e conexão entre estudantes e empresas dentro da UFRN. Inspirado nas funcionalidades do LinkedIn,GitHub e de redes sociais, o QuackHub busca criar uma comunidade unificada onde estudantes, professores e profissionais possam se conectar, colaborar e compartilhar oportunidades.
 
 ## Layout web
 
