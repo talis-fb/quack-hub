@@ -147,6 +147,7 @@ export class ExperienceRepositoryImpl implements ExperienceRepository {
   ): Promise<ExperienceEntity | null> {
     try {
       // TODO: Ver um melhor jeito pra não precisar desse without. Criar uma nova tipagem ou algo do tipo
+
       const { achievements, ...experienceWithoutAchievements } = experience;
       const output = await this.prisma.experience.update({
         where: {

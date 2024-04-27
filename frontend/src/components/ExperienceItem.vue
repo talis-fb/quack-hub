@@ -102,10 +102,7 @@ const handleDeleteExperience = async () => {
         </template>
         <template #main>
           <ExperienceForm
-            :title="props.experience.title"
-            :about="props.experience.about"
-            :start-date="props.experience.startDate"
-            :end-date="props.experience.endDate"
+            :experience="props.experience"
             :handle-submit="handleUpdateExperience"
             title-label="Título"
             title-placeholder="Ex.: Desenvolvedor Backend"

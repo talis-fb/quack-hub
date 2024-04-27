@@ -2,9 +2,6 @@
 // Vue imports
 import { Suspense, computed, onBeforeMount, provide, ref } from 'vue'
 
-// Services
-import { userService } from '@/services'
-
 // Images
 import DefaultUserIcon from '@/assets/DefaultUserIcon.jpg'
 
@@ -69,7 +66,7 @@ onBeforeMount(async () => {
   userAuthStore.getProfile(+props.id)
 })
 
-const { toast, dismiss } = useToast()
+const { toast } = useToast()
 
 const handleSubmitExperience = async (values: ICreateExperience) => {
   try {
