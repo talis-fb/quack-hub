@@ -1,6 +1,6 @@
 <script setup lang="ts">
 // Types
-import { type ExperienceType } from '@/entites/IExperience'
+import { type ExperienceType, type IExperienceEntity } from '@/entites/IExperience'
 
 // Zod
 import { useForm } from 'vee-validate'
@@ -16,22 +16,28 @@ import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/comp
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
-
 import { Calendar } from '@/components/ui/calendar'
-
 import { Button } from '@/components/ui/button'
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue
+} from '@/components/ui/select'
 
 // Icons
 import { Calendar as CalendarIcon } from 'lucide-vue-next'
 import type { ICreateExperience } from '@/apis/experience/types/ICreateExperience'
+import { projectService } from '@/services'
+import { onMounted, ref } from 'vue'
+import type { IProjectEntity } from '@/entites/IProject'
 
 // Lifecycle Hooks
 
 export interface IExperienceFormProps {
-  title?: string
-  about?: string
-  startDate?: string
-  endDate?: string
+  experience: IExperienceEntity
 
   titleLabel?: string
   titlePlaceholder?: string
@@ -65,8 +71,12 @@ const formSchema = toTypedSchema(
       .date({
         required_error: 'Campo fim obrigatório'
       })
-      .max(new Date(), { message: 'Data inválida.' })
-    // projectId: z.number()
+      .max(new Date(), { message: 'Data inválida.' }),
+    projectId: z
+      .string()
+      .nullish()
+      .or(z.literal(''))
+      .transform((e) => (e === '' ? null : e))
   })
 )
 
@@ -75,15 +85,27 @@ const form = useForm({
 })
 
 form.setValues({
-  title: props.title,
-  about: props.about,
-  startDate: props.startDate ? new Date(props.startDate) : undefined,
-  endDate: props.endDate ? new Date(props.endDate) : undefined
+  title: props.experience.title,
+  about: props.experience.about,
+  startDate: props.experience.startDate ? new Date(props.experience.startDate) : undefined,
+  endDate: props.experience.endDate ? new Date(props.experience.endDate) : undefined,
+  projectId: props.experience.projectId ? props.experience.projectId.toString() : undefined
 })
 
 const onSubmit = form.handleSubmit(async (values) => {
-  // TODO: Tirar esse valores 'mockados' de projectId e achievements.
-  await props.handleSubmit({ ...values, projectId: null, achievements: [], type: props.type })
+  // TODO: Tirar esse valor 'mockado' de  achievements.
+  await props.handleSubmit({
+    ...values,
+    projectId: values.projectId ? +values.projectId : null,
+    achievements: [],
+    type: props.type
+  })
+})
+
+const projects = ref<IProjectEntity[]>([])
+
+onMounted(async () => {
+  projects.value = await projectService.search()
 })
 </script>
 
@@ -159,6 +181,29 @@ const onSubmit = form.handleSubmit(async (values) => {
             <Calendar v-bind="componentField" />
           </PopoverContent>
         </Popover>
+      </FormItem>
+    </FormField>
+
+    <FormField v-slot="{ componentField }" name="projectId">
+      <FormItem>
+        <FormLabel>Projeto</FormLabel>
+
+        <Select v-bind="componentField">
+          <FormControl>
+            <SelectTrigger>
+              <SelectValue placeholder="Selecione o projeto" />
+            </SelectTrigger>
+          </FormControl>
+          <SelectContent>
+            <SelectGroup>
+              <SelectItem value="''"> Nenhum </SelectItem>
+              <SelectItem v-for="project in projects" :value="project.id.toString()">
+                {{ project.title }}
+              </SelectItem>
+            </SelectGroup>
+          </SelectContent>
+        </Select>
+        <FormMessage />
       </FormItem>
     </FormField>
 
