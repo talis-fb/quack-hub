@@ -4,6 +4,7 @@ import { LikesRepository } from './likes.repository';
 import { ServiceConflictException } from 'src/excpetions/service/ServiceConflictException';
 import { UserService } from '../user/user.service';
 import { PostsService } from '../posts/posts.service';
+import { ServiceNotFoundException } from 'src/excpetions/service/ServiceNotFoundException';
 
 export abstract class LikesService {
   abstract getLikes(postId: number): Promise<LikesEntity[]>;
@@ -37,14 +38,14 @@ export class LikesServiceImpl implements LikesService {
   public async createLikes(like: LikesData): Promise<LikesEntity> {
     const userExist = await this.userService.getUserById(like.userId);
     if (!userExist) {
-      throw new ServiceConflictException(
+      throw new ServiceNotFoundException(
         `O usuario que está tentando dar like Não existe!`,
       );
     }
 
     const postExist = await this.postsService.getPostById(like.postId);
     if (!postExist) {
-      throw new ServiceConflictException(
+      throw new ServiceNotFoundException(
         `O post em que está tentando dar like não existe!`,
       );
     }
