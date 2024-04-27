@@ -1,7 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { LikesData, LikesEntity } from './likes.entity';
 import { LikesRepository } from './likes.repository';
-import { ConflictException } from 'src/excpetions/service/ConflictException';
+import { ServiceConflictException } from 'src/excpetions/service/ServiceConflictException';
+import { UserService } from '../user/user.service';
+import { PostsService } from '../posts/posts.service';
 
 export abstract class LikesService {
   abstract getLikes(postId: number): Promise<LikesEntity[]>;
@@ -15,7 +17,11 @@ export abstract class LikesService {
 
 @Injectable()
 export class LikesServiceImpl implements LikesService {
-  constructor(private repo: LikesRepository) {}
+  constructor(
+    private repo: LikesRepository,
+    private userService: UserService,
+    private postsService: PostsService,
+  ) {}
 
   public async getLikes(postId: number): Promise<LikesEntity[]> {
     const resLike = await this.repo.getLikes(postId);
@@ -29,9 +35,23 @@ export class LikesServiceImpl implements LikesService {
     return resLike;
   }
   public async createLikes(like: LikesData): Promise<LikesEntity> {
+    const userExist = await this.userService.getUserById(like.userId);
+    if (!userExist) {
+      throw new ServiceConflictException(
+        `O usuario que está tentando dar like Não existe!`,
+      );
+    }
+
+    const postExist = await this.postsService.getPostById(like.postId);
+    if (!postExist) {
+      throw new ServiceConflictException(
+        `O post em que está tentando dar like não existe!`,
+      );
+    }
+
     const likeExist = await this.getLikePost(like.postId, like.userId);
     if (likeExist) {
-      throw new ConflictException(
+      throw new ServiceConflictException(
         `O like na postagem de ID ${like.postId} do usuario com ID ${like.userId} já existe.`,
       );
     }

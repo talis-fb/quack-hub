@@ -4,9 +4,10 @@ import { LikesService, LikesServiceImpl } from './likes.service';
 import { PrismaService } from 'src/common/prisma/prisma.service';
 import { LikesRepository, LikesRepositoryImpl } from './likes.repository';
 import { UserModule } from '../user/user.module';
+import { PostsModule } from '../posts/posts.module';
 
 @Module({
-  imports: [UserModule],
+  imports: [UserModule, PostsModule],
   controllers: [LikesController],
   providers: [
     PrismaService,

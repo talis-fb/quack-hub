@@ -17,5 +17,6 @@ import { PrismaService } from 'src/common/prisma/prisma.service';
       useClass: PostsRepositoryImpl,
     },
   ],
+  exports: [PostsService],
 })
 export class PostsModule {}
