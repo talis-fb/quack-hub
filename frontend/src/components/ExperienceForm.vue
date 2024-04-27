@@ -37,7 +37,7 @@ import type { IProjectEntity } from '@/entites/IProject'
 // Lifecycle Hooks
 
 export interface IExperienceFormProps {
-  experience: IExperienceEntity
+  experience?: IExperienceEntity
 
   titleLabel?: string
   titlePlaceholder?: string
@@ -85,11 +85,11 @@ const form = useForm({
 })
 
 form.setValues({
-  title: props.experience.title,
-  about: props.experience.about,
-  startDate: props.experience.startDate ? new Date(props.experience.startDate) : undefined,
-  endDate: props.experience.endDate ? new Date(props.experience.endDate) : undefined,
-  projectId: props.experience.projectId ? props.experience.projectId.toString() : undefined
+  title: props.experience?.title,
+  about: props.experience?.about,
+  startDate: props.experience?.startDate ? new Date(props.experience?.startDate) : undefined,
+  endDate: props.experience?.endDate ? new Date(props.experience?.endDate) : undefined,
+  projectId: props.experience?.projectId ? props.experience?.projectId.toString() : undefined
 })
 
 const onSubmit = form.handleSubmit(async (values) => {
