@@ -36,7 +36,7 @@ import AppDialog from '@/components/AppDialog.vue'
 import GithubProjectImport from '@/components/GithubProjectImport.vue'
 
 // Icons
-import { Calendar as CalendarIcon, ImageIcon, Github } from 'lucide-vue-next'
+import { Calendar as CalendarIcon, ImageIcon, Github, Linkedin } from 'lucide-vue-next'
 import { type IProjectEntity, StateProjectValues } from '../entites/IProject'
 import type { ICreateProject } from '@/apis/project/types/ICreateProject'
 import type { IProjectGithubResponse } from '@/apis/github/github.api'
@@ -124,19 +124,25 @@ const handleProjectImported = (data: IProjectGithubResponse) => {
 </script>
 
 <template>
-  <AppDialog>
-    <template #trigger>
-      <Button variant="outline">
-        <span>Importar</span>
-        <Github />
-      </Button>
-    </template>
-    <template #title> Importar projeto pelo Github </template>
-    <template #description> Importe seu projeto pelo GitHub e economize seu tempo! </template>
-    <template #main>
-      <GithubProjectImport @imported="handleProjectImported" />
-    </template>
-  </AppDialog>
+  <p>Importar de:</p>
+  <div class="flex justify-center space-x-2">
+    <AppDialog>
+      <template #trigger>
+        <Button variant="outline" size="icon" class="rounded-full">
+          <Github />
+        </Button>
+      </template>
+      <template #title> Importar projeto pelo Github </template>
+      <template #description> Importe seu projeto pelo GitHub e economize seu tempo! </template>
+      <template #main>
+        <GithubProjectImport @imported="handleProjectImported" />
+      </template>
+    </AppDialog>
+
+    <Button variant="outline" size="icon" class="rounded-full">
+      <Linkedin />
+    </Button>
+  </div>
 
   <form @submit="onSubmit" class="w-full flex flex-col gap-4">
     <FormField v-slot="{ componentField }" name="title">
