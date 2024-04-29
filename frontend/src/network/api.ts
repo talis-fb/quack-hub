@@ -8,6 +8,7 @@ export const api = axios.create({
   baseURL
 })
 
+
 api.interceptors.request.use(
   (config) => {
     const token = storageService.getItem('accessToken')

@@ -16,7 +16,6 @@ import { formatDateInFull } from '@/utils/DateFormat'
 
 // Shadcn-vue components
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
-import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import {
@@ -29,11 +28,16 @@ import {
 } from '@/components/ui/select'
 import { Calendar } from '@/components/ui/calendar'
 import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 
+// App components
+import AppDialog from '@/components/AppDialog.vue'
+import GithubProjectImport from '@/components/GithubProjectImport.vue'
+
 // Icons
-import { Calendar as CalendarIcon, ImageIcon } from 'lucide-vue-next'
-import { type IProjectEntity, type StateProject, StateProjectValues } from '../entites/IProject'
+import { Calendar as CalendarIcon, ImageIcon, Github } from 'lucide-vue-next'
+import { type IProjectEntity, StateProjectValues } from '../entites/IProject'
 import type { ICreateProject } from '@/apis/project/types/ICreateProject'
 
 export interface IProjectFormProps {
@@ -111,6 +115,20 @@ const onSubmit = form.handleSubmit(async (values) => {
 </script>
 
 <template>
+  <AppDialog>
+    <template #trigger>
+      <Button variant="outline">
+        <span>Importar</span>
+        <Github />
+      </Button>
+    </template>
+    <template #title> Importar projeto pelo Github </template>
+    <template #description> Importe seu projeto pelo GitHub e economize seu tempo! </template>
+    <template #main>
+      <GithubProjectImport />
+    </template>
+  </AppDialog>
+
   <form @submit="onSubmit" class="w-full flex flex-col gap-4">
     <FormField v-slot="{ componentField }" name="title">
       <FormItem>
