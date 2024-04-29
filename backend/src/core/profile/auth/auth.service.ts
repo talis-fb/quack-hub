@@ -8,7 +8,10 @@ import { EmailAlreadyInUseException } from './auth.exceptions';
 
 export abstract class AuthService {
   abstract validateUser(email: string, pass: string): Promise<UserEntity>;
-  abstract signJwt(email: string, id: string): Promise<{ access_token: string }>;
+  abstract signJwt(
+    email: string,
+    id: string,
+  ): Promise<{ access_token: string }>;
   abstract signUp(signupDto: AuthUserData): Promise<UserEntity>;
 }
 
@@ -28,7 +31,7 @@ export class AuthServiceImpl implements AuthService {
     const payload = {
       email: email,
       sub: id,
-    }
+    };
 
     return {
       access_token: await this.jwtService.signAsync(payload),
@@ -51,4 +54,4 @@ export class AuthServiceImpl implements AuthService {
 export const AuthServiceProvider: Provider = {
   provide: AuthService,
   useClass: AuthServiceImpl,
-}
+};

@@ -6,10 +6,6 @@ import { UserRepositoryProvider } from 'src/core/profile/user/user.repository';
 
 @Module({
   controllers: [UserController],
-  providers: [
-    UserServiceProvider,
-    PrismaService,
-    UserRepositoryProvider,
-  ],
+  providers: [UserServiceProvider, PrismaService, UserRepositoryProvider],
 })
 export class UserModule {}

@@ -78,4 +78,3 @@ export class AchievementEntity extends AchievementData {
   @IsInt()
   id: number;
 }
-

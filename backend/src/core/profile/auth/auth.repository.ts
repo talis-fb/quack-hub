@@ -5,7 +5,10 @@ import { AuthUserData } from 'src/core/profile/auth/login/dtos/auth-user.dto';
 
 export abstract class AuthRepository {
   abstract createAuthUser(user: AuthUserData): Promise<UserEntity>;
-  abstract findAuthUser(email: string, password: string): Promise<UserEntity | null>;
+  abstract findAuthUser(
+    email: string,
+    password: string,
+  ): Promise<UserEntity | null>;
 }
 
 @Injectable()
@@ -38,20 +41,23 @@ export class AuthRepositoryImpl implements AuthRepository {
       return userCreated;
     });
   }
-  async findAuthUser(email: string, password: string): Promise<UserEntity | null> {
+  async findAuthUser(
+    email: string,
+    password: string,
+  ): Promise<UserEntity | null> {
     const userSaved = await this.prisma.user.findUnique({
       where: {
         email,
         auth: {
-          password
-        }
+          password,
+        },
       },
       include: {
         auth: true,
       },
     });
 
-    if(userSaved?.auth?.password !== password) {
+    if (userSaved?.auth?.password !== password) {
       return null;
     }
 
@@ -62,4 +68,4 @@ export class AuthRepositoryImpl implements AuthRepository {
 export const AuthRepositoryProvider: Provider = {
   provide: AuthRepository,
   useClass: AuthRepositoryImpl,
-}
+};

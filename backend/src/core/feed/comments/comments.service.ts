@@ -12,10 +12,7 @@ export abstract class CommentsService {
     data: CreateCommentDto,
     userId: number,
   ): Promise<CommentEntity>;
-  abstract update(
-    id: number,
-    data: UpdateCommentDto,
-  ): Promise<CommentEntity>;
+  abstract update(id: number, data: UpdateCommentDto): Promise<CommentEntity>;
   abstract delete(id: number): Promise<CommentEntity>;
 }
 
@@ -26,10 +23,10 @@ export class CommentsServiceImpl implements CommentsService {
   async getCommentById(id: number): Promise<CommentEntity> {
     const comment = await this.commentsRepository.getCommentById(id);
 
-    if(!comment) {
-      throw new CommentNotFoundException()
+    if (!comment) {
+      throw new CommentNotFoundException();
     }
-    return comment
+    return comment;
   }
 
   async getCommentsByPostId(postId: number): Promise<CommentEntity[]> {
@@ -42,17 +39,17 @@ export class CommentsServiceImpl implements CommentsService {
 
   async update(id: number, data: UpdateCommentDto): Promise<CommentEntity> {
     const comment = await this.commentsRepository.update(id, data);
-    if(!comment) {
-      throw new CommentNotFoundException()
+    if (!comment) {
+      throw new CommentNotFoundException();
     }
-    return comment
+    return comment;
   }
 
   async delete(id: number): Promise<CommentEntity> {
     const comment = await this.commentsRepository.delete(id);
-    if(!comment) {
-      throw new CommentNotFoundException()
+    if (!comment) {
+      throw new CommentNotFoundException();
     }
-    return comment
+    return comment;
   }
 }

@@ -23,14 +23,17 @@ export class LikesRepositoryImpl implements LikesRepository {
       },
     });
   }
-  async getLikePost(postId: number, userId: number): Promise<LikesEntity | void> {
+  async getLikePost(
+    postId: number,
+    userId: number,
+  ): Promise<LikesEntity | void> {
     return await this.prisma.postLike.findUnique({
       where: {
         postId_userId: {
           postId: postId,
           userId: userId,
-        }
-      }
+        },
+      },
     });
   }
   async createLike(like: LikesData): Promise<LikesEntity> {

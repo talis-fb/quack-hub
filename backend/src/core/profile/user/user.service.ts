@@ -83,4 +83,4 @@ export class UserServiceImpl implements UserService {
 export const UserServiceProvider: Provider = {
   provide: UserService,
   useClass: UserServiceImpl,
-}
+};

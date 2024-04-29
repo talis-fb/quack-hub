@@ -12,10 +12,7 @@ export abstract class UserRepository {
   abstract findFollowing(id: number): Promise<UserEntity[]>;
   abstract checkUsersExists(id: number[]): Promise<boolean>;
 
-  abstract update(
-    id: number,
-    user: Partial<UserData>,
-  ): Promise<UserEntity>;
+  abstract update(id: number, user: Partial<UserData>): Promise<UserEntity>;
   abstract addFollower(
     userFollowingId: number,
     userToBeFollowedId: number,
@@ -51,23 +48,20 @@ export class UserRepositoryImpl implements UserRepository {
     return await this.prisma.user.findMany();
   }
 
-  async update(
-    id: number,
-    user: Partial<UserData>,
-  ): Promise<UserEntity> {
+  async update(id: number, user: Partial<UserData>): Promise<UserEntity> {
     return await this.prisma.user.update({
       where: {
-      id,
-    },
-    data: {
-      ...user,
-    },
-    include: {
-      _count: {
-        select: { following: true, followedBy: true },
+        id,
       },
-    },
-  });
+      data: {
+        ...user,
+      },
+      include: {
+        _count: {
+          select: { following: true, followedBy: true },
+        },
+      },
+    });
   }
 
   async findFollowers(id: number): Promise<UserEntity[]> {
@@ -148,4 +142,4 @@ export class UserRepositoryImpl implements UserRepository {
 export const UserRepositoryProvider: Provider = {
   provide: UserRepository,
   useClass: UserRepositoryImpl,
-}
+};
