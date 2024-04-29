@@ -6,10 +6,6 @@ import { PrismaService } from 'src/common/prisma/prisma.service';
 
 @Module({
   controllers: [PostsController],
-  providers: [
-    PrismaService,
-    PostServiceProvider,
-    PostsRepositoryProvider,
-  ],
+  providers: [PrismaService, PostServiceProvider, PostsRepositoryProvider],
 })
 export class PostsModule {}

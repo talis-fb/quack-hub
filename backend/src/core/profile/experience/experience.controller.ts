@@ -30,7 +30,7 @@ export class ExperienceController {
     const resExperience = await this.experienceService.getExperienceById(id);
 
     if (!resExperience) {
-      throw new NotFoundExperienceException()
+      throw new NotFoundExperienceException();
     }
     return resExperience;
   }

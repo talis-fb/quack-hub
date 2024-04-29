@@ -20,7 +20,7 @@ export class PostsServiceImpl implements PostsService {
   async getPostById(id: number): Promise<PostEntity> {
     const post = await this.postsRepository.getPostById(id);
 
-    if(!post) {
+    if (!post) {
       throw new PostNotFoundException();
     }
 
@@ -38,7 +38,7 @@ export class PostsServiceImpl implements PostsService {
   async update(id: number, data: UpdatePostDto): Promise<PostEntity> {
     const postUpdated = await this.postsRepository.update(id, data);
 
-    if(!postUpdated) {
+    if (!postUpdated) {
       throw new PostNotFoundException();
     }
 
@@ -48,7 +48,7 @@ export class PostsServiceImpl implements PostsService {
   async delete(id: number): Promise<PostEntity> {
     const post = await this.postsRepository.delete(id);
 
-    if(!post) {
+    if (!post) {
       throw new PostNotFoundException();
     }
 
@@ -59,4 +59,4 @@ export class PostsServiceImpl implements PostsService {
 export const PostServiceProvider: Provider = {
   provide: PostsService,
   useClass: PostsServiceImpl,
-}
+};

@@ -43,7 +43,9 @@ export class UserController {
     description: 'User filtered by id returned successfully.',
   })
   @Get(':id')
-  async getUserById(@Param('id', ParseIntPipe) id: number): Promise<UserEntity> {
+  async getUserById(
+    @Param('id', ParseIntPipe) id: number,
+  ): Promise<UserEntity> {
     return await this.userService.getUserById(id);
   }
 
@@ -52,7 +54,10 @@ export class UserController {
     description: 'The user has been successfully updated',
   })
   @Put(':id')
-  async update(@Param('id', ParseIntPipe) id: number, @Body() body: UserData): Promise<UserEntity> {
+  async update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() body: UserData,
+  ): Promise<UserEntity> {
     return await this.userService.update(id, body);
   }
 
@@ -74,7 +79,9 @@ export class UserController {
       "Successfully retrieved the user's list of followers filtered by id",
   })
   @Get(':id/followers')
-  async getFollowers(@Param('id', ParseIntPipe) id: number): Promise<UserEntity[]> {
+  async getFollowers(
+    @Param('id', ParseIntPipe) id: number,
+  ): Promise<UserEntity[]> {
     return await this.userService.getFollowers(id);
   }
 
@@ -84,7 +91,9 @@ export class UserController {
       "Successfully retrieved the user's following list filtered by id",
   })
   @Get(':id/following')
-  async getFollowing(@Param('id', ParseIntPipe) id: number): Promise<UserEntity[]> {
+  async getFollowing(
+    @Param('id', ParseIntPipe) id: number,
+  ): Promise<UserEntity[]> {
     return await this.userService.getFollowing(id);
   }
 }

@@ -69,7 +69,10 @@ export class PostsRepositoryImpl implements PostsRepository {
     });
   }
 
-  async update(id: number, data: Partial<PostData>): Promise<PostEntity | void> {
+  async update(
+    id: number,
+    data: Partial<PostData>,
+  ): Promise<PostEntity | void> {
     return await this.prisma.post.update({
       where: {
         id,
@@ -106,4 +109,4 @@ export class PostsRepositoryImpl implements PostsRepository {
 export const PostsRepositoryProvider: Provider = {
   provide: PostsRepository,
   useClass: PostsRepositoryImpl,
-}
+};

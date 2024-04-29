@@ -40,7 +40,10 @@ export class CommentsRepositoryImpl implements CommentsRepository {
     });
   }
 
-  async update(id: number, data: Partial<CommentData>): Promise<CommentEntity | void> {
+  async update(
+    id: number,
+    data: Partial<CommentData>,
+  ): Promise<CommentEntity | void> {
     return await this.prisma.comment.update({
       where: {
         id,

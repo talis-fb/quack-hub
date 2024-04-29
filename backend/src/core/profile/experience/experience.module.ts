@@ -1,6 +1,9 @@
 import { Module } from '@nestjs/common';
 import { ExperienceController } from 'src/core/profile/experience/experience.controller';
-import { ExperienceService, ExperienceServiceImpl } from 'src/core/profile/experience/experience.service';
+import {
+  ExperienceService,
+  ExperienceServiceImpl,
+} from 'src/core/profile/experience/experience.service';
 import {
   ExperienceRepository,
   ExperienceRepositoryImpl,

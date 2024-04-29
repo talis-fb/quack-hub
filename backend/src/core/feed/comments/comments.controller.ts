@@ -56,7 +56,7 @@ export class CommentsController {
     @Param('id', ParseIntPipe) id: number,
     @Body() data: UpdateCommentDto,
   ) {
-   return  await this.commentsService.update(id, data);
+    return await this.commentsService.update(id, data);
   }
 
   @ApiResponse({

@@ -18,7 +18,7 @@ export class LikesController {
 
   @Get(':postId')
   async getLikesByPost(@Param('postId', ParseIntPipe) postId: number) {
-   return await this.likesService.getLikes(postId);
+    return await this.likesService.getLikes(postId);
   }
 
   @Post()

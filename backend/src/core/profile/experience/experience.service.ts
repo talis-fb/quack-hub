@@ -41,33 +41,27 @@ export class ExperienceServiceImpl implements ExperienceService {
     userId: number,
     type?: ExperienceType,
   ): Promise<ExperienceEntity[]> {
-      return await this.repo.getExperiencesByUserId(
-        userId,
-        type,
-      );
+    return await this.repo.getExperiencesByUserId(userId, type);
   }
 
   public async createExperience(
     experience: CreateExperienceDto,
     userId: number,
   ): Promise<ExperienceEntity> {
-      return await this.repo.createExperience({
-        ...experience,
-        userId,
-      });
+    return await this.repo.createExperience({
+      ...experience,
+      userId,
+    });
   }
 
   public async updateExperience(
     id: number,
     updateExperienceDto: UpdateExperienceDto,
   ): Promise<ExperienceEntity> {
-      return await this.repo.updateExperience(
-        id,
-        updateExperienceDto,
-      );
+    return await this.repo.updateExperience(id, updateExperienceDto);
   }
 
   public async deleteExperience(id: number): Promise<ExperienceEntity> {
-      return await this.repo.deleteExperience(id);
+    return await this.repo.deleteExperience(id);
   }
 }
