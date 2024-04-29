@@ -54,6 +54,12 @@ const onSubmit = form.handleSubmit(async (values) => {
     const res = await githubApi.getProject(username, repositoryName)
 
     emit('imported', res.data)
+
+    toast({
+      title: 'Repositório Github',
+      description: 'Repositório do Github importado com sucesso. Volte ao formulário!',
+      variant: 'default'
+    })
   } catch (error) {
     toast({
       title: 'Erro ao importar projeto do Github',
