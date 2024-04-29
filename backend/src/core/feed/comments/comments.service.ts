@@ -3,9 +3,10 @@ import { CommentEntity } from './comments.entity';
 import { CreateCommentDto } from './dtos/CreateCommentDto';
 import { UpdateCommentDto } from './dtos/UpdateCommentDto';
 import { CommentsRepository } from './comments.repository';
+import { CommentNotFoundException } from './comments.exceptions';
 
 export abstract class CommentsService {
-  abstract getCommentById(id: number): Promise<CommentEntity | null>;
+  abstract getCommentById(id: number): Promise<CommentEntity>;
   abstract getCommentsByPostId(postId: number): Promise<CommentEntity[]>;
   abstract create(
     data: CreateCommentDto,
@@ -14,8 +15,8 @@ export abstract class CommentsService {
   abstract update(
     id: number,
     data: UpdateCommentDto,
-  ): Promise<CommentEntity | null>;
-  abstract delete(id: number): Promise<CommentEntity | null>;
+  ): Promise<CommentEntity>;
+  abstract delete(id: number): Promise<CommentEntity>;
 }
 
 @Injectable()
@@ -23,32 +24,35 @@ export class CommentsServiceImpl implements CommentsService {
   constructor(private readonly commentsRepository: CommentsRepository) {}
 
   async getCommentById(id: number): Promise<CommentEntity> {
-    const output = await this.commentsRepository.getCommentById(id);
+    const comment = await this.commentsRepository.getCommentById(id);
 
-    return output;
+    if(!comment) {
+      throw new CommentNotFoundException()
+    }
+    return comment
   }
 
   async getCommentsByPostId(postId: number): Promise<CommentEntity[]> {
-    const output = await this.commentsRepository.getCommentsByPostId(postId);
-
-    return output;
+    return await this.commentsRepository.getCommentsByPostId(postId);
   }
 
   async create(data: CreateCommentDto, userId: number): Promise<CommentEntity> {
-    const output = await this.commentsRepository.create({ ...data, userId });
-
-    return output;
+    return await this.commentsRepository.create({ ...data, userId });
   }
 
   async update(id: number, data: UpdateCommentDto): Promise<CommentEntity> {
-    const output = await this.commentsRepository.update(id, data);
-
-    return output;
+    const comment = await this.commentsRepository.update(id, data);
+    if(!comment) {
+      throw new CommentNotFoundException()
+    }
+    return comment
   }
 
   async delete(id: number): Promise<CommentEntity> {
-    const output = await this.commentsRepository.delete(id);
-
-    return output;
+    const comment = await this.commentsRepository.delete(id);
+    if(!comment) {
+      throw new CommentNotFoundException()
+    }
+    return comment
   }
 }

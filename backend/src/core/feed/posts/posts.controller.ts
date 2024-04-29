@@ -25,9 +25,7 @@ export class PostsController {
   })
   @Get(':id')
   async findOneById(@Param('id', ParseIntPipe) id: number) {
-    const output = await this.postsService.getPostById(id);
-
-    return output;
+    return await this.postsService.getPostById(id);
   }
 
   @ApiResponse({
@@ -36,9 +34,7 @@ export class PostsController {
   })
   @Get('/user/:userId')
   async findManyByUserId(@Param('userId', ParseIntPipe) userId: number) {
-    const output = await this.postsService.getPostsByUserId(userId);
-
-    return output;
+    return await this.postsService.getPostsByUserId(userId);
   }
 
   @ApiResponse({
@@ -49,9 +45,7 @@ export class PostsController {
   async create(@Req() req, @Body() data: CreatePostDto) {
     const { userId } = req.user;
 
-    const output = await this.postsService.create(data, userId);
-
-    return output;
+    return await this.postsService.create(data, userId);
   }
 
   @ApiResponse({
@@ -63,9 +57,7 @@ export class PostsController {
     @Param('id', ParseIntPipe) id: number,
     @Body() data: UpdatePostDto,
   ) {
-    const output = await this.postsService.update(id, data);
-
-    return output;
+    return await this.postsService.update(id, data);
   }
 
   @ApiResponse({
@@ -74,8 +66,6 @@ export class PostsController {
   })
   @Delete(':id')
   async delete(@Param('id', ParseIntPipe) id: number) {
-    const output = await this.postsService.delete(id);
-
-    return output;
+    return await this.postsService.delete(id);
   }
 }

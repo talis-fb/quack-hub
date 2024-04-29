@@ -7,9 +7,9 @@ export abstract class LikesRepository {
   abstract getLikePost(
     postId: number,
     userId: number,
-  ): Promise<LikesEntity | null>;
+  ): Promise<LikesEntity | void>;
   abstract createLike(like: LikesData): Promise<LikesEntity>;
-  abstract deleteLike(id: number): Promise<LikesEntity | null>;
+  abstract deleteLike(id: number): Promise<LikesEntity | void>;
 }
 
 @Injectable()
@@ -17,15 +17,14 @@ export class LikesRepositoryImpl implements LikesRepository {
   constructor(private prisma: PrismaService) {}
 
   async getLikes(postId: number): Promise<LikesEntity[]> {
-    const output = await this.prisma.postLike.findMany({
+    return await this.prisma.postLike.findMany({
       where: {
         postId,
       },
     });
-    return output;
   }
-  async getLikePost(postId: number, userId: number): Promise<LikesEntity> {
-    const output = await this.prisma.postLike.findUnique({
+  async getLikePost(postId: number, userId: number): Promise<LikesEntity | void> {
+    return await this.prisma.postLike.findUnique({
       where: {
         postId_userId: {
           postId: postId,
@@ -33,22 +32,19 @@ export class LikesRepositoryImpl implements LikesRepository {
         }
       }
     });
-    return output;
   }
   async createLike(like: LikesData): Promise<LikesEntity> {
-    const output = await this.prisma.postLike.create({
+    return await this.prisma.postLike.create({
       data: {
         ...like,
       },
     });
-    return output;
   }
-  async deleteLike(id: number): Promise<LikesEntity> {
-    const output = await this.prisma.postLike.delete({
+  async deleteLike(id: number): Promise<LikesEntity | void> {
+    return await this.prisma.postLike.delete({
       where: {
         id,
       },
     });
-    return output;
   }
 }

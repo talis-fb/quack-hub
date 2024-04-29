@@ -18,19 +18,16 @@ export class LikesController {
 
   @Get(':postId')
   async getLikesByPost(@Param('postId', ParseIntPipe) postId: number) {
-    const resLikes = await this.likesService.getLikes(postId);
-    return resLikes;
+   return await this.likesService.getLikes(postId);
   }
 
   @Post()
   async createLike(@Body() likesData: LikesData) {
-    const resLike = await this.likesService.createLikes(likesData);
-    return resLike;
+    return await this.likesService.createLikes(likesData);
   }
 
   @Delete(':id')
   async deleteLike(@Param('id', ParseIntPipe) id: number) {
-    const resLike = await this.likesService.deleteLikes(id);
-    return resLike;
+    return await this.likesService.deleteLikes(id);
   }
 }

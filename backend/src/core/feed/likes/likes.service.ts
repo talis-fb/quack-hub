@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { LikesData, LikesEntity } from './likes.entity';
 import { LikesRepository } from './likes.repository';
 import { UserRepository } from 'src/core/profile/user/user.repository';
-import { LikeAlreadyGivenException } from './likes.exceptions';
+import { LikeAlreadyGivenException, LikeNotFoundException } from './likes.exceptions';
 import { UserNotFoundException } from 'src/core/profile/user/user.exceptions';
 import { PostsRepository } from 'src/core/feed/posts/posts.repository';
 import { PostNotFoundException } from 'src/core/feed/posts/posts.exceptions';
@@ -12,9 +12,9 @@ export abstract class LikesService {
   abstract getLikePost(
     postId: number,
     userId: number,
-  ): Promise<LikesEntity | null>;
+  ): Promise<LikesEntity>;
   abstract createLikes(like: LikesData): Promise<LikesEntity>;
-  abstract deleteLikes(id: number): Promise<LikesEntity | null>;
+  abstract deleteLikes(id: number): Promise<LikesEntity>;
 }
 
 @Injectable()
@@ -23,7 +23,6 @@ export class LikesServiceImpl implements LikesService {
     private repo: LikesRepository,
     private userRepository: UserRepository,
     private postRepository: PostsRepository,
-    // private postsService: PostsService,
   ) {}
 
   public async getLikes(postId: number): Promise<LikesEntity[]> {
@@ -33,7 +32,11 @@ export class LikesServiceImpl implements LikesService {
     postId: number,
     userId: number,
   ): Promise<LikesEntity> {
-    return await this.repo.getLikePost(postId, userId);
+    const like = await this.repo.getLikePost(postId, userId);
+    if (!like) {
+      throw new LikeNotFoundException();
+    }
+    return like
   }
   public async createLikes(like: LikesData): Promise<LikesEntity> {
     const userExist = await this.userRepository.getUserById(like.userId);
@@ -54,6 +57,10 @@ export class LikesServiceImpl implements LikesService {
     return await this.repo.createLike(like);
   }
   public async deleteLikes(id: number): Promise<LikesEntity> {
-    return await this.repo.deleteLike(id);
+    const like = await this.repo.deleteLike(id);
+    if (!like) {
+      throw new LikeNotFoundException()
+    }
+    return like
   }
 }

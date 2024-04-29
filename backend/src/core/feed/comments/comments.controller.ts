@@ -25,9 +25,7 @@ export class CommentsController {
   })
   @Get(':id')
   async findOneById(@Param('id', ParseIntPipe) id: number) {
-    const output = await this.commentsService.getCommentById(id);
-
-    return output;
+    return await this.commentsService.getCommentById(id);
   }
 
   @ApiResponse({
@@ -36,9 +34,7 @@ export class CommentsController {
   })
   @Get('/post/:postId')
   async findManyByPostId(@Param('postId', ParseIntPipe) postId: number) {
-    const output = await this.commentsService.getCommentsByPostId(postId);
-
-    return output;
+    return await this.commentsService.getCommentsByPostId(postId);
   }
 
   @ApiResponse({
@@ -48,10 +44,7 @@ export class CommentsController {
   @Post()
   async create(@Req() req, @Body() data: CreateCommentDto) {
     const { userId } = req.user;
-
-    const output = await this.commentsService.create(data, userId);
-
-    return output;
+    return await this.commentsService.create(data, userId);
   }
 
   @ApiResponse({
@@ -63,9 +56,7 @@ export class CommentsController {
     @Param('id', ParseIntPipe) id: number,
     @Body() data: UpdateCommentDto,
   ) {
-    const output = await this.commentsService.update(id, data);
-
-    return output;
+   return  await this.commentsService.update(id, data);
   }
 
   @ApiResponse({
@@ -74,8 +65,6 @@ export class CommentsController {
   })
   @Delete(':id')
   async delete(@Param('id', ParseIntPipe) id: number) {
-    const output = await this.commentsService.delete(id);
-
-    return output;
+    return await this.commentsService.delete(id);
   }
 }
