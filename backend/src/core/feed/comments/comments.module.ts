@@ -6,6 +6,8 @@ import {
   CommentsRepositoryImpl,
 } from './comments.repository';
 import { PrismaService } from 'src/common/prisma/prisma.service';
+import { UserRepositoryProvider } from 'src/core/profile/user/user.repository';
+import { PostsRepositoryProvider } from '../posts/posts.repository';
 
 @Module({
   providers: [
@@ -18,6 +20,8 @@ import { PrismaService } from 'src/common/prisma/prisma.service';
       provide: CommentsRepository,
       useClass: CommentsRepositoryImpl,
     },
+    UserRepositoryProvider,
+    PostsRepositoryProvider,
   ],
   controllers: [CommentsController],
 })

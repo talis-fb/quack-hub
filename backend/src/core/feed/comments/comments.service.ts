@@ -4,6 +4,10 @@ import { CreateCommentDto } from './dtos/CreateCommentDto';
 import { UpdateCommentDto } from './dtos/UpdateCommentDto';
 import { CommentsRepository } from './comments.repository';
 import { CommentNotFoundException } from './comments.exceptions';
+import { UserRepository } from 'src/core/profile/user/user.repository';
+import { UserNotFoundException } from 'src/core/profile/user/user.exceptions';
+import { PostsRepository } from '../posts/posts.repository';
+import { PostNotFoundException } from '../posts/posts.exceptions';
 
 export abstract class CommentsService {
   abstract getCommentById(id: number): Promise<CommentEntity>;
@@ -18,7 +22,11 @@ export abstract class CommentsService {
 
 @Injectable()
 export class CommentsServiceImpl implements CommentsService {
-  constructor(private readonly commentsRepository: CommentsRepository) {}
+  constructor(
+    private readonly commentsRepository: CommentsRepository,
+    private readonly userRepository: UserRepository,
+    private readonly postRepository: PostsRepository,
+  ) {}
 
   async getCommentById(id: number): Promise<CommentEntity> {
     const comment = await this.commentsRepository.getCommentById(id);
@@ -30,11 +38,24 @@ export class CommentsServiceImpl implements CommentsService {
   }
 
   async getCommentsByPostId(postId: number): Promise<CommentEntity[]> {
-    return await this.commentsRepository.getCommentsByPostId(postId);
+    const postExist = await this.postRepository.getPostById(postId);
+
+    if (!postExist) {
+      throw new PostNotFoundException();
+    }
+
+    const comment = await this.commentsRepository.getCommentsByPostId(postId);
+    return comment;
   }
 
   async create(data: CreateCommentDto, userId: number): Promise<CommentEntity> {
-    return await this.commentsRepository.create({ ...data, userId });
+    const userExist = await this.userRepository.getUserById(userId);
+    if (!userExist) {
+      throw new UserNotFoundException();
+    }
+
+    const comment = await this.commentsRepository.create({ ...data, userId });
+    return comment;
   }
 
   async update(id: number, data: UpdateCommentDto): Promise<CommentEntity> {
