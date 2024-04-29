@@ -4,20 +4,37 @@ import { useForm } from 'vee-validate'
 import { toTypedSchema } from '@vee-validate/zod'
 import * as z from 'zod'
 
+// App components
+import LoadingSpinner from '@/components/LoadingSpinner.vue'
+
 // Shadcn-vue components
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
-
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { useToast } from '@/components/ui/toast'
+
+// Api
 import { githubApi } from '@/apis'
+
+// Vue imports
+import { ref } from 'vue'
+import type { IProjectGithubResponse } from '@/apis/github/github.api'
+
+export interface IGithubProjectImportEmit {
+  (e: 'imported', data: IProjectGithubResponse): void
+}
+
+const emit = defineEmits<IGithubProjectImportEmit>()
+
+const { toast } = useToast()
 
 const formSchema = toTypedSchema(
   z.object({
     username: z.string({
-      required_error: 'Campo username obrigatório'
+      required_error: 'Campo nome do usuário obrigatório'
     }),
     repositoryName: z.string({
-      required_error: 'Campo nome do projeto obrigatório'
+      required_error: 'Campo nome do repositório obrigatório'
     })
   })
 )
@@ -26,10 +43,26 @@ const form = useForm({
   validationSchema: formSchema
 })
 
-const onSubmit = form.handleSubmit(async (values) => {
-  const { username, repositoryName } = values
+const loading = ref(false)
 
-  const res = await githubApi.getProject(username, repositoryName)
+const onSubmit = form.handleSubmit(async (values) => {
+  loading.value = true
+
+  try {
+    const { username, repositoryName } = values
+
+    const res = await githubApi.getProject(username, repositoryName)
+
+    emit('imported', res.data)
+  } catch (error) {
+    toast({
+      title: 'Erro ao importar projeto do Github',
+      description: error?.message || 'Erro desconhecido, por favor contatar os desenvolvedores.',
+      variant: 'destructive'
+    })
+  } finally {
+    loading.value = false
+  }
 })
 </script>
 
@@ -66,7 +99,11 @@ const onSubmit = form.handleSubmit(async (values) => {
         </FormItem>
       </FormField>
 
-      <Button type="submit">Importar</Button>
+      <Button v-if="!loading" type="submit"> Importar </Button>
+      <Button v-else disabled>
+        Importando...
+        <LoadingSpinner />
+      </Button>
     </form>
   </div>
 </template>

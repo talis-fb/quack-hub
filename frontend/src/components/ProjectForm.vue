@@ -39,6 +39,7 @@ import GithubProjectImport from '@/components/GithubProjectImport.vue'
 import { Calendar as CalendarIcon, ImageIcon, Github } from 'lucide-vue-next'
 import { type IProjectEntity, StateProjectValues } from '../entites/IProject'
 import type { ICreateProject } from '@/apis/project/types/ICreateProject'
+import type { IProjectGithubResponse } from '@/apis/github/github.api'
 
 export interface IProjectFormProps {
   project?: IProjectEntity
@@ -112,6 +113,14 @@ form.setValues({
 const onSubmit = form.handleSubmit(async (values) => {
   await props.handleSubmit({ ...values })
 })
+
+const handleProjectImported = (data: IProjectGithubResponse) => {
+  form.setValues({
+    title: data.name,
+    about: data.description,
+    startDate: new Date(data.created_at)
+  })
+}
 </script>
 
 <template>
@@ -125,7 +134,7 @@ const onSubmit = form.handleSubmit(async (values) => {
     <template #title> Importar projeto pelo Github </template>
     <template #description> Importe seu projeto pelo GitHub e economize seu tempo! </template>
     <template #main>
-      <GithubProjectImport />
+      <GithubProjectImport @imported="handleProjectImported" />
     </template>
   </AppDialog>
 
