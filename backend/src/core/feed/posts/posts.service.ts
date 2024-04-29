@@ -1,0 +1,62 @@
+import { Injectable, Provider } from '@nestjs/common';
+import { PostEntity } from 'src/core/feed/posts/posts.entity';
+import { CreatePostDto } from 'src/core/feed/posts/dtos/CreatePostDto';
+import { UpdatePostDto } from 'src/core/feed/posts/dtos/UpdatePostDto';
+import { PostsRepository } from 'src/core/feed/posts/posts.repository';
+import { PostNotFoundException } from 'src/core/feed/posts/posts.exceptions';
+
+export abstract class PostsService {
+  abstract getPostById(id: number): Promise<PostEntity>;
+  abstract getPostsByUserId(userId: number): Promise<PostEntity[]>;
+  abstract create(data: CreatePostDto, userId: number): Promise<PostEntity>;
+  abstract update(id: number, data: UpdatePostDto): Promise<PostEntity>;
+  abstract delete(id: number): Promise<PostEntity>;
+}
+
+@Injectable()
+export class PostsServiceImpl implements PostsService {
+  constructor(private readonly postsRepository: PostsRepository) {}
+
+  async getPostById(id: number): Promise<PostEntity> {
+    const post = await this.postsRepository.getPostById(id);
+
+    if(!post) {
+      throw new PostNotFoundException();
+    }
+
+    return post;
+  }
+
+  async getPostsByUserId(userId: number): Promise<PostEntity[]> {
+    return await this.postsRepository.getPostsByUserId(userId);
+  }
+
+  async create(data: CreatePostDto, userId: number): Promise<PostEntity> {
+    return await this.postsRepository.create(data, userId);
+  }
+
+  async update(id: number, data: UpdatePostDto): Promise<PostEntity> {
+    const postUpdated = await this.postsRepository.update(id, data);
+
+    if(!postUpdated) {
+      throw new PostNotFoundException();
+    }
+
+    return postUpdated;
+  }
+
+  async delete(id: number): Promise<PostEntity> {
+    const post = await this.postsRepository.delete(id);
+
+    if(!post) {
+      throw new PostNotFoundException();
+    }
+
+    return post;
+  }
+}
+
+export const PostServiceProvider: Provider = {
+  provide: PostsService,
+  useClass: PostsServiceImpl,
+}

@@ -1,0 +1,90 @@
+import {
+  Body,
+  Controller,
+  Get,
+  NotFoundException,
+  Param,
+  Post,
+  ParseIntPipe,
+  Put,
+  Query,
+  Req,
+} from '@nestjs/common';
+import { UserData, UserEntity } from './user.entity';
+import { UserService } from './user.service';
+import { ApiResponse, ApiTags } from '@nestjs/swagger';
+
+@ApiTags('users')
+@Controller('users')
+export class UserController {
+  constructor(private readonly userService: UserService) {}
+
+  @ApiResponse({
+    status: 200,
+    description: 'List of users filtered by name returned successfully.',
+  })
+  @Get('search/')
+  async searchUsers(@Query('q') query: string) {
+    return await this.userService.search(query);
+  }
+
+  @ApiResponse({
+    status: 200,
+    description: 'User profile returned successfully.',
+  })
+  @Get('auth')
+  async getProfile(@Req() req): Promise<UserEntity> {
+    const { userId } = req.user;
+    return await this.userService.getUserById(userId);
+  }
+
+  @ApiResponse({
+    status: 200,
+    description: 'User filtered by id returned successfully.',
+  })
+  @Get(':id')
+  async getUserById(@Param('id', ParseIntPipe) id: number): Promise<UserEntity> {
+    return await this.userService.getUserById(id);
+  }
+
+  @ApiResponse({
+    status: 200,
+    description: 'The user has been successfully updated',
+  })
+  @Put(':id')
+  async update(@Param('id', ParseIntPipe) id: number, @Body() body: UserData): Promise<UserEntity> {
+    return await this.userService.update(id, body);
+  }
+
+  @ApiResponse({
+    status: 201,
+    description: 'User successfully followed another user',
+  })
+  @Post('/:id/follow/:id_to_follow')
+  async follow(
+    @Param('id', ParseIntPipe) id: number,
+    @Param('id_to_follow', ParseIntPipe) idToFollow: number,
+  ): Promise<void> {
+    return await this.userService.follow(id, idToFollow);
+  }
+
+  @ApiResponse({
+    status: 200,
+    description:
+      "Successfully retrieved the user's list of followers filtered by id",
+  })
+  @Get(':id/followers')
+  async getFollowers(@Param('id', ParseIntPipe) id: number): Promise<UserEntity[]> {
+    return await this.userService.getFollowers(id);
+  }
+
+  @ApiResponse({
+    status: 200,
+    description:
+      "Successfully retrieved the user's following list filtered by id",
+  })
+  @Get(':id/following')
+  async getFollowing(@Param('id', ParseIntPipe) id: number): Promise<UserEntity[]> {
+    return await this.userService.getFollowing(id);
+  }
+}
