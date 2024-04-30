@@ -168,8 +168,8 @@ const userPhoto = computed(() => {
         </div>
       </section>
 
-      <section class="flex flex-col gap-3 px-3 py-5 border rounded-md">
-        <header class="flex items-center">
+      <section class="flex flex-col  border rounded-md">
+        <header class="px-3 py-5 flex items-center">
           <h2 class="text-2xl mr-auto">Projetos cadastrados</h2>
 
           <AppDialog v-if="hasPermission">

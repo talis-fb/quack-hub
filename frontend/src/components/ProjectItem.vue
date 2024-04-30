@@ -105,7 +105,7 @@ const toProject = (e: MouseEvent) => {
 
 <template>
   <div
-    class="group relative cursor-pointer hover:bg-black/40 flex flex-col space-y-2 rounded-sm"
+    class="group relative cursor-pointer hover:bg-black/40 flex flex-col rounded-sm"
     @click="toProject"
   >
     <div class="px-4 py-3 flex">

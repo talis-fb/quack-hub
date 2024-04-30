@@ -98,6 +98,7 @@ const formSchema = toTypedSchema(
         message: 'A metodologia deve ter no mínimo 2 caracteres.'
       })
       .array()
+      .optional()
   })
 )
 

@@ -13,8 +13,8 @@ provide('hasPermissions', false)
 </script>
 
 <template>
-  <div class="w-full p-5">
-    <div class="mt-6 flex flex-col space-y-5">
+  <div class="w-full">
+    <div class=" flex flex-col">
       <Suspense>
         <ProjectsList />
         <template #fallback>

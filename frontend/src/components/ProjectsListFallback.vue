@@ -14,17 +14,16 @@ const props = withDefaults(defineProps<ExperienceListFallbackProps>(), {
 
 <template>
   <div class="flex flex-col space-y-2">
-
     <div v-for="item in Array(props.length).fill(1)" class="px-4 py-3 flex space-x-2">
-      <Skeleton class="size-20 rounded-full" />
+      <div>
+        <Skeleton class="w-20 h-20 rounded-full" />
+      </div>
 
-      <div class="flex flex-col space-y-2">
-        <div class="flex space-x-2">
-          <Skeleton class="h-4 w-[300px]" />
-        </div>
+      <div class="flex-1 flex flex-col space-y-2">
+        <Skeleton class="h-4 w-[100%] max-w-[300px]" />
 
-        <Skeleton class="h-4 w-[225px]" />
-        <Skeleton class="h-4 w-[175px]" />
+        <Skeleton class="h-4 w-[80%] max-w-[225px]" />
+        <Skeleton class="h-4 w-[60%] max-w-[175px]" />
       </div>
     </div>
   </div>

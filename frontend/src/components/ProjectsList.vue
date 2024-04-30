@@ -28,8 +28,8 @@ await projectStore.getProjects(props.title, props.userId)
 </script>
 
 <template>
-  <div v-if="projects.length" class="flex flex-col space-y-2" v-for="project in projects">
-    <Separator class="mb-2" />
+  <div v-if="projects.length" class="flex flex-col" v-for="project in projects">
+    <Separator />
     <ProjectItem :project="project" />
   </div>
   <Alert v-else>

@@ -13,14 +13,17 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { useToast } from '@/components/ui/toast'
 
-
 // Vue imports
 import { ref } from 'vue'
-import type { IGetProjectGithubResponse } from '@/apis/github/github.api'
+
+// Repositories
 import { githubRepository } from '@/repositories'
 
+// Types
+import type { IProjectGithub } from '@/repositories/github/github.repository'
+
 export interface IGithubProjectImportEmit {
-  (e: 'imported', data: IGetProjectGithubResponse): void
+  (e: 'imported', data: IProjectGithub): void
 }
 
 const emit = defineEmits<IGithubProjectImportEmit>()
@@ -50,7 +53,7 @@ const onSubmit = form.handleSubmit(async (values) => {
   try {
     const { username, repositoryName } = values
 
-    const res = await githubRepository.getProject(username, repositoryName); 
+    const res = await githubRepository.getProject(username, repositoryName)
 
     emit('imported', res)
 
