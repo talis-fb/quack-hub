@@ -27,6 +27,7 @@ import {
   SheetTitle,
   SheetTrigger
 } from '@/components/ui/sheet'
+import { Separator } from '@/components/ui/separator'
 
 // Icons
 import { Plus, Pencil } from 'lucide-vue-next'
@@ -168,8 +169,8 @@ const userPhoto = computed(() => {
         </div>
       </section>
 
-      <section class="flex flex-col gap-3 px-3 py-5 border rounded-md">
-        <header class="flex items-center">
+      <section class="flex flex-col border rounded-md">
+        <header class="px-3 py-5 flex items-center">
           <h2 class="text-2xl mr-auto">Projetos cadastrados</h2>
 
           <AppDialog v-if="hasPermission">
@@ -189,6 +190,8 @@ const userPhoto = computed(() => {
           </AppDialog>
         </header>
 
+        <Separator />
+
         <Suspense>
           <ProjectsList :user-id="+props.id" />
           <template #fallback>
@@ -197,8 +200,8 @@ const userPhoto = computed(() => {
         </Suspense>
       </section>
 
-      <section class="flex flex-col gap-3 px-3 py-5 border rounded-md">
-        <header class="flex items-center">
+      <section class="flex flex-col border rounded-md">
+        <header class="px-3 py-5 flex items-center">
           <h2 class="text-2xl mr-auto">Experiências acadêmicas</h2>
 
           <AppDialog v-if="hasPermission">
@@ -223,6 +226,8 @@ const userPhoto = computed(() => {
           </AppDialog>
         </header>
 
+        <Separator />
+
         <Suspense>
           <ExperiencesList :user-id="+props.id" type="ACADEMIC" />
           <template #fallback>
@@ -231,8 +236,8 @@ const userPhoto = computed(() => {
         </Suspense>
       </section>
 
-      <section class="flex flex-col gap-3 px-3 py-5 border rounded-md">
-        <header class="flex items-center">
+      <section class="flex flex-col border rounded-md">
+        <header class="px-4 py-3 flex items-center">
           <h2 class="text-2xl mr-auto">Experiências profissionais</h2>
 
           <AppDialog v-if="hasPermission">
@@ -265,9 +270,14 @@ const userPhoto = computed(() => {
         </Suspense>
       </section>
 
-      <section class="flex flex-col gap-3 px-3 py-5 border rounded-md">
-        <div>
+      <section class="flex flex-col border rounded-md">
+        <div class="px-4 py-3 flex items-center">
           <h2 class="text-2xl">Sobre</h2>
+        </div>
+
+        <Separator />
+
+        <div class="px-4 py-3">
           <p>{{ user?.aboutDescription }}</p>
         </div>
       </section>

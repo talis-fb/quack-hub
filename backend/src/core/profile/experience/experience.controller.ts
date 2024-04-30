@@ -19,7 +19,6 @@ import { CreateExperienceDto } from 'src/core/profile/experience/dtos/CreateExpe
 import { ApiTags } from '@nestjs/swagger';
 import { NotFoundExperienceException } from 'src/core/profile/experience/experience.exceptions';
 
-@Public()
 @ApiTags('experience')
 @Controller('experience')
 export class ExperienceController {

@@ -63,7 +63,6 @@ export class ProjectData {
   userId: number;
 
   @IsOptional()
-  @ArrayNotEmpty()
   @ApiProperty()
   methodologies: string[];
 
