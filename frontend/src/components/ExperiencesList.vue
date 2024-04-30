@@ -28,9 +28,9 @@ await experienceStore.getExperiennces(props.userId, props.type)
 </script>
 
 <template>
-  <div class="flex flex-col space-y-2">
+  <div class="flex flex-col">
     <div v-if="experiences[type].length" v-for="(experience, index) in experiences[type]">
-      <Separator class="mb-4" />
+      <Separator />
       <ExperienceItem :experience="experience" />
     </div>
 
