@@ -125,7 +125,21 @@ const toProject = (e: MouseEvent) => {
           }}</Badge>
           <Badge variant="secondary" class="tracking-wide">{{ project.sector }}</Badge>
         </div>
+
         <p class="text-sm text-muted-foreground">{{ project.summary }}</p>
+
+        <div class="flex flex-wrap gap-2 max-w-[75%]">
+          <div
+            v-for="methodologie in project.methodologies"
+            variant="secondary"
+            class="bg-sky-500 p-2 rounded-xl self-start"
+          >
+            <span class="font-bold text-sm tracking-wide">
+              {{ methodologie }}
+            </span>
+          </div>
+        </div>
+
         <Drawer>
           <DrawerTrigger as-child>
             <Button variant="outline" class="self-start" @click.stop="">
