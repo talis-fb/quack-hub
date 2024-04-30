@@ -12,6 +12,7 @@ import AppDialog from '@/components/AppDialog.vue'
 import VacancyForm, { type IVacancyFormData } from '@/components/VacancyForm.vue'
 import VacanciesList from '@/components/VacanciesList.vue'
 import VacanciesListFallback from '@/components/VacanciesListFallback.vue'
+import MethodologieItem from '@/components/MethodologieItem.vue'
 
 // Shadcn-vue components
 import { useToast } from '@/components/ui/toast/use-toast'
@@ -165,15 +166,10 @@ const projectLogo = computed(() => {
 
         <Suspense>
           <div class="flex flex-wrap gap-2">
-            <div
+            <MethodologieItem
               v-for="methodologie in project?.methodologies"
-              variant="secondary"
-              class="bg-sky-500 p-2 rounded-xl self-start"
-            >
-              <span class="font-bold text-sm tracking-wide">
-                {{ methodologie }}
-              </span>
-            </div>
+              :content="methodologie"
+            />
           </div>
           <template #fallback> </template>
         </Suspense>

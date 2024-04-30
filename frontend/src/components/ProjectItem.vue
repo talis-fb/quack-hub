@@ -14,6 +14,7 @@ import AppDialog from '@/components/AppDialog.vue'
 import AppAlertDialog from '@/components/AppAlertDialog.vue'
 import ProjectForm from '@/components/ProjectForm.vue'
 import VacanciesListFallback from '@/components/VacanciesListFallback.vue'
+import MethodologieItem from '@/components/MethodologieItem.vue'
 
 // Shadcn-vue components
 import { Button } from './ui/button'
@@ -129,15 +130,7 @@ const toProject = (e: MouseEvent) => {
         <p class="text-sm text-muted-foreground">{{ project.summary }}</p>
 
         <div class="flex flex-wrap gap-2 max-w-[75%]">
-          <div
-            v-for="methodologie in project.methodologies"
-            variant="secondary"
-            class="bg-indigo-900 p-2 rounded-xl self-start"
-          >
-            <span class="font-bold text-sm tracking-wide">
-              {{ methodologie }}
-            </span>
-          </div>
+          <MethodologieItem v-for="methodologie in project.methodologies" :content="methodologie" />
         </div>
 
         <Drawer>
