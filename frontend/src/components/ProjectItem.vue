@@ -108,8 +108,8 @@ const toProject = (e: MouseEvent) => {
     class="group relative cursor-pointer hover:bg-black/40 flex flex-col space-y-2 rounded-sm"
     @click="toProject"
   >
-    <div class="px-4 py-3 flex space-x-2">
-      <Avatar class="mr-3 size-20">
+    <div class="px-4 py-3 flex">
+      <Avatar class="mr-2 size-20">
         <AvatarImage :src="props.project.logoUrl || ''" />
 
         <AvatarFallback>
@@ -118,7 +118,7 @@ const toProject = (e: MouseEvent) => {
       </Avatar>
 
       <div class="flex flex-col space-y-3">
-        <div class="flex space-x-2">
+        <div class="flex space-x-1">
           <span class="font-bold text-2xl mr-2">{{ project.title }}</span>
 
           <Badge variant="secondary" class="tracking-wide">{{
