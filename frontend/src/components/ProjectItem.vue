@@ -117,7 +117,7 @@ const toProject = (e: MouseEvent) => {
         </AvatarFallback>
       </Avatar>
 
-      <div class="flex flex-col space-y-3">
+      <div class="flex-1 flex flex-col space-y-3">
         <div class="flex space-x-1">
           <span class="font-bold text-2xl mr-2">{{ project.title }}</span>
 
@@ -129,7 +129,7 @@ const toProject = (e: MouseEvent) => {
 
         <p class="text-sm text-muted-foreground">{{ project.summary }}</p>
 
-        <div class="flex flex-wrap gap-2 max-w-[75%]">
+        <div class="flex flex-wrap max-w-[75%] gap-2">
           <MethodologieItem v-for="methodologie in project.methodologies" :content="methodologie" />
         </div>
 
