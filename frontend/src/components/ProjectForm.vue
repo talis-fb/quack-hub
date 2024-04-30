@@ -16,7 +16,6 @@ import { formatDateInFull } from '@/utils/DateFormat'
 
 // Shadcn-vue components
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
-import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import {
@@ -29,12 +28,18 @@ import {
 } from '@/components/ui/select'
 import { Calendar } from '@/components/ui/calendar'
 import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 
+// App components
+import AppDialog from '@/components/AppDialog.vue'
+import GithubProjectImport from '@/components/GithubProjectImport.vue'
+
 // Icons
-import { Calendar as CalendarIcon, ImageIcon } from 'lucide-vue-next'
-import { type IProjectEntity, type StateProject, StateProjectValues } from '../entites/IProject'
+import { Calendar as CalendarIcon, ImageIcon, Github, Linkedin } from 'lucide-vue-next'
+import { type IProjectEntity, StateProjectValues } from '../entites/IProject'
 import type { ICreateProject } from '@/apis/project/types/ICreateProject'
+import type { IProjectGithubResponse } from '@/apis/github/github.api'
 
 export interface IProjectFormProps {
   project?: IProjectEntity
@@ -108,9 +113,37 @@ form.setValues({
 const onSubmit = form.handleSubmit(async (values) => {
   await props.handleSubmit({ ...values })
 })
+
+const handleProjectImported = (data: IProjectGithubResponse) => {
+  form.setValues({
+    title: data.name,
+    about: data.description,
+    startDate: new Date(data.created_at)
+  })
+}
 </script>
 
 <template>
+  <p>Importar de:</p>
+  <div class="flex justify-center space-x-2">
+    <AppDialog>
+      <template #trigger>
+        <Button variant="outline" size="icon" class="rounded-full">
+          <Github />
+        </Button>
+      </template>
+      <template #title> Importar projeto pelo Github </template>
+      <template #description> Importe seu projeto pelo GitHub e economize seu tempo! </template>
+      <template #main>
+        <GithubProjectImport @imported="handleProjectImported" />
+      </template>
+    </AppDialog>
+
+    <Button variant="outline" size="icon" class="rounded-full">
+      <Linkedin />
+    </Button>
+  </div>
+
   <form @submit="onSubmit" class="w-full flex flex-col gap-4">
     <FormField v-slot="{ componentField }" name="title">
       <FormItem>
