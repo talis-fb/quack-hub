@@ -27,6 +27,7 @@ import {
   SheetTitle,
   SheetTrigger
 } from '@/components/ui/sheet'
+import { Separator } from '@/components/ui/separator'
 
 import { useProjectStore } from '@/stores/project'
 import { storeToRefs } from 'pinia'
@@ -152,20 +153,27 @@ const projectLogo = computed(() => {
         </div>
       </section>
 
-      <section class="flex flex-col gap-3 px-3 py-5 border rounded-md">
-        <div>
+      <section class="flex flex-col border rounded-md">
+        <div class="px-3 py-5">
           <h2 class="text-2xl">Sobre</h2>
+        </div>
+
+        <Separator />
+
+        <div class="px-3 py-5">
           <p>{{ project?.about }}</p>
         </div>
       </section>
 
-      <section class="flex flex-col gap-3 px-3 py-5 border rounded-md">
-        <header class="flex items-center">
+      <section class="flex flex-col border rounded-md">
+        <header class="px-3 py-5 flex items-center">
           <h2 class="text-2xl mr-auto">Metodologias</h2>
         </header>
 
+        <Separator />
+
         <Suspense>
-          <div class="flex flex-wrap gap-2">
+          <div class="px-3 py-5 flex flex-wrap gap-2">
             <MethodologieItem
               v-for="methodologie in project?.methodologies"
               :content="methodologie"
@@ -175,21 +183,25 @@ const projectLogo = computed(() => {
         </Suspense>
       </section>
 
-      <section class="flex flex-col gap-3 px-3 py-5 border rounded-md">
-        <header class="flex items-center">
+      <section class="flex flex-col border rounded-md">
+        <header class="px-3 py-5 flex items-center">
           <h2 class="text-2xl mr-auto">Pessoas que trabalham</h2>
         </header>
 
+        <Separator />
+
         <Suspense>
-          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Facere quasi dolorum molestias
-          voluptas quo est hic, quam voluptatum ad ex et accusantium tempore enim blanditiis fugit
-          eum amet rerum rem!
+          <div class="px-3 py-5">
+            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Facere quasi dolorum molestias
+            voluptas quo est hic, quam voluptatum ad ex et accusantium tempore enim blanditiis fugit
+            eum amet rerum rem!
+          </div>
           <template #fallback> </template>
         </Suspense>
       </section>
 
-      <section class="flex flex-col gap-3 px-3 py-5 border rounded-md">
-        <header class="flex items-center">
+      <section class="flex flex-col border rounded-md">
+        <header class="px-3 py-5 flex items-center">
           <h2 class="text-2xl mr-auto">Vagas</h2>
           <AppDialog v-if="hasPermissions">
             <template #trigger>
@@ -206,13 +218,16 @@ const projectLogo = computed(() => {
             </template>
           </AppDialog>
         </header>
+
+        <Separator />
+
         <Suspense>
-          <div class="p-4 flex flex-wrap gap-3">
+          <div class="px-3 py-5 flex flex-wrap gap-3">
             <VacanciesList :project-id="+props.id" />
           </div>
 
           <template #fallback>
-            <div class="p-4 flex flex-wrap gap-3">
+            <div class="px-3 py-5 flex flex-wrap gap-3">
               <VacanciesListFallback :length="5" />
             </div>
           </template>

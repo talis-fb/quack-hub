@@ -190,6 +190,8 @@ const userPhoto = computed(() => {
           </AppDialog>
         </header>
 
+        <Separator />
+
         <Suspense>
           <ProjectsList :user-id="+props.id" />
           <template #fallback>
@@ -223,6 +225,8 @@ const userPhoto = computed(() => {
             </template>
           </AppDialog>
         </header>
+
+        <Separator />
 
         <Suspense>
           <ExperiencesList :user-id="+props.id" type="ACADEMIC" />
@@ -272,6 +276,7 @@ const userPhoto = computed(() => {
         </div>
 
         <Separator />
+
         <div class="px-4 py-3">
           <p>{{ user?.aboutDescription }}</p>
         </div>

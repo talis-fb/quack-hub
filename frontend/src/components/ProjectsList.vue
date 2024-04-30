@@ -29,8 +29,8 @@ await projectStore.getProjects(props.title, props.userId)
 
 <template>
   <div v-if="projects.length" class="flex flex-col" v-for="project in projects">
-    <Separator />
     <ProjectItem :project="project" />
+    <Separator />
   </div>
   <Alert v-else>
     <AlertTitle>Não há projetos cadastrados no momento.</AlertTitle>
