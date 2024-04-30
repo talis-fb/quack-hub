@@ -132,7 +132,7 @@ const toProject = (e: MouseEvent) => {
           <div
             v-for="methodologie in project.methodologies"
             variant="secondary"
-            class="bg-sky-500 p-2 rounded-xl self-start"
+            class="bg-indigo-900 p-2 rounded-xl self-start"
           >
             <span class="font-bold text-sm tracking-wide">
               {{ methodologie }}
