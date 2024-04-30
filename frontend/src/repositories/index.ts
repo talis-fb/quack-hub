@@ -4,7 +4,7 @@ import {
   ExperienceRepositoryImpl,
   type IExperienceRepository
 } from '@/repositories/experience/experience.repository'
-import { experienceApi, projectApi, userApi, vacancyApi } from '@/apis'
+import { experienceApi, githubApi, projectApi, userApi, vacancyApi } from '@/apis'
 import { UserRepositoryImpl, type IUserRepository } from './user/user.repository'
 import {
   ProjectRepositoryImpl,
@@ -14,6 +14,7 @@ import {
   VacancyRepositoryImpl,
   type IVacancyRepository
 } from '@/repositories/vacancies/vacancies.repository'
+import { GithubRepository } from './github/github.repository'
 
 const authRepository: IAuthRepository = new AuthRepositoryImpl(authApi)
 
@@ -25,10 +26,13 @@ const projectRepository: IProjectRepository = new ProjectRepositoryImpl(projectA
 
 const vacancyRepository: IVacancyRepository = new VacancyRepositoryImpl(vacancyApi)
 
+const githubRepository = new GithubRepository(githubApi)
+
 export {
   authRepository,
   experienceRepository,
   userRepository,
   projectRepository,
-  vacancyRepository
+  vacancyRepository,
+  githubRepository
 }

@@ -39,8 +39,7 @@ import GithubProjectImport from '@/components/GithubProjectImport.vue'
 import { Calendar as CalendarIcon, ImageIcon, Github, Linkedin, Plus, X } from 'lucide-vue-next'
 import { type IProjectEntity, StateProjectValues } from '../entites/IProject'
 import type { ICreateProject } from '@/apis/project/types/ICreateProject'
-import type { IProjectGithubResponse } from '@/apis/github/github.api'
-import { ref } from 'vue'
+import type { IProjectGithub } from '@/repositories/github/github.repository'
 
 export interface IProjectFormProps {
   project?: IProjectEntity
@@ -122,11 +121,12 @@ const onSubmit = form.handleSubmit(async (values) => {
   await props.handleSubmit({ ...values })
 })
 
-const handleProjectImported = (data: IProjectGithubResponse) => {
+const handleProjectImported = (data: IProjectGithub) => {
   form.setValues({
     title: data.name,
     about: data.description,
-    startDate: new Date(data.created_at)
+    startDate: new Date(data.created_at),
+    methodologies: data.methodologies
   })
 }
 

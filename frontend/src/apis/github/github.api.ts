@@ -1,19 +1,28 @@
 import { GITHUB_URL } from '@/network/config'
 import axios from 'axios'
 
-export interface IProjectGithubResponse {
+export interface IGetProjectGithubResponse {
   name: string
   description: string
   created_at: string
-  language: string
 }
 
+export type IGetProjectLanguagesResponse = Record<string, number>
+
 export class GithubApi {
-  async getProject(username: string, projectName: string) {
-    const res = await axios.get<IProjectGithubResponse>(
+  async getInfoProject(username: string, projectName: string) {
+    const res = await axios.get<IGetProjectGithubResponse>(
       GITHUB_URL + `/repos/${username}/${projectName}`
     )
 
-    return res
+    return res.data
+  }
+
+  async getProjectLanguages(username: string, projectName: string) {
+    const res = await axios.get<IGetProjectLanguagesResponse>(
+      GITHUB_URL + `/repos/${username}/${projectName}/languages`
+    )
+
+    return res.data
   }
 }
