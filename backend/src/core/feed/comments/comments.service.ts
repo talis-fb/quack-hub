@@ -53,7 +53,10 @@ export class CommentsServiceImpl implements CommentsService {
     if (!userExist) {
       throw new UserNotFoundException();
     }
-
+    const postExist = await this.postRepository.getPostById(data.postId);
+    if (!postExist) {
+      throw new PostNotFoundException();
+    }
     const comment = await this.commentsRepository.create({ ...data, userId });
     return comment;
   }
