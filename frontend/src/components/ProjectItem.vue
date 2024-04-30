@@ -116,7 +116,7 @@ const toProject = (e: MouseEvent) => {
         </AvatarFallback>
       </Avatar>
 
-      <div class="flex flex-col space-y-2">
+      <div class="flex flex-col space-y-3">
         <div class="flex space-x-2">
           <span class="font-bold text-2xl mr-2">{{ project.title }}</span>
 

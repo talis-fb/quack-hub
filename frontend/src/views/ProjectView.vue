@@ -160,6 +160,27 @@ const projectLogo = computed(() => {
 
       <section class="flex flex-col gap-3 px-3 py-5 border rounded-md">
         <header class="flex items-center">
+          <h2 class="text-2xl mr-auto">Metodologias</h2>
+        </header>
+
+        <Suspense>
+          <div class="flex flex-wrap gap-2">
+            <div
+              v-for="methodologie in project?.methodologies"
+              variant="secondary"
+              class="bg-sky-500 p-2 rounded-xl self-start"
+            >
+              <span class="font-bold text-sm tracking-wide">
+                {{ methodologie }}
+              </span>
+            </div>
+          </div>
+          <template #fallback> </template>
+        </Suspense>
+      </section>
+
+      <section class="flex flex-col gap-3 px-3 py-5 border rounded-md">
+        <header class="flex items-center">
           <h2 class="text-2xl mr-auto">Pessoas que trabalham</h2>
         </header>
 
