@@ -25,11 +25,13 @@ function loadUser(): UserState | null {
   return userLoaded
 }
 
-let userLoaded: UserState | null = null
+const userLoaded: UserState | null = loadUser()
 
-verifyToken().then((res) => {
-  userLoaded = loadUser()
-})
+// let userLoaded: UserState | null = null
+
+// verifyToken().then((res) => {
+//   userLoaded = loadUser()
+// })
 
 export const useAuthStore = defineStore('auth', () => {
   const user: UserState = reactive({
