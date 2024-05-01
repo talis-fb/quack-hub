@@ -17,7 +17,6 @@ import { ExperienceService } from 'src/core/profile/experience/experience.servic
 import { GetExperiencesByUserIdQueryDto } from 'src/core/profile/experience/dtos/GetExperiencesByUserIdQueryDto';
 import { CreateExperienceDto } from 'src/core/profile/experience/dtos/CreateExperienceDto';
 import { ApiTags } from '@nestjs/swagger';
-import { NotFoundExperienceException } from 'src/core/profile/experience/experience.exceptions';
 
 @ApiTags('experience')
 @Controller('experience')
@@ -27,10 +26,6 @@ export class ExperienceController {
   @Get(':id')
   async getExperienceById(@Param('id', ParseIntPipe) id: number) {
     const resExperience = await this.experienceService.getExperienceById(id);
-
-    if (!resExperience) {
-      throw new NotFoundExperienceException();
-    }
     return resExperience;
   }
 

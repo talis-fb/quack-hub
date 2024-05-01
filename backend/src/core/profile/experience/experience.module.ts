@@ -10,6 +10,7 @@ import {
 } from './experience.repository';
 import { PrismaService } from 'src/common/prisma/prisma.service';
 import { UserModule } from 'src/core/profile/user/user.module';
+import { UserRepositoryProvider } from '../user/user.repository';
 
 @Module({
   imports: [UserModule],
@@ -23,6 +24,7 @@ import { UserModule } from 'src/core/profile/user/user.module';
       provide: ExperienceRepository,
       useClass: ExperienceRepositoryImpl,
     },
+    UserRepositoryProvider
   ],
   controllers: [ExperienceController],
 })
