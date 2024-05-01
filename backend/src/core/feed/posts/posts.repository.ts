@@ -2,8 +2,6 @@ import { Injectable, Provider } from '@nestjs/common';
 
 import { PostData, PostEntity } from './posts.entity';
 import { PrismaService } from 'src/common/prisma/prisma.service';
-import { CreatePostDto } from './dtos/CreatePostDto';
-import { UpdatePostDto } from './dtos/UpdatePostDto';
 
 export abstract class PostsRepository {
   abstract getPostById(id: number): Promise<PostEntity | void>;
