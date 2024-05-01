@@ -133,7 +133,8 @@ const projectLogo = computed(() => {
                   <SheetHeader>
                     <SheetTitle>Editar perfil</SheetTitle>
                     <SheetDescription>
-                      Faça alterações em seu perfil aqui. Clique em salvar mudanças quando terminar.
+                      Faça alterações em seu projeto aqui. Clique em salvar mudanças quando
+                      terminar.
                     </SheetDescription>
                   </SheetHeader>
 

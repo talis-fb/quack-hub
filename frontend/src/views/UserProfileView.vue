@@ -203,7 +203,10 @@ const isFollowingTheUser = computed(() => {
               experiências acadêmicas ou profissionais.
             </template>
             <template #main>
-              <ProjectForm :handle-submit="handleSubmitProject" />
+              <div class="h-[600px]">
+                <ProjectForm :handle-submit="handleSubmitProject" />
+
+              </div>
             </template>
           </AppDialog>
         </header>

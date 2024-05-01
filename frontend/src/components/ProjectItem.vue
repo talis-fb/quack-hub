@@ -185,7 +185,10 @@ const toProject = (e: MouseEvent) => {
           Edite seu projeto para que outras pessoas possam visualizar.
         </template>
         <template #main>
-          <ProjectForm :project="props.project" :handle-submit="handleUpdateProject" />
+          <div class="h-[600px]">
+            <ProjectForm :project="props.project" :handle-submit="handleUpdateProject" />
+
+          </div>
         </template>
       </AppDialog>
 

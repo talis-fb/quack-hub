@@ -135,7 +135,7 @@ const { remove, push, fields } = useFieldArray('methodologies')
 </script>
 
 <template>
-  <div class="p-3 max-h-[600px] overflow-auto">
+  <div class="p-3 max-h-[100%] overflow-auto">
     <p>Importar de:</p>
     <div class="flex justify-center space-x-2">
       <AppDialog>
