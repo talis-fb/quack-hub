@@ -64,6 +64,14 @@ export class UserServiceImpl implements UserService {
     userFollowingId: number,
     userToBeFollowedId: number,
   ): Promise<void> {
+    const userFollowingExist = await this.repo.getUserById(userFollowingId);
+    if (!userFollowingExist) {
+      throw new UserNotFoundException();
+    }
+    const userFollowedExist = await this.repo.getUserById(userToBeFollowedId);
+    if (!userFollowedExist) {
+      throw new UserNotFoundException();
+    }
     return await this.repo.addFollower(userFollowingId, userToBeFollowedId);
   }
 
