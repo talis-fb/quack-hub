@@ -6,6 +6,9 @@ import {
 import { ExperienceRepository } from 'src/core/profile/experience/experience.repository';
 import { UpdateExperienceDto } from 'src/core/profile/experience/dtos/UpdateExperienceDto';
 import { CreateExperienceDto } from 'src/core/profile/experience/dtos/CreateExperienceDto';
+import { UserRepository } from '../user/user.repository';
+import { ExperienceNotFoundException } from './experience.exceptions';
+import { UserNotFoundException } from '../user/user.exceptions';
 
 @Injectable()
 export abstract class ExperienceService {
@@ -31,16 +34,27 @@ export abstract class ExperienceService {
 
 @Injectable()
 export class ExperienceServiceImpl implements ExperienceService {
-  constructor(private repo: ExperienceRepository) {}
+  constructor(
+    private repo: ExperienceRepository,
+    private readonly userRepository: UserRepository,
+  ) {}
 
   public async getExperienceById(id: number): Promise<ExperienceEntity | null> {
-    return await this.repo.getExperienceById(id);
+    const experience = await this.repo.getExperienceById(id);
+    if (!experience) {
+      throw new ExperienceNotFoundException();
+    }
+    return experience;
   }
 
   public async getExperiencesByUserId(
     userId: number,
     type?: ExperienceType,
   ): Promise<ExperienceEntity[]> {
+    const userExist = await this.userRepository.getUserById(userId);
+    if (!userExist) {
+      throw new UserNotFoundException();
+    }
     return await this.repo.getExperiencesByUserId(userId, type);
   }
 
@@ -48,6 +62,10 @@ export class ExperienceServiceImpl implements ExperienceService {
     experience: CreateExperienceDto,
     userId: number,
   ): Promise<ExperienceEntity> {
+    const userExist = await this.userRepository.getUserById(userId);
+    if (!userExist) {
+      throw new UserNotFoundException();
+    }
     return await this.repo.createExperience({
       ...experience,
       userId,

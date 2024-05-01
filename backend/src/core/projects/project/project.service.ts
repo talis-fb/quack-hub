@@ -4,8 +4,9 @@ import { ProjectData, ProjectEntity } from './project.entity';
 import { UserEntity } from 'src/core/profile/user/user.entity';
 import { CreateProjectDto } from './dtos/CreateProjectDto';
 import { UpdateProjectDto } from './dtos/UpdateProjectDto';
-import { NotFoundProjectException } from './project.exceptions';
+import { ProjectNotFoundException } from './project.exceptions';
 import { UserRepository } from 'src/core/profile/user/user.repository';
+import { UserNotFoundException } from 'src/core/profile/user/user.exceptions';
 
 export abstract class ProjectsService {
   public abstract create(
@@ -36,6 +37,10 @@ export class ProjectsServiceImpl implements ProjectsService {
     data: CreateProjectDto,
     userId: number,
   ): Promise<ProjectEntity> {
+    const userExist = await this.userRepository.getUserById(userId);
+    if (!userExist) {
+      throw new UserNotFoundException();
+    }
     return await this.repo.createProject({ ...data, userId });
   }
 
@@ -48,13 +53,16 @@ export class ProjectsServiceImpl implements ProjectsService {
 
   public async getProjectById(id: number): Promise<ProjectEntity | null> {
     const resProject = await this.repo.getProjectById(id);
+    if (!resProject) {
+      throw new ProjectNotFoundException();
+    }
     return resProject;
   }
 
   public async getUsersOfProject(id: number): Promise<UserEntity[]> {
     const project = await this.getProjectById(id);
     if (!project) {
-      throw new NotFoundProjectException();
+      throw new ProjectNotFoundException();
     }
 
     const userIds = await this.repo.findUserIdsOfProject(id);
@@ -71,7 +79,7 @@ export class ProjectsServiceImpl implements ProjectsService {
     const project = await this.repo.getProjectById(id);
 
     if (!project) {
-      throw new NotFoundProjectException();
+      throw new ProjectNotFoundException();
     }
 
     return await this.repo.deleteProject(id);

@@ -4,6 +4,8 @@ import { CreatePostDto } from 'src/core/feed/posts/dtos/CreatePostDto';
 import { UpdatePostDto } from 'src/core/feed/posts/dtos/UpdatePostDto';
 import { PostsRepository } from 'src/core/feed/posts/posts.repository';
 import { PostNotFoundException } from 'src/core/feed/posts/posts.exceptions';
+import { UserRepository } from 'src/core/profile/user/user.repository';
+import { UserNotFoundException } from 'src/core/profile/user/user.exceptions';
 
 export abstract class PostsService {
   abstract getPostById(id: number): Promise<PostEntity>;
@@ -15,7 +17,10 @@ export abstract class PostsService {
 
 @Injectable()
 export class PostsServiceImpl implements PostsService {
-  constructor(private readonly postsRepository: PostsRepository) {}
+  constructor(
+    private readonly postsRepository: PostsRepository,
+    private readonly userRepository: UserRepository,
+  ) {}
 
   async getPostById(id: number): Promise<PostEntity> {
     const post = await this.postsRepository.getPostById(id);
@@ -28,10 +33,19 @@ export class PostsServiceImpl implements PostsService {
   }
 
   async getPostsByUserId(userId: number): Promise<PostEntity[]> {
-    return await this.postsRepository.getPostsByUserId(userId);
+    const userExist = await this.userRepository.getUserById(userId);
+    if (!userExist) {
+      throw new UserNotFoundException();
+    }
+    const postsUser = await this.postsRepository.getPostsByUserId(userId);
+    return postsUser;
   }
 
   async create(data: CreatePostDto, userId: number): Promise<PostEntity> {
+    const userExist = await this.userRepository.getUserById(userId);
+    if (!userExist) {
+      throw new UserNotFoundException();
+    }
     return await this.postsRepository.create(data, userId);
   }
 
