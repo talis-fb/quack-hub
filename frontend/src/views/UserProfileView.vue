@@ -109,12 +109,26 @@ const handleSubmitProject = async (values: ICreateProject) => {
   }
 }
 
+const follow = async () => {
+  userAuthStore.follow()
+}
+
+const unFollow = async () => {
+  userAuthStore.unFollow()
+}
+
 const userPhoto = computed(() => {
   if (user.value?.avatarUrl) {
     return user.value.avatarUrl
   }
 
   return DefaultUserIcon
+})
+
+const isFollowingTheUser = computed(() => {
+  const output = user.value?.followedBy.find((follow) => follow.id == authStore.user.id)
+
+  return !!output
 })
 </script>
 <template>
@@ -156,7 +170,8 @@ const userPhoto = computed(() => {
               </Sheet>
             </div>
             <div v-else class="flex-1 flex justify-end">
-              <Button> Seguir </Button>
+              <Button v-if="!isFollowingTheUser" @click="follow"> Seguir </Button>
+              <Button v-else @click="unFollow">Deixar de seguir</Button>
             </div>
           </div>
 
@@ -164,8 +179,8 @@ const userPhoto = computed(() => {
             <p class="text-lg">{{ user?.name }}</p>
             <p>Informações de contato</p>
             <p class="mt-6">
-              <span class="text-xl font-bold">{{ user?.followedBy }}</span> Seguidores |
-              <span class="text-xl font-bold">{{ user?.following }}</span>
+              <span class="text-xl font-bold">{{ user?.followedBy.length }}</span> Seguidores |
+              <span class="text-xl font-bold">{{ user?.following.length }}</span>
               Seguindo
             </p>
           </div>

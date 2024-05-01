@@ -8,8 +8,8 @@ export interface IUserData {
   phone: string | null
   blog: string | null
 
-  followedBy: number
-  following: number
+  followedBy: IUserEntity[]
+  following: IUserEntity[]
 }
 
 export interface IUserEntity extends IUserData {

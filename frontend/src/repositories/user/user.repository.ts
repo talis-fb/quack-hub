@@ -9,86 +9,31 @@ export interface IUserRepository {
   unFollow(userId: number): Promise<void>
 }
 
-// TODO: Criar uma função que serializa o IUserResponse para IUserEntity
 export class UserRepositoryImpl implements IUserRepository {
   constructor(private readonly userApi: IUserApi) {}
 
   async getUserById(id: number): Promise<IUserEntity> {
     const res = await this.userApi.getUserById(id)
 
-    const newRes: IUserEntity = {
-      id: res.id,
-      createdAt: res.createdAt,
-      updatedAt: res.updatedAt,
-
-      email: res.email,
-      name: res.name,
-      birthday: res.birthday,
-      bio: res.bio,
-      aboutDescription: res.aboutDescription,
-      avatarUrl: res.avatarUrl,
-      phone: res.phone,
-      blog: res.blog,
-
-      followedBy: res._count.followedBy,
-      following: res._count.following
-    }
-
-    return newRes
+    return res
   }
 
   async getProfile(): Promise<IUserEntity> {
     const res = await this.userApi.getProfile()
 
-    const newRes: IUserEntity = {
-      id: res.id,
-      createdAt: res.createdAt,
-      updatedAt: res.updatedAt,
-
-      email: res.email,
-      name: res.name,
-      birthday: res.birthday,
-      bio: res.bio,
-      aboutDescription: res.aboutDescription,
-      avatarUrl: res.avatarUrl,
-      phone: res.phone,
-      blog: res.blog,
-
-      followedBy: res._count.followedBy,
-      following: res._count.following
-    }
-
-    return newRes
+    return res
   }
 
   async updateUser(id: number, user: IUserData): Promise<IUserEntity> {
     const res = await this.userApi.updateUser(id, user)
 
-    const newRes: IUserEntity = {
-      id: res.id,
-      createdAt: res.createdAt,
-      updatedAt: res.updatedAt,
-
-      email: res.email,
-      name: res.name,
-      birthday: res.birthday,
-      bio: res.bio,
-      aboutDescription: res.aboutDescription,
-      avatarUrl: res.avatarUrl,
-      phone: res.phone,
-      blog: res.blog,
-
-      followedBy: res._count.followedBy,
-      following: res._count.following
-    }
-
-    return newRes
+    return res
   }
 
   async follow(userId: number): Promise<void> {
     await this.userApi.follow(userId)
   }
-  
+
   async unFollow(userId: number): Promise<void> {
     await this.userApi.unFollow(userId)
   }

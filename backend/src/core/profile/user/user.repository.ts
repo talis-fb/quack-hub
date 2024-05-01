@@ -33,9 +33,8 @@ export class UserRepositoryImpl implements UserRepository {
         id,
       },
       include: {
-        _count: {
-          select: { following: true, followedBy: true },
-        },
+        following: true,
+        followedBy: true,
       },
     });
   }
@@ -61,9 +60,8 @@ export class UserRepositoryImpl implements UserRepository {
         ...user,
       },
       include: {
-        _count: {
-          select: { following: true, followedBy: true },
-        },
+        following: true,
+        followedBy: true,
       },
     });
   }

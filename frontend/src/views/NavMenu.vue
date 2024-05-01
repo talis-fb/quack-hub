@@ -23,7 +23,8 @@ const router = useRouter()
 const handleLogout = (e: MouseEvent) => {
   logout()
 
-  router.push({ name: metadataRoutes.SIGNIN.name })
+  router.replace({ name: metadataRoutes.SIGNIN.name })
+
 }
 
 const {
