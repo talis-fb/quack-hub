@@ -155,6 +155,9 @@ const userPhoto = computed(() => {
                 </SheetContent>
               </Sheet>
             </div>
+            <div v-else class="flex-1 flex justify-end">
+              <Button> Seguir </Button>
+            </div>
           </div>
 
           <div class="mt-2">

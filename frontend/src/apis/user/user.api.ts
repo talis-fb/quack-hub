@@ -6,7 +6,8 @@ export interface IUserApi {
   getUserById(id: number): Promise<IUserResponse>
   getProfile(): Promise<IUserResponse>
   updateUser(id: number, user: IUserData): Promise<IUserResponse>
-  follow(u): Promise<void>
+  follow(userId: number): Promise<void>
+  unFollow(userId: number): Promise<void>
 }
 
 export class UserApiImpl implements IUserApi {
@@ -26,5 +27,13 @@ export class UserApiImpl implements IUserApi {
     const res = await api.put<IUserResponse>(`/users/${id}`, user)
 
     return res.data
+  }
+
+  async follow(userId: number): Promise<void> {
+    await api.post(`/users/follow/${userId}`)
+  }
+
+  async unFollow(userId: number): Promise<void> {
+    await api.post(`/users/unfollow/${userId}`)
   }
 }
