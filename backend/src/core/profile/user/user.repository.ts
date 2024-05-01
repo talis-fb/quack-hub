@@ -17,6 +17,10 @@ export abstract class UserRepository {
     userFollowingId: number,
     userToBeFollowedId: number,
   ): Promise<void>;
+  abstract removeFollower(
+    userFollowingId: number,
+    userToBeFollowedId: number,
+  ): Promise<void>;
 }
 
 @Injectable()
@@ -136,6 +140,24 @@ export class UserRepositoryImpl implements UserRepository {
       },
     });
     return countUsers === ids.length;
+  }
+
+  async removeFollower(
+    userFollowingId: number,
+    userToBeFollowedId: number,
+  ): Promise<void> {
+    await this.prisma.user.update({
+      where: {
+        id: userFollowingId,
+      },
+      data: {
+        following: {
+          disconnect: {
+            id: userToBeFollowedId,
+          },
+        },
+      },
+    });
   }
 }
 

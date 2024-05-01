@@ -6,6 +6,7 @@ export interface IUserApi {
   getUserById(id: number): Promise<IUserResponse>
   getProfile(): Promise<IUserResponse>
   updateUser(id: number, user: IUserData): Promise<IUserResponse>
+  follow(u): Promise<void>
 }
 
 export class UserApiImpl implements IUserApi {

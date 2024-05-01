@@ -19,6 +19,10 @@ export abstract class UserService {
   ): Promise<void>;
   public abstract getFollowers(id: number): Promise<UserEntity[]>;
   public abstract getFollowing(id: number): Promise<UserEntity[]>;
+  abstract removeFollower(
+    userFollowingId: number,
+    userToBeFollowedId: number,
+  ): Promise<void>;
 }
 
 @Injectable()
@@ -85,6 +89,13 @@ export class UserServiceImpl implements UserService {
 
   public async getFollowing(id: number): Promise<UserEntity[]> {
     return await this.repo.findFollowing(id);
+  }
+
+  async removeFollower(
+    userFollowingId: number,
+    userToBeFollowedId: number,
+  ): Promise<void> {
+    await this.repo.removeFollower(userFollowingId, userToBeFollowedId);
   }
 }
 
