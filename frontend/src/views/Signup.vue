@@ -69,7 +69,7 @@ const { toast, dismiss } = useToast()
 const onSubmit = form.handleSubmit(async (values) => {
   const { confirmPassword, ...restValues } = values
   try {
-    const res = await authService.signup(restValues)
+    await authService.signup(restValues)
 
     form.resetForm()
     toast({

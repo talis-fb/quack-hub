@@ -1,4 +1,11 @@
-import { Request, Body, Controller, Post, UseGuards } from '@nestjs/common';
+import {
+  Request,
+  Body,
+  Controller,
+  Post,
+  UseGuards,
+  Get,
+} from '@nestjs/common';
 import { Public } from 'src/common/decorators/public.decorator';
 import { AuthService } from '../auth.service';
 import { ValidateInputForAuthLocal } from './guards/validate-input.guard';
@@ -19,5 +26,12 @@ export class LoginController {
   @Post('login')
   async login(@Request() req, @Body() _body: SignInDto) {
     return await this.authService.signJwt(req.user.email, req.user.id);
+  }
+
+  @Get('me')
+  async verifyToken() {
+    return {
+      message: 'JWT Token is valid!',
+    };
   }
 }

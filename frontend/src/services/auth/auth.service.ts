@@ -1,12 +1,11 @@
 import type { IAuth } from '@/entites/IAuth'
-import type { IUserEntity } from '@/entites/IUser'
 import type { ISigninParams } from '@/interfaces/ISigninParams'
 import type { ISignupParams } from '@/interfaces/ISignupParams'
 import type { IAuthRepository } from '@/repositories/auth/auth.repository'
 
 export interface IAuthService {
   signin(signinParams: ISigninParams): Promise<IAuth>
-  signup(signupParams: ISignupParams): Promise<IUserEntity>
+  signup(signupParams: ISignupParams): Promise<void>
 }
 
 export class AuthServiceImpl implements IAuthService {
@@ -21,11 +20,9 @@ export class AuthServiceImpl implements IAuthService {
     }
   }
 
-  async signup(signupParams: ISignupParams): Promise<IUserEntity> {
+  async signup(signupParams: ISignupParams): Promise<void> {
     try {
-      const res = await this.authRepository.signup(signupParams)
-
-      return res
+      await this.authRepository.signup(signupParams)
     } catch (error) {
       throw error
     }

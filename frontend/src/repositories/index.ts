@@ -1,4 +1,4 @@
-import { authApi } from '@/apis/auth'
+import { authApi } from '@/apis'
 import { AuthRepositoryImpl, type IAuthRepository } from '@/repositories/auth/auth.repository'
 import {
   ExperienceRepositoryImpl,

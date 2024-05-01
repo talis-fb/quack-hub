@@ -3,18 +3,33 @@ import type { ISigninParams } from '@/interfaces/ISigninParams'
 import { authService, jwtService, storageService } from '@/services'
 import type { JwtDecoded } from '@/services/jwt/jwt.service'
 import { defineStore } from 'pinia'
-import { computed, getCurrentInstance, onBeforeMount, onMounted, reactive, ref } from 'vue'
+import { computed, reactive } from 'vue'
+import { authApi } from '@/apis'
 
 export interface UserState {
   id: number | undefined
   email: string | undefined
 }
 
-const accessToken = storageService.getItem('accessToken')
+async function verifyToken() {
+  await authApi.meVerifyToken()
+}
 
-const userJwt: JwtDecoded | null = accessToken ? jwtService.decode(accessToken) : null
+function loadUser(): UserState | null {
+  const accessToken = storageService.getItem('accessToken')
 
-const userLoaded: UserState | null = userJwt ? serializeUserJwt(userJwt) : null
+  const userJwt: JwtDecoded | null = accessToken ? jwtService.decode(accessToken) : null
+
+  const userLoaded: UserState | null = userJwt ? serializeUserJwt(userJwt) : null
+
+  return userLoaded
+}
+
+let userLoaded: UserState | null = null
+
+verifyToken().then((res) => {
+  userLoaded = loadUser()
+})
 
 export const useAuthStore = defineStore('auth', () => {
   const user: UserState = reactive({

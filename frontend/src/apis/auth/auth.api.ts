@@ -7,6 +7,7 @@ import { api } from '@/network/api'
 export interface IAuthApi {
   signin(signinParams: ISigninParams): Promise<IAuthResponse>
   signup(signupParams: ISignupParams): Promise<IUserResponse>
+  meVerifyToken(): Promise<{ message: string }>
 }
 
 export class AuthApiImpl implements IAuthApi {
@@ -23,5 +24,11 @@ export class AuthApiImpl implements IAuthApi {
     const data = res.data
 
     return data
+  }
+
+  async meVerifyToken(): Promise<{ message: string }> {
+    const res = await api.get<{ message: string }>('/auth/me')
+
+    return res.data
   }
 }
