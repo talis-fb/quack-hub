@@ -5,6 +5,8 @@ export interface IUserService {
   getUserById(id: number): Promise<IUserEntity>
   getProfile(): Promise<IUserEntity>
   updateUser(id: number, user: IUserData): Promise<IUserEntity>
+  follow(userId: number): Promise<void>
+  unFollow(userId: number): Promise<void>
 }
 
 export class UserServiceImpl implements IUserService {
@@ -24,5 +26,13 @@ export class UserServiceImpl implements IUserService {
 
   async updateUser(id: number, user: IUserData): Promise<IUserEntity> {
     return await this.userRepository.updateUser(id, user)
+  }
+
+  async follow(userId: number): Promise<void> {
+    await this.userRepository.follow(userId)
+  }
+
+  async unFollow(userId: number): Promise<void> {
+    await this.userRepository.unFollow(userId)
   }
 }

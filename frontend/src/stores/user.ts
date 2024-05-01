@@ -22,5 +22,23 @@ export const useUser = defineStore('user', () => {
     user.value = res
   }
 
-  return { user, getProfile, update }
+  async function follow() {
+    if (!user.value) return
+
+    await userService.follow(user.value.id)
+
+    await getProfile(user.value.id);
+
+    
+  }
+
+  async function unFollow() {
+    if (!user.value) return
+
+    await userService.unFollow(user.value.id)
+
+    await getProfile(user.value.id);
+  }
+
+  return { user, getProfile, update, follow, unFollow }
 })

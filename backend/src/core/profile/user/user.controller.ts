@@ -64,12 +64,26 @@ export class UserController {
     status: 201,
     description: 'User successfully followed another user',
   })
-  @Post('/:id/follow/:id_to_follow')
+  @Post('/follow/:id_to_follow')
   async follow(
-    @Param('id', ParseIntPipe) id: number,
+    @Req() req,
     @Param('id_to_follow', ParseIntPipe) idToFollow: number,
   ): Promise<void> {
-    return await this.userService.follow(id, idToFollow);
+    const { userId } = req.user;
+    return await this.userService.follow(userId, idToFollow);
+  }
+
+  @ApiResponse({
+    status: 201,
+    description: 'User successfully unfollowed another user',
+  })
+  @Post('/unfollow/:id_to_follow')
+  async unfollow(
+    @Req() req,
+    @Param('id_to_follow', ParseIntPipe) idToFollow: number,
+  ): Promise<void> {
+    const { userId } = req.user;
+    return await this.userService.removeFollower(userId, idToFollow);
   }
 
   @ApiResponse({

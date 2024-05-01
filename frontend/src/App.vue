@@ -1,7 +1,9 @@
 <script setup lang="ts">
-import { RouterView } from 'vue-router'
+import { RouterView, useRoute } from 'vue-router'
 
 import Toaster from '@/components/ui/toast/Toaster.vue'
+
+const route = useRoute()
 
 function toggleDarkMode() {
   const body = document.querySelector('body')
@@ -15,7 +17,7 @@ function toggleDarkMode() {
 <template>
   <div class="min-h-screen flex flex-col">
     <RouterView name="Navbar" />
-    <RouterView />
+    <RouterView :key="route.fullPath" />
     <Toaster />
   </div>
 </template>
