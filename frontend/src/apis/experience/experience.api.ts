@@ -20,7 +20,6 @@ export class ExperienceApiImpl implements IExperienceApi {
   }
 
   async update(experienceId: number, data: IUpdateExperinece): Promise<IExperienceEntity> {
-    console.log({ data })
     const res = await api.put<IExperienceEntity>(`/experience/${experienceId}`, data)
 
     return res.data

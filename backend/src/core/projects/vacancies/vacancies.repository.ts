@@ -27,8 +27,6 @@ export class VacanciesRepositoryImpl implements VacanciesRepository {
     return output;
   }
   async update(id: number, data: Partial<VacancyData>): Promise<VacancyEntity> {
-    console.log({ data });
-
     const output = await this.prisma.vacancy.update({
       where: {
         id,
