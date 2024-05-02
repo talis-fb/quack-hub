@@ -7,9 +7,10 @@ import {
   IsInt,
   ArrayNotEmpty,
   IsDate,
+  IsNumber,
 } from 'class-validator';
 
-export const StateVacancy = ['OPEN', 'CLOSED', 'IN_SELECTION_PROCESS'] as const;
+export const StateVacancy = ['PAUSED', 'CLOSED', 'PROGRESS'] as const;
 
 export type StateVacancy = (typeof StateVacancy)[number];
 
@@ -28,6 +29,11 @@ export class VacancyData {
   @ArrayNotEmpty()
   @ApiProperty()
   requirements: string[];
+
+  @IsOptional()
+  @ApiProperty()
+  @IsNumber()
+  salary?: number;
 
   @IsIn(StateVacancy)
   @ApiProperty()

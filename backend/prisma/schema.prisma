@@ -87,7 +87,7 @@ model Project {
   summary       String
   about         String
   sector        String
-  state         StateProject @default(IDLE)
+  state         StateProject @default(PROGRESS)
   methodologies String[]
   vacancies     Vacancy[]
   startDate     DateTime
@@ -105,7 +105,8 @@ model Vacancy {
   title        String
   description  String
   requirements String[]
-  state        StateVacancy @default(OPEN)
+  state        StateVacancy @default(PROGRESS)
+  salary       Float        @default(0)
 
   Project   Project @relation(fields: [projectId], references: [id])
   projectId Int
@@ -115,13 +116,13 @@ model Vacancy {
 }
 
 enum StateVacancy {
-  OPEN
+  PAUSED
   CLOSED
-  IN_SELECTION_PROCESS
+  PROGRESS
 }
 
 enum StateProject {
-  IDLE
+  PAUSED
   PROGRESS
   COMPLETED
   CANCELLED

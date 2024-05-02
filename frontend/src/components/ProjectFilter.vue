@@ -26,8 +26,8 @@ interface Status {
 
 const statuses: Status[] = [
   {
-    value: 'IDLE',
-    label: 'Iniciado',
+    value: 'PAUSED',
+    label: 'Pausado',
     icon: HelpCircle
   },
   {
@@ -83,7 +83,7 @@ const title = defineModel<string>('title', { required: true })
                       const exist = selectedStatus.includes(status.value)
 
                       if (!exist) {
-                        selectedStatus = [...selectedStatus, status.value];
+                        selectedStatus = [...selectedStatus, status.value]
                       } else {
                         const newSelectedStatus = selectedStatus.filter(
                           (item) => item !== status.value

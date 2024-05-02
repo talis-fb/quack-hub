@@ -14,7 +14,7 @@ import {
 import { VacancyData } from '../vacancies/vacancies.entity';
 
 export const StateProjectValues = [
-  'IDLE',
+  'PAUSED',
   'PROGRESS',
   'COMPLETED',
   'CANCELLED',

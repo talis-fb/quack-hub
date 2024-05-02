@@ -37,7 +37,7 @@ await experienceStore.getExperiennces(props.userId, props.type)
     <div v-else class="p-3">
       <Alert>
         <AlertTitle
-          >Usuário sem experiências
+          >Usuário sem experiências]
           {{ props.type == 'ACADEMIC' ? 'acadêmicas' : 'profisisonais' }}</AlertTitle
         >
         <!-- <AlertDescription></AlertDescription> -->
