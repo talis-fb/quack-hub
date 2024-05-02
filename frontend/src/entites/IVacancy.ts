@@ -1,4 +1,4 @@
-export const StateVacancyValues = ['OPEN', 'CLOSED', 'IN_SELECTION_PROCESS'] as const
+export const StateVacancyValues = ['PAUSED', 'CLOSED', 'PROGRESS'] as const
 
 export type StateVacancy = (typeof StateVacancyValues)[number]
 
