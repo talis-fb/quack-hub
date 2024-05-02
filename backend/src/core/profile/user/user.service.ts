@@ -2,6 +2,8 @@ import { Injectable, Provider } from '@nestjs/common';
 import { UserRepository } from './user.repository';
 import { UserData, UserEntity } from 'src/core/profile/user/user.entity';
 import { UserNotFoundException } from 'src/core/profile/user/user.exceptions';
+import { NotFoundException } from 'src/common/exceptions/collection/ResourceNotFound.exception';
+import { ConflictException } from 'src/common/exceptions/collection/ResourceConflict.exception';
 
 export abstract class UserService {
   public abstract getUserById(id: number): Promise<UserEntity>;
@@ -76,6 +78,16 @@ export class UserServiceImpl implements UserService {
     if (!userFollowedExist) {
       throw new UserNotFoundException();
     }
+
+    const follow = await this.repo.findFollow(
+      userFollowingId,
+      userToBeFollowedId,
+    );
+
+    if (follow) {
+      throw new ConflictException();
+    }
+
     return await this.repo.addFollower(userFollowingId, userToBeFollowedId);
   }
 
@@ -95,6 +107,15 @@ export class UserServiceImpl implements UserService {
     userFollowingId: number,
     userToBeFollowedId: number,
   ): Promise<void> {
+    const follow = await this.repo.findFollow(
+      userFollowingId,
+      userToBeFollowedId,
+    );
+
+    if (!follow) {
+      throw new NotFoundException();
+    }
+
     await this.repo.removeFollower(userFollowingId, userToBeFollowedId);
   }
 }

@@ -21,6 +21,10 @@ export abstract class UserRepository {
     userFollowingId: number,
     userToBeFollowedId: number,
   ): Promise<void>;
+  abstract findFollow(
+    userFollowingId: number,
+    userToBeFollowedId: number,
+  ): Promise<UserEntity>;
 }
 
 @Injectable()
@@ -156,6 +160,24 @@ export class UserRepositoryImpl implements UserRepository {
         },
       },
     });
+  }
+
+  async findFollow(
+    userFollowingId: number,
+    userToBeFollowedId: number,
+  ): Promise<UserEntity> {
+    const output = await this.prisma.user.findUnique({
+      where: {
+        id: userFollowingId,
+        following: {
+          some: {
+            id: userToBeFollowedId,
+          },
+        },
+      },
+    });
+
+    return output;
   }
 }
 
