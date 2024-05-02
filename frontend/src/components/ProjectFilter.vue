@@ -16,6 +16,7 @@ import { Checkbox } from '@/components/ui/checkbox'
 
 //Icons
 import { ArrowUpCircle, CheckCircle2, HelpCircle, PlusCircle, XCircle } from 'lucide-vue-next'
+import Separator from './ui/separator/Separator.vue'
 
 interface Status {
   value: string
@@ -59,9 +60,12 @@ const title = defineModel<string>('title', { required: true })
     <div class="flex items-center space-x-4">
       <Popover v-model:open="open">
         <PopoverTrigger as-child>
-          <Button variant="outline" size="sm" class="w-[150px] justify-start">
-            <PlusCircle class="w-4 h-4 mr-2" />
-            <p class="text-sm text-muted-foreground">Status</p>
+          <Button variant="outline" size="sm" class="flex space-x-2">
+            <PlusCircle class="min-w-4 h-4" />
+            <span class="text-sm text-muted-foreground">Status</span>
+            <Separator orientation="vertical" />
+
+            <span class="p-1 bg-secondary rounded-sm">{{ selectedStatus.length }}</span>
           </Button>
         </PopoverTrigger>
         <PopoverContent class="p-0" side="bottom" align="start">
