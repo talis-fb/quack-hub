@@ -12,6 +12,8 @@ import {} from 'lucide-vue-next'
 // Store pinia
 import { useProjectsStore } from '@/stores/projects'
 import { storeToRefs } from 'pinia'
+import { watch } from 'vue'
+import { useDebounceFn } from '@vueuse/core'
 
 export interface IProjectsListProps {
   title?: string
@@ -24,7 +26,18 @@ const projectStore = useProjectsStore()
 
 const { projects } = storeToRefs(projectStore)
 
+const getProjects = useDebounceFn(async () => {
+  await projectStore.getProjects(props.title, props.userId)
+}, 500)
+
 await projectStore.getProjects(props.title, props.userId)
+
+watch(
+  () => props.title,
+  async (newTitle) => {
+    await getProjects()
+  }
+)
 </script>
 
 <template>
@@ -33,7 +46,7 @@ await projectStore.getProjects(props.title, props.userId)
     <Separator />
   </div>
   <Alert v-else>
-    <AlertTitle>Não há projetos cadastrados no momento.</AlertTitle>
+    <AlertTitle>Nenhum projeto encontrado</AlertTitle>
   </Alert>
 </template>
 
