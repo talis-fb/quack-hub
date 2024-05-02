@@ -12,12 +12,13 @@ import {} from 'lucide-vue-next'
 // Store pinia
 import { useProjectsStore } from '@/stores/projects'
 import { storeToRefs } from 'pinia'
-import { watch } from 'vue'
+import { watch, watchEffect } from 'vue'
 import { useDebounceFn } from '@vueuse/core'
 
 export interface IProjectsListProps {
   title?: string
   userId?: number
+  statesProject?: string[]
 }
 
 const props = defineProps<IProjectsListProps>()
@@ -26,18 +27,18 @@ const projectStore = useProjectsStore()
 
 const { projects } = storeToRefs(projectStore)
 
-const getProjects = useDebounceFn(async () => {
-  await projectStore.getProjects(props.title, props.userId)
-}, 500)
-
-await projectStore.getProjects(props.title, props.userId)
-
-watch(
-  () => props.title,
-  async (newTitle) => {
-    await getProjects()
-  }
+const findProjects = useDebounceFn(
+  async (title?: string, userId?: number, statesProject?: string[]) => {
+    await projectStore.getProjects(title, userId, statesProject)
+  },
+  500
 )
+
+await projectStore.getProjects(props.title, props.userId, props.statesProject)
+
+watchEffect(async () => {
+  await findProjects(props.title, props.userId, props.statesProject)
+})
 </script>
 
 <template>

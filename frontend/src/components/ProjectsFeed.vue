@@ -10,7 +10,7 @@ import { provide, ref, Suspense } from 'vue'
 import ProjectFilter from './ProjectFilter.vue'
 
 const title = ref<string>('')
-const selectedStatus = ref<string[]>([])
+const statesProject = ref<string[]>([])
 
 provide('hasPermissions', false)
 </script>
@@ -18,10 +18,10 @@ provide('hasPermissions', false)
 <template>
   <div class="w-full">
     <div class="flex flex-col">
-      <ProjectFilter v-model:title="title" v-model:selected-status="selectedStatus" />
+      <ProjectFilter v-model:title="title" v-model:selected-status="statesProject" />
 
       <Suspense>
-        <ProjectsList :title="title" />
+        <ProjectsList :title="title" :states-project="statesProject" />
         <template #fallback>
           <ProjectsListFallback :length="5" />
         </template>

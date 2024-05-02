@@ -49,7 +49,7 @@ const statuses: Status[] = [
 
 const open = ref(false)
 
-const selectedStatus = defineModel<string[]>('selectedStatus', { required: true })
+const selectedStatus = defineModel<string[]>('selectedStatus', { required: true, default: [] })
 const title = defineModel<string>('title', { required: true })
 </script>
 
@@ -83,7 +83,7 @@ const title = defineModel<string>('title', { required: true })
                       const exist = selectedStatus.includes(status.value)
 
                       if (!exist) {
-                        selectedStatus.push(status.value)
+                        selectedStatus = [...selectedStatus, status.value];
                       } else {
                         const newSelectedStatus = selectedStatus.filter(
                           (item) => item !== status.value

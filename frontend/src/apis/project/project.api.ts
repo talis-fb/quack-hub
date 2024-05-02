@@ -5,7 +5,7 @@ import type { IUpdateProject } from '@/apis/project/types/IUpdateProject'
 import type { IProjectResponse } from '@/apis/project/models/IProjectResponse'
 
 export interface IProjectApi {
-  search(title?: string, userId?: number): Promise<IProjectResponse[]>
+  search(title?: string, userId?: number, states?: string[]): Promise<IProjectResponse[]>
   getProjectById(id: number): Promise<IProjectResponse>
   delete(projectId: number): Promise<IProjectResponse>
   update(projectId: number, data: IUpdateProject): Promise<IProjectResponse>
@@ -13,11 +13,12 @@ export interface IProjectApi {
 }
 
 export class ProjectApiImpl implements IProjectApi {
-  async search(title?: string, userId?: number): Promise<IProjectResponse[]> {
+  async search(title?: string, userId?: number, states?: string[]): Promise<IProjectResponse[]> {
     const res = await api.get<IProjectResponse[]>('/projects', {
       params: {
         title,
-        userId
+        userId,
+        states
       }
     })
 
