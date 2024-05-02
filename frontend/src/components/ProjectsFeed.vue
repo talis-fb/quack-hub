@@ -5,12 +5,12 @@ import ProjectsListFallback from '@/components/ProjectsListFallback.vue'
 
 // Shadcn-vue components
 import { provide, ref, Suspense } from 'vue'
-import { useToast } from '@/components/ui/toast'
-import { Input } from '@/components/ui/input'
 
-const { toast } = useToast()
+// App components
+import ProjectFilter from './ProjectFilter.vue'
 
-const title = ref('')
+const title = ref<string>('')
+const selectedStatus = ref<string[]>([])
 
 provide('hasPermissions', false)
 </script>
@@ -18,11 +18,10 @@ provide('hasPermissions', false)
 <template>
   <div class="w-full">
     <div class="flex flex-col">
-      <div class="p-3">
-        <Input v-model="title" class="max-w-[50%]" placeholder="Filtrar projetos..." />
-      </div>
+      <ProjectFilter v-model:title="title" v-model:selected-status="selectedStatus" />
+
       <Suspense>
-        <ProjectsList :title="title"/>
+        <ProjectsList :title="title" />
         <template #fallback>
           <ProjectsListFallback :length="5" />
         </template>
