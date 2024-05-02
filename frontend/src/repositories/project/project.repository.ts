@@ -4,7 +4,7 @@ import type { IUpdateProject } from '@/apis/project/types/IUpdateProject'
 import type { IProjectEntity } from '@/entites/IProject'
 
 export interface IProjectRepository {
-  search(title?: string, userId?: number): Promise<IProjectEntity[]>
+  search(title?: string, userId?: number, states?: string[]): Promise<IProjectEntity[]>
   getProjectById(id: number): Promise<IProjectEntity>
   delete(projectId: number): Promise<IProjectEntity>
   update(projectId: number, data: IUpdateProject): Promise<IProjectEntity>
@@ -14,8 +14,8 @@ export interface IProjectRepository {
 export class ProjectRepositoryImpl implements IProjectRepository {
   constructor(private readonly projectApi: IProjectApi) {}
 
-  async search(title?: string, userId?: number): Promise<IProjectEntity[]> {
-    const res = await this.projectApi.search(title, userId)
+  async search(title?: string, userId?: number, states?: string[]): Promise<IProjectEntity[]> {
+    const res = await this.projectApi.search(title, userId, states)
 
     const newRes: IProjectEntity[] = res.map((project) => {
       return {

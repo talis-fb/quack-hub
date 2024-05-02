@@ -1,6 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/common/prisma/prisma.service';
-import { ProjectData, ProjectEntity } from './project.entity';
+import {
+  ProjectData,
+  ProjectEntity,
+  StateProject,
+} from 'src/core/projects/project/project.entity';
 
 export abstract class ProjectsRepository {
   abstract getProjectById(id: number): Promise<ProjectEntity | null>;
@@ -13,6 +17,7 @@ export abstract class ProjectsRepository {
   public abstract search(
     searchTitle?: string,
     userId?: number,
+    states?: StateProject[],
   ): Promise<ProjectEntity[]>;
   public abstract deleteProject(id: number): Promise<ProjectEntity>;
 }
@@ -81,6 +86,7 @@ export class ProjectsRepositoryImpl implements ProjectsRepository {
   public async search(
     searchTitle?: string,
     userId?: number,
+    states?: StateProject[],
   ): Promise<ProjectEntity[]> {
     const output = await this.prisma.project.findMany({
       where: {
@@ -89,6 +95,9 @@ export class ProjectsRepositoryImpl implements ProjectsRepository {
           mode: 'insensitive',
         },
         userId,
+        state: {
+          in: states,
+        },
       },
     });
 

@@ -79,7 +79,6 @@ form.setValues({
 })
 
 const onSubmit = form.handleSubmit(async (values) => {
-  console.log({ values })
   const valuesToSubmit: IUserData = {
     ...values,
     email: props.user.email as string

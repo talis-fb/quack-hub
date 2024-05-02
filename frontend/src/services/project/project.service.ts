@@ -1,13 +1,10 @@
 import type { ICreateProject } from '@/apis/project/types/ICreateProject'
-import type { ICreateVacancy } from '@/apis/project/types/ICreateVacancy'
 import type { IUpdateProject } from '@/apis/project/types/IUpdateProject'
-import type { IUpdateVacancy } from '@/apis/project/types/IUpdateVacancy'
 import type { IProjectEntity } from '@/entites/IProject'
-import type { IVacancyEntity } from '@/entites/IVacancy'
 import type { IProjectRepository } from '@/repositories/project/project.repository'
 
 export interface IProjectService {
-  search(title?: string, userId?: number): Promise<IProjectEntity[]>
+  search(title?: string, userId?: number, states?: string[]): Promise<IProjectEntity[]>
   getProjectById(id: number): Promise<IProjectEntity>
   delete(projectId: number): Promise<IProjectEntity>
   update(projectId: number, data: IUpdateProject): Promise<IProjectEntity>
@@ -17,8 +14,8 @@ export interface IProjectService {
 export class ProjectServiceImpl implements IProjectService {
   constructor(private readonly projectRepository: IProjectRepository) {}
 
-  async search(title?: string, userId?: number): Promise<IProjectEntity[]> {
-    const res = await this.projectRepository.search(title, userId)
+  async search(title?: string, userId?: number, states?: string[]): Promise<IProjectEntity[]> {
+    const res = await this.projectRepository.search(title, userId, states)
 
     return res
   }

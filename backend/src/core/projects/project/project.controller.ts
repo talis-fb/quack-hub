@@ -82,9 +82,9 @@ export class ProjectsController {
   })
   @Get('')
   async searchProjects(@Query() query: SearchProjectsQueryDto) {
-    const { title, userId } = query;
+    const { title, userId, states} = query;
 
-    return await this.projectsService.search(title, userId);
+    return await this.projectsService.search(title, userId, states);
   }
 
   @ApiResponse({

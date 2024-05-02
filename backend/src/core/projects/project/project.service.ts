@@ -1,12 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { ProjectsRepository } from './project.repository';
-import { ProjectData, ProjectEntity } from './project.entity';
+import { ProjectData, ProjectEntity, StateProject } from './project.entity';
 import { UserEntity } from 'src/core/profile/user/user.entity';
 import { CreateProjectDto } from './dtos/CreateProjectDto';
 import { UpdateProjectDto } from './dtos/UpdateProjectDto';
 import { ProjectNotFoundException } from './project.exceptions';
 import { UserRepository } from 'src/core/profile/user/user.repository';
 import { UserNotFoundException } from 'src/core/profile/user/user.exceptions';
+;
 
 export abstract class ProjectsService {
   public abstract create(
@@ -22,6 +23,7 @@ export abstract class ProjectsService {
   public abstract search(
     searchTitle?: string,
     userId?: number,
+    states?: StateProject[]
   ): Promise<ProjectEntity[]>;
   public abstract deleteProject(id: number): Promise<ProjectEntity>;
 }
@@ -72,8 +74,9 @@ export class ProjectsServiceImpl implements ProjectsService {
   public async search(
     searchTitle?: string,
     userId?: number,
+    states?: StateProject[]
   ): Promise<ProjectEntity[]> {
-    return await this.repo.search(searchTitle, userId);
+    return await this.repo.search(searchTitle, userId, states);
   }
   public async deleteProject(id: number): Promise<ProjectEntity> {
     const project = await this.repo.getProjectById(id);

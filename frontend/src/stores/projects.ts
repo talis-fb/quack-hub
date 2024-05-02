@@ -8,8 +8,8 @@ import { ref } from 'vue'
 export const useProjectsStore = defineStore('projects', () => {
   const projects = ref<IProjectEntity[]>([])
 
-  async function getProjects(title?: string, userId?: number) {
-    const res = await projectService.search(title, userId)
+  async function getProjects(title?: string, userId?: number, states?: string[]) {
+    const res = await projectService.search(title, userId, states)
 
     projects.value = res
   }

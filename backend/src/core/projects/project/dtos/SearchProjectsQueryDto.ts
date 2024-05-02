@@ -1,5 +1,12 @@
-import { Transform } from 'class-transformer';
-import { IsInt, IsOptional } from 'class-validator';
+import { Transform, Type } from 'class-transformer';
+import {
+  ArrayNotEmpty,
+  IsInt,
+  IsOptional,
+} from 'class-validator';
+import {
+  StateProject,
+} from 'src/core/projects/project/project.entity';
 
 export class SearchProjectsQueryDto {
   @IsOptional()
@@ -11,4 +18,9 @@ export class SearchProjectsQueryDto {
     return Number(value);
   })
   userId?: number;
+
+  //TODO: Validar se os valores passados são do tipo StateProject
+  @IsOptional()
+  @ArrayNotEmpty()
+  states?: StateProject[];
 }
