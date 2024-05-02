@@ -122,6 +122,7 @@ const projectLogo = computed(() => {
               alt="user-icon"
             />
 
+            {{ project?.methodologies }}
             <div v-if="hasPermissions" class="flex-1 flex justify-end">
               <Sheet>
                 <SheetTrigger as-child>
@@ -134,7 +135,7 @@ const projectLogo = computed(() => {
                     <SheetTitle>Editar perfil</SheetTitle>
                     <SheetDescription>
                       Faça alterações em seu projeto aqui. Clique em salvar mudanças quando
-                      terminar.
+                      terminar/.
                     </SheetDescription>
                   </SheetHeader>
 

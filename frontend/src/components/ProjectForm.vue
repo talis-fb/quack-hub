@@ -191,7 +191,6 @@ const { remove, push, fields } = useFieldArray('methodologies')
         <FormItem>
           <FormLabel>Sobre</FormLabel>
 
-          <FormLabel />
           <FormControl>
             <Textarea
               placeholder="Ex.: Projeto baseado nas funcionalidades básicas de chat em tempo real."
@@ -208,7 +207,6 @@ const { remove, push, fields } = useFieldArray('methodologies')
         <FormItem>
           <FormLabel>Setor</FormLabel>
 
-          <FormLabel />
           <FormControl>
             <Input placeholder="Ex.: Software" v-bind="componentField" autocomplete="sector" />
           </FormControl>
@@ -287,7 +285,6 @@ const { remove, push, fields } = useFieldArray('methodologies')
             <div class="relative w-full max-w-sm items-center">
               <Input
                 type="text"
-                id=""
                 placeholder="URL da image..."
                 class="pl-10"
                 v-bind="componentField"
