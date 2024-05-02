@@ -46,9 +46,11 @@ watchEffect(async () => {
     <ProjectItem :project="project" />
     <Separator />
   </div>
-  <Alert v-else>
-    <AlertTitle>Nenhum projeto encontrado</AlertTitle>
-  </Alert>
+  <div v-else class="p-3">
+    <Alert>
+      <AlertTitle>Nenhum projeto encontrado</AlertTitle>
+    </Alert>
+  </div>
 </template>
 
 <style scoped></style>

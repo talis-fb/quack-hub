@@ -34,13 +34,15 @@ await experienceStore.getExperiennces(props.userId, props.type)
       <Separator />
     </div>
 
-    <Alert v-else>
-      <AlertTitle
-        >Usuário sem experiências
-        {{ props.type == 'ACADEMIC' ? 'acadêmicas' : 'profisisonais' }}</AlertTitle
-      >
-      <!-- <AlertDescription></AlertDescription> -->
-    </Alert>
+    <div v-else class="p-3">
+      <Alert>
+        <AlertTitle
+          >Usuário sem experiências
+          {{ props.type == 'ACADEMIC' ? 'acadêmicas' : 'profisisonais' }}</AlertTitle
+        >
+        <!-- <AlertDescription></AlertDescription> -->
+      </Alert>
+    </div>
   </div>
 </template>
 
