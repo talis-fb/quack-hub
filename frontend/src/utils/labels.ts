@@ -5,9 +5,8 @@ export const projectStateLabel: Record<StateProject, string> = {
   PAUSED: 'Pausado',
   CANCELLED: 'Cancelado',
   COMPLETED: 'Finalizado',
-  PROGRESS: 'Em progresso'
+  PROGRESS: 'Em andamento'
 }
-
 
 export const vacancyLabelState: Record<StateVacancy, String> = {
   PAUSED: 'Pausado',

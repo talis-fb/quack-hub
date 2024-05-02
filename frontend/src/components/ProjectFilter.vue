@@ -32,7 +32,7 @@ const statuses: Status[] = [
   },
   {
     value: 'PROGRESS',
-    label: 'Em progresso',
+    label: 'Em andamento',
     icon: ArrowUpCircle
   },
   {
