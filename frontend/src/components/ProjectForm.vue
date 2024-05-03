@@ -40,6 +40,7 @@ import { Calendar as CalendarIcon, ImageIcon, Github, Linkedin, Plus, X } from '
 import { type IProjectEntity, StateProjectValues } from '../entites/IProject'
 import type { ICreateProject } from '@/apis/project/types/ICreateProject'
 import type { IProjectGithub } from '@/repositories/github/github.repository'
+import { onBeforeUnmount } from 'vue'
 
 export interface IProjectFormProps {
   project?: IProjectEntity
@@ -47,7 +48,7 @@ export interface IProjectFormProps {
   handleSubmit: (values: ICreateProject) => Promise<void>
 }
 
-const props = withDefaults(defineProps<IProjectFormProps>(), {})
+const props = defineProps<IProjectFormProps>()
 
 const formSchema = toTypedSchema(
   z.object({
@@ -93,11 +94,11 @@ const formSchema = toTypedSchema(
       .or(z.literal(''))
       .transform((e) => (e === '' ? null : e)),
     methodologies: z
-      .string()
-      .min(2, {
-        message: 'A metodologia deve ter no mínimo 2 caracteres.'
-      })
-      .array()
+      .array(
+        z.string().min(2, {
+          message: 'A metodologia deve ter no mínimo 2 caracteres.'
+        })
+      )
       .optional()
   })
 )
@@ -106,6 +107,15 @@ const form = useForm({
   validationSchema: formSchema
 })
 
+/*
+  Sobre o código
+    methodologies: props.project?.methodologies ? [...props.project .methodologies] : []
+  é necessário colocar [...props.project .methodologies] para que não cause bug ao
+  não fazer nenhuma ação no formulário como editar ou remover metodologias.
+  O bug deixa o project passado pelo ProjectView com array de metodologias vázios. 
+
+  EU NÃO FAÇO IDEIA O PORQUÊ!
+*/
 form.setValues({
   title: props.project?.title,
   summary: props.project?.summary,
@@ -115,7 +125,7 @@ form.setValues({
   startDate: props.project?.startDate,
   endDate: props.project?.endDate,
   logoUrl: props.project?.logoUrl,
-  methodologies: props.project?.methodologies
+  methodologies: props.project?.methodologies ? [...props.project.methodologies] : []
 })
 
 const onSubmit = form.handleSubmit(async (values) => {

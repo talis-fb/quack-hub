@@ -122,7 +122,6 @@ const projectLogo = computed(() => {
               alt="user-icon"
             />
 
-            {{ project?.methodologies }}
             <div v-if="hasPermissions" class="flex-1 flex justify-end">
               <Sheet>
                 <SheetTrigger as-child>
