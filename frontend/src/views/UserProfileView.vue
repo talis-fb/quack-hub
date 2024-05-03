@@ -42,6 +42,8 @@ import type { ICreateExperience } from '@/apis/experience/types/ICreateExperienc
 import type { ICreateProject } from '@/apis/project/types/ICreateProject'
 import { useProjectsStore } from '@/stores/projects'
 import { useAuthStore } from '@/stores/auth'
+import { useRouter } from 'vue-router'
+import { metadataRoutes } from '@/router/RoutesConfig'
 
 /**
  * Recebendo o userId pelo param da rota.
@@ -49,6 +51,8 @@ import { useAuthStore } from '@/stores/auth'
 const props = defineProps<{
   id: string
 }>()
+
+const router = useRouter()
 
 const projectStore = useProjectsStore()
 const experienceStore = useExperienceStore()
@@ -64,7 +68,11 @@ provide('hasPermissions', hasPermission)
 const { user } = storeToRefs(userAuthStore)
 
 onBeforeMount(async () => {
-  userAuthStore.getProfile(+props.id)
+  try {
+    await userAuthStore.getProfile(+props.id)
+  } catch (error: any) {
+    router.push({ name: metadataRoutes.NOT_FOUND.name })
+  }
 })
 
 const { toast } = useToast()
@@ -205,7 +213,6 @@ const isFollowingTheUser = computed(() => {
             <template #main>
               <div class="h-[600px]">
                 <ProjectForm :handle-submit="handleSubmitProject" />
-
               </div>
             </template>
           </AppDialog>

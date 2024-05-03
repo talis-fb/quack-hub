@@ -1,5 +1,7 @@
 <script setup lang="ts">
-import { computed, onMounted, provide } from 'vue'
+// Vue imports
+import { computed, onBeforeMount, provide } from 'vue'
+import { useRouter } from 'vue-router'
 
 // Icons
 import { Plus, Pencil } from 'lucide-vue-next'
@@ -13,6 +15,7 @@ import VacancyForm, { type IVacancyFormData } from '@/components/VacancyForm.vue
 import VacanciesList from '@/components/VacanciesList.vue'
 import VacanciesListFallback from '@/components/VacanciesListFallback.vue'
 import MethodologieItem from '@/components/MethodologieItem.vue'
+import ProjectForm from '@/components/ProjectForm.vue'
 
 // Shadcn-vue components
 import { useToast } from '@/components/ui/toast/use-toast'
@@ -29,17 +32,21 @@ import {
 } from '@/components/ui/sheet'
 import { Separator } from '@/components/ui/separator'
 
-import { useProjectStore } from '@/stores/project'
+// Pinia Store
 import { storeToRefs } from 'pinia'
+import { useProjectStore } from '@/stores/project'
 import { useAuthStore } from '@/stores/auth'
-import ProjectForm from '@/components/ProjectForm.vue'
+
+// Types
 import type { IUpdateProject } from '@/apis/project/types/IUpdateProject'
 import type { IProjectEntity } from '@/entites/IProject'
+import { metadataRoutes } from '@/router/RoutesConfig'
 
 export interface IProjectViewProps {
   id: string
 }
 
+const router = useRouter()
 const { toast } = useToast()
 
 const authStore = useAuthStore()
@@ -96,8 +103,12 @@ const handleUpdateProject = async (values: IUpdateProject) => {
   }
 }
 
-onMounted(async () => {
-  projectStore.getProject(+props.id)
+onBeforeMount(async () => {
+  try {
+    await projectStore.getProject(+props.id)
+  } catch (error: any) {
+    router.push({ name: metadataRoutes.NOT_FOUND.name })
+  }
 })
 
 const projectLogo = computed(() => {
