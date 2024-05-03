@@ -1,7 +1,7 @@
 <template>
   <div class="flex-1 flex flex-col justify-center items-center">
     <h1 class="font-bold text-3xl">Página não encontrada</h1>
-    <p class="text-muted-foreground">Desculpe, a página que você procura não existe.</p>
+    <p class="text-muted-foreground">A página que você procura não existe.</p>
     <p class="text-muted-foreground">
       Se você acha que é um engano, por favor contatar os desenvolvedores.
     </p>
