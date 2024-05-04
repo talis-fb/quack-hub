@@ -11,10 +11,8 @@ export const useProjectStore = defineStore('project', () => {
   const project = ref<IProjectEntity | null>(null)
   const vacancies = ref<IVacancyEntity[]>([])
 
-  async function getProject(projetId: number) {
-    const res = await projectService.getProjectById(projetId)
-
-    project.value = res
+  function setProject(data: IProjectEntity) {
+    project.value = data
   }
 
   async function updateProject(projectId: number, data: IUpdateProject) {
@@ -56,7 +54,7 @@ export const useProjectStore = defineStore('project', () => {
   return {
     project,
     vacancies,
-    getProject,
+    setProject,
     updateProject,
     getVacancies,
     createVacancy,

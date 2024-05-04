@@ -1,7 +1,6 @@
 <script setup lang="ts">
 // Vue imports
 import { computed, onBeforeMount, provide } from 'vue'
-import { useRouter } from 'vue-router'
 
 // Icons
 import { Plus, Pencil } from 'lucide-vue-next'
@@ -40,22 +39,23 @@ import { useAuthStore } from '@/stores/auth'
 // Types
 import type { IUpdateProject } from '@/apis/project/types/IUpdateProject'
 import type { IProjectEntity } from '@/entites/IProject'
+import { projectService } from '@/services'
 import { metadataRoutes } from '@/router/RoutesConfig'
 
 export interface IProjectViewProps {
-  id: string
+  project: IProjectEntity
 }
 
-const router = useRouter()
+const props = defineProps<IProjectViewProps>()
+
 const { toast } = useToast()
 
 const authStore = useAuthStore()
 const projectStore = useProjectStore()
 
 const { project } = storeToRefs(projectStore)
-const { user } = storeToRefs(authStore)
 
-const props = defineProps<IProjectViewProps>()
+const { user } = storeToRefs(authStore)
 
 const hasPermissions = computed(() => {
   return user.value.id == project.value?.userId
@@ -65,7 +65,7 @@ provide('hasPermissions', hasPermissions)
 
 const handleSubmitVacancy = async (values: IVacancyFormData) => {
   try {
-    await projectStore.createVacancy({ ...values, projectId: +props.id })
+    await projectStore.createVacancy({ ...values, projectId: (project.value as IProjectEntity).id })
 
     toast({
       title: `Vaga`,
@@ -103,20 +103,32 @@ const handleUpdateProject = async (values: IUpdateProject) => {
   }
 }
 
-onBeforeMount(async () => {
-  try {
-    await projectStore.getProject(+props.id)
-  } catch (error: any) {
-    router.push({ name: metadataRoutes.NOT_FOUND.name })
-  }
-})
-
 const projectLogo = computed(() => {
   if (project.value?.logoUrl) {
     return project.value.logoUrl
   }
   return DefaultProjectIcon
 })
+
+onBeforeMount(() => {
+  projectStore.setProject(props.project)
+})
+</script>
+
+<script lang="ts">
+export default {
+  beforeRouteEnter: async (to, from) => {
+    try {
+      const res = await projectService.getProjectById(+to.params.id)
+
+      to.params = { ...to.params, project: res as any }
+    } catch (error) {
+      return {
+        name: metadataRoutes.NOT_FOUND.name
+      }
+    }
+  }
+}
 </script>
 
 <template>
@@ -173,7 +185,7 @@ const projectLogo = computed(() => {
         <Separator />
 
         <div class="px-3 py-5">
-          <p>{{ project?.about }}</p>
+          <p>{{ (project as IProjectEntity).about }}</p>
         </div>
       </section>
 
@@ -235,7 +247,7 @@ const projectLogo = computed(() => {
 
         <Suspense>
           <div class="px-3 py-5 flex flex-wrap gap-3">
-            <VacanciesList :project-id="+props.id" />
+            <VacanciesList :project-id="(project as IProjectEntity).id" />
           </div>
 
           <template #fallback>

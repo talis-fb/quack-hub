@@ -8,6 +8,11 @@ import { ref } from 'vue'
 export const useUser = defineStore('user', () => {
   const user = ref<IUserEntity | null>(null)
 
+
+  function setUser(data: IUserEntity) {
+    user.value = data
+  }
+
   async function getProfile(id: number) {
     const res = await userService.getUserById(id)
 
@@ -40,5 +45,5 @@ export const useUser = defineStore('user', () => {
     await getProfile(user.value.id);
   }
 
-  return { user, getProfile, update, follow, unFollow }
+  return { user, setUser, update, follow, unFollow }
 })

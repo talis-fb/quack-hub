@@ -1,6 +1,6 @@
 <script setup lang="ts">
 // Vue imports
-import { Suspense, computed, onBeforeMount, provide, ref } from 'vue'
+import { Suspense, computed, onBeforeMount, provide } from 'vue'
 
 // Images
 import DefaultUserIcon from '@/assets/DefaultUserIcon.jpg'
@@ -44,19 +44,16 @@ import { useProjectsStore } from '@/stores/projects'
 import { useAuthStore } from '@/stores/auth'
 import { useRouter } from 'vue-router'
 import { metadataRoutes } from '@/router/RoutesConfig'
+import { userService } from '@/services'
 
-/**
- * Recebendo o userId pelo param da rota.
- */
 const props = defineProps<{
-  id: string
+  user: IUserEntity
 }>()
 
-const router = useRouter()
 
 const projectStore = useProjectsStore()
 const experienceStore = useExperienceStore()
-const userAuthStore = useUser()
+const useUserStore = useUser()
 const authStore = useAuthStore()
 
 const hasPermission = computed(() => {
@@ -65,14 +62,10 @@ const hasPermission = computed(() => {
 
 provide('hasPermissions', hasPermission)
 
-const { user } = storeToRefs(userAuthStore)
+const { user } = storeToRefs(useUserStore)
 
-onBeforeMount(async () => {
-  try {
-    await userAuthStore.getProfile(+props.id)
-  } catch (error: any) {
-    router.push({ name: metadataRoutes.NOT_FOUND.name })
-  }
+onBeforeMount(() => {
+  useUserStore.setUser(props.user)
 })
 
 const { toast } = useToast()
@@ -118,11 +111,11 @@ const handleSubmitProject = async (values: ICreateProject) => {
 }
 
 const follow = async () => {
-  userAuthStore.follow()
+  useUserStore.follow()
 }
 
 const unFollow = async () => {
-  userAuthStore.unFollow()
+  useUserStore.unFollow()
 }
 
 const userPhoto = computed(() => {
@@ -139,6 +132,23 @@ const isFollowingTheUser = computed(() => {
   return !!output
 })
 </script>
+
+<script lang="ts">
+export default {
+  beforeRouteEnter: async (to, from) => {
+    try {
+      const res = await userService.getUserById(+to.params.id)
+
+      to.params = { ...to.params, user: res as any }
+    } catch (error) {
+      return {
+        name: metadataRoutes.NOT_FOUND.name
+      }
+    }
+  }
+}
+</script>
+
 <template>
   <main class="flex flex-1 flex-col md:flex-row p-3 gap-5">
     <section class="flex-1 flex flex-col gap-5 relative rounded-md">
@@ -184,11 +194,12 @@ const isFollowingTheUser = computed(() => {
           </div>
 
           <div class="mt-2">
-            <p class="text-lg">{{ user?.name }}</p>
+            <p class="text-lg">{{ (user as IUserEntity).name }}</p>
             <p>Informações de contato</p>
             <p class="mt-6">
-              <span class="text-xl font-bold">{{ user?.followedBy.length }}</span> Seguidores |
-              <span class="text-xl font-bold">{{ user?.following.length }}</span>
+              <span class="text-xl font-bold">{{ (user as IUserEntity).followedBy.length }}</span>
+              Seguidores |
+              <span class="text-xl font-bold">{{ (user as IUserEntity).following.length }}</span>
               Seguindo
             </p>
           </div>
@@ -221,7 +232,7 @@ const isFollowingTheUser = computed(() => {
         <Separator />
 
         <Suspense>
-          <ProjectsList :user-id="+props.id" />
+          <ProjectsList :user-id="props.user.id" />
           <template #fallback>
             <ProjectsListFallback :length="5" />
           </template>
@@ -257,7 +268,7 @@ const isFollowingTheUser = computed(() => {
         <Separator />
 
         <Suspense>
-          <ExperiencesList :user-id="+props.id" type="ACADEMIC" />
+          <ExperiencesList :user-id="props.user.id" type="ACADEMIC" />
           <template #fallback>
             <ExperienceListFallback :length="3" />
           </template>
@@ -290,7 +301,7 @@ const isFollowingTheUser = computed(() => {
           </AppDialog>
         </header>
         <Suspense>
-          <ExperiencesList :user-id="+props.id" type="PROFESSIONAL" />
+          <ExperiencesList :user-id="props.user.id" type="PROFESSIONAL" />
 
           <template #fallback>
             <ExperienceListFallback :length="3" />
@@ -306,7 +317,7 @@ const isFollowingTheUser = computed(() => {
         <Separator />
 
         <div class="px-4 py-3">
-          <p>{{ user?.aboutDescription }}</p>
+          <p>{{ (user as IUserEntity).aboutDescription }}</p>
         </div>
       </section>
     </section>
