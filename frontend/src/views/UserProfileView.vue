@@ -50,8 +50,7 @@ const props = defineProps<{
   user: IUserEntity
 }>()
 
-
-const projectStore = useProjectsStore()
+const projectsSore = useProjectsStore()
 const experienceStore = useExperienceStore()
 const useUserStore = useUser()
 const authStore = useAuthStore()
@@ -93,7 +92,7 @@ const handleSubmitExperience = async (values: ICreateExperience) => {
 
 const handleSubmitProject = async (values: ICreateProject) => {
   try {
-    await projectStore.createProject(values)
+    await projectsSore.createProject(values)
 
     toast({
       title: ``,
