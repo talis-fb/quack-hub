@@ -31,6 +31,10 @@ export const metadataRoutes = {
   PROJECT: {
     path: '/project/:id',
     name: 'project'
+  },
+  NOT_FOUND: {
+    path: '/404',
+    name: 'not-found'
   }
 }
 

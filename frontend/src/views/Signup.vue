@@ -117,7 +117,6 @@ onUnmounted(() => {
         <form @submit="onSubmit" class="w-full max-w-[450px]">
           <FormField v-slot="{ componentField }" name="name">
             <FormItem>
-              <FormLabel />
               <FormControl>
                 <Input
                   type="text"
@@ -132,7 +131,6 @@ onUnmounted(() => {
           </FormField>
           <FormField v-slot="{ componentField }" name="email">
             <FormItem>
-              <FormLabel />
               <FormControl>
                 <Input
                   type="email"
@@ -147,7 +145,6 @@ onUnmounted(() => {
           </FormField>
           <FormField v-slot="{ componentField }" name="password">
             <FormItem>
-              <FormLabel />
               <FormControl>
                 <Input
                   type="password"
@@ -162,7 +159,6 @@ onUnmounted(() => {
           </FormField>
           <FormField v-slot="{ componentField }" name="confirmPassword">
             <FormItem>
-              <FormLabel />
               <FormControl>
                 <Input
                   type="password"

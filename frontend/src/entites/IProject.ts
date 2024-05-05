@@ -1,5 +1,4 @@
-import { type IVacancyEntity } from './IVacancy'
-export const StateProjectValues = ['IDLE', 'PROGRESS', 'COMPLETED', 'CANCELLED'] as const
+export const StateProjectValues = ['PAUSED', 'PROGRESS', 'COMPLETED', 'CANCELLED'] as const
 
 export type StateProject = (typeof StateProjectValues)[number]
 

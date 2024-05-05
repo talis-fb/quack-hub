@@ -25,8 +25,6 @@ import { useToast } from '@/components/ui/toast/use-toast'
 // Store pinia
 import { useUser } from '@/stores/user'
 
-// Services
-import { userService } from '@/services'
 
 // Types
 import type { IUserData, IUserEntity } from '@/entites/IUser'

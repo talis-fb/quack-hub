@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { computed, onMounted, provide } from 'vue'
+// Vue imports
+import { computed, onBeforeMount, provide } from 'vue'
 
 // Icons
 import { Plus, Pencil } from 'lucide-vue-next'
@@ -13,6 +14,7 @@ import VacancyForm, { type IVacancyFormData } from '@/components/VacancyForm.vue
 import VacanciesList from '@/components/VacanciesList.vue'
 import VacanciesListFallback from '@/components/VacanciesListFallback.vue'
 import MethodologieItem from '@/components/MethodologieItem.vue'
+import ProjectForm from '@/components/ProjectForm.vue'
 
 // Shadcn-vue components
 import { useToast } from '@/components/ui/toast/use-toast'
@@ -29,16 +31,22 @@ import {
 } from '@/components/ui/sheet'
 import { Separator } from '@/components/ui/separator'
 
-import { useProjectStore } from '@/stores/project'
+// Pinia Store
 import { storeToRefs } from 'pinia'
+import { useProjectStore } from '@/stores/project'
 import { useAuthStore } from '@/stores/auth'
-import ProjectForm from '@/components/ProjectForm.vue'
+
+// Types
 import type { IUpdateProject } from '@/apis/project/types/IUpdateProject'
 import type { IProjectEntity } from '@/entites/IProject'
+import { projectService } from '@/services'
+import { metadataRoutes } from '@/router/RoutesConfig'
 
 export interface IProjectViewProps {
-  id: string
+  project: IProjectEntity
 }
+
+const props = defineProps<IProjectViewProps>()
 
 const { toast } = useToast()
 
@@ -46,9 +54,8 @@ const authStore = useAuthStore()
 const projectStore = useProjectStore()
 
 const { project } = storeToRefs(projectStore)
-const { user } = storeToRefs(authStore)
 
-const props = defineProps<IProjectViewProps>()
+const { user } = storeToRefs(authStore)
 
 const hasPermissions = computed(() => {
   return user.value.id == project.value?.userId
@@ -58,7 +65,7 @@ provide('hasPermissions', hasPermissions)
 
 const handleSubmitVacancy = async (values: IVacancyFormData) => {
   try {
-    await projectStore.createVacancy({ ...values, projectId: +props.id })
+    await projectStore.createVacancy({ ...values, projectId: (project.value as IProjectEntity).id })
 
     toast({
       title: `Vaga`,
@@ -96,16 +103,32 @@ const handleUpdateProject = async (values: IUpdateProject) => {
   }
 }
 
-onMounted(async () => {
-  projectStore.getProject(+props.id)
-})
-
 const projectLogo = computed(() => {
   if (project.value?.logoUrl) {
     return project.value.logoUrl
   }
   return DefaultProjectIcon
 })
+
+onBeforeMount(() => {
+  projectStore.setProject(props.project)
+})
+</script>
+
+<script lang="ts">
+export default {
+  beforeRouteEnter: async (to, from) => {
+    try {
+      const res = await projectService.getProjectById(+to.params.id)
+
+      to.params = { ...to.params, project: res as any }
+    } catch (error) {
+      return {
+        name: metadataRoutes.NOT_FOUND.name
+      }
+    }
+  }
+}
 </script>
 
 <template>
@@ -134,7 +157,7 @@ const projectLogo = computed(() => {
                     <SheetTitle>Editar perfil</SheetTitle>
                     <SheetDescription>
                       Faça alterações em seu projeto aqui. Clique em salvar mudanças quando
-                      terminar.
+                      terminar/.
                     </SheetDescription>
                   </SheetHeader>
 
@@ -162,7 +185,7 @@ const projectLogo = computed(() => {
         <Separator />
 
         <div class="px-3 py-5">
-          <p>{{ project?.about }}</p>
+          <p>{{ (project as IProjectEntity).about }}</p>
         </div>
       </section>
 
@@ -224,7 +247,7 @@ const projectLogo = computed(() => {
 
         <Suspense>
           <div class="px-3 py-5 flex flex-wrap gap-3">
-            <VacanciesList :project-id="+props.id" />
+            <VacanciesList :project-id="(project as IProjectEntity).id" />
           </div>
 
           <template #fallback>

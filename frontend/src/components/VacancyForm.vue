@@ -92,7 +92,7 @@ const onSubmit = form.handleSubmit(async (values) => {
     <FormField v-slot="{ componentField }" name="description">
       <FormItem>
         <FormLabel>Descrição</FormLabel>
-        <FormLabel />
+        
         <FormControl>
           <Textarea
             placeholder="Ex.: Desenvolver tarefas utilizando microsserviços."

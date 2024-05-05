@@ -7,7 +7,7 @@ import { metadataRoutes } from '@/router/RoutesConfig'
 import { authGuard, redirectToHomeIfAuthenticatedGuard } from './RoutesGuards'
 
 // Views
-import UserProfileView from '@/views/UserProfileView.vue';
+import UserProfileView from '@/views/UserProfileView.vue'
 import Signin from '@/views/Signin.vue'
 import Signup from '@/views/Signup.vue'
 import NavMenu from '@/views/NavMenu.vue'
@@ -15,6 +15,7 @@ import AboutView from '@/views/AboutView.vue'
 import ProfileEdit from '@/views/ProfileEdit.vue'
 import HomeView from '@/views/HomeView.vue'
 import ProjectView from '@/views/ProjectView.vue'
+import NotFoundView from '@/views/NotFoundView.vue'
 
 // Components
 import PostsFeed from '@/components/PostsFeed.vue'
@@ -98,6 +99,11 @@ export const router = createRouter({
       },
       props: true,
       meta: { ...metadataRoutes.PROJECT }
+    },
+    {
+      path: metadataRoutes.NOT_FOUND.path,
+      name: metadataRoutes.NOT_FOUND.name,
+      component: NotFoundView
     },
     { path: '/:pathMatch(.*)*', redirect: metadataRoutes.HOME.path }
   ]
