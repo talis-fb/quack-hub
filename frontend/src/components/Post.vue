@@ -7,11 +7,12 @@ import { Input } from '@/components/ui/input'
 import { ArrowRight, ThumbsUp, MessageSquare } from 'lucide-vue-next'
 
 import DefaultUserIcon from '@/assets/DefaultUserIcon.jpg'
+import Button from './ui/button/Button.vue'
 </script>
 
 <template>
-  <article class="post border rounded-md p-2">
-    <header class="flex pl-2 pb-2 gap-2">
+  <article class="border p-2 hover:bg-muted transition delay-50 cursor-pointer">
+    <header class="flex gap-2">
       <Avatar class="w-16 h-16">
         <AvatarImage :src="DefaultUserIcon" />
 
@@ -38,8 +39,23 @@ import DefaultUserIcon from '@/assets/DefaultUserIcon.jpg'
     />
 
     <section class="mt-3 mx-auto flex space-x-10 justify-center">
-      <div class="flex gap-2 items-center hover:cursor-pointer"><ThumbsUp /> Gostei</div>
-      <div class="flex gap-2 items-center hover:cursor-pointer"><MessageSquare /> Comentário</div>
+      <Button
+        class="hover:bg-white hover:bg-opacity-10 rounded-full"
+        variant="ghost"
+        size="icon"
+        @hover.stop=""
+      >
+        <ThumbsUp />
+      </Button>
+
+      <Button
+        class="hover:bg-white hover:bg-opacity-10 rounded-full"
+        variant="ghost"
+        size="icon"
+        @hover.stop=""
+      >
+        <MessageSquare />
+      </Button>
     </section>
   </article>
 </template>
