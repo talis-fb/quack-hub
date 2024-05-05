@@ -9,7 +9,7 @@ const posts = ref<IPostEntity[]>([])
 const fetchPosts = async () => {
   const res = await postService.search()
 
-  await new Promise((resolve) => setTimeout(resolve, 2000))
+  // await new Promise((resolve) => setTimeout(resolve, 1500))
   posts.value = res
 }
 

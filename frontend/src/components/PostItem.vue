@@ -9,16 +9,27 @@ import Button from './ui/button/Button.vue'
 // Icons
 import { ThumbsUp, MessageSquare } from 'lucide-vue-next'
 import type { IPostEntity } from '@/entites/IPost'
+import { useRouter } from 'vue-router'
+import { metadataRoutes } from '@/router/RoutesConfig'
 
 export interface IPostItemProps {
   post: IPostEntity
 }
 
 const props = defineProps<IPostItemProps>()
+
+const router = useRouter()
+
+const navigateToPost = () => {
+  router.push({ name: metadataRoutes.POST.name, params: { id: props.post.id } })
+}
 </script>
 
 <template>
-  <article class="border p-2 hover:bg-muted transition delay-50 cursor-pointer">
+  <article
+    @click="navigateToPost"
+    class="border p-2 hover:bg-muted transition delay-50 cursor-pointer"
+  >
     <header class="flex gap-2">
       <Avatar class="w-16 h-16">
         <AvatarImage :src="DefaultUserIcon" />
