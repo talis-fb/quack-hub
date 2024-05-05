@@ -1,16 +1,25 @@
 <script setup lang="ts">
-import { Input } from '@/components/ui/input';
-import { ArrowRight, ThumbsUp, MessageSquare } from 'lucide-vue-next';
+// Shadcn-vue components
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { Input } from '@/components/ui/input'
+
+// Icons
+import { ArrowRight, ThumbsUp, MessageSquare } from 'lucide-vue-next'
+
+import DefaultUserIcon from '@/assets/DefaultUserIcon.jpg'
 </script>
 
 <template>
-  <div class="post border rounded-md p-2">
-    <div class="flex pl-2 pb-2 gap-2">
-      <img
-        class="max-w-16 max-h-16 rounded-full"
-        src="../assets/DefaultUserIcon.jpg"
-        alt="User profile post"
-      />
+  <article class="post border rounded-md p-2">
+    <header class="flex pl-2 pb-2 gap-2">
+      <Avatar class="w-16 h-16">
+        <AvatarImage :src="DefaultUserIcon" />
+
+        <AvatarFallback>
+          <img :src="DefaultUserIcon" alt="avatar_user" />
+        </AvatarFallback>
+      </Avatar>
+
       <div>
         <h1 class="text-xl font-bold">User name</h1>
         <p class="text-justify">
@@ -20,43 +29,19 @@ import { ArrowRight, ThumbsUp, MessageSquare } from 'lucide-vue-next';
           coisas quânticas são.
         </p>
       </div>
-    </div>
+    </header>
 
-    <img src="../assets/DefaultUserIcon.jpg" alt="Post" class="pb-2 image" />
+    <img
+      class="max-w-[600px] w-full mx-auto"
+      src="https://t4.ftcdn.net/jpg/05/47/97/81/360_F_547978128_vqEEUYBr1vcAwfRAqReZXTYtyawpgLcC.jpg"
+      alt="Post image"
+    />
 
-    <div class="m-3 flex gap-6">
-      <div class="flex gap-2 items-center hover:cursor-pointer hover:text-orange-400">
-        <ThumbsUp /> Gostei
-      </div>
-      <div class="flex gap-2 items-center hover:cursor-pointer hover:text-orange-400">
-        <MessageSquare /> Comentário
-      </div>
-    </div>
-
-    <div class="flex items-center justify-center gap-1">
-      <Input type="text" placeholder="Comentario..." />
-      <div class="hover:cursor-pointer hover:text-orange-400">
-        <ArrowRight size="2rem" />
-      </div>
-    </div>
-
-    <div class="flex justify-between items-center gap-1 mt-3 border p-2">
-      <div class="flex items-center gap-2 pl-2">
-        <img
-          class="rounded-full w-12"
-          src="../assets/DefaultUserIcon.jpg"
-          alt="User profile comment"
-        />
-        <p>Texto do comentario aqui</p>
-      </div>
-      <ThumbsUp class="hover:cursor-pointer hover:text-orange-400" />
-    </div>
-  </div>
+    <section class="mt-3 mx-auto flex space-x-10 justify-center">
+      <div class="flex gap-2 items-center hover:cursor-pointer"><ThumbsUp /> Gostei</div>
+      <div class="flex gap-2 items-center hover:cursor-pointer"><MessageSquare /> Comentário</div>
+    </section>
+  </article>
 </template>
 
-<style>
-.post {
-  max-width: 70%;
-  height: auto;
-}
-</style>
+<style></style>
