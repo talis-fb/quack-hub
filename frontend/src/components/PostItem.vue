@@ -1,13 +1,20 @@
 <script setup lang="ts">
+// Images
+import DefaultUserIcon from '@/assets/DefaultUserIcon.jpg'
+
 // Shadcn-vue components
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { Input } from '@/components/ui/input'
+import Button from './ui/button/Button.vue'
 
 // Icons
-import { ArrowRight, ThumbsUp, MessageSquare } from 'lucide-vue-next'
+import { ThumbsUp, MessageSquare } from 'lucide-vue-next'
+import type { IPostEntity } from '@/entites/IPost'
 
-import DefaultUserIcon from '@/assets/DefaultUserIcon.jpg'
-import Button from './ui/button/Button.vue'
+export interface IPostItemProps {
+  post: IPostEntity
+}
+
+const props = defineProps<IPostItemProps>()
 </script>
 
 <template>
@@ -23,12 +30,8 @@ import Button from './ui/button/Button.vue'
 
       <div>
         <h1 class="text-xl font-bold">User name</h1>
-        <p class="text-justify">
-          Texto falando abobrinha pra caramba sobre a postagem, de preferência falando sobre
-          motivação e coach. Tambem trataremos de como questões quanticas influênciam no seu dia a
-          dia, como na sua personalidade e vida amorosa, igual signo, mas signo não é ciêntifico,
-          coisas quânticas são.
-        </p>
+        <p class="text-xl font-semibold">{{ props.post.title }}</p>
+        <p class="text-lg">{{ props.post.content }}</p>
       </div>
     </header>
 
