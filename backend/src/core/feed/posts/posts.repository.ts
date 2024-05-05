@@ -12,6 +12,7 @@ export abstract class PostsRepository {
     data: Partial<PostData>,
   ): Promise<PostEntity | void>;
   abstract delete(id: number): Promise<PostEntity | void>;
+  abstract search(searchUsername?: string): Promise<PostEntity[]>;
 }
 
 @Injectable()
@@ -101,6 +102,28 @@ export class PostsRepositoryImpl implements PostsRepository {
         },
       },
     });
+  }
+
+  public async search(searchUsername?: string): Promise<PostEntity[]> {
+    const output = await this.prisma.post.findMany({
+      where: {
+        User: {
+          name: {
+            contains: searchUsername,
+          },
+        },
+      },
+      include: {
+        _count: {
+          select: {
+            comments: true,
+            likes: true,
+          },
+        },
+      },
+    });
+
+    return output;
   }
 }
 

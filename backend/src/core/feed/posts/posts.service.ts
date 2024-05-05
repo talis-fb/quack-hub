@@ -13,6 +13,7 @@ export abstract class PostsService {
   abstract create(data: CreatePostDto, userId: number): Promise<PostEntity>;
   abstract update(id: number, data: UpdatePostDto): Promise<PostEntity>;
   abstract delete(id: number): Promise<PostEntity>;
+  abstract search(searchUsername?: string): Promise<PostEntity[]>;
 }
 
 @Injectable()
@@ -67,6 +68,12 @@ export class PostsServiceImpl implements PostsService {
     }
 
     return post;
+  }
+
+  async search(searchUsername?: string): Promise<PostEntity[]> {
+    const posts = await this.postsRepository.search(searchUsername);
+
+    return posts;
   }
 }
 
