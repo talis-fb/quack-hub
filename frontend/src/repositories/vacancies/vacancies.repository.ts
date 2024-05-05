@@ -1,5 +1,5 @@
-import type { ICreateVacancy } from '@/apis/project/types/ICreateVacancy'
-import type { IUpdateVacancy } from '@/apis/project/types/IUpdateVacancy'
+import type { ICreateVacancy } from '@/types/ICreateVacancy'
+import type { IUpdateVacancy } from '@/types/IUpdateVacancy'
 import type { IVacancyApi } from '@/apis/vacancies/vacancies.api'
 import type { IVacancyEntity } from '@/entites/IVacancy'
 

@@ -7,7 +7,7 @@ import { projectStateLabel } from '@/utils/labels'
 
 // Types
 import type { IProjectEntity } from '@/entites/IProject'
-import type { IUpdateProject } from '@/apis/project/types/IUpdateProject'
+import type { IUpdateProject } from '@/types/IUpdateProject'
 
 // App components
 import AppDialog from '@/components/AppDialog.vue'

@@ -1,5 +1,5 @@
-import type { ICreateProject } from '@/apis/project/types/ICreateProject'
-import type { IUpdateProject } from '@/apis/project/types/IUpdateProject'
+import type { ICreateProject } from '@/types/ICreateProject'
+import type { IUpdateProject } from '@/types/IUpdateProject'
 import type { IProjectEntity } from '@/entites/IProject'
 import { projectService } from '@/services'
 import { defineStore } from 'pinia'

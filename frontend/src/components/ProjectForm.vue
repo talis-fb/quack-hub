@@ -38,7 +38,7 @@ import GithubProjectImport from '@/components/GithubProjectImport.vue'
 // Icons
 import { Calendar as CalendarIcon, ImageIcon, Github, Linkedin, Plus, X } from 'lucide-vue-next'
 import { type IProjectEntity, StateProjectValues } from '../entites/IProject'
-import type { ICreateProject } from '@/apis/project/types/ICreateProject'
+import type { ICreateProject } from '@/types/ICreateProject'
 import type { IProjectGithub } from '@/repositories/github/github.repository'
 import { onBeforeUnmount } from 'vue'
 

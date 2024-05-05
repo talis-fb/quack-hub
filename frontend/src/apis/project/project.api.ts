@@ -1,7 +1,7 @@
 import { api } from '@/network/api'
 
-import type { ICreateProject } from '@/apis/project/types/ICreateProject'
-import type { IUpdateProject } from '@/apis/project/types/IUpdateProject'
+import type { ICreateProject } from '@/types/ICreateProject'
+import type { IUpdateProject } from '@/types/IUpdateProject'
 import type { IProjectResponse } from '@/apis/project/models/IProjectResponse'
 
 export interface IProjectApi {

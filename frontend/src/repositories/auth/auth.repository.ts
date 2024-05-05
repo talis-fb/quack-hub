@@ -1,8 +1,8 @@
 import type { IAuthApi } from '@/apis/auth/auth.api'
 import type { IAuth } from '@/entites/IAuth'
 
-import type { ISigninParams } from '@/interfaces/ISigninParams'
-import type { ISignupParams } from '@/interfaces/ISignupParams'
+import type { ISigninParams } from '@/types/ISigninParams'
+import type { ISignupParams } from '@/types/ISignupParams'
 
 export interface IAuthRepository {
   signin(signinParams: ISigninParams): Promise<IAuth>

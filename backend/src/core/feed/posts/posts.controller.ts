@@ -40,10 +40,10 @@ export class PostsController {
 
   @ApiResponse({
     status: 200,
-    description: 'Post filtered by name o user returned successfully.',
+    description: 'Post filtered by username returned successfully.',
   })
   @Get()
-  async search(@Query('name') name?: string) {
+  async search(@Query('username') name?: string) {
     return await this.postsService.search(name);
   }
 

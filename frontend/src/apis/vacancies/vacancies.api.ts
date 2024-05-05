@@ -1,7 +1,7 @@
 import { api } from '@/network/api'
-import type { ICreateVacancy } from '../project/types/ICreateVacancy'
+import type { ICreateVacancy } from '../../types/ICreateVacancy'
 import type { IVacancyResponse } from '../project/models/IVacancyResponse'
-import type { IUpdateVacancy } from '../project/types/IUpdateVacancy'
+import type { IUpdateVacancy } from '../../types/IUpdateVacancy'
 
 export interface IVacancyApi {
   getVacanciesByProjectId(projectId: number): Promise<IVacancyResponse[]>

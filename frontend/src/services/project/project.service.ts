@@ -1,5 +1,5 @@
-import type { ICreateProject } from '@/apis/project/types/ICreateProject'
-import type { IUpdateProject } from '@/apis/project/types/IUpdateProject'
+import type { ICreateProject } from '@/types/ICreateProject'
+import type { IUpdateProject } from '@/types/IUpdateProject'
 import type { IProjectEntity } from '@/entites/IProject'
 import type { IProjectRepository } from '@/repositories/project/project.repository'
 
