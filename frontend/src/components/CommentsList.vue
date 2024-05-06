@@ -5,8 +5,7 @@ import CommentItem from '@/components/CommentItem.vue'
 // Shadcn-vue components
 import { Separator } from '@/components/ui/separator'
 
-// Vue imports
-
+// Pinia store
 import { usePostStore } from '@/stores/post'
 import { storeToRefs } from 'pinia'
 

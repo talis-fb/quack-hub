@@ -8,6 +8,8 @@ import { ThumbsUp, MessageSquare } from 'lucide-vue-next'
 
 // Routes config
 import { metadataRoutes } from '@/router/RoutesConfig'
+
+// Services
 import { postService } from '@/services'
 
 // Shadcn-vue components
@@ -19,18 +21,23 @@ import CommentsList from '@/components/CommentsList.vue'
 import CommentsListFallback from '@/components/CommentsListFallback.vue'
 
 // Vue imports
-import { onBeforeMount, onMounted, ref, type TextareaHTMLAttributes } from 'vue'
+import { computed, onBeforeMount, onMounted, provide, ref, type TextareaHTMLAttributes } from 'vue'
 
 // Store pinia
 import { usePostStore } from '@/stores/post'
+import { useAuthStore } from '@/stores/auth'
 import { storeToRefs } from 'pinia'
+
+// Types
 import type { ICommentData } from '@/entites/IComment'
+
 
 export interface IPostViewProps {
   post: IPostEntityWithUser
 }
 
 const postStore = usePostStore()
+const authStore = useAuthStore()
 
 const { post } = storeToRefs(postStore)
 
@@ -48,7 +55,7 @@ async function handleSubmit() {
     content: textComment.value
   })
 
-  textComment.value = '';
+  textComment.value = ''
 }
 
 async function createComment(data: ICommentData) {
@@ -65,6 +72,12 @@ const adjustTextarea = () => {
 onBeforeMount(() => {
   postStore.setPost(props.post)
 })
+
+const isPostOwner = computed(() => {
+  return props.post.User.id == authStore.user.id
+})
+
+provide('isPostOwner', isPostOwner)
 </script>
 
 <script lang="ts">
@@ -139,7 +152,9 @@ export default {
             />
           </div>
 
-          <Button :disabled="!textComment" variant="default" class="self-end" @click="handleSubmit"> Responder </Button>
+          <Button :disabled="!textComment" variant="default" class="self-end" @click="handleSubmit">
+            Responder
+          </Button>
         </div>
 
         <Suspense>

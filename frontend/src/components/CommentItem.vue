@@ -8,7 +8,6 @@ import { ChevronDown } from 'lucide-vue-next'
 // Shadcn-vue components
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
-import { Input } from '@/components/ui/input'
 
 // App components
 import AppDialog from '@/components/AppDialog.vue'
@@ -16,11 +15,12 @@ import EditComment from '@/components/EditComment.vue'
 
 // Pinia imports
 import { usePostStore } from '@/stores/post'
+import { useAuthStore } from '@/stores/auth'
 import { storeToRefs } from 'pinia'
 
 // Types
 import { type ICommentData, type ICommentEntityWithUserAndPostId } from '../entites/IComment'
-import { ref } from 'vue'
+import { computed, inject } from 'vue'
 
 export interface CommentItemProps {
   comment: ICommentEntityWithUserAndPostId
@@ -37,8 +37,13 @@ async function handleUpdateComment(commentId: number, data: Partial<ICommentData
 const props = defineProps<CommentItemProps>()
 
 const postStore = usePostStore()
+const authStore = useAuthStore()
 
-const textComment = ref('')
+const isCommentOwner = computed(() => {
+  return props.comment.User.id === authStore.user.id
+})
+
+const isPostOwner = inject('isPostOwner')
 </script>
 
 <template>
@@ -59,14 +64,14 @@ const textComment = ref('')
         {{ comment.content }}
       </p>
 
-      <div class="absolute top-0 right-0">
+      <div v-if="isPostOwner || isCommentOwner" class="absolute top-0 right-0">
         <Popover :modal="true">
           <PopoverTrigger as-child>
             <ChevronDown class="cursor-pointer" />
           </PopoverTrigger>
           <PopoverContent class="max-w-[150px] p-0">
             <div class="flex flex-col">
-              <AppDialog>
+              <AppDialog v-if="isCommentOwner">
                 <template #trigger>
                   <div class="cursor-pointer p-3 text-center hover:bg-muted">Editar</div>
                 </template>
