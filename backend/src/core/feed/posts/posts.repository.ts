@@ -6,7 +6,7 @@ import { PrismaService } from 'src/common/prisma/prisma.service';
 export abstract class PostsRepository {
   abstract getPostById(id: number): Promise<PostEntityWithUser | void>;
   abstract getPostsByUserId(userId: number): Promise<PostEntityWithUser[]>;
-  abstract create(data: PostData, userId: number): Promise<PostEntity>;
+  abstract create(data: PostData, userId: number): Promise<PostEntityWithUser>;
   abstract update(
     id: number,
     data: Partial<PostData>,
@@ -53,7 +53,7 @@ export class PostsRepositoryImpl implements PostsRepository {
     });
   }
 
-  async create(data: PostData, userId: number): Promise<PostEntity> {
+  async create(data: PostData, userId: number): Promise<PostEntityWithUser> {
     return await this.prisma.post.create({
       data: {
         ...data,
@@ -66,6 +66,7 @@ export class PostsRepositoryImpl implements PostsRepository {
             likes: true,
           },
         },
+        User: true,
       },
     });
   }

@@ -46,6 +46,7 @@ export interface IProjectFormProps {
   project?: IProjectEntity
 
   handleSubmit: (values: ICreateProject) => Promise<void>
+    
 }
 
 const props = defineProps<IProjectFormProps>()
@@ -130,6 +131,9 @@ form.setValues({
 
 const onSubmit = form.handleSubmit(async (values) => {
   await props.handleSubmit({ ...values })
+  form.resetForm();
+  replace([])
+
 })
 
 const handleProjectImported = (data: IProjectGithub) => {
@@ -141,7 +145,7 @@ const handleProjectImported = (data: IProjectGithub) => {
   })
 }
 
-const { remove, push, fields } = useFieldArray('methodologies')
+const { remove, push, fields, replace } = useFieldArray('methodologies')
 </script>
 
 <template>

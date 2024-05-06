@@ -11,7 +11,7 @@ export interface IPostService {
   getPostById(id: number): Promise<IPostEntityWithUser>
   delete(postId: number): Promise<IPostEntity>
   update(postId: number, data: IPostData): Promise<IPostEntity>
-  create(data: IPostData): Promise<IPostEntity>
+  create(data: IPostData): Promise<IPostEntityWithUser>
   getCommentsByPostId(postId: number): Promise<ICommentEntityWithUserAndPostId[]>
   createComment(data: ICommentData): Promise<ICommentEntityWithUserAndPostId>
   deleteComment(commentId: number): Promise<ICommentEntity>
@@ -45,7 +45,7 @@ export class PostServiceImpl implements IPostService {
     return res
   }
 
-  async create(data: IPostData): Promise<IPostEntity> {
+  async create(data: IPostData): Promise<IPostEntityWithUser> {
     const res = await this.postApi.create(data)
 
     return res

@@ -42,7 +42,7 @@ export class PostsServiceImpl implements PostsService {
     return postsUser;
   }
 
-  async create(data: CreatePostDto, userId: number): Promise<PostEntity> {
+  async create(data: CreatePostDto, userId: number): Promise<PostEntityWithUser> {
     const userExist = await this.userRepository.getUserById(userId);
     if (!userExist) {
       throw new UserNotFoundException();
