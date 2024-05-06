@@ -13,8 +13,12 @@ import { Pencil, Trash } from 'lucide-vue-next'
 
 // Types
 import type { IExperienceEntity } from '@/entites/IExperience'
-import { useExperienceStore } from '@/stores/experience'
 import type { ICreateExperience } from '@/apis/experience/types/ICreateExperience'
+
+// Pinia store
+import { useExperienceStore } from '@/stores/experience'
+
+// Vue imports
 import { inject } from 'vue'
 
 export interface ExperienceItemProps {
@@ -22,7 +26,10 @@ export interface ExperienceItemProps {
 }
 
 /**
- * O provedor desse inject ẽ um componente pai. No caso o componente UserProfileView
+ * @type {boolean}
+ * @description Check if experience owner is the same as the authenticated user
+ * @description This is captured in the UserProfileView component
+ 
  */
 const hasPermissions = inject('hasPermissions', false)
 

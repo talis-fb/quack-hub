@@ -43,6 +43,12 @@ const isCommentOwner = computed(() => {
   return props.comment.User.id === authStore.user.id
 })
 
+/**
+ * @type {boolean}
+ * @description Check if the post owner is the same as the authenticated user
+ * @description This is captured in the PostView component
+ 
+ */
 const isPostOwner = inject('isPostOwner')
 </script>
 
