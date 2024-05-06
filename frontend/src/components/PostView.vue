@@ -10,6 +10,9 @@ import type { IProjectEntity } from '@/entites/IProject'
 import { metadataRoutes } from '@/router/RoutesConfig'
 import { postService } from '@/services'
 
+// Shadcn-vue components
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+
 // Vue imports
 import { ref } from 'vue'
 
