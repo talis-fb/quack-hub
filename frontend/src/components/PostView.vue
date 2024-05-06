@@ -3,9 +3,6 @@
 import DefaultUserIcon from '@/assets/DefaultUserIcon.jpg'
 import type { IPostEntityWithUser } from '@/entites/IPost'
 
-// Types
-import type { IProjectEntity } from '@/entites/IProject'
-
 // Icons
 import { ThumbsUp, MessageSquare } from 'lucide-vue-next'
 
@@ -15,10 +12,7 @@ import { postService } from '@/services'
 
 // Shadcn-vue components
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { Separator } from '@/components/ui/separator'
 import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Textarea } from '@/components/ui/textarea'
 
 // App components
 import CommentsList from '@/components/CommentsList.vue'
@@ -33,13 +27,10 @@ export interface IPostViewProps {
 
 const props = defineProps<IPostViewProps>()
 
-const textarea = ref()
+const textarea = ref<HTMLTextAreaElement | null>(null)
 
 const adjustTextarea = () => {
-  console.log(textarea.value)
   if (!textarea.value) return
-
-  console.log(textarea.value)
 
   textarea.value.style.height = 'auto'
   textarea.value.style.height = `${textarea.value.scrollHeight}px`

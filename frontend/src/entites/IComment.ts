@@ -2,11 +2,11 @@ import type { IUserEntity } from './IUser'
 
 export interface ICommentData {
   content: string
+  postid: number
 }
 
 export interface ICommentDataWithUserAndPostId extends ICommentData {
   userId: number
-  postid: number
   User: IUserEntity
 }
 

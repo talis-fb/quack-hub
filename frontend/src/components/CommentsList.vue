@@ -4,7 +4,7 @@ import DefaultUserIcon from '@/assets/DefaultUserIcon.jpg'
 
 // Shadcn-vue components
 import { Separator } from '@/components/ui/separator'
-import type { ICommentEntity } from '@/entites/IComment'
+import type { ICommentData, ICommentEntity } from '@/entites/IComment'
 import { postService } from '@/services'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 
@@ -22,7 +22,7 @@ const comments = ref<ICommentEntity[]>([])
 const fetchComments = async (postId: number) => {
   const res = await postService.getCommentsByPostId(postId)
 
-  await new Promise((resolve) => setTimeout(resolve, 1500))
+  // await new Promise((resolve) => setTimeout(resolve, 1500))
 
   comments.value = res
 }
@@ -32,7 +32,7 @@ await fetchComments(props.postId)
 
 <template>
   <div class="flex flex-col">
-    <div v-for="comment in comments" >
+    <div v-for="comment in comments">
       <div class="flex px-2 py-3 gap-2">
         <Avatar class="w-12 h-12">
           <AvatarImage :src="comment.User.avatarUrl ?? ''" />
