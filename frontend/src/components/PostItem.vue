@@ -48,7 +48,7 @@ const navigateToPost = () => {
 
     <img
       class="max-w-[600px] w-full mx-auto rounded-lg"
-      src="https://t4.ftcdn.net/jpg/05/47/97/81/360_F_547978128_vqEEUYBr1vcAwfRAqReZXTYtyawpgLcC.jpg"
+      src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRpO7pogv_X7OL8a237slplATB7jXGre1wWd_PH2LU-Iw&s"
       alt="Post image"
     />
 

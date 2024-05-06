@@ -7,6 +7,7 @@ import { Separator } from '@/components/ui/separator'
 import type { ICommentEntity } from '@/entites/IComment'
 import { postService } from '@/services'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+
 // Vue imports
 import { computed, ref } from 'vue'
 

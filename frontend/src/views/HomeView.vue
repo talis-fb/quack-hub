@@ -4,17 +4,48 @@ import DefaultUserIcon from '@/assets/DefaultUserIcon.jpg'
 
 // Shadcn-vue components
 import Separator from '@/components/ui/separator/Separator.vue'
-// Icons
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 
+// Icons
 import { Presentation, NotebookPen, ChevronDown } from 'lucide-vue-next'
+
+// Pinia store
+import { useAuthStore } from '@/stores/auth'
+import { storeToRefs } from 'pinia'
+import { onBeforeMount, ref } from 'vue'
+import type { IUserEntity } from '@/entites/IUser'
+import { userService } from '@/services'
+
+const authStore = useAuthStore()
+
+const user = ref<IUserEntity | null>(null)
+
+async function fetchUser(userId: number) {
+  const res = await userService.getUserById(userId)
+
+  return res
+}
+
+onBeforeMount(async () => {
+  if (!authStore.user.id) return
+
+  user.value = await fetchUser(authStore.user.id)
+})
 </script>
 
 <template>
   <div class="flex-1 p-2 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 mt-6 gap-6">
     <aside class="border p-6 flex flex-col items-center gap-4 rounded-md">
       <div class="flex flex-col items-center border-b-2 border-slate-300 text-lg pb-6">
-        <img class="h-14 rounded-full" :src="DefaultUserIcon" />
-        <p>User name</p>
+        <Avatar class="w-16 h-16">
+          <AvatarImage :src="user?.avatarUrl ?? ''" />
+
+          <AvatarFallback>
+            <img :src="DefaultUserIcon" alt="avatar_user" />
+          </AvatarFallback>
+        </Avatar>
+
+        <p>{{ user?.name }}</p>
       </div>
       <p>Lista de amigos</p>
     </aside>
