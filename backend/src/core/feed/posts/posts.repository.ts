@@ -1,25 +1,25 @@
 import { Injectable, Provider } from '@nestjs/common';
 
-import { PostData, PostEntity } from './posts.entity';
+import { PostData, PostEntity, PostEntityWithUser } from './posts.entity';
 import { PrismaService } from 'src/common/prisma/prisma.service';
 
 export abstract class PostsRepository {
-  abstract getPostById(id: number): Promise<PostEntity | void>;
-  abstract getPostsByUserId(userId: number): Promise<PostEntity[]>;
+  abstract getPostById(id: number): Promise<PostEntityWithUser | void>;
+  abstract getPostsByUserId(userId: number): Promise<PostEntityWithUser[]>;
   abstract create(data: PostData, userId: number): Promise<PostEntity>;
   abstract update(
     id: number,
     data: Partial<PostData>,
   ): Promise<PostEntity | void>;
   abstract delete(id: number): Promise<PostEntity | void>;
-  abstract search(searchUsername?: string): Promise<PostEntity[]>;
+  abstract search(searchUsername?: string): Promise<PostEntityWithUser[]>;
 }
 
 @Injectable()
 export class PostsRepositoryImpl implements PostsRepository {
   constructor(private prisma: PrismaService) {}
 
-  async getPostById(id: number): Promise<PostEntity | void> {
+  async getPostById(id: number): Promise<PostEntityWithUser | void> {
     return await this.prisma.post.findUnique({
       where: {
         id,
@@ -31,11 +31,12 @@ export class PostsRepositoryImpl implements PostsRepository {
             likes: true,
           },
         },
+        User: true,
       },
     });
   }
 
-  async getPostsByUserId(userId: number): Promise<PostEntity[]> {
+  async getPostsByUserId(userId: number): Promise<PostEntityWithUser[]> {
     return await this.prisma.post.findMany({
       where: {
         userId,
@@ -47,6 +48,7 @@ export class PostsRepositoryImpl implements PostsRepository {
             likes: true,
           },
         },
+        User: true,
       },
     });
   }
@@ -104,7 +106,7 @@ export class PostsRepositoryImpl implements PostsRepository {
     });
   }
 
-  public async search(searchUsername?: string): Promise<PostEntity[]> {
+  public async search(searchUsername?: string): Promise<PostEntityWithUser[]> {
     const output = await this.prisma.post.findMany({
       where: {
         User: {
@@ -120,6 +122,7 @@ export class PostsRepositoryImpl implements PostsRepository {
             likes: true,
           },
         },
+        User: true,
       },
     });
 

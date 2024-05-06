@@ -8,12 +8,12 @@ import Button from './ui/button/Button.vue'
 
 // Icons
 import { ThumbsUp, MessageSquare } from 'lucide-vue-next'
-import type { IPostEntity } from '@/entites/IPost'
+import type { IPostEntityWithUser } from '@/entites/IPost'
 import { useRouter } from 'vue-router'
 import { metadataRoutes } from '@/router/RoutesConfig'
 
 export interface IPostItemProps {
-  post: IPostEntity
+  post: IPostEntityWithUser
 }
 
 const props = defineProps<IPostItemProps>()
@@ -40,14 +40,14 @@ const navigateToPost = () => {
       </Avatar>
 
       <div>
-        <h1 class="text-xl font-bold">User name</h1>
+        <h1 class="text-xl font-bold">{{ props.post.User.name }}</h1>
         <p class="text-xl font-semibold">{{ props.post.title }}</p>
         <p class="text-lg">{{ props.post.content }}</p>
       </div>
     </header>
 
     <img
-      class="max-w-[600px] w-full mx-auto"
+      class="max-w-[600px] w-full mx-auto rounded-lg"
       src="https://t4.ftcdn.net/jpg/05/47/97/81/360_F_547978128_vqEEUYBr1vcAwfRAqReZXTYtyawpgLcC.jpg"
       alt="Post image"
     />

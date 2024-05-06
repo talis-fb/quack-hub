@@ -1,3 +1,5 @@
+import type { IUserEntity } from "./IUser"
+
 export interface IPostData {
   title: string
   content: string
@@ -14,4 +16,8 @@ export interface IPostEntity extends IPostDataWithCount {
   id: number
   createdAt: string
   updatedAt: string
+}
+
+export interface IPostEntityWithUser extends IPostEntity {
+  User: IUserEntity
 }

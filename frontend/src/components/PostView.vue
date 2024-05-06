@@ -1,7 +1,7 @@
 <script setup lang="ts">
 // Images
 import DefaultUserIcon from '@/assets/DefaultUserIcon.jpg'
-import type { IPostEntity } from '@/entites/IPost'
+import type { IPostEntityWithUser } from '@/entites/IPost'
 
 // Types
 import type { IProjectEntity } from '@/entites/IProject'
@@ -17,7 +17,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { ref } from 'vue'
 
 export interface IPostViewProps {
-  post: IPostEntity
+  post: IPostEntityWithUser
 }
 
 const props = defineProps<IPostViewProps>()
@@ -41,7 +41,7 @@ export default {
 
 <template>
   <div class="flex-1 flex justify-center">
-    <article class="border p-2">
+    <article class="max-w-[50%] border p-2">
       <header class="flex gap-2">
         <Avatar class="w-16 h-16">
           <AvatarImage :src="DefaultUserIcon" />
@@ -52,14 +52,14 @@ export default {
         </Avatar>
 
         <div>
-          <h1 class="text-xl font-bold">User name</h1>
+          <h1 class="text-xl font-bold">{{ props.post.User.name }}</h1>
           <p class="text-xl font-semibold">{{ props.post.title }}</p>
           <p class="text-lg">{{ props.post.content }}</p>
         </div>
       </header>
 
       <img
-        class="max-w-[600px] w-full mx-auto"
+        class="max-w-[600px] w-full mx-auto rounded-lg"
         src="https://t4.ftcdn.net/jpg/05/47/97/81/360_F_547978128_vqEEUYBr1vcAwfRAqReZXTYtyawpgLcC.jpg"
         alt="Post image"
       />
@@ -82,6 +82,14 @@ export default {
         >
           <MessageSquare />
         </Button>
+      </section>
+
+      <section class="bg-red-300">
+        <div>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium id eius alias amet
+          dolore dolor repellat, veritatis eligendi optio, dolorum ut, adipisci dicta vel minus
+          ipsa? At quidem repellat accusantium.
+        </div>
       </section>
     </article>
   </div>

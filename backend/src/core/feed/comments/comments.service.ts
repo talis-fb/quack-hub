@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { CommentEntity } from './comments.entity';
+import { CommentEntity, CommentEntityWithUser } from './comments.entity';
 import { CreateCommentDto } from './dtos/CreateCommentDto';
 import { UpdateCommentDto } from './dtos/UpdateCommentDto';
 import { CommentsRepository } from './comments.repository';
@@ -11,7 +11,7 @@ import { PostNotFoundException } from '../posts/posts.exceptions';
 
 export abstract class CommentsService {
   abstract getCommentById(id: number): Promise<CommentEntity>;
-  abstract getCommentsByPostId(postId: number): Promise<CommentEntity[]>;
+  abstract getCommentsByPostId(postId: number): Promise<CommentEntityWithUser[]>;
   abstract create(
     data: CreateCommentDto,
     userId: number,
@@ -37,7 +37,7 @@ export class CommentsServiceImpl implements CommentsService {
     return comment;
   }
 
-  async getCommentsByPostId(postId: number): Promise<CommentEntity[]> {
+  async getCommentsByPostId(postId: number): Promise<CommentEntityWithUser[]> {
     const postExist = await this.postRepository.getPostById(postId);
 
     if (!postExist) {

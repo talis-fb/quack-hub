@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import PostItem from '@/components/PostItem.vue'
-import type { IPostEntity } from '@/entites/IPost'
+import type { IPostEntityWithUser } from '@/entites/IPost'
 import { postService } from '@/services'
 import { ref } from 'vue'
 
-const posts = ref<IPostEntity[]>([])
+const posts = ref<IPostEntityWithUser[]>([])
 
 const fetchPosts = async () => {
   const res = await postService.search()

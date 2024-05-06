@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
 
 import { PrismaService } from 'src/common/prisma/prisma.service';
-import { CommentData, CommentEntity } from './comments.entity';
+import { CommentData, CommentEntity, CommentEntityWithUser } from './comments.entity';
 
 export abstract class CommentsRepository {
   abstract getCommentById(id: number): Promise<CommentEntity | void>;
-  abstract getCommentsByPostId(postId: number): Promise<CommentEntity[]>;
+  abstract getCommentsByPostId(postId: number): Promise<CommentEntityWithUser[]>;
   abstract create(data: CommentData): Promise<CommentEntity>;
   abstract update(
     id: number,
@@ -26,10 +26,13 @@ export class CommentsRepositoryImpl implements CommentsRepository {
     });
   }
 
-  async getCommentsByPostId(postId: number): Promise<CommentEntity[]> {
+  async getCommentsByPostId(postId: number): Promise<CommentEntityWithUser[]> {
     return await this.prisma.comment.findMany({
       where: {
         postId,
+      },
+      include: {
+        User: true,
       },
     });
   }

@@ -1,17 +1,17 @@
-import type { IPostData, IPostEntity } from '@/entites/IPost'
+import type { IPostData, IPostEntity, IPostEntityWithUser } from '@/entites/IPost'
 import { api } from '@/network/api'
 
 export interface IPostApi {
-  search(username?: string): Promise<IPostEntity[]>
-  getPostById(id: number): Promise<IPostEntity>
+  search(username?: string): Promise<IPostEntityWithUser[]>
+  getPostById(id: number): Promise<IPostEntityWithUser>
   delete(id: number): Promise<IPostEntity>
   update(id: number, data: IPostData): Promise<IPostEntity>
   create(data: IPostData): Promise<IPostEntity>
 }
 
 export class PostApiImpl implements IPostApi {
-  async search(username?: string): Promise<IPostEntity[]> {
-    const res = await api.get<IPostEntity[]>('/posts', {
+  async search(username?: string): Promise<IPostEntityWithUser[]> {
+    const res = await api.get<IPostEntityWithUser[]>('/posts', {
       params: {
         username
       }
@@ -20,8 +20,8 @@ export class PostApiImpl implements IPostApi {
     return res.data
   }
 
-  async getPostById(id: number): Promise<IPostEntity> {
-    const res = await api.get<IPostEntity>(`/posts/${id}`)
+  async getPostById(id: number): Promise<IPostEntityWithUser> {
+    const res = await api.get<IPostEntityWithUser>(`/posts/${id}`)
 
     return res.data
   }

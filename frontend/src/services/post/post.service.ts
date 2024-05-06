@@ -1,9 +1,9 @@
 import type { IPostApi } from '@/apis/post/post.api'
-import type { IPostData, IPostEntity } from '@/entites/IPost'
+import type { IPostData, IPostEntity, IPostEntityWithUser } from '@/entites/IPost'
 
 export interface IPostService {
-  search(username?: string): Promise<IPostEntity[]>
-  getPostById(id: number): Promise<IPostEntity>
+  search(username?: string): Promise<IPostEntityWithUser[]>
+  getPostById(id: number): Promise<IPostEntityWithUser>
   delete(postId: number): Promise<IPostEntity>
   update(postId: number, data: IPostData): Promise<IPostEntity>
   create(data: IPostData): Promise<IPostEntity>
@@ -12,13 +12,13 @@ export interface IPostService {
 export class PostServiceImpl implements IPostService {
   constructor(private readonly postApi: IPostApi) {}
 
-  async search(username?: string): Promise<IPostEntity[]> {
+  async search(username?: string): Promise<IPostEntityWithUser[]> {
     const res = await this.postApi.search(username)
 
     return res
   }
 
-  async getPostById(id: number): Promise<IPostEntity> {
+  async getPostById(id: number): Promise<IPostEntityWithUser> {
     const res = await this.postApi.getPostById(id)
 
     return res
