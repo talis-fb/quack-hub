@@ -4,6 +4,7 @@ import CommentItem from '@/components/CommentItem.vue'
 
 // Shadcn-vue components
 import { Separator } from '@/components/ui/separator'
+import { Alert, AlertTitle } from '@/components/ui/alert'
 
 // Pinia store
 import { usePostStore } from '@/stores/post'
@@ -23,9 +24,14 @@ await postStore.fetchComments(props.postId)
 
 <template>
   <div class="flex flex-col">
-    <div v-for="comment in comments">
+    <div v-if="comments.length" v-for="comment in comments">
       <CommentItem :comment="comment" />
       <Separator />
+    </div>
+    <div v-else class="p-3">
+      <Alert>
+        <AlertTitle>Nenhum comentário na postagem. Comente e seja o primeiro!</AlertTitle>
+      </Alert>
     </div>
   </div>
 </template>
