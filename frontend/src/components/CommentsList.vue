@@ -4,12 +4,11 @@ import DefaultUserIcon from '@/assets/DefaultUserIcon.jpg'
 
 // Shadcn-vue components
 import { Separator } from '@/components/ui/separator'
-import type { ICommentData, ICommentEntity } from '@/entites/IComment'
-import { postService } from '@/services'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 
 // Vue imports
-import { computed, ref } from 'vue'
+import { usePostStore } from '@/stores/post'
+import { storeToRefs } from 'pinia'
 
 export interface CommentsListProps {
   postId: number
@@ -17,17 +16,10 @@ export interface CommentsListProps {
 
 const props = defineProps<CommentsListProps>()
 
-const comments = ref<ICommentEntity[]>([])
+const postStore = usePostStore()
+const { comments } = storeToRefs(postStore)
 
-const fetchComments = async (postId: number) => {
-  const res = await postService.getCommentsByPostId(postId)
-
-  // await new Promise((resolve) => setTimeout(resolve, 1500))
-
-  comments.value = res
-}
-
-await fetchComments(props.postId)
+await postStore.fetchComments(props.postId)
 </script>
 
 <template>

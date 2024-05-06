@@ -15,8 +15,8 @@ export abstract class CommentsService {
   abstract create(
     data: CreateCommentDto,
     userId: number,
-  ): Promise<CommentEntity>;
-  abstract update(id: number, data: UpdateCommentDto): Promise<CommentEntity>;
+  ): Promise<CommentEntityWithUser>;
+  abstract update(id: number, data: UpdateCommentDto): Promise<CommentEntityWithUser>;
   abstract delete(id: number): Promise<CommentEntity>;
 }
 
@@ -48,7 +48,7 @@ export class CommentsServiceImpl implements CommentsService {
     return comment;
   }
 
-  async create(data: CreateCommentDto, userId: number): Promise<CommentEntity> {
+  async create(data: CreateCommentDto, userId: number): Promise<CommentEntityWithUser> {
     const userExist = await this.userRepository.getUserById(userId);
     if (!userExist) {
       throw new UserNotFoundException();
@@ -61,7 +61,7 @@ export class CommentsServiceImpl implements CommentsService {
     return comment;
   }
 
-  async update(id: number, data: UpdateCommentDto): Promise<CommentEntity> {
+  async update(id: number, data: UpdateCommentDto): Promise<CommentEntityWithUser> {
     const comment = await this.commentsRepository.update(id, data);
     if (!comment) {
       throw new CommentNotFoundException();

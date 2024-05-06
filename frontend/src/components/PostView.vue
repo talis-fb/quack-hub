@@ -19,15 +19,41 @@ import CommentsList from '@/components/CommentsList.vue'
 import CommentsListFallback from '@/components/CommentsListFallback.vue'
 
 // Vue imports
-import { ref, type TextareaHTMLAttributes } from 'vue'
+import { onBeforeMount, onMounted, ref, type TextareaHTMLAttributes } from 'vue'
+
+// Store pinia
+import { usePostStore } from '@/stores/post'
+import { storeToRefs } from 'pinia'
+import type { ICommentData } from '@/entites/IComment'
 
 export interface IPostViewProps {
   post: IPostEntityWithUser
 }
 
+const postStore = usePostStore()
+
+const { post } = storeToRefs(postStore)
+
 const props = defineProps<IPostViewProps>()
 
 const textarea = ref<HTMLTextAreaElement | null>(null)
+
+const textComment = ref('')
+
+async function handleSubmit() {
+  if (!textComment.value) return
+
+  await createComment({
+    postId: post.value?.id as number,
+    content: textComment.value
+  })
+
+  textComment.value = '';
+}
+
+async function createComment(data: ICommentData) {
+  await postStore.createComment(data)
+}
 
 const adjustTextarea = () => {
   if (!textarea.value) return
@@ -35,6 +61,10 @@ const adjustTextarea = () => {
   textarea.value.style.height = 'auto'
   textarea.value.style.height = `${textarea.value.scrollHeight}px`
 }
+
+onBeforeMount(() => {
+  postStore.setPost(props.post)
+})
 </script>
 
 <script lang="ts">
@@ -58,7 +88,7 @@ export default {
     <article class="w-[75%] border">
       <header class="p-2 flex gap-2">
         <Avatar class="w-16 h-16">
-          <AvatarImage :src="props.post.User.avatarUrl ?? ''" />
+          <AvatarImage :src="(post as IPostEntityWithUser).User.avatarUrl ?? ''" />
 
           <AvatarFallback>
             <img :src="DefaultUserIcon" alt="avatar_user" />
@@ -66,9 +96,9 @@ export default {
         </Avatar>
 
         <div>
-          <h1 class="text-xl font-bold">{{ props.post.User.name }}</h1>
-          <p class="text-xl font-semibold">{{ props.post.title }}</p>
-          <p class="text-lg">{{ props.post.content }}</p>
+          <h1 class="text-xl font-bold">{{ (post as IPostEntityWithUser).User.name }}</h1>
+          <p class="text-xl font-semibold">{{ (post as IPostEntityWithUser).title }}</p>
+          <p class="text-lg">{{ (post as IPostEntityWithUser).content }}</p>
         </div>
       </header>
 
@@ -93,7 +123,7 @@ export default {
         <div class="py-3 px-2 border flex flex-col space-y-2">
           <div class="flex space-x-2">
             <Avatar class="w-12 h-12">
-              <AvatarImage :src="props.post.User.avatarUrl ?? ''" />
+              <AvatarImage :src="(post as IPostEntityWithUser).User.avatarUrl ?? ''" />
 
               <AvatarFallback>
                 <img :src="DefaultUserIcon" alt="avatar_user" />
@@ -101,6 +131,7 @@ export default {
             </Avatar>
 
             <textarea
+              v-model="textComment"
               ref="textarea"
               @input="(e) => adjustTextarea()"
               placeholder="Postar sua resposta"
@@ -108,11 +139,11 @@ export default {
             />
           </div>
 
-          <Button variant="default" class="self-end"> Responder </Button>
+          <Button :disabled="!textComment" variant="default" class="self-end" @click="handleSubmit"> Responder </Button>
         </div>
 
         <Suspense>
-          <CommentsList :post-id="props.post.id" />
+          <CommentsList :post-id="(post as IPostEntityWithUser).id" />
           <template #fallback>
             <CommentsListFallback :length="4" />
           </template>
