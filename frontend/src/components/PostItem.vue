@@ -47,8 +47,9 @@ const navigateToPost = () => {
     </header>
 
     <img
+      v-if="props.post.imageUrl"
       class="max-w-[600px] w-full mx-auto rounded-lg"
-      src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRpO7pogv_X7OL8a237slplATB7jXGre1wWd_PH2LU-Iw&s"
+      :src="props.post.imageUrl"
       alt="Post image"
     />
 

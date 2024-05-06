@@ -31,7 +31,6 @@ import { storeToRefs } from 'pinia'
 // Types
 import type { ICommentData } from '@/entites/IComment'
 
-
 export interface IPostViewProps {
   post: IPostEntityWithUser
 }
@@ -116,8 +115,9 @@ export default {
       </header>
 
       <img
+        v-if="props.post.imageUrl"
         class="max-w-[600px] w-full mx-auto rounded-lg"
-        src="https://t4.ftcdn.net/jpg/05/47/97/81/360_F_547978128_vqEEUYBr1vcAwfRAqReZXTYtyawpgLcC.jpg"
+        :src="props.post.imageUrl"
         alt="Post image"
       />
 

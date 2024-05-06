@@ -1,8 +1,9 @@
-import type { IUserEntity } from "./IUser"
+import type { IUserEntity } from './IUser'
 
 export interface IPostData {
   title: string
   content: string
+  imageUrl: string | null
 }
 
 export interface IPostDataWithCount extends IPostData {

@@ -4,6 +4,9 @@ import { useForm } from 'vee-validate'
 import { toTypedSchema } from '@vee-validate/zod'
 import * as z from 'zod'
 
+//Icons
+import { ImageIcon } from 'lucide-vue-next'
+
 // Shadcn-vue components
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
@@ -39,7 +42,15 @@ const formSchema = toTypedSchema(
       .string({
         required_error: 'O conteúdo da postagem é obrigatório'
       })
-      .min(2, { message: 'O título deve ter no mínimo 2 caracteres' })
+      .min(2, { message: 'O título deve ter no mínimo 2 caracteres' }),
+    imageUrl: z
+      .string({
+        required_error: 'Campo url da imagem obrigatório.'
+      })
+      .url({ message: 'Esse não é um link válido.' })
+      .nullish()
+      .or(z.literal(''))
+      .transform((e) => (e === '' ? null : e))
   })
 )
 
@@ -86,6 +97,28 @@ const onSubmit = form.handleSubmit((values) => {
             class="resize-none"
             autocomplete="content"
           />
+        </FormControl>
+        <FormMessage />
+      </FormItem>
+    </FormField>
+
+    <FormField v-slot="{ componentField }" name="imageUrl">
+      <FormItem>
+        <FormLabel>Imagem</FormLabel>
+        <FormControl>
+          <div class="relative w-full max-w-sm items-center">
+            <Input
+              type="text"
+              id=""
+              placeholder="URL da image..."
+              class="pl-10"
+              v-bind="componentField"
+            />
+            <span class="absolute start-0 inset-y-0 flex items-center justify-center px-2">
+              <ImageIcon class="size-6 text-muted-foreground" />
+            </span>
+          </div>
+          <img class="w-full " :src="componentField.modelValue ?? ''" />
         </FormControl>
         <FormMessage />
       </FormItem>
