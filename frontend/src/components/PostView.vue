@@ -6,12 +6,20 @@ import type { IPostEntityWithUser } from '@/entites/IPost'
 // Types
 import type { IProjectEntity } from '@/entites/IProject'
 
+// Icons
+import { ThumbsUp, MessageSquare } from 'lucide-vue-next'
+
 // Routes config
 import { metadataRoutes } from '@/router/RoutesConfig'
 import { postService } from '@/services'
 
 // Shadcn-vue components
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { Separator } from '@/components/ui/separator'
+import Button from './ui/button/Button.vue'
+
+// App components
+import CommentsList from '@/components/CommentsList.vue'
 
 // Vue imports
 import { ref } from 'vue'
@@ -41,8 +49,8 @@ export default {
 
 <template>
   <div class="flex-1 flex justify-center">
-    <article class="max-w-[50%] border p-2">
-      <header class="flex gap-2">
+    <article class="max-w-[50%] border">
+      <header class="p-2 flex gap-2">
         <Avatar class="w-16 h-16">
           <AvatarImage :src="DefaultUserIcon" />
 
@@ -73,23 +81,10 @@ export default {
         >
           <ThumbsUp />
         </Button>
-
-        <Button
-          class="hover:bg-white hover:bg-opacity-10 rounded-full"
-          variant="ghost"
-          size="icon"
-          @hover.stop=""
-        >
-          <MessageSquare />
-        </Button>
       </section>
 
-      <section class="bg-red-300">
-        <div>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium id eius alias amet
-          dolore dolor repellat, veritatis eligendi optio, dolorum ut, adipisci dicta vel minus
-          ipsa? At quidem repellat accusantium.
-        </div>
+      <section>
+        <CommentsList :post-id="props.post.id" />
       </section>
     </article>
   </div>
