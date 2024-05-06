@@ -25,13 +25,25 @@ import CommentsList from '@/components/CommentsList.vue'
 import CommentsListFallback from '@/components/CommentsListFallback.vue'
 
 // Vue imports
-import { ref } from 'vue'
+import { ref, type TextareaHTMLAttributes } from 'vue'
 
 export interface IPostViewProps {
   post: IPostEntityWithUser
 }
 
 const props = defineProps<IPostViewProps>()
+
+const textarea = ref()
+
+const adjustTextarea = () => {
+  console.log(textarea.value)
+  if (!textarea.value) return
+
+  console.log(textarea.value)
+
+  textarea.value.style.height = 'auto'
+  textarea.value.style.height = `${textarea.value.scrollHeight}px`
+}
 </script>
 
 <script lang="ts">
@@ -87,19 +99,25 @@ export default {
       </section>
 
       <section>
-        <div class="p-2 border flex space-x-2">
-          <Avatar class="w-12 h-12">
-            <AvatarImage :src="props.post.User.avatarUrl ?? ''" />
+        <div class="py-3 px-2 border flex flex-col space-y-2">
+          <div class="flex space-x-2">
+            <Avatar class="w-12 h-12">
+              <AvatarImage :src="props.post.User.avatarUrl ?? ''" />
 
-            <AvatarFallback>
-              <img :src="DefaultUserIcon" alt="avatar_user" />
-            </AvatarFallback>
-          </Avatar>
+              <AvatarFallback>
+                <img :src="DefaultUserIcon" alt="avatar_user" />
+              </AvatarFallback>
+            </Avatar>
 
-          <textarea
-            placeholder="Postar sua resposta"
-            class="w-full bg-transparent border-none outline-none resize-none"
-          />
+            <textarea
+              ref="textarea"
+              @input="(e) => adjustTextarea()"
+              placeholder="Postar sua resposta"
+              class="w-full bg-transparent border-none outline-none resize-none min-h-[40px] max-h-[200px]"
+            />
+          </div>
+
+          <Button variant="default" class="self-end"> Responder </Button>
         </div>
 
         <Suspense>
