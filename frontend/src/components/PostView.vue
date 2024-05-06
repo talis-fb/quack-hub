@@ -16,7 +16,9 @@ import { postService } from '@/services'
 // Shadcn-vue components
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Separator } from '@/components/ui/separator'
-import Button from './ui/button/Button.vue'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Textarea } from '@/components/ui/textarea'
 
 // App components
 import CommentsList from '@/components/CommentsList.vue'
@@ -85,6 +87,21 @@ export default {
       </section>
 
       <section>
+        <div class="p-2 border flex space-x-2">
+          <Avatar class="w-12 h-12">
+            <AvatarImage :src="props.post.User.avatarUrl ?? ''" />
+
+            <AvatarFallback>
+              <img :src="DefaultUserIcon" alt="avatar_user" />
+            </AvatarFallback>
+          </Avatar>
+
+          <textarea
+            placeholder="Postar sua resposta"
+            class="w-full bg-transparent border-none outline-none resize-none"
+          />
+        </div>
+
         <Suspense>
           <CommentsList :post-id="props.post.id" />
           <template #fallback>

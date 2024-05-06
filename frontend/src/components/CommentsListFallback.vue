@@ -14,8 +14,7 @@ const props = withDefaults(defineProps<CommentsListFallbackProps>(), {
 
 <template>
   <div class="flex flex-col">
-    <div v-for="item in Array(props.length).fill(1)" class="p-2">
-      <Separator />
+    <div v-for="item in Array(props.length).fill(1)">
       <div class="flex px-2 py-3 gap-2">
         <Skeleton class="w-12 h-12 rounded-full" />
         <div class="flex-1 space-y-2">
@@ -25,6 +24,7 @@ const props = withDefaults(defineProps<CommentsListFallbackProps>(), {
           <Skeleton class="h-4 w-full" />
         </div>
       </div>
+      <Separator />
     </div>
   </div>
 </template>

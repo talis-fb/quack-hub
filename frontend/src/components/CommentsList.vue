@@ -22,7 +22,7 @@ const comments = ref<ICommentEntity[]>([])
 const fetchComments = async (postId: number) => {
   const res = await postService.getCommentsByPostId(postId)
 
-  // await new Promise((resolve) => setTimeout(resolve, 1500))
+  await new Promise((resolve) => setTimeout(resolve, 1500))
 
   comments.value = res
 }
@@ -32,10 +32,9 @@ await fetchComments(props.postId)
 
 <template>
   <div class="flex flex-col">
-    <div v-for="comment in comments" class="p-2">
-      <Separator />
+    <div v-for="comment in comments" >
       <div class="flex px-2 py-3 gap-2">
-        <Avatar class="w-16 h-16">
+        <Avatar class="w-12 h-12">
           <AvatarImage :src="comment.User.avatarUrl ?? ''" />
 
           <AvatarFallback>
@@ -52,6 +51,7 @@ await fetchComments(props.postId)
           </p>
         </div>
       </div>
+      <Separator />
     </div>
   </div>
 </template>
