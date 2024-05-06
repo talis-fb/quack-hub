@@ -20,6 +20,7 @@ import Button from './ui/button/Button.vue'
 
 // App components
 import CommentsList from '@/components/CommentsList.vue'
+import CommentsListFallback from '@/components/CommentsListFallback.vue'
 
 // Vue imports
 import { ref } from 'vue'
@@ -49,10 +50,10 @@ export default {
 
 <template>
   <div class="flex-1 flex justify-center">
-    <article class="max-w-[50%] border">
+    <article class="w-[75%] border">
       <header class="p-2 flex gap-2">
         <Avatar class="w-16 h-16">
-          <AvatarImage :src="DefaultUserIcon" />
+          <AvatarImage :src="props.post.User.avatarUrl ?? ''" />
 
           <AvatarFallback>
             <img :src="DefaultUserIcon" alt="avatar_user" />
@@ -84,7 +85,12 @@ export default {
       </section>
 
       <section>
-        <CommentsList :post-id="props.post.id" />
+        <Suspense>
+          <CommentsList :post-id="props.post.id" />
+          <template #fallback>
+            <CommentsListFallback :length="4" />
+          </template>
+        </Suspense>
       </section>
     </article>
   </div>

@@ -32,7 +32,7 @@ const navigateToPost = () => {
   >
     <header class="flex gap-2">
       <Avatar class="w-16 h-16">
-        <AvatarImage :src="DefaultUserIcon" />
+        <AvatarImage :src="props.post.User.avatarUrl ?? ''" />
 
         <AvatarFallback>
           <img :src="DefaultUserIcon" alt="avatar_user" />

@@ -1,22 +1,57 @@
 <script setup lang="ts">
+// Images
+import DefaultUserIcon from '@/assets/DefaultUserIcon.jpg'
+
 // Shadcn-vue components
 import { Separator } from '@/components/ui/separator'
+import type { ICommentEntity } from '@/entites/IComment'
+import { postService } from '@/services'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+// Vue imports
+import { computed, ref } from 'vue'
 
 export interface CommentsListProps {
   postId: number
 }
 
 const props = defineProps<CommentsListProps>()
+
+const comments = ref<ICommentEntity[]>([])
+
+const fetchComments = async (postId: number) => {
+  const res = await postService.getCommentsByPostId(postId)
+
+  // await new Promise((resolve) => setTimeout(resolve, 1500))
+
+  comments.value = res
+}
+
+await fetchComments(props.postId)
 </script>
 
 <template>
-  <div>
-    <Separator />
-    <span>
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium id eius alias amet dolore
-      dolor repellat, veritatis eligendi optio, dolorum ut, adipisci dicta vel minus ipsa? At quidem
-      repellat accusantium.
-    </span>
+  <div class="flex flex-col">
+    <div v-for="comment in comments" class="p-2">
+      <Separator />
+      <div class="flex px-2 py-3 gap-2">
+        <Avatar class="w-16 h-16">
+          <AvatarImage :src="comment.User.avatarUrl ?? ''" />
+
+          <AvatarFallback>
+            <img :src="DefaultUserIcon" alt="avatar_user" />
+          </AvatarFallback>
+        </Avatar>
+
+        <div class="flex-1 space-y-2">
+          <p>
+            {{ comment.User.name }}
+          </p>
+          <p>
+            {{ comment.content }}
+          </p>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 

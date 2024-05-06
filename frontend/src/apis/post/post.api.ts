@@ -1,3 +1,4 @@
+import type { ICommentEntity } from '@/entites/IComment'
 import type { IPostData, IPostEntity, IPostEntityWithUser } from '@/entites/IPost'
 import { api } from '@/network/api'
 
@@ -7,6 +8,8 @@ export interface IPostApi {
   delete(id: number): Promise<IPostEntity>
   update(id: number, data: IPostData): Promise<IPostEntity>
   create(data: IPostData): Promise<IPostEntity>
+
+  getCommentsByPostId(posttId: number): Promise<ICommentEntity[]>
 }
 
 export class PostApiImpl implements IPostApi {
@@ -40,6 +43,12 @@ export class PostApiImpl implements IPostApi {
 
   async create(data: IPostData): Promise<IPostEntity> {
     const res = await api.post<IPostEntity>('/posts', data)
+
+    return res.data
+  }
+
+  async getCommentsByPostId(posttId: number): Promise<ICommentEntity[]> {
+    const res = await api.get<ICommentEntity[]>(`/comments/post/${posttId}`)
 
     return res.data
   }
