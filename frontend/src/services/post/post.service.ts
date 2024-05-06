@@ -1,5 +1,9 @@
 import type { IPostApi } from '@/apis/post/post.api'
-import type { ICommentData, ICommentEntity } from '@/entites/IComment'
+import type {
+  ICommentData,
+  ICommentEntity,
+  ICommentEntityWithUserAndPostId
+} from '@/entites/IComment'
 import type { IPostData, IPostEntity, IPostEntityWithUser } from '@/entites/IPost'
 
 export interface IPostService {
@@ -8,8 +12,10 @@ export interface IPostService {
   delete(postId: number): Promise<IPostEntity>
   update(postId: number, data: IPostData): Promise<IPostEntity>
   create(data: IPostData): Promise<IPostEntity>
-  getCommentsByPostId(postId: number): Promise<ICommentEntity[]>
-  createComment(data: ICommentData): Promise<ICommentEntity>
+  getCommentsByPostId(postId: number): Promise<ICommentEntityWithUserAndPostId[]>
+  createComment(data: ICommentData): Promise<ICommentEntityWithUserAndPostId>
+  deleteComment(commentId: number): Promise<ICommentEntity>
+  updateComment(commentId: number, data: Partial<ICommentData>): Promise<ICommentEntityWithUserAndPostId>
 }
 
 export class PostServiceImpl implements IPostService {
@@ -45,14 +51,29 @@ export class PostServiceImpl implements IPostService {
     return res
   }
 
-  async getCommentsByPostId(postId: number): Promise<ICommentEntity[]> {
+  async getCommentsByPostId(postId: number): Promise<ICommentEntityWithUserAndPostId[]> {
     const res = await this.postApi.getCommentsByPostId(postId)
 
     return res
   }
 
-  async createComment(data: ICommentData): Promise<ICommentEntity> {
+  async createComment(data: ICommentData): Promise<ICommentEntityWithUserAndPostId> {
     const res = await this.postApi.createComment(data)
+
+    return res
+  }
+
+  async deleteComment(commentId: number): Promise<ICommentEntity> {
+    const res = await this.postApi.deleteComment(commentId)
+
+    return res
+  }
+
+  async updateComment(
+    commentId: number,
+    data: Partial<ICommentData>
+  ): Promise<ICommentEntityWithUserAndPostId> {
+    const res = await this.postApi.updateComment(commentId, data)
 
     return res
   }

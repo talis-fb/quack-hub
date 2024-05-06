@@ -1,4 +1,8 @@
-import type { ICommentData, ICommentEntity } from '@/entites/IComment'
+import type {
+  ICommentData,
+  ICommentEntity,
+  ICommentEntityWithUserAndPostId
+} from '@/entites/IComment'
 import type { IPostData, IPostEntity, IPostEntityWithUser } from '@/entites/IPost'
 import { api } from '@/network/api'
 
@@ -9,8 +13,13 @@ export interface IPostApi {
   update(id: number, data: IPostData): Promise<IPostEntity>
   create(data: IPostData): Promise<IPostEntity>
 
-  getCommentsByPostId(postId: number): Promise<ICommentEntity[]>
-  createComment(data: ICommentData): Promise<ICommentEntity>
+  getCommentsByPostId(postId: number): Promise<ICommentEntityWithUserAndPostId[]>
+  createComment(data: ICommentData): Promise<ICommentEntityWithUserAndPostId>
+  deleteComment(commentId: number): Promise<ICommentEntity>
+  updateComment(
+    commentId: number,
+    data: Partial<ICommentData>
+  ): Promise<ICommentEntityWithUserAndPostId>
 }
 
 export class PostApiImpl implements IPostApi {
@@ -48,14 +57,29 @@ export class PostApiImpl implements IPostApi {
     return res.data
   }
 
-  async getCommentsByPostId(postId: number): Promise<ICommentEntity[]> {
-    const res = await api.get<ICommentEntity[]>(`/comments/post/${postId}`)
+  async getCommentsByPostId(postId: number): Promise<ICommentEntityWithUserAndPostId[]> {
+    const res = await api.get<ICommentEntityWithUserAndPostId[]>(`/comments/post/${postId}`)
 
     return res.data
   }
 
-  async createComment(data: ICommentData): Promise<ICommentEntity> {
-    const res = await api.post<ICommentEntity>('/comments', data)
+  async createComment(data: ICommentData): Promise<ICommentEntityWithUserAndPostId> {
+    const res = await api.post<ICommentEntityWithUserAndPostId>('/comments', data)
+
+    return res.data
+  }
+
+  async deleteComment(commentId: number): Promise<ICommentEntity> {
+    const res = await api.delete<ICommentEntity>(`/comments/${commentId}`)
+
+    return res.data
+  }
+
+  async updateComment(
+    commentId: number,
+    data: Partial<ICommentData>
+  ): Promise<ICommentEntityWithUserAndPostId> {
+    const res = await api.put<ICommentEntityWithUserAndPostId>(`/comments/${commentId}`, data)
 
     return res.data
   }

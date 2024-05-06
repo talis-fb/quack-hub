@@ -5,13 +5,18 @@ export interface ICommentData {
   postId: number
 }
 
-export interface ICommentDataWithUserAndPostId extends ICommentData {
+export interface ICommentEntityWithUserAndPostId extends ICommentData {
+  id: number
+  createdAt: string
+  updatedAt: string
+
   userId: number
   User: IUserEntity
 }
 
-export interface ICommentEntity extends ICommentDataWithUserAndPostId {
+export interface ICommentEntity extends ICommentData {
   id: number
+  userId: number
   createdAt: string
   updatedAt: string
 }
