@@ -69,6 +69,7 @@ form.setValues({
 
 const onSubmit = form.handleSubmit(async (values) => {
   await props.handleSubmit({ ...values })
+  form.resetForm()
 })
 </script>
 
@@ -92,7 +93,7 @@ const onSubmit = form.handleSubmit(async (values) => {
     <FormField v-slot="{ componentField }" name="description">
       <FormItem>
         <FormLabel>Descrição</FormLabel>
-        
+
         <FormControl>
           <Textarea
             placeholder="Ex.: Desenvolver tarefas utilizando microsserviços."

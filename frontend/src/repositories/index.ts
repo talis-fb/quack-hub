@@ -1,4 +1,4 @@
-import { authApi } from '@/apis'
+import { authApi, postApi } from '@/apis'
 import { AuthRepositoryImpl, type IAuthRepository } from '@/repositories/auth/auth.repository'
 import {
   ExperienceRepositoryImpl,
@@ -15,6 +15,7 @@ import {
   type IVacancyRepository
 } from '@/repositories/vacancies/vacancies.repository'
 import { GithubRepository } from './github/github.repository'
+import { PostRepositoryImpl, type IPostRepository } from './post/post.repository'
 
 const authRepository: IAuthRepository = new AuthRepositoryImpl(authApi)
 
@@ -28,11 +29,14 @@ const vacancyRepository: IVacancyRepository = new VacancyRepositoryImpl(vacancyA
 
 const githubRepository = new GithubRepository(githubApi)
 
+const postRepository: IPostRepository = new PostRepositoryImpl(postApi)
+
 export {
   authRepository,
   experienceRepository,
   userRepository,
   projectRepository,
   vacancyRepository,
-  githubRepository
+  githubRepository,
+  postRepository
 }

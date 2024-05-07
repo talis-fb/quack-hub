@@ -4,6 +4,7 @@ import { ProjectApiImpl, type IProjectApi } from './project/project.api'
 import { VacancyApiImpl, type IVacancyApi } from './vacancies/vacancies.api'
 import { GithubApi } from './github/github.api'
 import { AuthApiImpl, type IAuthApi } from './auth/auth.api'
+import { PostApiImpl, type IPostApi } from './post/post.api'
 
 const userApi: IUserApi = new UserApiImpl()
 
@@ -17,4 +18,6 @@ const githubApi = new GithubApi()
 
 const authApi: IAuthApi = new AuthApiImpl()
 
-export { userApi, experienceApi, projectApi, vacancyApi, githubApi, authApi }
+const postApi: IPostApi = new PostApiImpl()
+
+export { userApi, experienceApi, projectApi, vacancyApi, githubApi, authApi, postApi }

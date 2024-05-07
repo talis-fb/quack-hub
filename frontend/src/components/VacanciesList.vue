@@ -1,6 +1,4 @@
 <script setup lang="ts">
-// types
-
 // Icons
 import { MoreHorizontalIcon } from 'lucide-vue-next'
 
@@ -9,14 +7,17 @@ import AppDialog from '@/components/AppDialog.vue'
 import VacancyBox from '@/components/VacancyBox.vue'
 import VacancyForm, { type IVacancyFormData } from '@/components/VacancyForm.vue'
 
-import { storeToRefs } from 'pinia'
-
 // Shadcn-vue components
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
-import { useProjectStore } from '@/stores/project'
-import { inject } from 'vue'
 import { useToast } from './ui/toast'
+
+// Vue imports
+import { inject } from 'vue'
+
+// Pinia store
+import { useProjectStore } from '@/stores/project'
+import { storeToRefs } from 'pinia'
 
 const { toast } = useToast()
 
@@ -32,7 +33,10 @@ const props = defineProps<VacanciesListProps>()
 await projectStore.getVacancies(props.projectId)
 
 /**
- * O provedor desse inject ẽ um componente pai. No caso o componente UserProfileView ou ProjeectView
+ * @type {boolean}
+ * @description Check if vacancy owner is the same as the authenticated user
+ * @description This is captured in the UserProfileView or ProjectView component
+ 
  */
 const hasPermissions = inject('hasPermissions', false)
 
@@ -88,7 +92,7 @@ const handleDeleteVacancy = async (vacancyId: number) => {
               <template #trigger>
                 <div class="cursor-pointer p-3 text-center hover:bg-muted">Editar</div>
               </template>
-              <template #title> Editer vaga '{{ vacancy.title }}' </template>
+              <template #title> Editar vaga '{{ vacancy.title }}' </template>
               <template #description>
                 Edite sua vaga para que outras pessoas possam visualizar.
               </template>

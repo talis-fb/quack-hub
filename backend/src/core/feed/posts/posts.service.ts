@@ -1,5 +1,8 @@
 import { Injectable, Provider } from '@nestjs/common';
-import { PostEntity } from 'src/core/feed/posts/posts.entity';
+import {
+  PostEntity,
+  PostEntityWithUser,
+} from 'src/core/feed/posts/posts.entity';
 import { CreatePostDto } from 'src/core/feed/posts/dtos/CreatePostDto';
 import { UpdatePostDto } from 'src/core/feed/posts/dtos/UpdatePostDto';
 import { PostsRepository } from 'src/core/feed/posts/posts.repository';
@@ -8,11 +11,12 @@ import { UserRepository } from 'src/core/profile/user/user.repository';
 import { UserNotFoundException } from 'src/core/profile/user/user.exceptions';
 
 export abstract class PostsService {
-  abstract getPostById(id: number): Promise<PostEntity>;
-  abstract getPostsByUserId(userId: number): Promise<PostEntity[]>;
+  abstract getPostById(id: number): Promise<PostEntityWithUser>;
+  abstract getPostsByUserId(userId: number): Promise<PostEntityWithUser[]>;
   abstract create(data: CreatePostDto, userId: number): Promise<PostEntity>;
-  abstract update(id: number, data: UpdatePostDto): Promise<PostEntity>;
+  abstract update(id: number, data: UpdatePostDto): Promise<PostEntityWithUser>;
   abstract delete(id: number): Promise<PostEntity>;
+  abstract search(searchUsername?: string): Promise<PostEntityWithUser[]>;
 }
 
 @Injectable()
@@ -22,7 +26,7 @@ export class PostsServiceImpl implements PostsService {
     private readonly userRepository: UserRepository,
   ) {}
 
-  async getPostById(id: number): Promise<PostEntity> {
+  async getPostById(id: number): Promise<PostEntityWithUser> {
     const post = await this.postsRepository.getPostById(id);
 
     if (!post) {
@@ -32,7 +36,7 @@ export class PostsServiceImpl implements PostsService {
     return post;
   }
 
-  async getPostsByUserId(userId: number): Promise<PostEntity[]> {
+  async getPostsByUserId(userId: number): Promise<PostEntityWithUser[]> {
     const userExist = await this.userRepository.getUserById(userId);
     if (!userExist) {
       throw new UserNotFoundException();
@@ -41,7 +45,10 @@ export class PostsServiceImpl implements PostsService {
     return postsUser;
   }
 
-  async create(data: CreatePostDto, userId: number): Promise<PostEntity> {
+  async create(
+    data: CreatePostDto,
+    userId: number,
+  ): Promise<PostEntityWithUser> {
     const userExist = await this.userRepository.getUserById(userId);
     if (!userExist) {
       throw new UserNotFoundException();
@@ -49,7 +56,7 @@ export class PostsServiceImpl implements PostsService {
     return await this.postsRepository.create(data, userId);
   }
 
-  async update(id: number, data: UpdatePostDto): Promise<PostEntity> {
+  async update(id: number, data: UpdatePostDto): Promise<PostEntityWithUser> {
     const postUpdated = await this.postsRepository.update(id, data);
 
     if (!postUpdated) {
@@ -67,6 +74,12 @@ export class PostsServiceImpl implements PostsService {
     }
 
     return post;
+  }
+
+  async search(searchUsername?: string): Promise<PostEntityWithUser[]> {
+    const posts = await this.postsRepository.search(searchUsername);
+
+    return posts;
   }
 }
 

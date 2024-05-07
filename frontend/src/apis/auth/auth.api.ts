@@ -1,6 +1,6 @@
-import type { ISigninParams } from '@/interfaces/ISigninParams'
+import type { ISigninParams } from '@/types/ISigninParams'
 import type { IAuthResponse } from './models/IAuthResponse'
-import type { ISignupParams } from '@/interfaces/ISignupParams'
+import type { ISignupParams } from '@/types/ISignupParams'
 import { api } from '@/network/api'
 import type { IUserEntity } from '@/entites/IUser'
 

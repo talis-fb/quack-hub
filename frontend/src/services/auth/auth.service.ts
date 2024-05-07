@@ -1,6 +1,6 @@
 import type { IAuth } from '@/entites/IAuth'
-import type { ISigninParams } from '@/interfaces/ISigninParams'
-import type { ISignupParams } from '@/interfaces/ISignupParams'
+import type { ISigninParams } from '@/types/ISigninParams'
+import type { ISignupParams } from '@/types/ISignupParams'
 import type { IAuthRepository } from '@/repositories/auth/auth.repository'
 
 export interface IAuthService {

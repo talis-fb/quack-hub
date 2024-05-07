@@ -16,6 +16,7 @@ import ProfileEdit from '@/views/ProfileEdit.vue'
 import HomeView from '@/views/HomeView.vue'
 import ProjectView from '@/views/ProjectView.vue'
 import NotFoundView from '@/views/NotFoundView.vue'
+import PostView from '@/components/PostView.vue'
 
 // Components
 import PostsFeed from '@/components/PostsFeed.vue'
@@ -101,10 +102,20 @@ export const router = createRouter({
       meta: { ...metadataRoutes.PROJECT }
     },
     {
+      path: metadataRoutes.POST.path,
+      name: metadataRoutes.POST.name,
+      components: {
+        Navbar: NavMenu,
+        default: PostView
+      },
+      props: true
+    },
+    {
       path: metadataRoutes.NOT_FOUND.path,
       name: metadataRoutes.NOT_FOUND.name,
       component: NotFoundView
     },
+
     { path: '/:pathMatch(.*)*', redirect: metadataRoutes.HOME.path }
   ]
 })

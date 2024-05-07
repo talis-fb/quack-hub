@@ -11,6 +11,10 @@ export const metadataRoutes = {
     isPublic: true,
     tags: ['require-no-auth']
   },
+  POST: {
+    path: '/post/:id',
+    name: 'post'
+  },
   HOME: {
     path: '/',
     isPublic: true,

@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { CommentEntity } from './comments.entity';
+import { CommentEntity, CommentEntityWithUser } from './comments.entity';
 import { CreateCommentDto } from './dtos/CreateCommentDto';
 import { UpdateCommentDto } from './dtos/UpdateCommentDto';
 import { CommentsRepository } from './comments.repository';
@@ -11,12 +11,12 @@ import { PostNotFoundException } from '../posts/posts.exceptions';
 
 export abstract class CommentsService {
   abstract getCommentById(id: number): Promise<CommentEntity>;
-  abstract getCommentsByPostId(postId: number): Promise<CommentEntity[]>;
+  abstract getCommentsByPostId(postId: number): Promise<CommentEntityWithUser[]>;
   abstract create(
     data: CreateCommentDto,
     userId: number,
-  ): Promise<CommentEntity>;
-  abstract update(id: number, data: UpdateCommentDto): Promise<CommentEntity>;
+  ): Promise<CommentEntityWithUser>;
+  abstract update(id: number, data: UpdateCommentDto): Promise<CommentEntityWithUser>;
   abstract delete(id: number): Promise<CommentEntity>;
 }
 
@@ -37,7 +37,7 @@ export class CommentsServiceImpl implements CommentsService {
     return comment;
   }
 
-  async getCommentsByPostId(postId: number): Promise<CommentEntity[]> {
+  async getCommentsByPostId(postId: number): Promise<CommentEntityWithUser[]> {
     const postExist = await this.postRepository.getPostById(postId);
 
     if (!postExist) {
@@ -48,7 +48,7 @@ export class CommentsServiceImpl implements CommentsService {
     return comment;
   }
 
-  async create(data: CreateCommentDto, userId: number): Promise<CommentEntity> {
+  async create(data: CreateCommentDto, userId: number): Promise<CommentEntityWithUser> {
     const userExist = await this.userRepository.getUserById(userId);
     if (!userExist) {
       throw new UserNotFoundException();
@@ -61,7 +61,7 @@ export class CommentsServiceImpl implements CommentsService {
     return comment;
   }
 
-  async update(id: number, data: UpdateCommentDto): Promise<CommentEntity> {
+  async update(id: number, data: UpdateCommentDto): Promise<CommentEntityWithUser> {
     const comment = await this.commentsRepository.update(id, data);
     if (!comment) {
       throw new CommentNotFoundException();

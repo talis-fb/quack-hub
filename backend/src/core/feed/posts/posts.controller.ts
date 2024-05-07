@@ -7,6 +7,7 @@ import {
   ParseIntPipe,
   Post,
   Put,
+  Query,
   Req,
 } from '@nestjs/common';
 import { PostsService } from './posts.service';
@@ -35,6 +36,15 @@ export class PostsController {
   @Get('/user/:userId')
   async findManyByUserId(@Param('userId', ParseIntPipe) userId: number) {
     return await this.postsService.getPostsByUserId(userId);
+  }
+
+  @ApiResponse({
+    status: 200,
+    description: 'Post filtered by username returned successfully.',
+  })
+  @Get()
+  async search(@Query('username') name?: string) {
+    return await this.postsService.search(name);
   }
 
   @ApiResponse({

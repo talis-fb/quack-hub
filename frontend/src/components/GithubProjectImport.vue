@@ -109,8 +109,8 @@ const onSubmit = form.handleSubmit(async (values) => {
 
       <Button v-if="!loading" type="submit"> Importar </Button>
       <Button v-else disabled>
+        <LoadingSpinner class="mr-1"/>
         Importando...
-        <LoadingSpinner />
       </Button>
     </form>
   </div>

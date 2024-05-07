@@ -7,7 +7,7 @@ import { projectStateLabel } from '@/utils/labels'
 
 // Types
 import type { IProjectEntity } from '@/entites/IProject'
-import type { IUpdateProject } from '@/apis/project/types/IUpdateProject'
+import type { IUpdateProject } from '@/types/IUpdateProject'
 
 // App components
 import AppDialog from '@/components/AppDialog.vue'
@@ -15,6 +15,7 @@ import AppAlertDialog from '@/components/AppAlertDialog.vue'
 import ProjectForm from '@/components/ProjectForm.vue'
 import VacanciesListFallback from '@/components/VacanciesListFallback.vue'
 import MethodologieItem from '@/components/MethodologieItem.vue'
+import VacanciesList from './VacanciesList.vue'
 
 // Shadcn-vue components
 import { Button } from './ui/button'
@@ -32,22 +33,30 @@ import {
 import { useToast } from '@/components/ui/toast'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 
+// Routes config
+import { metadataRoutes } from '../router/RoutesConfig'
+
 // Icons
 import { Pencil, Trash } from 'lucide-vue-next'
 
 // Store pinia
 import { useProjectsStore } from '@/stores/projects'
+
+// Vue imports
 import { inject } from 'vue'
 import { useRouter } from 'vue-router'
-import { metadataRoutes } from '../router/RoutesConfig'
-import VacanciesList from './VacanciesList.vue'
+
+
 
 export interface ProjectItemProps {
   project: IProjectEntity
 }
 
 /**
- * O provedor desse inject ẽ um componente pai. No caso o componente UserProfileView
+ * @type {boolean}
+ * @description Check if project owner is the same as the authenticated user
+ * @description This is captured in the UserProfileView component
+ 
  */
 const hasPermissions = inject('hasPermissions', false)
 
@@ -180,14 +189,13 @@ const toProject = (e: MouseEvent) => {
             <Pencil class="w-5 h-5" />
           </Button>
         </template>
-        <template #title> Editer Projeto '{{ props.project.title }}' </template>
+        <template #title> Editar Projeto '{{ props.project.title }}' </template>
         <template #description>
           Edite seu projeto para que outras pessoas possam visualizar.
         </template>
         <template #main>
           <div class="h-[600px]">
             <ProjectForm :project="props.project" :handle-submit="handleUpdateProject" />
-
           </div>
         </template>
       </AppDialog>

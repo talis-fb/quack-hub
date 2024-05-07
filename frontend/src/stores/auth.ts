@@ -1,5 +1,5 @@
 import { serializeUserJwt } from '@/helpers/serializeUserJwt'
-import type { ISigninParams } from '@/interfaces/ISigninParams'
+import type { ISigninParams } from '@/types/ISigninParams'
 import { authService, jwtService, storageService } from '@/services'
 import type { JwtDecoded } from '@/services/jwt/jwt.service'
 import { defineStore } from 'pinia'

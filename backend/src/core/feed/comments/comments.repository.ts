@@ -1,16 +1,22 @@
 import { Injectable } from '@nestjs/common';
 
 import { PrismaService } from 'src/common/prisma/prisma.service';
-import { CommentData, CommentEntity } from './comments.entity';
+import {
+  CommentData,
+  CommentEntity,
+  CommentEntityWithUser,
+} from './comments.entity';
 
 export abstract class CommentsRepository {
   abstract getCommentById(id: number): Promise<CommentEntity | void>;
-  abstract getCommentsByPostId(postId: number): Promise<CommentEntity[]>;
-  abstract create(data: CommentData): Promise<CommentEntity>;
+  abstract getCommentsByPostId(
+    postId: number,
+  ): Promise<CommentEntityWithUser[]>;
+  abstract create(data: CommentData): Promise<CommentEntityWithUser>;
   abstract update(
     id: number,
     data: Partial<CommentData>,
-  ): Promise<CommentEntity | void>;
+  ): Promise<CommentEntityWithUser | void>;
   abstract delete(id: number): Promise<CommentEntity | void>;
 }
 
@@ -26,29 +32,38 @@ export class CommentsRepositoryImpl implements CommentsRepository {
     });
   }
 
-  async getCommentsByPostId(postId: number): Promise<CommentEntity[]> {
+  async getCommentsByPostId(postId: number): Promise<CommentEntityWithUser[]> {
     return await this.prisma.comment.findMany({
       where: {
         postId,
       },
+      include: {
+        User: true,
+      },
     });
   }
 
-  async create(data: CommentData): Promise<CommentEntity> {
+  async create(data: CommentData): Promise<CommentEntityWithUser> {
     return await this.prisma.comment.create({
       data,
+      include: {
+        User: true,
+      },
     });
   }
 
   async update(
     id: number,
     data: Partial<CommentData>,
-  ): Promise<CommentEntity | void> {
+  ): Promise<CommentEntityWithUser | void> {
     return await this.prisma.comment.update({
       where: {
         id,
       },
       data,
+      include: {
+        User: true,
+      },
     });
   }
 

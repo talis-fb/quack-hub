@@ -100,6 +100,7 @@ const onSubmit = form.handleSubmit(async (values) => {
     achievements: [],
     type: props.type
   })
+  form.resetForm()
 })
 
 const projects = ref<IProjectEntity[]>([])

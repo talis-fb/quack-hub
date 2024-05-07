@@ -129,9 +129,10 @@ enum StateProject {
 }
 
 model Post {
-  id      Int    @id @default(autoincrement())
-  title   String
-  content String
+  id       Int     @id @default(autoincrement())
+  title    String
+  content  String
+  imageUrl String?
 
   comments Comment[]
   likes    PostLike[]
