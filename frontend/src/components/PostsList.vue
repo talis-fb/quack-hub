@@ -65,7 +65,7 @@ await fetchPosts()
           Crie postagens e interaja com outros usuários do Quackhub!</template
         >
         <template #main>
-          <PostForm @create="createPost" />
+          <PostForm @submited="createPost" />
         </template>
       </AppDialog>
     </div>
