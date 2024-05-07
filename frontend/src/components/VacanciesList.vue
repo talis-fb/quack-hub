@@ -92,7 +92,7 @@ const handleDeleteVacancy = async (vacancyId: number) => {
               <template #trigger>
                 <div class="cursor-pointer p-3 text-center hover:bg-muted">Editar</div>
               </template>
-              <template #title> Editer vaga '{{ vacancy.title }}' </template>
+              <template #title> Editar vaga '{{ vacancy.title }}' </template>
               <template #description>
                 Edite sua vaga para que outras pessoas possam visualizar.
               </template>

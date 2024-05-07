@@ -189,7 +189,7 @@ const toProject = (e: MouseEvent) => {
             <Pencil class="w-5 h-5" />
           </Button>
         </template>
-        <template #title> Editer Projeto '{{ props.project.title }}' </template>
+        <template #title> Editar Projeto '{{ props.project.title }}' </template>
         <template #description>
           Edite seu projeto para que outras pessoas possam visualizar.
         </template>

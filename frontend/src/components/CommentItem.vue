@@ -81,7 +81,7 @@ const isPostOwner = inject('isPostOwner')
                 <template #trigger>
                   <div class="cursor-pointer p-3 text-center hover:bg-muted">Editar</div>
                 </template>
-                <template #title> Editer comentário '{{ comment.content }}' </template>
+                <template #title> Editar comentário '{{ comment.content }}' </template>
                 <template #description> Edite seu comentário, antes que os outros vejam! </template>
                 <template #main>
                   <EditComment

@@ -102,7 +102,7 @@ const handleDeleteExperience = async () => {
             <Pencil class="w-5 h-5" />
           </Button>
         </template>
-        <template #title> Editer experiência '{{ experience.title }}' </template>
+        <template #title> Editar experiência '{{ experience.title }}' </template>
         <template #description>
           Edite suas experiências acadêmicas para que outros usuários possam ver seu perfil
           atualizado.

@@ -173,10 +173,8 @@ export default {
                   <template #trigger>
                     <div class="cursor-pointer p-3 text-center hover:bg-muted">Editar</div>
                   </template>
-                  <template #title> Criar postagem </template>
-                  <template #description>
-                    Crie postagens e interaja com outros usuários do Quackhub!</template
-                  >
+                  <template #title> Editar postagem </template>
+                  <template #description> Edite sua postagem antes que os usuários vejam!</template>
                   <template #main>
                     <PostForm
                       :content="props.post.content"
