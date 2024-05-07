@@ -1,7 +1,10 @@
 <script setup lang="ts">
 // Images
 import DefaultUserIcon from '@/assets/DefaultUserIcon.jpg'
-import type { IPostEntityWithUser } from '@/entites/IPost'
+
+// Types
+import type { ICommentData } from '@/entites/IComment'
+import type { IPostData, IPostEntityWithUser } from '@/entites/IPost'
 
 // Icons
 import { ThumbsUp, Ellipsis, ChevronDown, Dot } from 'lucide-vue-next'
@@ -16,25 +19,22 @@ import { postService } from '@/services'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
+import { useToast } from './ui/toast'
 
 // App components
 import CommentsList from '@/components/CommentsList.vue'
 import CommentsListFallback from '@/components/CommentsListFallback.vue'
 import AppDialog from '@/components/AppDialog.vue'
-import PostForm, { type IPostFormData } from '@/components/PostForm.vue'
+import PostForm from '@/components/PostForm.vue'
 
 // Vue imports
-import { computed, onBeforeMount, onMounted, provide, ref, type TextareaHTMLAttributes } from 'vue'
+import { computed, onBeforeMount, provide, ref } from 'vue'
+import { useRouter } from 'vue-router'
 
 // Store pinia
 import { usePostStore } from '@/stores/post'
 import { useAuthStore } from '@/stores/auth'
 import { storeToRefs } from 'pinia'
-
-// Types
-import type { ICommentData } from '@/entites/IComment'
-import { useRouter } from 'vue-router'
-import { useToast } from './ui/toast'
 
 export interface IPostViewProps {
   post: IPostEntityWithUser
@@ -108,7 +108,7 @@ async function deletePost(postId: number) {
   }
 }
 
-async function updatePost(postId: number, data: IPostFormData) {
+async function updatePost(postId: number, data: IPostData) {
   try {
     await postStore.updatePost(postId, data)
 
@@ -182,7 +182,7 @@ export default {
                       :content="props.post.content"
                       :title="props.post.title"
                       :image-url="props.post.imageUrl"
-                      @create="(data) => updatePost(props.post.id, data)"
+                      @submited="(data) => updatePost(props.post.id, data)"
                     />
                   </template>
                 </AppDialog>

@@ -12,12 +12,9 @@ import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/comp
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Button } from '@/components/ui/button'
+import type { IPostData } from '@/entites/IPost'
 
-export interface IPostFormData {
-  title: string
-  content: string
-  imageUrl: string | null
-}
+
 
 export interface IPostFormProps {
   title?: string
@@ -26,7 +23,7 @@ export interface IPostFormProps {
 }
 
 export interface IPostFormEmit {
-  (e: 'create', data: IPostFormData): void
+  (e: 'submited', data: IPostData): void
 }
 
 const emit = defineEmits<IPostFormEmit>()
@@ -67,7 +64,7 @@ form.setValues({
 })
 
 const onSubmit = form.handleSubmit((values) => {
-  emit('create', { ...values, imageUrl: values.imageUrl ?? null })
+  emit('submited', { ...values, imageUrl: values.imageUrl ?? null })
   form.resetForm()
 })
 </script>

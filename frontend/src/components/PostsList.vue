@@ -1,26 +1,28 @@
 <script setup lang="ts">
-import PostItem from '@/components/PostItem.vue'
-import type { IPostEntityWithUser } from '@/entites/IPost'
-import { postService, projectService } from '@/services'
+// Types
+import type { IPostData, IPostEntityWithUser } from '@/entites/IPost'
+
+// Services
+import { postService } from '@/services'
 
 // App components
 import AppDialog from '@/components/AppDialog.vue'
+import PostItem from '@/components/PostItem.vue'
+import PostForm from '@/components/PostForm.vue'
 
 // Shadcn-vue components
 import { Alert, AlertTitle } from '@/components/ui/alert'
 import { useToast } from '@/components/ui/toast/use-toast'
 import { Button } from '@/components/ui/button'
-import { Separator } from '@/components/ui/separator'
 
 // Vue imports
 import { ref } from 'vue'
-import PostForm, { type IPostFormData } from '@/components/PostForm.vue'
 
 const posts = ref<IPostEntityWithUser[]>([])
 
 const { toast } = useToast()
 
-const createPost = async (data: IPostFormData) => {
+const createPost = async (data: IPostData) => {
   try {
     const res = await postService.create(data)
 
