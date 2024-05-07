@@ -4,7 +4,7 @@ import DefaultUserIcon from '@/assets/DefaultUserIcon.jpg'
 import type { IPostEntityWithUser } from '@/entites/IPost'
 
 // Icons
-import { ThumbsUp, MessageSquare } from 'lucide-vue-next'
+import { ThumbsUp, Ellipsis, ChevronDown, Dot } from 'lucide-vue-next'
 
 // Routes config
 import { metadataRoutes } from '@/router/RoutesConfig'
@@ -15,10 +15,13 @@ import { postService } from '@/services'
 // Shadcn-vue components
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 
 // App components
 import CommentsList from '@/components/CommentsList.vue'
 import CommentsListFallback from '@/components/CommentsListFallback.vue'
+import AppDialog from '@/components/AppDialog.vue'
+import PostForm, { type IPostFormData } from '@/components/PostForm.vue'
 
 // Vue imports
 import { computed, onBeforeMount, onMounted, provide, ref, type TextareaHTMLAttributes } from 'vue'
@@ -30,10 +33,14 @@ import { storeToRefs } from 'pinia'
 
 // Types
 import type { ICommentData } from '@/entites/IComment'
+import { useRouter } from 'vue-router'
+import { useToast } from './ui/toast'
 
 export interface IPostViewProps {
   post: IPostEntityWithUser
 }
+
+const router = useRouter()
 
 const postStore = usePostStore()
 const authStore = useAuthStore()
@@ -41,6 +48,8 @@ const authStore = useAuthStore()
 const { post } = storeToRefs(postStore)
 
 const props = defineProps<IPostViewProps>()
+
+const { toast } = useToast()
 
 const textarea = ref<HTMLTextAreaElement | null>(null)
 
@@ -77,6 +86,46 @@ const isPostOwner = computed(() => {
 })
 
 provide('isPostOwner', isPostOwner)
+
+async function deletePost(postId: number) {
+  try {
+    await postService.delete(postId)
+
+    router.push({ path: metadataRoutes.HOME.path })
+
+    toast({
+      title: 'Postagem',
+      description: 'Postagem removida com sucesso!',
+      variant: 'default',
+      duration: 2000
+    })
+  } catch (error) {
+    toast({
+      title: 'Erro ao remover postagem',
+      description: error?.message || 'Erro desconhecido, por favor contatar os desenvolvedores.',
+      variant: 'destructive'
+    })
+  }
+}
+
+async function updatePost(postId: number, data: IPostFormData) {
+  try {
+    await postStore.updatePost(postId, data)
+
+    toast({
+      title: 'Postagem',
+      description: 'Postagem atualizada com sucesso!',
+      variant: 'default',
+      duration: 2000
+    })
+  } catch (error) {
+    toast({
+      title: 'Erro ao atualizar postagem',
+      description: error?.message || 'Erro desconhecido, por favor contatar os desenvolvedores.',
+      variant: 'destructive'
+    })
+  }
+}
 </script>
 
 <script lang="ts">
@@ -96,7 +145,7 @@ export default {
 </script>
 
 <template>
-  <div class="flex-1 flex justify-center">
+  <div class="mt-4 flex-1 flex justify-center">
     <article class="w-[75%] border">
       <header class="p-2 flex gap-2">
         <Avatar class="w-16 h-16">
@@ -111,6 +160,42 @@ export default {
           <h1 class="text-xl font-bold">{{ (post as IPostEntityWithUser).User.name }}</h1>
           <p class="text-xl font-semibold">{{ (post as IPostEntityWithUser).title }}</p>
           <p class="text-lg">{{ (post as IPostEntityWithUser).content }}</p>
+        </div>
+
+        <div v-if="isPostOwner" class="ms-auto">
+          <Popover :modal="true">
+            <PopoverTrigger as-child>
+              <Ellipsis class="cursor-pointer" />
+            </PopoverTrigger>
+            <PopoverContent class="max-w-[150px] p-0">
+              <div class="flex flex-col">
+                <AppDialog>
+                  <template #trigger>
+                    <div class="cursor-pointer p-3 text-center hover:bg-muted">Editar</div>
+                  </template>
+                  <template #title> Criar postagem </template>
+                  <template #description>
+                    Crie postagens e interaja com outros usuários do Quackhub!</template
+                  >
+                  <template #main>
+                    <PostForm
+                      :content="props.post.content"
+                      :title="props.post.title"
+                      :image-url="props.post.imageUrl"
+                      @create="(data) => updatePost(props.post.id, data)"
+                    />
+                  </template>
+                </AppDialog>
+
+                <div
+                  @click="() => deletePost(props.post.id)"
+                  class="cursor-pointer p-3 text-center hover:bg-muted"
+                >
+                  Remover
+                </div>
+              </div>
+            </PopoverContent>
+          </Popover>
         </div>
       </header>
 

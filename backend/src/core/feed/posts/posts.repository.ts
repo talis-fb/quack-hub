@@ -10,7 +10,7 @@ export abstract class PostsRepository {
   abstract update(
     id: number,
     data: Partial<PostData>,
-  ): Promise<PostEntity | void>;
+  ): Promise<PostEntityWithUser | void>;
   abstract delete(id: number): Promise<PostEntity | void>;
   abstract search(searchUsername?: string): Promise<PostEntityWithUser[]>;
 }
@@ -74,7 +74,7 @@ export class PostsRepositoryImpl implements PostsRepository {
   async update(
     id: number,
     data: Partial<PostData>,
-  ): Promise<PostEntity | void> {
+  ): Promise<PostEntityWithUser | void> {
     return await this.prisma.post.update({
       where: {
         id,
@@ -87,6 +87,7 @@ export class PostsRepositoryImpl implements PostsRepository {
             likes: true,
           },
         },
+        User: true,
       },
     });
   }

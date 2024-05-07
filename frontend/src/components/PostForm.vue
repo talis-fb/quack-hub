@@ -16,11 +16,13 @@ import { Button } from '@/components/ui/button'
 export interface IPostFormData {
   title: string
   content: string
+  imageUrl: string | null
 }
 
 export interface IPostFormProps {
   title?: string
   content?: string
+  imageUrl?: string | null
 }
 
 export interface IPostFormEmit {
@@ -60,11 +62,12 @@ const form = useForm({
 
 form.setValues({
   title: props.title,
-  content: props.content
+  content: props.content,
+  imageUrl: props.imageUrl
 })
 
 const onSubmit = form.handleSubmit((values) => {
-  emit('create', values)
+  emit('create', { ...values, imageUrl: values.imageUrl ?? null })
   form.resetForm()
 })
 </script>
@@ -118,7 +121,7 @@ const onSubmit = form.handleSubmit((values) => {
               <ImageIcon class="size-6 text-muted-foreground" />
             </span>
           </div>
-          <img class="w-full " :src="componentField.modelValue ?? ''" />
+          <img class="w-full" :src="componentField.modelValue ?? ''" />
         </FormControl>
         <FormMessage />
       </FormItem>

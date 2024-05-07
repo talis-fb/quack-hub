@@ -10,7 +10,7 @@ export interface IPostApi {
   search(username?: string): Promise<IPostEntityWithUser[]>
   getPostById(id: number): Promise<IPostEntityWithUser>
   delete(id: number): Promise<IPostEntity>
-  update(id: number, data: IPostData): Promise<IPostEntity>
+  update(id: number, data: IPostData): Promise<IPostEntityWithUser>
   create(data: IPostData): Promise<IPostEntityWithUser>
 
   getCommentsByPostId(postId: number): Promise<ICommentEntityWithUserAndPostId[]>
@@ -45,8 +45,8 @@ export class PostApiImpl implements IPostApi {
     return res.data
   }
 
-  async update(id: number, data: IPostData): Promise<IPostEntity> {
-    const res = await api.put<IPostEntity>(`/posts/${id}`, data)
+  async update(id: number, data: IPostData): Promise<IPostEntityWithUser> {
+    const res = await api.put<IPostEntityWithUser>(`/posts/${id}`, data)
 
     return res.data
   }

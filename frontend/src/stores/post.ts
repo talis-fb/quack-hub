@@ -1,5 +1,5 @@
 import type { ICommentData, ICommentEntityWithUserAndPostId } from '@/entites/IComment'
-import type { IPostEntityWithUser } from '@/entites/IPost'
+import type { IPostData, IPostEntityWithUser } from '@/entites/IPost'
 import { postService } from '@/services'
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
@@ -18,6 +18,13 @@ export const usePostStore = defineStore('post', () => {
     // await new Promise((resolve) => setTimeout(resolve, 1500))
 
     comments.value = res
+  }
+
+  async function updatePost(postId: number, data: IPostData) {
+    const res = await postService.update(postId, data)
+
+    console.log({ res })
+    post.value = res
   }
 
   async function createComment(data: ICommentData) {
@@ -48,6 +55,7 @@ export const usePostStore = defineStore('post', () => {
     post,
     comments,
     setPost,
+    updatePost,
     fetchComments,
     createComment,
     deleteComment,
