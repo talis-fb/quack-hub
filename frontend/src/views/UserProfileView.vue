@@ -144,6 +144,17 @@ export default {
         name: metadataRoutes.NOT_FOUND.name
       }
     }
+  },
+  beforeRouteUpdate: async (to, from) => {
+    try {
+      const res = await userService.getUserById(+to.params.id)
+
+      to.params = { ...to.params, user: res as any }
+    } catch (error) {
+      return {
+        name: metadataRoutes.NOT_FOUND.name
+      }
+    }
   }
 }
 </script>

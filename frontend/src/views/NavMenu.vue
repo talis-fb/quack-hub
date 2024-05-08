@@ -51,8 +51,13 @@ const findUsersByName = useDebounceFn(async (name?: string) => {
   users.value = res
 }, 500)
 
-function toggleSugestion(event: MouseEvent) {
+function toggleSugestion(_: MouseEvent) {
   showSuggestions.value = !showSuggestions.value
+}
+
+function navigateToUserProfile(id: number) {
+  console.log({ id })
+  router.push({ name: metadataRoutes.USER_PROFILE.name, params: { id } })
 }
 
 watchEffect(async () => {
@@ -86,9 +91,7 @@ watchEffect(async () => {
           v-if="users.length"
           class="cursor-pointer p-3 hover:bg-muted"
           v-for="user in users"
-          @mousedown="
-            (e) => router.push({ name: metadataRoutes.USER_PROFILE.name, params: { id: user.id } })
-          "
+          @mousedown="(e) => navigateToUserProfile(user.id)"
         >
           {{ user.name }}
         </div>
