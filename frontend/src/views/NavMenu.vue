@@ -9,7 +9,7 @@ import { metadataRoutes } from '@/router/RoutesConfig'
 // Icons
 import { Home, BadgeInfo, ChevronDown, LogOut, Search } from 'lucide-vue-next'
 
-// Components shadcn-vue
+// Shadcn-vue components
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 
 // Vue Hooks
@@ -89,11 +89,20 @@ watchEffect(async () => {
       <div v-if="showSuggestions" class="bg-black absolute border w-full">
         <div
           v-if="users.length"
-          class="cursor-pointer p-3 hover:bg-muted"
+          class="flex items-center space-x-2 cursor-pointer p-3 hover:bg-muted"
           v-for="user in users"
           @mousedown="(e) => navigateToUserProfile(user.id)"
         >
-          {{ user.name }}
+          <Avatar class="w-10 h-10">
+            <AvatarImage :src="user.avatarUrl ?? ''" />
+
+            <AvatarFallback>
+              <img :src="DefaultUserIcon" alt="avatar_user" />
+            </AvatarFallback>
+          </Avatar>
+          <span>
+            {{ user.name }}
+          </span>
         </div>
         <div class="p-3" v-else>
           <p>Nenhum usuário encontrado</p>
