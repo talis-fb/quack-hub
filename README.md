@@ -11,7 +11,7 @@ O QuackHub é uma plataforma projetada para promover a interação e conexão en
 
 
 
-https://github.com/talis-fb/quack-hub/assets/89609312/4cb952d5-ceab-4c41-bfc9-cad8c292b0e1
+https://github.com/talis-fb/quack-hub/assets/quackhub-demo
 
 
 
