@@ -1,6 +1,6 @@
 <script setup lang="ts">
 // Vue imports
-import { Suspense, computed, onBeforeMount, provide } from 'vue'
+import { Suspense, computed, onBeforeMount, provide, watchEffect } from 'vue'
 
 // Images
 import DefaultUserIcon from '@/assets/DefaultUserIcon.jpg'
@@ -65,6 +65,12 @@ const { user } = storeToRefs(useUserStore)
 
 onBeforeMount(() => {
   useUserStore.setUser(props.user)
+})
+
+watchEffect(() => {
+  if (props.user) {
+    useUserStore.setUser(props.user)
+  }
 })
 
 const { toast } = useToast()
@@ -135,6 +141,17 @@ const isFollowingTheUser = computed(() => {
 <script lang="ts">
 export default {
   beforeRouteEnter: async (to, from) => {
+    try {
+      const res = await userService.getUserById(+to.params.id)
+
+      to.params = { ...to.params, user: res as any }
+    } catch (error) {
+      return {
+        name: metadataRoutes.NOT_FOUND.name
+      }
+    }
+  },
+  beforeRouteUpdate: async (to, from) => {
     try {
       const res = await userService.getUserById(+to.params.id)
 

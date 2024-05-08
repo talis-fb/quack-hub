@@ -7,6 +7,7 @@ export interface IUserService {
   updateUser(id: number, user: IUserData): Promise<IUserEntity>
   follow(userId: number): Promise<void>
   unFollow(userId: number): Promise<void>
+  search(name?: string): Promise<IUserEntity[]>
 }
 
 export class UserServiceImpl implements IUserService {
@@ -34,5 +35,11 @@ export class UserServiceImpl implements IUserService {
 
   async unFollow(userId: number): Promise<void> {
     await this.userRepository.unFollow(userId)
+  }
+
+  async search(name?: string): Promise<IUserEntity[]> {
+    const res = await this.userRepository.search(name)
+
+    return res
   }
 }

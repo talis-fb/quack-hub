@@ -7,6 +7,7 @@ export interface IUserApi {
   updateUser(id: number, user: IUserData): Promise<IUserEntity>
   follow(userId: number): Promise<void>
   unFollow(userId: number): Promise<void>
+  search(name?: string): Promise<IUserEntity[]>
 }
 
 export class UserApiImpl implements IUserApi {
@@ -34,5 +35,11 @@ export class UserApiImpl implements IUserApi {
 
   async unFollow(userId: number): Promise<void> {
     await api.post(`/users/unfollow/${userId}`)
+  }
+
+  async search(name?: string): Promise<IUserEntity[]> {
+    const res = await api.get<IUserEntity[]>('/users/search', { params: { q: name } })
+
+    return res.data
   }
 }

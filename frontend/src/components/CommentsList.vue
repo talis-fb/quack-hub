@@ -23,7 +23,7 @@ await postStore.fetchComments(props.postId)
 </script>
 
 <template>
-  <div class="flex flex-col">
+  <section class="flex flex-col">
     <div v-if="comments.length" v-for="comment in comments">
       <CommentItem :comment="comment" />
       <Separator />
@@ -33,7 +33,7 @@ await postStore.fetchComments(props.postId)
         <AlertTitle>Nenhum comentário na postagem. Comente e seja o primeiro!</AlertTitle>
       </Alert>
     </div>
-  </div>
+  </section>
 </template>
 
 <style></style>
