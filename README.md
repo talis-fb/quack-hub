@@ -8,10 +8,7 @@ O QuackHub é uma plataforma projetada para promover a interação e conexão en
 ## Layout web
 ![image](https://github.com/talis-fb/quack-hub/assets/89609312/c1504023-2908-4982-8a77-c42f9815b9e2)
 
-
-
-
-https://github.com/talis-fb/quack-hub/assets/quackhub-demo
+https://github.com/talis-fb/quack-hub/assets/89609312/079fd5ad-4ca6-4387-aea8-0d10e0dfa04c
 
 
 
