@@ -7,7 +7,7 @@ import Logo from '@/assets/logo.png'
 import { metadataRoutes } from '@/router/RoutesConfig'
 
 // Icons
-import { Home, BadgeInfo, ChevronDown, LogOut, Search } from 'lucide-vue-next'
+import { Home, BadgeInfo, ChevronDown, LogOut, Search as SearchIcon } from 'lucide-vue-next'
 
 // Shadcn-vue components
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
@@ -41,7 +41,7 @@ const showSuggestions = ref<boolean>(false)
 
 const inputSearch = ref<HTMLInputElement | null>(null)
 
-const search = ref<string>('')
+const username = ref<string>('')
 
 const users = ref<IUserEntity[]>([])
 
@@ -61,7 +61,7 @@ function navigateToUserProfile(id: number) {
 }
 
 watchEffect(async () => {
-  await findUsersByName(search.value)
+  await findUsersByName(username.value)
 })
 </script>
 <template>
@@ -74,74 +74,86 @@ watchEffect(async () => {
       </RouterLink>
     </header>
 
-    <div class="relative">
+    <search class="relative">
+      <span class="absolute start-0 inset-y-0 flex items-center justify-center px-2">
+        <SearchIcon class="size-6 text-muted-foreground" />
+      </span>
+
       <Input
         class="pl-10 bg-muted"
         placeholder="Pesquisar no Quackhub"
         ref="inputSearch"
-        v-model="search"
+        v-model="username"
         @focus="toggleSugestion"
         @blur="toggleSugestion"
       />
-      <span class="absolute start-0 inset-y-0 flex items-center justify-center px-2">
-        <Search class="size-6 text-muted-foreground" />
-      </span>
-      <div v-if="showSuggestions" class="bg-black absolute border w-full">
-        <div
-          v-if="users.length"
-          class="flex items-center space-x-2 cursor-pointer p-3 hover:bg-muted"
-          v-for="user in users"
-          @mousedown="(e) => navigateToUserProfile(user.id)"
-        >
-          <Avatar class="w-10 h-10">
-            <AvatarImage :src="user.avatarUrl ?? ''" />
 
-            <AvatarFallback>
-              <img :src="DefaultUserIcon" alt="avatar_user" />
-            </AvatarFallback>
-          </Avatar>
-          <span>
-            {{ user.name }}
-          </span>
-        </div>
+      <section v-if="showSuggestions" class="bg-black absolute border w-full">
+        <ul v-if="users.length">
+          <li
+            class="flex items-center space-x-2 cursor-pointer p-3 hover:bg-muted"
+            v-for="user in users"
+            @mousedown="(e) => navigateToUserProfile(user.id)"
+          >
+            <Avatar class="w-10 h-10">
+              <AvatarImage :src="user.avatarUrl ?? ''" />
+
+              <AvatarFallback>
+                <img :src="DefaultUserIcon" alt="avatar_user" />
+              </AvatarFallback>
+            </Avatar>
+            <span>
+              {{ user.name }}
+            </span>
+          </li>
+        </ul>
+
         <div class="p-3" v-else>
           <p>Nenhum usuário encontrado</p>
         </div>
-      </div>
-    </div>
+      </section>
+    </search>
 
-    <div class="flex items-center md:gap-4 gap-8 text-white/70">
-      <RouterLink class="flex gap-2 text-lg hover:text-white" :to="metadataRoutes.HOME.path">
-        <Home />
-        <p class="md:block hidden">Home</p>
-      </RouterLink>
+    <ul class="flex items-center md:gap-4 gap-8 text-white/70">
+      <li>
+        <RouterLink class="flex gap-2 text-lg hover:text-white" :to="metadataRoutes.HOME.path">
+          <Home />
+          <p class="md:block hidden">Home</p>
+        </RouterLink>
+      </li>
 
-      <RouterLink class="flex gap-2 text-lg hover:text-white" :to="metadataRoutes.ABOUT.path">
-        <BadgeInfo />
-        <p class="md:block hidden">About</p>
-      </RouterLink>
+      <li>
+        <RouterLink class="flex gap-2 text-lg hover:text-white" :to="metadataRoutes.ABOUT.path">
+          <BadgeInfo />
+          <p class="md:block hidden">About</p>
+        </RouterLink>
+      </li>
 
-      <RouterLink
-        class="flex flex-col justify-center gap-1 hover:text-white"
-        :to="{ name: metadataRoutes.USER_PROFILE.name, params: { id } }"
-      >
-        <Avatar>
-          <AvatarImage src="umaurlai" alt="user-avatar" />
-          <AvatarFallback>
-            <img :src="DefaultUserIcon" alt="user-avatar-default" />
-          </AvatarFallback>
-        </Avatar>
-        <div class="md:block hidden">
-          <span class="text-sm">Eu</span>
-          <ChevronDown class="inline-block" :size="22" />
-        </div>
-      </RouterLink>
+      <li>
+        <RouterLink
+          class="flex flex-col justify-center gap-1 hover:text-white"
+          :to="{ name: metadataRoutes.USER_PROFILE.name, params: { id } }"
+        >
+          <Avatar>
+            <AvatarImage src="umaurlai" alt="user-avatar" />
+            <AvatarFallback>
+              <img :src="DefaultUserIcon" alt="user-avatar-default" />
+            </AvatarFallback>
+          </Avatar>
+          <div class="md:block hidden">
+            <span class="text-sm">Eu</span>
+            <ChevronDown class="inline-block" :size="22" />
+          </div>
+        </RouterLink>
+      </li>
 
-      <a href="#" class="flex gap-2 text-lg text-white/70 hover:text-white" @click="handleLogout">
-        <LogOut />
-        <span class="md:block hidden">Sair</span>
-      </a>
-    </div>
+      <li>
+        <a href="#" class="flex gap-2 text-lg text-white/70 hover:text-white" @click="handleLogout">
+          <LogOut />
+          <span class="md:block hidden">Sair</span>
+        </a>
+      </li>
+    </ul>
   </nav>
 </template>
 <style></style>
