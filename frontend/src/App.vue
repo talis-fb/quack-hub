@@ -17,7 +17,7 @@ function toggleDarkMode() {
 <template>
   <div class="min-h-screen flex flex-col">
     <RouterView name="Navbar" />
-    <RouterView :key="route.fullPath" />
+    <RouterView />
     <Toaster />
   </div>
 </template>

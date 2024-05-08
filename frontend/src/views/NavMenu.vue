@@ -7,7 +7,7 @@ import Logo from '@/assets/logo.png'
 import { metadataRoutes } from '@/router/RoutesConfig'
 
 // Icons
-import { Home, BadgeInfo, ChevronDown, LogOut, Search as SearchIcon } from 'lucide-vue-next'
+import { Home, BadgeInfo, ChevronDown, LogOut, Search } from 'lucide-vue-next'
 
 // Shadcn-vue components
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
@@ -56,7 +56,6 @@ function toggleSugestion(_: MouseEvent) {
 }
 
 function navigateToUserProfile(id: number) {
-  console.log({ id })
   router.push({ name: metadataRoutes.USER_PROFILE.name, params: { id } })
 }
 
@@ -74,9 +73,9 @@ watchEffect(async () => {
       </RouterLink>
     </header>
 
-    <search class="relative">
+    <div class="relative" role="search">
       <span class="absolute start-0 inset-y-0 flex items-center justify-center px-2">
-        <SearchIcon class="size-6 text-muted-foreground" />
+        <Search class="size-6 text-muted-foreground" />
       </span>
 
       <Input
@@ -112,7 +111,7 @@ watchEffect(async () => {
           <p>Nenhum usuário encontrado</p>
         </div>
       </section>
-    </search>
+    </div>
 
     <ul class="flex items-center md:gap-4 gap-8 text-white/70">
       <li>
