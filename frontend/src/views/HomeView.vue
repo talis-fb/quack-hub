@@ -11,9 +11,14 @@ import { Presentation, NotebookPen, ChevronDown } from 'lucide-vue-next'
 
 // Pinia store
 import { useAuthStore } from '@/stores/auth'
-import { storeToRefs } from 'pinia'
+
+// Vue imports
 import { onBeforeMount, ref } from 'vue'
+
+// Types
 import type { IUserEntity } from '@/entites/IUser'
+
+// Services
 import { userService } from '@/services'
 
 const authStore = useAuthStore()
