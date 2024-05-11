@@ -2,15 +2,16 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { ValidationPipe } from '@nestjs/common';
-// import { FilterServiceException } from 'src/common/exceptions/controller/FilterServiceException';
 import { ServiceExceptionFilter } from 'src/common/exceptions/service.filter';
 import { PrismaExceptionFilter } from './common/prisma/prisma-errors.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-
   app.setGlobalPrefix('api/v1');
-  app.enableCors();
+
+  if (process.env.ENABLE_CORS.toLowerCase() === 'true') {
+    app.enableCors();
+  }
 
   app.useGlobalPipes(
     new ValidationPipe({
