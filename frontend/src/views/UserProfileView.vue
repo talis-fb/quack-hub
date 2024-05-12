@@ -36,7 +36,7 @@ import { Plus, Pencil } from 'lucide-vue-next'
 import { useExperienceStore } from '@/stores/experience'
 import type { IUserEntity } from '@/entites/IUser'
 import ProfileEdit from './ProfileEdit.vue'
-import { useUser } from '@/stores/user'
+import { useUserStore } from '@/stores/user'
 import { storeToRefs } from 'pinia'
 import type { ICreateExperience } from '@/apis/experience/types/ICreateExperience'
 import type { ICreateProject } from '@/types/ICreateProject'
@@ -52,7 +52,7 @@ const props = defineProps<{
 
 const projectsSore = useProjectsStore()
 const experienceStore = useExperienceStore()
-const useUserStore = useUser()
+const userStore = useUserStore()
 const authStore = useAuthStore()
 
 const hasPermission = computed(() => {
@@ -61,15 +61,15 @@ const hasPermission = computed(() => {
 
 provide('hasPermissions', hasPermission)
 
-const { user } = storeToRefs(useUserStore)
+const { user } = storeToRefs(userStore)
 
 onBeforeMount(() => {
-  useUserStore.setUser(props.user)
+  userStore.setUser(props.user)
 })
 
 watchEffect(() => {
   if (props.user) {
-    useUserStore.setUser(props.user)
+    userStore.setUser(props.user)
   }
 })
 
@@ -116,11 +116,11 @@ const handleSubmitProject = async (values: ICreateProject) => {
 }
 
 const follow = async () => {
-  useUserStore.follow()
+  userStore.follow()
 }
 
 const unFollow = async () => {
-  useUserStore.unFollow()
+  userStore.unFollow()
 }
 
 const userPhoto = computed(() => {

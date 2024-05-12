@@ -5,7 +5,7 @@ import { ref } from 'vue'
 
 // TODO: Ver se move para o authStore
 
-export const useUser = defineStore('user', () => {
+export const useUserStore = defineStore('user', () => {
   const user = ref<IUserEntity | null>(null)
 
 
