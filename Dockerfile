@@ -32,6 +32,8 @@ COPY backend/yarn.lock .
 RUN yarn install
 
 COPY backend/ .
+
+RUN yarn prisma:generate
 RUN yarn build
 
 COPY --from=build-frontend /app/frontend/dist client/
