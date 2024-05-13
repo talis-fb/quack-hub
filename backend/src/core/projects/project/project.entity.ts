@@ -56,7 +56,7 @@ export class ProjectData {
   @Transform(({ value }) => new Date(value))
   @IsDate()
   @ApiProperty()
-  endDate: Date;
+  endDate: Date | null;
 
   @IsInt()
   @ApiProperty()
