@@ -4,6 +4,7 @@ import {
   IsDate,
   IsIn,
   IsInt,
+  IsNotEmpty,
   IsOptional,
   IsString,
   MinLength,
@@ -38,13 +39,13 @@ export class ExperienceData {
   @ApiProperty()
   state: StateExperience;
 
-  @Transform(({ value }) => new Date(value))
+  @Transform(({ value }) => value ? new Date(value) : null)
   @IsDate()
   @ApiProperty()
   startDate: Date;
 
   @IsOptional()
-  @Transform(({ value }) => new Date(value))
+  @Transform(({ value }) => (value ? new Date(value) : null))
   @IsDate()
   @ApiProperty()
   endDate: Date | null;
