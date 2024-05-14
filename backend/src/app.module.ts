@@ -5,13 +5,9 @@ import { ProjectsModule } from 'src/core/projects/projects.module';
 import { ProfileModule } from 'src/core/profile/profile.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { ThrottlerModule } from '@nestjs/throttler';
-import {
-  NewsService,
-  NewsServiceImpl,
-  NewsServiceProvider,
-} from 'src/news/news.service';
-import { NewsController } from './news/news.controller';
-import { NewsModule } from './news/news.module';
+import { NewsModule } from 'src/news/news.module';
+
+
 
 @Module({
   imports: [
@@ -33,11 +29,5 @@ import { NewsModule } from './news/news.module';
     ProfileModule,
     NewsModule,
   ],
-  providers: [NewsServiceProvider],
-  controllers: [NewsController],
 })
-export class AppModule {
-  constructor(private readonly newsService: NewsService) {
-    this.newsService.getNews();
-  }
-}
+export class AppModule {}
