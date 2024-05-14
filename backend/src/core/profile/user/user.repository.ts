@@ -39,6 +39,9 @@ export class UserRepositoryImpl implements UserRepository {
       include: {
         following: true,
         followedBy: true,
+        comments: {
+          
+        }
       },
     });
   }

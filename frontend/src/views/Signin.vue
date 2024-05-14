@@ -35,9 +35,11 @@ const formSchema = toTypedSchema(
       })
       .min(1, { message: 'Esse campo deve ser preenchido.' })
       .email('Esse não é um e-mail válido.'),
-    password: z.string({
-      required_error: 'Campo senha obrigatório'
-    }).min(5, { message: 'Senha deve ter no mínimo 5 caracteres.' })
+    password: z
+      .string({
+        required_error: 'Campo senha obrigatório'
+      })
+      .min(5, { message: 'Senha deve ter no mínimo 5 caracteres.' })
   })
 )
 
