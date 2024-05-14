@@ -51,10 +51,10 @@ model Experience {
 
   title     String
   about     String
+  type      ExperienceType
+  state     StateExperience @default(PROGRESS)
   startDate DateTime
-  endDate   DateTime
-
-  type ExperienceType
+  endDate   DateTime?
 
   project   Project? @relation(fields: [projectId], references: [id])
   projectId Int?
@@ -63,6 +63,13 @@ model Experience {
 
   User   User @relation(fields: [userId], references: [id])
   userId Int
+}
+
+enum StateExperience {
+  PAUSED
+  PROGRESS
+  COMPLETED
+  CANCELLED
 }
 
 enum ExperienceType {
@@ -91,7 +98,7 @@ model Project {
   methodologies String[]
   vacancies     Vacancy[]
   startDate     DateTime
-  endDate       DateTime
+  endDate       DateTime?
   logoUrl       String?
 
   User   User @relation(fields: [userId], references: [id])

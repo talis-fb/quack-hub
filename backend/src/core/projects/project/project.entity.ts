@@ -47,16 +47,16 @@ export class ProjectData {
   @ApiProperty()
   state: StateProject;
 
-  @Transform(({ value }) => new Date(value))
+  @Transform(({ value }) => (value ? new Date(value) : null))
   @IsDate()
   @ApiProperty()
   startDate: Date;
 
   @IsOptional()
-  @Transform(({ value }) => new Date(value))
+  @Transform(({ value }) => (value ? new Date(value) : null))
   @IsDate()
   @ApiProperty()
-  endDate: Date;
+  endDate: Date | null;
 
   @IsInt()
   @ApiProperty()

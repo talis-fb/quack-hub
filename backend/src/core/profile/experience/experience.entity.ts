@@ -4,6 +4,7 @@ import {
   IsDate,
   IsIn,
   IsInt,
+  IsNotEmpty,
   IsOptional,
   IsString,
   MinLength,
@@ -13,6 +14,15 @@ import {
 export const ExperienceTypeValues = ['PROFESSIONAL', 'ACADEMIC'] as const;
 
 export type ExperienceType = (typeof ExperienceTypeValues)[number];
+
+export const StateExperienceValues = [
+  'PAUSED',
+  'PROGRESS',
+  'COMPLETED',
+  'CANCELLED',
+] as const;
+
+export type StateExperience = (typeof StateExperienceValues)[number];
 
 export class ExperienceData {
   @IsString()
@@ -25,13 +35,17 @@ export class ExperienceData {
   @ApiProperty()
   about: string;
 
-  @Transform(({ value }) => new Date(value))
+  @IsIn(StateExperienceValues)
+  @ApiProperty()
+  state: StateExperience;
+
+  @Transform(({ value }) => value ? new Date(value) : null)
   @IsDate()
   @ApiProperty()
   startDate: Date;
 
   @IsOptional()
-  @Transform(({ value }) => new Date(value))
+  @Transform(({ value }) => (value ? new Date(value) : null))
   @IsDate()
   @ApiProperty()
   endDate: Date | null;
