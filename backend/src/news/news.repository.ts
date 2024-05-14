@@ -2,6 +2,8 @@ import * as cheerio from 'cheerio';
 
 import { Injectable, Provider } from '@nestjs/common';
 import { NewsEntity } from 'src/news/news.entity';
+import { HttpService } from '@nestjs/axios';
+import { firstValueFrom, lastValueFrom } from 'rxjs';
 
 export abstract class NewsRepository {
   abstract getNews(): Promise<NewsEntity[]>;
@@ -11,18 +13,18 @@ export abstract class NewsRepository {
 export class NewsRepositoryImpl implements NewsRepository {
   private url: string;
 
-  constructor() {
+  constructor(private readonly httpService: HttpService) {
     this.url = 'https://www.metropoledigital.ufrn.br/portal/noticias';
   }
 
   async getNews(): Promise<NewsEntity[]> {
     const news: NewsEntity[] = [];
 
-    const output = await fetch(this.url);
+    const output = await this.httpService.axiosRef.get(this.url, {
+      responseType: 'document',
+    });
 
-    const page = await output.text();
-
-    const $ = await cheerio.load(page);
+    const $ = await cheerio.load(output.data);
 
     const newsNode = $('div.card-noticia ');
 
