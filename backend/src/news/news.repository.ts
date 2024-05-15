@@ -26,7 +26,7 @@ export class NewsRepositoryImpl implements NewsRepository {
 
     const $ = await cheerio.load(output.data);
 
-    const newsNode = $('div.card-noticia ');
+    const newsNode = $('div.card-noticia');
 
     newsNode.each((index, value) => {
       try {
