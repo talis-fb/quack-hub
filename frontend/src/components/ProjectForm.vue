@@ -37,22 +37,22 @@ import GithubProjectImport from '@/components/GithubProjectImport.vue'
 
 // Icons
 import { Calendar as CalendarIcon, ImageIcon, Github, Linkedin, Plus, X } from 'lucide-vue-next'
-import { type IProjectEntity, StateProjectValues } from '../entites/IProject'
-import type { ICreateProject } from '@/types/ICreateProject'
+import { type IProjectData, type IProjectEntity, StateProjectValues } from '../entites/IProject'
 import type { IProjectGithub } from '@/repositories/github/github.repository'
 import { onBeforeUnmount } from 'vue'
 
 export interface IProjectFormProps {
   project?: IProjectEntity
-
-  handleSubmit: (values: ICreateProject) => Promise<void>
-    
+  clearFormAfterSubmit?: boolean
+  handleSubmit: (values: IProjectData) => Promise<void>
 }
 
-const props = defineProps<IProjectFormProps>()
+const props = withDefaults(defineProps<IProjectFormProps>(), {
+  clearFormAfterSubmit: true
+})
 
-const formSchema = toTypedSchema(
-  z.object({
+const schema = z
+  .object({
     title: z
       .string({
         required_error: 'Campo título obrigatório'
@@ -60,7 +60,7 @@ const formSchema = toTypedSchema(
       .min(3, { message: 'O título deve ter no mínimo 3 caracteres' }),
     summary: z
       .string({
-        required_error: 'Campo descrição resumo'
+        required_error: 'Campo resumo obrigatório'
       })
       .min(5, { message: 'O resumo deve ter no mínimo 5 caracteres.' }),
     about: z
@@ -85,24 +85,46 @@ const formSchema = toTypedSchema(
       .date({
         required_error: 'Campo fim obrigatório'
       })
-      .max(new Date(), { message: 'Data inválida.' }),
+      .max(new Date(), { message: 'Data inválida.' })
+      .nullable(),
     logoUrl: z
       .string({
         required_error: 'Campo logo url obrigatório.'
       })
       .url({ message: 'Esse não é um link válido.' })
-      .nullish()
+      .nullable()
       .or(z.literal(''))
       .transform((e) => (e === '' ? null : e)),
-    methodologies: z
-      .array(
-        z.string().min(2, {
-          message: 'A metodologia deve ter no mínimo 2 caracteres.'
-        })
-      )
-      .optional()
+    methodologies: z.array(
+      z.string().min(2, {
+        message: 'A metodologia deve ter no mínimo 2 caracteres.'
+      })
+    )
+    // .optional()
   })
-)
+  .transform((data) => {
+    if (data.state === 'PROGRESS') {
+      return {
+        ...data,
+        endDate: null
+      }
+    }
+
+    return data
+  })
+  .superRefine((data, ctx) => {
+    if (data.state !== 'PROGRESS') {
+      if (data.endDate === null) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: 'Campo fim obrigatório',
+          path: ['endDate']
+        })
+      }
+    }
+  })
+
+const formSchema = toTypedSchema(schema)
 
 const form = useForm({
   validationSchema: formSchema
@@ -113,10 +135,11 @@ const form = useForm({
     methodologies: props.project?.methodologies ? [...props.project .methodologies] : []
   é necessário colocar [...props.project .methodologies] para que não cause bug ao
   não fazer nenhuma ação no formulário como editar ou remover metodologias.
-  O bug deixa o project passado pelo ProjectView com array de metodologias vázios. 
+  O bug deixa o project passado pelo ProjectView com array de metodologias vázios.
 
   EU NÃO FAÇO IDEIA O PORQUÊ!
 */
+
 form.setValues({
   title: props.project?.title,
   summary: props.project?.summary,
@@ -124,24 +147,26 @@ form.setValues({
   sector: props.project?.sector,
   state: props.project?.state,
   startDate: props.project?.startDate,
-  endDate: props.project?.endDate,
-  logoUrl: props.project?.logoUrl,
+  endDate: props.project?.endDate ?? null,
+  logoUrl: props.project?.logoUrl ?? null,
   methodologies: props.project?.methodologies ? [...props.project.methodologies] : []
 })
 
 const onSubmit = form.handleSubmit(async (values) => {
   await props.handleSubmit({ ...values })
-  form.resetForm();
-  replace([])
 
+  if (props.clearFormAfterSubmit) {
+    form.resetForm()
+    replace([])
+  }
 })
 
 const handleProjectImported = (data: IProjectGithub) => {
   form.setValues({
-    title: data.name,
-    about: data.description,
+    title: data.name ?? '',
+    about: data.description ?? '',
     startDate: new Date(data.created_at),
-    methodologies: data.methodologies
+    methodologies: data.methodologies ?? []
   })
 }
 
@@ -272,7 +297,7 @@ const { remove, push, fields, replace } = useFieldArray('methodologies')
       </FormField>
 
       <FormField v-slot="{ componentField, value }" name="endDate">
-        <FormItem class="flex flex-col">
+        <FormItem v-if="form.values.state != 'PROGRESS'" class="flex flex-col">
           <FormLabel>Fim</FormLabel>
 
           <Popover>

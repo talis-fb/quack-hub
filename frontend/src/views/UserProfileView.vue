@@ -35,7 +35,6 @@ import { Plus, Pencil } from 'lucide-vue-next'
 
 // Types
 import type { ICreateExperience } from '@/apis/experience/types/ICreateExperience'
-import type { ICreateProject } from '@/types/ICreateProject'
 import type { IUserEntity } from '@/entites/IUser'
 
 // Pinia store
@@ -50,6 +49,7 @@ import { metadataRoutes } from '@/router/RoutesConfig'
 
 // Services
 import { userService } from '@/services'
+import type { IProjectData } from '@/entites/IProject'
 
 const props = defineProps<{
   user: IUserEntity
@@ -101,7 +101,7 @@ const handleSubmitExperience = async (values: ICreateExperience) => {
   }
 }
 
-const handleSubmitProject = async (values: ICreateProject) => {
+const handleSubmitProject = async (values: IProjectData) => {
   try {
     await projectsSore.createProject(values)
 
@@ -244,7 +244,7 @@ export default {
             </template>
             <template #main>
               <div class="h-[600px]">
-                <ProjectForm :handle-submit="handleSubmitProject" />
+                <ProjectForm :handle-submit="handleSubmitProject"  />
               </div>
             </template>
           </AppDialog>
