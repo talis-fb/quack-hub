@@ -102,14 +102,14 @@ onBeforeMount(async () => {
       </section>
     </main>
 
-    <aside class="border flex flex-col md:col-start-2 md:col-span-2 lg:col-start-5">
-      <section class="text-lg p-12 rounded-md">
-        <h1 class="text-xl mb-2">QuackHub Notícias</h1>
-
+    <aside class="border flex flex-col md:col-start-2 md:col-span-2 lg:col-start-5 rounded-md">
+      <article class="text-lg p-3 0 ">
+        <h1 class="font-bold text-xl mb-2">QuackHub Notícias</h1>
+        
         <Suspense>
           <NewsList />
           <template #fallback>
-            <NewsListFallback :length="5" />
+            <NewsListFallback :length="4" />
           </template>
         </Suspense>
 
@@ -119,7 +119,7 @@ onBeforeMount(async () => {
             Expandir mais <ChevronDown class="transition-transform h-6 w-6 transform rotate-0" />
           </label>
         </div> -->
-      </section>
+      </article>
     </aside>
   </div>
 </template>

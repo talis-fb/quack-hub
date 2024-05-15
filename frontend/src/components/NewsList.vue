@@ -16,14 +16,33 @@ async function fetchNews() {
   news.value = res
 }
 
+function redirectToNew(url: string) {
+  // window.location.href = url
+  window.open(url, '_blank')
+}
+
 await fetchNews()
 </script>
 
 <template>
-  <ul>
-    <li>Noticia 01</li>
-    <li>Noticia 02</li>
-    <li>Noticia 03</li>
+  <ul class="space-y-3">
+    <li
+      @click="() => redirectToNew(notice.url)"
+      v-for="notice in news"
+      class="cursor-pointer shadow-xl hover:shadow-primary/50 border rounded-md bg-white"
+    >
+      <figure>
+        <img class="max-w-full" :src="notice.imageURL" alt="notice_image" />
+      </figure>
+      <section class="p-2 text-center">
+        <p class="font-bold text-black text-lg">
+          {{ notice.title }}
+        </p>
+        <p class="text-sm text-gray-500">
+          {{ notice.description }}
+        </p>
+      </section>
+    </li>
   </ul>
 </template>
 <style scoped></style>
