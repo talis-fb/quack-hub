@@ -11,6 +11,10 @@ export const metadataRoutes = {
     isPublic: true,
     tags: ['require-no-auth']
   },
+  ANNOUNCEMENT: {
+    path: '/announcement',
+    name: 'announcement'
+  },
   POST: {
     path: '/post/:id',
     name: 'post'
