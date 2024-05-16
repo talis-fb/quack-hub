@@ -6,7 +6,7 @@ import { ProfileModule } from 'src/core/profile/profile.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { ThrottlerModule } from '@nestjs/throttler';
 import { NewsModule } from 'src/news/news.module';
-import { NoticeModule } from './notice/notice.module';
+import { AnnouncementModule } from './announcement/announcement.module';
 
 
 
@@ -29,7 +29,7 @@ import { NoticeModule } from './notice/notice.module';
     ProjectsModule,
     ProfileModule,
     NewsModule,
-    NoticeModule,
+    AnnouncementModule,
   ],
 })
 export class AppModule {}
