@@ -1,14 +1,12 @@
 import type { IProjectApi } from '@/apis/project/project.api'
-import type { ICreateProject } from '@/types/ICreateProject'
-import type { IUpdateProject } from '@/types/IUpdateProject'
-import type { IProjectEntity } from '@/entites/IProject'
+import type { IProjectData, IProjectEntity } from '@/entites/IProject'
 
 export interface IProjectRepository {
   search(title?: string, userId?: number, states?: string[]): Promise<IProjectEntity[]>
   getProjectById(id: number): Promise<IProjectEntity>
   delete(projectId: number): Promise<IProjectEntity>
-  update(projectId: number, data: IUpdateProject): Promise<IProjectEntity>
-  create(data: ICreateProject): Promise<IProjectEntity>
+  update(projectId: number, data: IProjectData): Promise<IProjectEntity>
+  create(data: IProjectData): Promise<IProjectEntity>
 }
 
 export class ProjectRepositoryImpl implements IProjectRepository {
@@ -29,7 +27,7 @@ export class ProjectRepositoryImpl implements IProjectRepository {
         state: project.state,
         methodologies: project.methodologies,
         startDate: new Date(project.startDate),
-        endDate: new Date(project.endDate),
+        endDate: project.endDate ? new Date(project.endDate) : null,
         logoUrl: project.logoUrl,
         userId: project.userId
       }
@@ -52,7 +50,7 @@ export class ProjectRepositoryImpl implements IProjectRepository {
       state: res.state,
       methodologies: res.methodologies,
       startDate: new Date(res.startDate),
-      endDate: new Date(res.endDate),
+      endDate: res.endDate ? new Date(res.endDate) : null,
       userId: res.userId,
       logoUrl: res.logoUrl
     }
@@ -74,14 +72,14 @@ export class ProjectRepositoryImpl implements IProjectRepository {
       state: res.state,
       methodologies: res.methodologies,
       startDate: new Date(res.startDate),
-      endDate: new Date(res.endDate),
+      endDate: res.endDate ? new Date(res.endDate) : null,
       userId: res.userId,
       logoUrl: res.logoUrl
     }
 
     return newRes
   }
-  async update(projectId: number, data: IUpdateProject): Promise<IProjectEntity> {
+  async update(projectId: number, data: IProjectData): Promise<IProjectEntity> {
     const res = await this.projectApi.update(projectId, data)
 
     const newRes: IProjectEntity = {
@@ -95,14 +93,14 @@ export class ProjectRepositoryImpl implements IProjectRepository {
       state: res.state,
       methodologies: res.methodologies,
       startDate: new Date(res.startDate),
-      endDate: new Date(res.endDate),
+      endDate: res.endDate ? new Date(res.endDate) : null,
       userId: res.userId,
       logoUrl: res.logoUrl
     }
 
     return newRes
   }
-  async create(data: ICreateProject): Promise<IProjectEntity> {
+  async create(data: IProjectData): Promise<IProjectEntity> {
     const res = await this.projectApi.create(data)
 
     const newRes: IProjectEntity = {
@@ -116,7 +114,7 @@ export class ProjectRepositoryImpl implements IProjectRepository {
       state: res.state,
       methodologies: res.methodologies,
       startDate: new Date(res.startDate),
-      endDate: new Date(res.endDate),
+      endDate: res.endDate ? new Date(res.endDate) : null,
       userId: res.userId,
       logoUrl: res.logoUrl
     }

@@ -42,8 +42,6 @@ onBeforeMount(async () => {
   user.value = await fetchUser(authStore.user.id)
 
   const news = await newsService.getNews()
-
-  console.log({ news })
 })
 </script>
 

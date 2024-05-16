@@ -1,15 +1,14 @@
 import { api } from '@/network/api'
 
-import type { ICreateProject } from '@/types/ICreateProject'
-import type { IUpdateProject } from '@/types/IUpdateProject'
 import type { IProjectResponse } from '@/apis/project/models/IProjectResponse'
+import type { IProjectData } from '@/entites/IProject'
 
 export interface IProjectApi {
   search(title?: string, userId?: number, states?: string[]): Promise<IProjectResponse[]>
   getProjectById(id: number): Promise<IProjectResponse>
   delete(projectId: number): Promise<IProjectResponse>
-  update(projectId: number, data: IUpdateProject): Promise<IProjectResponse>
-  create(data: ICreateProject): Promise<IProjectResponse>
+  update(projectId: number, data: IProjectData): Promise<IProjectResponse>
+  create(data: IProjectData): Promise<IProjectResponse>
 }
 
 export class ProjectApiImpl implements IProjectApi {
@@ -37,13 +36,13 @@ export class ProjectApiImpl implements IProjectApi {
     return res.data
   }
 
-  async update(projectId: number, data: IUpdateProject): Promise<IProjectResponse> {
+  async update(projectId: number, data: IProjectData): Promise<IProjectResponse> {
     const res = await api.put<IProjectResponse>(`/projects/${projectId}`, data)
 
     return res.data
   }
 
-  async create(data: ICreateProject): Promise<IProjectResponse> {
+  async create(data: IProjectData): Promise<IProjectResponse> {
     const res = await api.post<IProjectResponse>('/projects', data)
 
     return res.data
