@@ -34,7 +34,6 @@ import { Separator } from '@/components/ui/separator'
 import { Plus, Pencil } from 'lucide-vue-next'
 
 // Types
-import type { ICreateExperience } from '@/apis/experience/types/ICreateExperience'
 import type { IUserEntity } from '@/entites/IUser'
 
 // Pinia store
@@ -50,6 +49,7 @@ import { metadataRoutes } from '@/router/RoutesConfig'
 // Services
 import { userService } from '@/services'
 import type { IProjectData } from '@/entites/IProject'
+import type { IExperienceData } from '@/entites/IExperience'
 
 const props = defineProps<{
   user: IUserEntity
@@ -80,7 +80,7 @@ watchEffect(() => {
 
 const { toast } = useToast()
 
-const handleSubmitExperience = async (values: ICreateExperience) => {
+const handleSubmitExperience = async (values: IExperienceData) => {
   try {
     await experienceStore.createExperience({
       ...values
@@ -244,7 +244,7 @@ export default {
             </template>
             <template #main>
               <div class="h-[600px]">
-                <ProjectForm :handle-submit="handleSubmitProject"  />
+                <ProjectForm :handle-submit="handleSubmitProject" />
               </div>
             </template>
           </AppDialog>

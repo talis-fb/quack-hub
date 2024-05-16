@@ -39,7 +39,6 @@ import GithubProjectImport from '@/components/GithubProjectImport.vue'
 import { Calendar as CalendarIcon, ImageIcon, Github, Linkedin, Plus, X } from 'lucide-vue-next'
 import { type IProjectData, type IProjectEntity, StateProjectValues } from '../entites/IProject'
 import type { IProjectGithub } from '@/repositories/github/github.repository'
-import { onBeforeUnmount } from 'vue'
 
 export interface IProjectFormProps {
   project?: IProjectEntity

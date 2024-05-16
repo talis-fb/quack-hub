@@ -12,8 +12,7 @@ import { useToast } from '@/components/ui/toast/use-toast'
 import { Pencil, Trash } from 'lucide-vue-next'
 
 // Types
-import type { IExperienceEntity } from '@/entites/IExperience'
-import type { ICreateExperience } from '@/apis/experience/types/ICreateExperience'
+import type { IExperienceData, IExperienceEntity } from '@/entites/IExperience'
 
 // Pinia store
 import { useExperienceStore } from '@/stores/experience'
@@ -39,7 +38,7 @@ const props = defineProps<ExperienceItemProps>()
 
 const { toast, dismiss } = useToast()
 
-const handleUpdateExperience = async (values: ICreateExperience) => {
+const handleUpdateExperience = async (values: IExperienceData) => {
   try {
     await experienceStore.updateExperience(props.experience.id, {
       ...values
@@ -86,7 +85,7 @@ const handleDeleteExperience = async () => {
       {{ experience.title }}
     </p>
     <p class="text-sm text-muted-foreground">
-      {{ `${experience.startDate} - ${experience.endDate}` }}
+      {{ `${experience.startDate} - ${experience.endDate ? experience.endDate : 'Atual'}` }}
     </p>
     <p class="text-base">
       {{ experience.about }}

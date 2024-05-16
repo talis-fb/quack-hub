@@ -1,6 +1,14 @@
 <script setup lang="ts">
 // Types
-import { type ExperienceType, type IExperienceEntity } from '@/entites/IExperience'
+import {
+  StateExperienceValues,
+  type ExperienceType,
+  type IExperienceData,
+  type IExperienceEntity
+} from '@/entites/IExperience'
+
+// Utils
+import { experienceStateLabel } from '@/utils/labels'
 
 // Zod
 import { useForm } from 'vee-validate'
@@ -29,7 +37,6 @@ import {
 
 // Icons
 import { Calendar as CalendarIcon } from 'lucide-vue-next'
-import type { ICreateExperience } from '@/apis/experience/types/ICreateExperience'
 import { projectService } from '@/services'
 import { onMounted, ref } from 'vue'
 import type { IProjectEntity } from '@/entites/IProject'
@@ -42,7 +49,7 @@ export interface IExperienceFormProps {
   titleLabel?: string
   titlePlaceholder?: string
   type: ExperienceType
-  handleSubmit: (values: ICreateExperience) => Promise<void>
+  handleSubmit: (values: IExperienceData) => Promise<void>
 }
 
 const props = withDefaults(defineProps<IExperienceFormProps>(), {
@@ -50,8 +57,8 @@ const props = withDefaults(defineProps<IExperienceFormProps>(), {
   titlePlaceholder: 'Título...'
 })
 
-const formSchema = toTypedSchema(
-  z.object({
+const schema = z
+  .object({
     title: z
       .string({
         required_error: 'Campo título obrigatório'
@@ -62,6 +69,9 @@ const formSchema = toTypedSchema(
         required_error: 'Campo descrição obrigatório'
       })
       .min(10, { message: 'A descrição deve ter no mínimo 10 caracteres.' }),
+    state: z.enum(StateExperienceValues, {
+      required_error: 'Campo status obrigatório'
+    }),
     startDate: z
       .date({
         required_error: 'Campo início obrigatório'
@@ -71,14 +81,37 @@ const formSchema = toTypedSchema(
       .date({
         required_error: 'Campo fim obrigatório'
       })
-      .max(new Date(), { message: 'Data inválida.' }),
+      .max(new Date(), { message: 'Data inválida.' })
+      .nullable(),
     projectId: z
       .string()
       .nullish()
       .or(z.literal(''))
       .transform((e) => (e === '' ? null : e))
   })
-)
+  .transform((data) => {
+    if (data.state === 'PROGRESS') {
+      return {
+        ...data,
+        endDate: null
+      }
+    }
+
+    return data
+  })
+  .superRefine((data, ctx) => {
+    if (data.state !== 'PROGRESS') {
+      if (data.endDate === null) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: 'Campo fim obrigatório',
+          path: ['endDate']
+        })
+      }
+    }
+  })
+
+const formSchema = toTypedSchema(schema)
 
 const form = useForm({
   validationSchema: formSchema
@@ -88,7 +121,7 @@ form.setValues({
   title: props.experience?.title,
   about: props.experience?.about,
   startDate: props.experience?.startDate ? new Date(props.experience?.startDate) : undefined,
-  endDate: props.experience?.endDate ? new Date(props.experience?.endDate) : undefined,
+  endDate: props.experience?.endDate ? new Date(props.experience?.endDate) : null,
   projectId: props.experience?.projectId ? props.experience?.projectId.toString() : undefined
 })
 
@@ -98,7 +131,9 @@ const onSubmit = form.handleSubmit(async (values) => {
     ...values,
     projectId: values.projectId ? +values.projectId : null,
     achievements: [],
-    type: props.type
+    type: props.type,
+    startDate: values.startDate.toISOString(),
+    endDate: values.endDate ? values.endDate.toISOString() : null
   })
   form.resetForm()
 })
@@ -143,6 +178,28 @@ onMounted(async () => {
       </FormItem>
     </FormField>
 
+    <FormField v-slot="{ componentField }" name="state">
+      <FormItem>
+        <FormLabel>Status</FormLabel>
+
+        <Select v-bind="componentField">
+          <FormControl>
+            <SelectTrigger>
+              <SelectValue placeholder="Selecione o status da experiência" />
+            </SelectTrigger>
+          </FormControl>
+          <SelectContent>
+            <SelectGroup>
+              <SelectItem v-for="item in Object.entries(experienceStateLabel)" :value="item[0]">
+                {{ item[1] }}
+              </SelectItem>
+            </SelectGroup>
+          </SelectContent>
+        </Select>
+        <FormMessage />
+      </FormItem>
+    </FormField>
+
     <FormField v-slot="{ componentField, value }" name="startDate">
       <FormItem class="flex flex-col">
         <FormLabel>Início</FormLabel>
@@ -165,7 +222,7 @@ onMounted(async () => {
     </FormField>
 
     <FormField v-slot="{ componentField, value }" name="endDate">
-      <FormItem class="flex flex-col">
+      <FormItem v-if="form.values.state != 'PROGRESS'" class="flex flex-col">
         <FormLabel>Fim</FormLabel>
 
         <Popover>
