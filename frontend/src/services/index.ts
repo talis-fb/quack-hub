@@ -15,7 +15,11 @@ import { ProjectServiceImpl, type IProjectService } from './project/project.serv
 import { VacancyServiceImpl, type IVacancyService } from './vacancies/vacancies.service'
 import { PostServiceImpl, type IPostService } from './post/post.service'
 import { NewsServiceImpl, type INewsService } from './news/news.service'
-import { newsApi } from '@/apis'
+import { announcementsApi, newsApi } from '@/apis'
+import {
+  AnnouncementsServiceImpl,
+  type IAnnouncementsService
+} from './announcements/announcements.service'
 
 const authService: IAuthService = new AuthServiceImpl(authRepository)
 
@@ -35,6 +39,8 @@ const postService: IPostService = new PostServiceImpl(postRepository)
 
 const newsService: INewsService = new NewsServiceImpl(newsApi)
 
+const announcementService: IAnnouncementsService = new AnnouncementsServiceImpl(announcementsApi)
+
 export {
   storageService,
   authService,
@@ -44,5 +50,6 @@ export {
   projectService,
   vacancyService,
   postService,
-  newsService
+  newsService,
+  announcementService
 }
