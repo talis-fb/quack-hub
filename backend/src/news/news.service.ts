@@ -1,5 +1,4 @@
 import { Injectable, Provider } from '@nestjs/common';
-import * as cheerio from 'cheerio';
 import { NewsEntity } from 'src/news/news.entity';
 import { NewsRepository } from './news.repository';
 export abstract class NewsService {
