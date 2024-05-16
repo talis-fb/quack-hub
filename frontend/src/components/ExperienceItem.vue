@@ -112,6 +112,7 @@ const handleDeleteExperience = async () => {
             :handle-submit="handleUpdateExperience"
             title-label="Título"
             title-placeholder="Ex.: Desenvolvedor Backend"
+            :clear-form-after-submit="false"
             :type="experience.type"
           />
         </template>

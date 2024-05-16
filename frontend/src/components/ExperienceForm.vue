@@ -45,6 +45,7 @@ import type { IProjectEntity } from '@/entites/IProject'
 
 export interface IExperienceFormProps {
   experience?: IExperienceEntity
+  clearFormAfterSubmit?: boolean
 
   titleLabel?: string
   titlePlaceholder?: string
@@ -54,7 +55,8 @@ export interface IExperienceFormProps {
 
 const props = withDefaults(defineProps<IExperienceFormProps>(), {
   titleLabel: 'Título',
-  titlePlaceholder: 'Título...'
+  titlePlaceholder: 'Título...',
+  clearFormAfterSubmit: true
 })
 
 const schema = z
@@ -120,6 +122,7 @@ const form = useForm({
 form.setValues({
   title: props.experience?.title,
   about: props.experience?.about,
+  state: props.experience?.state,
   startDate: props.experience?.startDate ? new Date(props.experience?.startDate) : undefined,
   endDate: props.experience?.endDate ? new Date(props.experience?.endDate) : null,
   projectId: props.experience?.projectId ? props.experience?.projectId.toString() : undefined
@@ -135,7 +138,10 @@ const onSubmit = form.handleSubmit(async (values) => {
     startDate: values.startDate.toISOString(),
     endDate: values.endDate ? values.endDate.toISOString() : null
   })
-  form.resetForm()
+
+  if (props.clearFormAfterSubmit) {
+    form.resetForm()
+  }
 })
 
 const projects = ref<IProjectEntity[]>([])
