@@ -1,12 +1,6 @@
-import { Transform, Type } from 'class-transformer';
-import {
-  ArrayNotEmpty,
-  IsInt,
-  IsOptional,
-} from 'class-validator';
-import {
-  StateProject,
-} from 'src/core/projects/project/project.entity';
+import { Transform } from 'class-transformer';
+import { ArrayNotEmpty, IsInt, IsOptional } from 'class-validator';
+import { StateProject } from 'src/core/projects/project/project.entity';
 
 export class SearchProjectsQueryDto {
   @IsOptional()

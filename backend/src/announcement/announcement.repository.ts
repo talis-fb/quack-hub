@@ -5,7 +5,10 @@ import { AnnouncementEntity } from './announcement.entity';
 import { HttpService } from '@nestjs/axios';
 
 export abstract class AnnouncementRepository {
-  abstract getAnnouncement(): Promise<AnnouncementEntity[]>;
+  abstract getAnnouncement(
+    typeFilter?: string,
+    statusFilter?: string,
+  ): Promise<AnnouncementEntity[]>;
 }
 
 @Injectable()
@@ -16,8 +19,11 @@ export class AnnouncementRepositoryImpl implements AnnouncementRepository {
     this.url = 'https://www.metropoledigital.ufrn.br/portal/editais';
   }
 
-  async getAnnouncement(): Promise<AnnouncementEntity[]> {
-    const announcement: AnnouncementEntity[] = [];
+  async getAnnouncement(
+    typeFilter?: string,
+    statusFilter?: string,
+  ): Promise<AnnouncementEntity[]> {
+    const announcements: AnnouncementEntity[] = [];
 
     const output = await this.httpService.axiosRef.get(this.url, {
       responseType: 'document',
@@ -44,13 +50,61 @@ export class AnnouncementRepositoryImpl implements AnnouncementRepository {
         const type = typeNode.children().text();
         const status = statusNode.text();
 
-        announcement.push({ announcementInfo, title, date, type, url, status });
+        const announcement = {
+          announcementInfo,
+          title,
+          date,
+          type,
+          url,
+          status,
+        };
+
+        if (filter(announcement, typeFilter, statusFilter) == true) {
+          announcements.push(announcement);
+        }
       } catch (error) {
         console.log(error);
       }
     });
 
-    return announcement;
+    return announcements;
+  }
+}
+
+function filter(
+  announcement: AnnouncementEntity,
+  type?: string,
+  status?: string,
+) {
+  console.log(type);
+  if (isValid(type) && isValid(status)) {
+    if (announcement.type === type && announcement.status === status) {
+      return true;
+    } else {
+      return false;
+    }
+  } else if (isValid(type)) {
+    if (announcement.type === type) {
+      return true;
+    } else {
+      return false;
+    }
+  } else if (isValid(status)) {
+    if (announcement.status === status) {
+      return true;
+    } else {
+      return false;
+    }
+  } else {
+    return true;
+  }
+}
+
+function isValid(param: any) {
+  if (param !== undefined && param !== '') {
+    return true;
+  } else {
+    return false;
   }
 }
 
