@@ -32,17 +32,19 @@ export class AnnouncementRepositoryImpl implements AnnouncementRepository {
         const url =
           'https://www.metropoledigital.ufrn.br' +
           announcementNode.attr('href');
-        const announcementInfoNode = $(value).find('span');
+        const announcementInfoNode = $(value).find('span:first');
         const titleNode = $(value).find('h5');
         const dateNode = $(value).find('p');
         const typeNode = $(value).children().find('div');
+        const statusNode = $(value).parent().parent().parent().find('p:first');
 
         const announcementInfo = announcementInfoNode.text();
         const title = titleNode.text();
         const date = dateNode.children().text();
         const type = typeNode.children().text();
+        const status = statusNode.text();
 
-        announcement.push({ announcementInfo, title, date, type, url });
+        announcement.push({ announcementInfo, title, date, type, url, status });
       } catch (error) {
         console.log(error);
       }
