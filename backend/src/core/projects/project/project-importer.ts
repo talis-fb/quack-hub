@@ -9,7 +9,7 @@ abstract class GetProjectGithubResponse {
 
 type IGetProjectLanguagesResponse = Record<string, number>;
 
-export abstract class ProjectGithub {
+export abstract class ImportedProject {
   // methodologies: string[];
   name: string;
   description: string;
@@ -20,7 +20,7 @@ export abstract class ProjectImporter {
   public abstract importProject(
     username: string,
     projectName: string,
-  ): Promise<ProjectGithub>;
+  ): Promise<ImportedProject>;
 }
 
 @Injectable()
@@ -34,7 +34,7 @@ export class ProjectImporterGithub implements ProjectImporter {
   public async importProject(
     username: string,
     projectName: string,
-  ): Promise<ProjectGithub> {
+  ): Promise<ImportedProject> {
     const [info, languages] = await Promise.all([
       this.getInfoProject(username, projectName),
       this.getProjectLanguages(username, projectName),

@@ -1,4 +1,4 @@
-import type { IProjectApi } from '@/apis/project/project.api'
+import type { IProjectApi, IProjectImported } from '@/apis/project/project.api'
 import type { IInputProjectData, IProjectEntity } from '@/entites/IProject'
 
 export interface IProjectRepository {
@@ -7,6 +7,7 @@ export interface IProjectRepository {
   delete(projectId: number): Promise<IProjectEntity>
   update(projectId: number, data: IInputProjectData): Promise<IProjectEntity>
   create(data: IInputProjectData): Promise<IProjectEntity>
+  importProject(username: string, projectName: string): Promise<IProjectImported>
 }
 
 export class ProjectRepositoryImpl implements IProjectRepository {
@@ -120,5 +121,10 @@ export class ProjectRepositoryImpl implements IProjectRepository {
     }
 
     return newRes
+  }
+
+  async importProject(username: string, projectName: string): Promise<IProjectImported> {
+    const res = await this.projectApi.importProject(username, projectName)
+    return res
   }
 }

@@ -22,7 +22,7 @@ import { ApiResponse, ApiTags } from '@nestjs/swagger';
 
 import { SearchProjectsQueryDto } from 'src/core/projects/project/dtos/SearchProjectsQueryDto';
 import {
-  ProjectGithub,
+  ImportedProject,
   ProjectImporter,
 } from 'src/core/projects/project/project-importer';
 import { ImportProjectsQueryDto } from 'src/core/projects/project/dtos/ImportProjectQueryDto';
@@ -64,7 +64,7 @@ export class ProjectsController {
   @Get('import')
   async importProject(
     @Query() importProjectQueryDto: ImportProjectsQueryDto,
-  ): Promise<ProjectGithub> {
+  ): Promise<ImportedProject> {
     const { username, projectName } = importProjectQueryDto;
 
     return await this.projectImporter.importProject(username, projectName);

@@ -17,13 +17,13 @@ import { useToast } from '@/components/ui/toast'
 import { ref } from 'vue'
 
 // Repositories
-import { githubRepository } from '@/repositories'
+import type { IProjectImported } from '@/apis/project/project.api'
+import { projectService } from '@/services'
 
 // Types
-import type { IProjectGithub } from '@/repositories/github/github.repository'
 
 export interface IGithubProjectImportEmit {
-  (e: 'imported', data: IProjectGithub): void
+  (e: 'imported', data: IProjectImported): void
 }
 
 const emit = defineEmits<IGithubProjectImportEmit>()
@@ -53,7 +53,7 @@ const onSubmit = form.handleSubmit(async (values) => {
   try {
     const { username, repositoryName } = values
 
-    const res = await githubRepository.getProject(username, repositoryName)
+    const res = await projectService.importProject(username, repositoryName)
 
     emit('imported', res)
 
@@ -109,7 +109,7 @@ const onSubmit = form.handleSubmit(async (values) => {
 
       <Button v-if="!loading" type="submit"> Importar </Button>
       <Button v-else disabled>
-        <LoadingSpinner class="mr-1"/>
+        <LoadingSpinner class="mr-1" />
         Importando...
       </Button>
     </form>
