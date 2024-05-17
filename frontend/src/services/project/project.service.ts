@@ -1,12 +1,12 @@
-import type { IProjectData, IProjectEntity } from '@/entites/IProject'
+import type { IInputProjectData, IProjectEntity } from '@/entites/IProject'
 import type { IProjectRepository } from '@/repositories/project/project.repository'
 
 export interface IProjectService {
   search(title?: string, userId?: number, states?: string[]): Promise<IProjectEntity[]>
   getProjectById(id: number): Promise<IProjectEntity>
   delete(projectId: number): Promise<IProjectEntity>
-  update(projectId: number, data: IProjectData): Promise<IProjectEntity>
-  create(data: IProjectData): Promise<IProjectEntity>
+  update(projectId: number, data: IInputProjectData): Promise<IProjectEntity>
+  create(data: IInputProjectData): Promise<IProjectEntity>
 }
 
 export class ProjectServiceImpl implements IProjectService {
@@ -30,13 +30,13 @@ export class ProjectServiceImpl implements IProjectService {
     return res
   }
 
-  async update(projectId: number, data: IProjectData): Promise<IProjectEntity> {
+  async update(projectId: number, data: IInputProjectData): Promise<IProjectEntity> {
     const res = await this.projectRepository.update(projectId, data)
 
     return res
   }
 
-  async create(data: IProjectData): Promise<IProjectEntity> {
+  async create(data: IInputProjectData): Promise<IProjectEntity> {
     const res = await this.projectRepository.create(data)
 
     return res

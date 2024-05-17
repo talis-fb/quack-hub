@@ -37,16 +37,20 @@ import GithubProjectImport from '@/components/GithubProjectImport.vue'
 
 // Icons
 import { Calendar as CalendarIcon, ImageIcon, Github, Linkedin, Plus, X } from 'lucide-vue-next'
-import { type IProjectData, type IProjectEntity, StateProjectValues } from '../entites/IProject'
+import {
+  type IInputProjectData,
+  type IProjectEntity,
+  StateProjectValues
+} from '../entites/IProject'
 import type { IProjectGithub } from '@/repositories/github/github.repository'
-import { type IMethodologieEntity } from '../entites/IMethodologie'
+import { type IOutputMethodologieEntity } from '../entites/IMethodologie'
 import { onBeforeMount, ref } from 'vue'
 import { methodologiesService } from '@/services'
 
 export interface IProjectFormProps {
   project?: IProjectEntity
   clearFormAfterSubmit?: boolean
-  handleSubmit: (values: IProjectData) => Promise<void>
+  handleSubmit: (values: IInputProjectData) => Promise<void>
 }
 
 const props = withDefaults(defineProps<IProjectFormProps>(), {
@@ -157,10 +161,10 @@ form.setValues({
 })
 
 const onSubmit = form.handleSubmit(async (values) => {
-  // TODO: NO backend só precisa enviar o id da metodologia, o name não é necessário. Criar uma tipagem diferennte da IMethodologieEntity (essa citada tem o name)
+  // OBS: No backend só precisa enviar o id da metodologia, o name não é necessário.
   await props.handleSubmit({
     ...values,
-    methodologies: values.methodologies.map((met) => ({ id: parseInt(met), name: '' }))
+    methodologies: values.methodologies.map((met) => ({ id: parseInt(met) }))
   })
 
   if (props.clearFormAfterSubmit) {
@@ -180,7 +184,7 @@ const handleProjectImported = (data: IProjectGithub) => {
 
 const { remove, push, fields, replace } = useFieldArray('methodologies')
 
-const methodologies = ref<IMethodologieEntity[]>([])
+const methodologies = ref<IOutputMethodologieEntity[]>([])
 
 async function fetchMethodologies() {
   const res = await methodologiesService.findAll()

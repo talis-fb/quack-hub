@@ -1,7 +1,11 @@
-export interface IMethodologieData {
+export interface IOuputMethodologieData {
   name: string
 }
 
-export interface IMethodologieEntity extends IMethodologieData {
+export interface IOutputMethodologieEntity extends IOuputMethodologieData {
+  id: number
+}
+
+export interface IInputMethodologieEntity {
   id: number
 }

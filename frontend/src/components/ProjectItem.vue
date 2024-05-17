@@ -6,7 +6,7 @@ import DefaultProjectIcon from '@/assets/DefaultProjectIcon.jpg'
 import { projectStateLabel } from '@/utils/labels'
 
 // Types
-import type { IProjectData, IProjectEntity } from '@/entites/IProject'
+import type { IInputProjectData, IProjectEntity } from '@/entites/IProject'
 
 // App components
 import AppDialog from '@/components/AppDialog.vue'
@@ -64,7 +64,7 @@ const props = defineProps<ProjectItemProps>()
 
 const { toast } = useToast()
 
-const handleUpdateProject = async (values: IProjectData) => {
+const handleUpdateProject = async (values: IInputProjectData) => {
   try {
     await projecstStore.updateProject(props.project.id, {
       ...values

@@ -37,7 +37,7 @@ import { useProjectStore } from '@/stores/project'
 import { useAuthStore } from '@/stores/auth'
 
 // Types
-import type { IProjectData, IProjectEntity } from '@/entites/IProject'
+import type { IInputProjectData,  IProjectEntity } from '@/entites/IProject'
 import { projectService } from '@/services'
 import { metadataRoutes } from '@/router/RoutesConfig'
 
@@ -81,7 +81,7 @@ const handleSubmitVacancy = async (values: IVacancyFormData) => {
   }
 }
 
-const handleUpdateProject = async (values: IProjectData) => {
+const handleUpdateProject = async (values: IInputProjectData) => {
   try {
     await projectStore.updateProject((project.value as IProjectEntity).id, {
       ...values
