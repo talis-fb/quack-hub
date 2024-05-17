@@ -11,19 +11,29 @@ import {
   Delete,
   Req,
 } from '@nestjs/common';
-import { InputProjectData, ProjectData, ProjectEntity } from './project.entity';
-import { ProjectsService } from './project.service';
+import {
+  InputProjectData,
+  ProjectEntity,
+} from 'src/core/projects/project/project.entity';
+import { ProjectsService } from 'src/core/projects/project/project.service';
 import { UserEntity } from 'src/core/profile/user/user.entity';
-import { Public } from 'src/common/decorators/public.decorator';
 
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 
-import { SearchProjectsQueryDto } from './dtos/SearchProjectsQueryDto';
+import { SearchProjectsQueryDto } from 'src/core/projects/project/dtos/SearchProjectsQueryDto';
+import {
+  ProjectGithub,
+  ProjectImporter,
+} from 'src/core/projects/project/project-importer';
+import { ImportProjectsQueryDto } from 'src/core/projects/project/dtos/ImportProjectQueryDto';
 
 @ApiTags('projects')
 @Controller('projects')
 export class ProjectsController {
-  constructor(private projectsService: ProjectsService) {}
+  constructor(
+    private readonly projectsService: ProjectsService,
+    private readonly projectImporter: ProjectImporter,
+  ) {}
 
   @ApiResponse({
     status: 201,
@@ -49,6 +59,15 @@ export class ProjectsController {
     @Body() body: InputProjectData,
   ) {
     return await this.projectsService.update(id, body);
+  }
+
+  @Get('import')
+  async importProject(
+    @Query() importProjectQueryDto: ImportProjectsQueryDto,
+  ): Promise<ProjectGithub> {
+    const { username, projectName } = importProjectQueryDto;
+
+    return await this.projectImporter.importProject(username, projectName);
   }
 
   @ApiResponse({
