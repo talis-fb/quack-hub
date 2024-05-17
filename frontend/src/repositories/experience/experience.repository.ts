@@ -1,13 +1,11 @@
-import type { ExperienceType, IExperienceEntity } from '@/entites/IExperience'
-import type { ICreateExperience } from '@/apis/experience/types/ICreateExperience'
-import type { IUpdateExperinece } from '@/apis/experience/types/IUpdateExperinece'
+import type { ExperienceType, IExperienceData, IExperienceEntity } from '@/entites/IExperience'
 import type { IExperienceApi } from '@/apis/experience/experience.api'
 
 export interface IExperienceRepository {
   delete(experienceId: number): Promise<IExperienceEntity>
-  update(experienceId: number, data: IUpdateExperinece): Promise<IExperienceEntity>
+  update(experienceId: number, data: IExperienceData): Promise<IExperienceEntity>
   getExperiencesByUserId(userId: number, type?: ExperienceType): Promise<IExperienceEntity[]>
-  create(data: ICreateExperience): Promise<IExperienceEntity>
+  create(data: IExperienceData): Promise<IExperienceEntity>
 }
 
 export class ExperienceRepositoryImpl implements IExperienceRepository {
@@ -19,7 +17,7 @@ export class ExperienceRepositoryImpl implements IExperienceRepository {
     return res
   }
 
-  async update(experienceId: number, data: IUpdateExperinece): Promise<IExperienceEntity> {
+  async update(experienceId: number, data: IExperienceData): Promise<IExperienceEntity> {
     const res = await this.experienceApi.update(experienceId, data)
 
     return res
@@ -31,7 +29,7 @@ export class ExperienceRepositoryImpl implements IExperienceRepository {
     return res
   }
 
-  async create(data: ICreateExperience): Promise<IExperienceEntity> {
+  async create(data: IExperienceData): Promise<IExperienceEntity> {
     const res = await this.experienceApi.create(data)
 
     return res

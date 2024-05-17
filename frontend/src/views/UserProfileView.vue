@@ -13,6 +13,7 @@ import ExperienceListFallback from '@/components/ExperienceListFallback.vue'
 import ProjectsList from '@/components/ProjectsList.vue'
 import ProjectsListFallback from '@/components/ProjectsListFallback.vue'
 import ProjectForm from '@/components/ProjectForm.vue'
+import ProfileEdit from './ProfileEdit.vue'
 
 // Shadcn-vue components
 import { useToast } from '@/components/ui/toast/use-toast'
@@ -33,18 +34,22 @@ import { Separator } from '@/components/ui/separator'
 import { Plus, Pencil } from 'lucide-vue-next'
 
 // Types
-import { useExperienceStore } from '@/stores/experience'
 import type { IUserEntity } from '@/entites/IUser'
-import ProfileEdit from './ProfileEdit.vue'
-import { useUser } from '@/stores/user'
+
+// Pinia store
 import { storeToRefs } from 'pinia'
-import type { ICreateExperience } from '@/apis/experience/types/ICreateExperience'
-import type { ICreateProject } from '@/types/ICreateProject'
-import { useProjectsStore } from '@/stores/projects'
 import { useAuthStore } from '@/stores/auth'
-import { useRouter } from 'vue-router'
+import { useProjectsStore } from '@/stores/projects'
+import { useUserStore } from '@/stores/user'
+import { useExperienceStore } from '@/stores/experience'
+
+// Configs
 import { metadataRoutes } from '@/router/RoutesConfig'
+
+// Services
 import { userService } from '@/services'
+import type { IProjectData } from '@/entites/IProject'
+import type { IExperienceData } from '@/entites/IExperience'
 
 const props = defineProps<{
   user: IUserEntity
@@ -52,7 +57,7 @@ const props = defineProps<{
 
 const projectsSore = useProjectsStore()
 const experienceStore = useExperienceStore()
-const useUserStore = useUser()
+const userStore = useUserStore()
 const authStore = useAuthStore()
 
 const hasPermission = computed(() => {
@@ -61,21 +66,21 @@ const hasPermission = computed(() => {
 
 provide('hasPermissions', hasPermission)
 
-const { user } = storeToRefs(useUserStore)
+const { user } = storeToRefs(userStore)
 
 onBeforeMount(() => {
-  useUserStore.setUser(props.user)
+  userStore.setUser(props.user)
 })
 
 watchEffect(() => {
   if (props.user) {
-    useUserStore.setUser(props.user)
+    userStore.setUser(props.user)
   }
 })
 
 const { toast } = useToast()
 
-const handleSubmitExperience = async (values: ICreateExperience) => {
+const handleSubmitExperience = async (values: IExperienceData) => {
   try {
     await experienceStore.createExperience({
       ...values
@@ -96,7 +101,7 @@ const handleSubmitExperience = async (values: ICreateExperience) => {
   }
 }
 
-const handleSubmitProject = async (values: ICreateProject) => {
+const handleSubmitProject = async (values: IProjectData) => {
   try {
     await projectsSore.createProject(values)
 
@@ -116,11 +121,11 @@ const handleSubmitProject = async (values: ICreateProject) => {
 }
 
 const follow = async () => {
-  useUserStore.follow()
+  userStore.follow()
 }
 
 const unFollow = async () => {
-  useUserStore.unFollow()
+  userStore.unFollow()
 }
 
 const userPhoto = computed(() => {

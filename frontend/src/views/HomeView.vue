@@ -2,6 +2,10 @@
 // Images
 import DefaultUserIcon from '@/assets/DefaultUserIcon.jpg'
 
+// App components
+import NewsList from '@/components/NewsList.vue'
+import NewsListFallback from '@/components/NewsListFallback.vue'
+
 // Shadcn-vue components
 import Separator from '@/components/ui/separator/Separator.vue'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
@@ -19,7 +23,8 @@ import { onBeforeMount, ref } from 'vue'
 import type { IUserEntity } from '@/entites/IUser'
 
 // Services
-import { userService } from '@/services'
+import { newsService, userService } from '@/services'
+import { newsApi } from '@/apis'
 
 const authStore = useAuthStore()
 
@@ -35,6 +40,8 @@ onBeforeMount(async () => {
   if (!authStore.user.id) return
 
   user.value = await fetchUser(authStore.user.id)
+
+  const news = await newsService.getNews()
 })
 </script>
 
@@ -67,7 +74,7 @@ onBeforeMount(async () => {
             :class="isExactActive ? 'border-primary' : 'border-transparent'"
           >
             <NotebookPen />
-            -<span>Postagens</span>
+            <span>Postagens</span>
           </div>
         </RouterLink>
 
@@ -93,21 +100,24 @@ onBeforeMount(async () => {
       </section>
     </main>
 
-    <aside class="border flex flex-col md:col-start-2 md:col-span-2 lg:col-start-5">
-      <section class="text-lg p-12 rounded-md">
-        <h1 class="text-xl mb-2">QuackHub Notícias</h1>
-        <ul>
-          <li>Noticia 01</li>
-          <li>Noticia 02</li>
-          <li>Noticia 03</li>
-        </ul>
-        <div class="flex items-center">
+    <aside class="border flex flex-col md:col-start-2 md:col-span-2 lg:col-start-5 rounded-md">
+      <article class="text-lg p-3 0 ">
+        <h1 class="font-bold text-xl mb-2">QuackHub Notícias</h1>
+        
+        <Suspense>
+          <NewsList />
+          <template #fallback>
+            <NewsListFallback :length="4" />
+          </template>
+        </Suspense>
+
+        <!-- <div class="flex items-center">
           <input type="checkbox" id="expandir-mais-home-aside" class="hidden" />
           <label for="expandir-mais-home-aside" class="cursor-pointer flex items-center">
             Expandir mais <ChevronDown class="transition-transform h-6 w-6 transform rotate-0" />
           </label>
-        </div>
-      </section>
+        </div> -->
+      </article>
     </aside>
   </div>
 </template>

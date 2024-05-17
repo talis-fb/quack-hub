@@ -1,6 +1,4 @@
-import type { ICreateExperience } from '@/apis/experience/types/ICreateExperience'
-import type { IUpdateExperinece } from '@/apis/experience/types/IUpdateExperinece'
-import type { ExperienceType, IExperienceEntity } from '@/entites/IExperience'
+import type { ExperienceType, IExperienceData, IExperienceEntity } from '@/entites/IExperience'
 import { experienceService } from '@/services'
 import { defineStore } from 'pinia'
 import { reactive } from 'vue'
@@ -19,13 +17,13 @@ export const useExperienceStore = defineStore('experience', () => {
     experiences[type] = res
   }
 
-  async function createExperience(data: ICreateExperience) {
+  async function createExperience(data: IExperienceData) {
     const res = await experienceService.create(data)
 
     experiences[data.type].push(res)
   }
 
-  async function updateExperience(experienceId: number, data: IUpdateExperinece) {
+  async function updateExperience(experienceId: number, data: IExperienceData) {
     const res = await experienceService.update(experienceId, data)
 
     experiences[res.type] = experiences[res.type].map((experience) => {

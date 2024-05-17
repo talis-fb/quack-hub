@@ -6,8 +6,7 @@ import DefaultProjectIcon from '@/assets/DefaultProjectIcon.jpg'
 import { projectStateLabel } from '@/utils/labels'
 
 // Types
-import type { IProjectEntity } from '@/entites/IProject'
-import type { IUpdateProject } from '@/types/IUpdateProject'
+import type { IProjectData, IProjectEntity } from '@/entites/IProject'
 
 // App components
 import AppDialog from '@/components/AppDialog.vue'
@@ -46,8 +45,6 @@ import { useProjectsStore } from '@/stores/projects'
 import { inject } from 'vue'
 import { useRouter } from 'vue-router'
 
-
-
 export interface ProjectItemProps {
   project: IProjectEntity
 }
@@ -67,7 +64,7 @@ const props = defineProps<ProjectItemProps>()
 
 const { toast } = useToast()
 
-const handleUpdateProject = async (values: IUpdateProject) => {
+const handleUpdateProject = async (values: IProjectData) => {
   try {
     await projecstStore.updateProject(props.project.id, {
       ...values
@@ -195,7 +192,11 @@ const toProject = (e: MouseEvent) => {
         </template>
         <template #main>
           <div class="h-[600px]">
-            <ProjectForm :project="props.project" :handle-submit="handleUpdateProject" />
+            <ProjectForm
+              :project="props.project"
+              :handle-submit="handleUpdateProject"
+              :clear-form-after-submit="false"
+            />
           </div>
         </template>
       </AppDialog>

@@ -5,6 +5,7 @@ import DefaultUserIcon from '@/assets/DefaultUserIcon.jpg'
 // Types
 import type { ICommentData } from '@/entites/IComment'
 import type { IPostData, IPostEntityWithUser } from '@/entites/IPost'
+import type { IUserEntity } from '@/entites/IUser'
 
 // Icons
 import { ThumbsUp, Ellipsis, ChevronDown, Dot } from 'lucide-vue-next'
@@ -13,7 +14,7 @@ import { ThumbsUp, Ellipsis, ChevronDown, Dot } from 'lucide-vue-next'
 import { metadataRoutes } from '@/router/RoutesConfig'
 
 // Services
-import { postService } from '@/services'
+import { postService, userService } from '@/services'
 
 // Shadcn-vue components
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
@@ -126,6 +127,21 @@ async function updatePost(postId: number, data: IPostData) {
     })
   }
 }
+
+
+const user = ref<IUserEntity | null>(null)
+
+async function fetchUser(userId: number) {
+  const res = await userService.getUserById(userId)
+
+  return res
+}
+
+onBeforeMount(async () => {
+  if (!authStore.user.id) return
+
+  user.value = await fetchUser(authStore.user.id)
+})
 </script>
 
 <script lang="ts">
@@ -219,7 +235,7 @@ export default {
         <div class="py-3 px-2 border flex flex-col space-y-2">
           <div class="flex space-x-2">
             <Avatar class="w-12 h-12">
-              <AvatarImage :src="(post as IPostEntityWithUser).User.avatarUrl ?? ''" />
+              <AvatarImage :src="user?.avatarUrl ?? ''" />
 
               <AvatarFallback>
                 <img :src="DefaultUserIcon" alt="avatar_user" />

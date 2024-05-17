@@ -23,7 +23,6 @@ export const usePostStore = defineStore('post', () => {
   async function updatePost(postId: number, data: IPostData) {
     const res = await postService.update(postId, data)
 
-    console.log({ res })
     post.value = res
   }
 

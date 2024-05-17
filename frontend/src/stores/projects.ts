@@ -1,6 +1,4 @@
-import type { ICreateProject } from '@/types/ICreateProject'
-import type { IUpdateProject } from '@/types/IUpdateProject'
-import type { IProjectEntity } from '@/entites/IProject'
+import type { IProjectData, IProjectEntity } from '@/entites/IProject'
 import { projectService } from '@/services'
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
@@ -14,13 +12,13 @@ export const useProjectsStore = defineStore('projects', () => {
     projects.value = res
   }
 
-  async function createProject(data: ICreateProject) {
+  async function createProject(data: IProjectData) {
     const res = await projectService.create(data)
 
     projects.value.push(res)
   }
 
-  async function updateProject(projectId: number, data: IUpdateProject) {
+  async function updateProject(projectId: number, data: IProjectData) {
     const res = await projectService.update(projectId, data)
 
     projects.value = projects.value.map((project) => {

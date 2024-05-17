@@ -23,7 +23,8 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { useToast } from '@/components/ui/toast/use-toast'
 
 // Store pinia
-import { useUser } from '@/stores/user'
+import { useUserStore } from '@/stores/user'
+
 
 
 // Types
@@ -33,7 +34,7 @@ interface IProfileEditProps {
   user: IUserEntity
 }
 
-const userAuthStore = useUser()
+const userStore = useUserStore()
 
 const props = defineProps<IProfileEditProps>()
 
@@ -83,7 +84,7 @@ const onSubmit = form.handleSubmit(async (values) => {
   }
 
   try {
-    await userAuthStore.update(props.user.id, valuesToSubmit)
+    await userStore.update(props.user.id, valuesToSubmit)
 
     toast({
       title: 'Modificações salvas',

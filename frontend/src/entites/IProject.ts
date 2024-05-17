@@ -10,13 +10,14 @@ export interface IProjectData {
   state: StateProject
   methodologies: string[]
   startDate: Date
-  endDate: Date
-  userId: number
+  endDate: Date | null
   logoUrl: string | null
 }
 
 export interface IProjectEntity extends IProjectData {
   id: number
+  userId: number
+
   createdAt: string
   updatedAt: string
 }

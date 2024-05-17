@@ -17,6 +17,7 @@ import HomeView from '@/views/HomeView.vue'
 import ProjectView from '@/views/ProjectView.vue'
 import NotFoundView from '@/views/NotFoundView.vue'
 import PostView from '@/components/PostView.vue'
+import AnnouncementView from '@/views/AnnouncementView.vue'
 
 // Components
 import PostsFeed from '@/components/PostsFeed.vue'
@@ -109,6 +110,14 @@ export const router = createRouter({
         default: PostView
       },
       props: true
+    },
+    {
+      path: metadataRoutes.ANNOUNCEMENT.path,
+      name: metadataRoutes.ANNOUNCEMENT.name,
+      components: {
+        Navbar: NavMenu,
+        default: AnnouncementView
+      }
     },
     {
       path: metadataRoutes.NOT_FOUND.path,
