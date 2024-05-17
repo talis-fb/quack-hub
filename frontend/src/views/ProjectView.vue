@@ -37,8 +37,7 @@ import { useProjectStore } from '@/stores/project'
 import { useAuthStore } from '@/stores/auth'
 
 // Types
-import type { IUpdateProject } from '@/types/IUpdateProject'
-import type { IProjectEntity } from '@/entites/IProject'
+import type { IProjectData, IProjectEntity } from '@/entites/IProject'
 import { projectService } from '@/services'
 import { metadataRoutes } from '@/router/RoutesConfig'
 
@@ -82,7 +81,7 @@ const handleSubmitVacancy = async (values: IVacancyFormData) => {
   }
 }
 
-const handleUpdateProject = async (values: IUpdateProject) => {
+const handleUpdateProject = async (values: IProjectData) => {
   try {
     await projectStore.updateProject((project.value as IProjectEntity).id, {
       ...values
@@ -200,7 +199,7 @@ export default {
           <div class="px-3 py-5 flex flex-wrap gap-2">
             <MethodologieItem
               v-for="methodologie in project?.methodologies"
-              :content="methodologie"
+              :methodologie="methodologie"
             />
           </div>
           <template #fallback> </template>

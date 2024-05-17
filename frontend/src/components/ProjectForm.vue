@@ -39,6 +39,9 @@ import GithubProjectImport from '@/components/GithubProjectImport.vue'
 import { Calendar as CalendarIcon, ImageIcon, Github, Linkedin, Plus, X } from 'lucide-vue-next'
 import { type IProjectData, type IProjectEntity, StateProjectValues } from '../entites/IProject'
 import type { IProjectGithub } from '@/repositories/github/github.repository'
+import { type IMethodologieEntity } from '../entites/IMethodologie'
+import { onBeforeMount, ref } from 'vue'
+import { methodologiesService } from '@/services'
 
 export interface IProjectFormProps {
   project?: IProjectEntity
@@ -95,9 +98,9 @@ const schema = z
       .or(z.literal(''))
       .transform((e) => (e === '' ? null : e)),
     methodologies: z.array(
-      z.string().min(2, {
-        message: 'A metodologia deve ter no mínimo 2 caracteres.'
-      })
+      z
+        .string({ required_error: 'Campo metodologia obrigatório' })
+        .min(1, { message: 'Campo metodologia obrigatório' })
     )
     // .optional()
   })
@@ -148,11 +151,17 @@ form.setValues({
   startDate: props.project?.startDate,
   endDate: props.project?.endDate ?? null,
   logoUrl: props.project?.logoUrl ?? null,
-  methodologies: props.project?.methodologies ? [...props.project.methodologies] : []
+  methodologies: props.project?.methodologies
+    ? [...props.project.methodologies.map((met) => met.id.toString())]
+    : []
 })
 
 const onSubmit = form.handleSubmit(async (values) => {
-  await props.handleSubmit({ ...values })
+  // TODO: NO backend só precisa enviar o id da metodologia, o name não é necessário. Criar uma tipagem diferennte da IMethodologieEntity (essa citada tem o name)
+  await props.handleSubmit({
+    ...values,
+    methodologies: values.methodologies.map((met) => ({ id: parseInt(met), name: '' }))
+  })
 
   if (props.clearFormAfterSubmit) {
     form.resetForm()
@@ -164,12 +173,23 @@ const handleProjectImported = (data: IProjectGithub) => {
   form.setValues({
     title: data.name ?? '',
     about: data.description ?? '',
-    startDate: new Date(data.created_at),
-    methodologies: data.methodologies ?? []
+    startDate: new Date(data.created_at)
+    // methodologies: data.methodologies ?? []
   })
 }
 
 const { remove, push, fields, replace } = useFieldArray('methodologies')
+
+const methodologies = ref<IMethodologieEntity[]>([])
+
+async function fetchMethodologies() {
+  const res = await methodologiesService.findAll()
+
+  methodologies.value = res
+}
+onBeforeMount(async () => {
+  await fetchMethodologies()
+})
 </script>
 
 <template>
@@ -360,12 +380,28 @@ const { remove, push, fields, replace } = useFieldArray('methodologies')
               <Button @click="() => remove(index)" type="button" variant="ghost" size="icon">
                 <X :size="20" />
               </Button>
-              <Input
+
+              <Select v-bind="componentField">
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Selecione a metodologia" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  <SelectGroup>
+                    <SelectItem v-for="met in methodologies" :value="met.id.toString()">
+                      {{ met.name }}
+                    </SelectItem>
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+
+              <!-- <Input
                 type="text"
                 placeholder="Ex.: Typescript"
                 v-bind="componentField"
                 autocomplete="methodologies"
-              />
+              /> -->
             </div>
           </FormControl>
           <FormMessage />

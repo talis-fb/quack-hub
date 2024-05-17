@@ -1,6 +1,8 @@
 <script setup lang="ts">
+import type { IMethodologieEntity } from '@/entites/IMethodologie';
+
 export interface IMethodologieItemProps {
-  content: string
+  methodologie: IMethodologieEntity
 }
 
 defineProps<IMethodologieItemProps>()
@@ -9,7 +11,7 @@ defineProps<IMethodologieItemProps>()
 <template>
   <div variant="secondary" class="bg-indigo-900 p-2 rounded-xl self-start">
     <span class="font-bold text-sm tracking-wide">
-      {{ content }}
+      {{ methodologie.name }}
     </span>
   </div>
 </template>

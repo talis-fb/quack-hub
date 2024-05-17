@@ -1,8 +1,9 @@
-import type { MethodologieEntity } from "./IMethodologie"
+import type { IMethodologieEntity } from "./IMethodologie"
 
 export const StateProjectValues = ['PAUSED', 'PROGRESS', 'COMPLETED', 'CANCELLED'] as const
 
 export type StateProject = (typeof StateProjectValues)[number]
+
 
 export interface IProjectData {
   title: string
@@ -10,7 +11,31 @@ export interface IProjectData {
   about: string
   sector: string
   state: StateProject
-  methodologies: MethodologieEntity[]
+  methodologies: IMethodologieEntity[]
+  startDate: Date
+  endDate: Date | null
+  logoUrl: string | null
+}
+
+export interface IInputProjectData {
+  title: string
+  summary: string
+  about: string
+  sector: string
+  state: StateProject
+  methodologies: IMethodologieEntity[]
+  startDate: Date
+  endDate: Date | null
+  logoUrl: string | null
+}
+
+export interface IOutputProjectData {
+  title: string
+  summary: string
+  about: string
+  sector: string
+  state: StateProject
+  methodologies: IMethodologieEntity[]
   startDate: Date
   endDate: Date | null
   logoUrl: string | null
