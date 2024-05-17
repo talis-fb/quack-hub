@@ -8,7 +8,10 @@ import {
 
 export abstract class ProjectsRepository {
   abstract getProjectById(id: number): Promise<ProjectEntity | null>;
-  abstract createProject(project: InputProjectData): Promise<ProjectEntity>;
+  abstract createProject(
+    project: InputProjectData,
+    userId: number,
+  ): Promise<ProjectEntity>;
   abstract updateProject(
     id: number,
     project: Partial<InputProjectData>,
@@ -46,12 +49,16 @@ export class ProjectsRepositoryImpl implements ProjectsRepository {
     };
   }
 
-  async createProject(project: InputProjectData): Promise<ProjectEntity> {
+  async createProject(
+    project: InputProjectData,
+    userId: number,
+  ): Promise<ProjectEntity> {
     const { methodologies, ...rest } = project;
 
     const output = await this.prisma.project.create({
       data: {
         ...rest,
+        userId,
         methodologies: {
           create: methodologies.map((el) => ({
             Methodologie: {

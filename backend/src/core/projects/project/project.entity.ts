@@ -60,10 +60,6 @@ export class ProjectData {
   @ApiProperty()
   endDate: Date | null;
 
-  @IsInt()
-  @ApiProperty()
-  userId: number;
-
   @IsUrl()
   @IsOptional()
   @ApiProperty()
@@ -79,6 +75,10 @@ export class ProjectData {
 }
 
 export class OutputProjectData extends ProjectData {
+  @IsInt()
+  @ApiProperty()
+  userId: number;
+
   @ValidateNested()
   @Type(() => MethodologieEntity)
   @ApiProperty()
@@ -90,13 +90,13 @@ export class InputProjectData extends ProjectData {
   @ApiProperty()
   methodologies: {
     id: number;
-  }[] = [];
+  }[];
 
-  // constructor(partial: Partial<InputProjectData>) {
-  //   super(partial);
+  constructor(partial: Partial<InputProjectData>) {
+    super(partial);
 
-  //   this.methodologies = this.methodologies || [];
-  // }
+    this.methodologies = this.methodologies || [];
+  }
 }
 
 export class ProjectEntity extends OutputProjectData {
