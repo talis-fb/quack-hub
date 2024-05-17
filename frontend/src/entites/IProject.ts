@@ -1,3 +1,5 @@
+import type { MethodologieEntity } from "./IMethodologie"
+
 export const StateProjectValues = ['PAUSED', 'PROGRESS', 'COMPLETED', 'CANCELLED'] as const
 
 export type StateProject = (typeof StateProjectValues)[number]
@@ -8,7 +10,7 @@ export interface IProjectData {
   about: string
   sector: string
   state: StateProject
-  methodologies: string[]
+  methodologies: MethodologieEntity[]
   startDate: Date
   endDate: Date | null
   logoUrl: string | null
