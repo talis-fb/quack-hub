@@ -7,7 +7,7 @@ import Logo from '@/assets/logo.png'
 import { metadataRoutes } from '@/router/RoutesConfig'
 
 // Icons
-import { Home, BadgeInfo, ChevronDown, LogOut } from 'lucide-vue-next'
+import { Home, BadgeInfo, ChevronDown, LogOut, BookText } from 'lucide-vue-next'
 
 // Types
 import { type IUserEntity } from '../entites/IUser'
@@ -106,6 +106,16 @@ watchEffect(async () => {
         <RouterLink class="flex gap-2 text-lg hover:text-white" :to="metadataRoutes.HOME.path">
           <Home />
           <p class="md:block hidden">Home</p>
+        </RouterLink>
+      </li>
+
+      <li>
+        <RouterLink
+          class="flex gap-2 text-lg hover:text-white"
+          :to="metadataRoutes.ANNOUNCEMENT.path"
+        >
+          <BookText />
+          <p class="md:block hidden">Editais</p>
         </RouterLink>
       </li>
 
