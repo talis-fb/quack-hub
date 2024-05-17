@@ -3,7 +3,7 @@ import { IsString, MinLength, IsInt } from 'class-validator';
 
 export class MethodologieData {
   @IsString()
-  @MinLength(4)
+  @MinLength(1)
   @ApiProperty()
   name: string;
 }

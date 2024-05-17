@@ -101,11 +101,15 @@ const schema = z
       .nullable()
       .or(z.literal(''))
       .transform((e) => (e === '' ? null : e)),
-    methodologies: z.array(
-      z
-        .string({ required_error: 'Campo metodologia obrigatório' })
-        .min(1, { message: 'Campo metodologia obrigatório' })
-    )
+    methodologies: z
+      .array(
+        z
+          .string({ required_error: 'Campo metodologia obrigatório' })
+          .min(1, { message: 'Campo metodologia obrigatório' })
+      )
+      .refine((items) => new Set(items).size === items.length, {
+        message: 'As metodologias devem ser únicas.'
+      })
     // .optional()
   })
   .transform((data) => {
@@ -411,6 +415,10 @@ onBeforeMount(async () => {
           <FormMessage />
         </FormItem>
       </FormField>
+
+      <p className="text-destructive text-sm">
+        {{ form.errors.value.methodologies }}
+      </p>
 
       <Button type="submit" class="w-full">Salvar</Button>
     </form>
