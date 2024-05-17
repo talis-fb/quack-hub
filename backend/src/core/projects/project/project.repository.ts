@@ -1,17 +1,17 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/common/prisma/prisma.service';
 import {
-  ProjectData,
+  InputProjectData,
   ProjectEntity,
   StateProject,
 } from 'src/core/projects/project/project.entity';
 
 export abstract class ProjectsRepository {
   abstract getProjectById(id: number): Promise<ProjectEntity | null>;
-  abstract createProject(project: ProjectData): Promise<ProjectEntity>;
+  abstract createProject(project: InputProjectData): Promise<ProjectEntity>;
   abstract updateProject(
     id: number,
-    project: Partial<ProjectData>,
+    project: Partial<InputProjectData>,
   ): Promise<ProjectEntity | null>;
   abstract findUserIdsOfProject(id: number): Promise<number[]>;
   public abstract search(
@@ -31,29 +31,88 @@ export class ProjectsRepositoryImpl implements ProjectsRepository {
       where: {
         id,
       },
+      include: {
+        methodologies: {
+          include: {
+            Methodologie: true,
+          },
+        },
+      },
     });
-    return output;
+
+    return {
+      ...output,
+      methodologies: output.methodologies.map((el) => el.Methodologie),
+    };
   }
 
-  async createProject(project: ProjectData): Promise<ProjectEntity> {
+  async createProject(project: InputProjectData): Promise<ProjectEntity> {
+    const { methodologies, ...rest } = project;
+
     const output = await this.prisma.project.create({
-      data: project,
+      data: {
+        ...rest,
+        methodologies: {
+          create: methodologies.map((el) => ({
+            Methodologie: {
+              connect: {
+                id: el.id,
+              },
+            },
+          })),
+        },
+      },
+      include: {
+        methodologies: {
+          include: {
+            Methodologie: true,
+          },
+        },
+      },
     });
-    return output;
+
+    return {
+      ...output,
+      methodologies: output.methodologies.map((el) => el.Methodologie),
+    };
   }
 
   async updateProject(
     id: number,
-    project: Partial<ProjectData>,
+    project: Partial<InputProjectData>,
   ): Promise<ProjectEntity | null> {
+    const { methodologies, ...rest } = project;
+
     const output = await this.prisma.project.update({
       where: {
         id,
       },
 
-      data: project,
+      data: {
+        ...rest,
+        methodologies: {
+          deleteMany: {},
+          create: methodologies.map((el) => ({
+            Methodologie: {
+              connect: {
+                id: el.id,
+              },
+            },
+          })),
+        },
+      },
+      include: {
+        methodologies: {
+          include: {
+            Methodologie: true,
+          },
+        },
+      },
     });
-    return output;
+    return {
+      ...output,
+      methodologies: output.methodologies.map((el) => el.Methodologie),
+    };
   }
 
   async findProjects(ids: number[]): Promise<ProjectEntity[]> {
@@ -63,8 +122,20 @@ export class ProjectsRepositoryImpl implements ProjectsRepository {
           in: ids,
         },
       },
+
+      include: {
+        methodologies: {
+          include: {
+            Methodologie: true,
+          },
+        },
+      },
     });
-    return output;
+
+    return output.map((el) => ({
+      ...el,
+      methodologies: el.methodologies.map((el) => el.Methodologie),
+    }));
   }
 
   async findUserIdsOfProject(id: number): Promise<number[]> {
@@ -99,9 +170,20 @@ export class ProjectsRepositoryImpl implements ProjectsRepository {
           in: states,
         },
       },
+
+      include: {
+        methodologies: {
+          include: {
+            Methodologie: true,
+          },
+        },
+      },
     });
 
-    return output;
+    return output.map((el) => ({
+      ...el,
+      methodologies: el.methodologies.map((el) => el.Methodologie),
+    }));
   }
 
   async deleteProject(id: number): Promise<ProjectEntity> {
@@ -109,8 +191,19 @@ export class ProjectsRepositoryImpl implements ProjectsRepository {
       where: {
         id,
       },
+
+      include: {
+        methodologies: {
+          include: {
+            Methodologie: true,
+          },
+        },
+      },
     });
 
-    return output;
+    return {
+      ...output,
+      methodologies: output.methodologies.map((el) => el.Methodologie),
+    };
   }
 }

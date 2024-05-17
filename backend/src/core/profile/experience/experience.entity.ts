@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Transform } from 'class-transformer';
+import { Transform, Type } from 'class-transformer';
 import {
   IsDate,
   IsIn,
@@ -55,6 +55,7 @@ export class ExperienceData {
   type: ExperienceType;
 
   @ValidateNested()
+  @Type(() => AchievementData)
   @ApiProperty()
   achievements: Array<AchievementData>;
 

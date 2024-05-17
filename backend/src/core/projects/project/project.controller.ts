@@ -36,6 +36,7 @@ export class ProjectsController {
   ): Promise<ProjectEntity> {
     const { userId } = req.user;
 
+    console.log({ methodologies: body.methodologies });
     return await this.projectsService.create(body, userId);
   }
 

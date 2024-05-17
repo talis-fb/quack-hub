@@ -16,6 +16,7 @@ export class PrismaExceptionFilter implements ExceptionFilter {
     const status = HttpStatus.INTERNAL_SERVER_ERROR;
     const message = MESSAGES[exception.code] || exception.message;
 
+    console.log(exception)
     response.status(status).json({
       statusCode: status,
       message,
