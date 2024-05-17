@@ -6,7 +6,7 @@ export interface IAnnouncementData {
   url: string
 }
 
-export enum AnnoucementType {
+export enum AnnoucementStatus {
   PROGRESS = 'PROGRESS',
   FINISHED = 'FINISHED'
 }

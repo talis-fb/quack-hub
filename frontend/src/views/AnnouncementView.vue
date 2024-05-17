@@ -3,7 +3,7 @@
 import AnnouncementsListFallback from '@/components/AnnouncementsListFallback.vue'
 import AnnouncementsList from '@/components/AnnouncementsList.vue'
 
-import { AnnoucementType } from '@/entites/IAnnouncement'
+import { AnnoucementStatus } from '@/entites/IAnnouncement'
 </script>
 
 <template>
@@ -15,7 +15,7 @@ import { AnnoucementType } from '@/entites/IAnnouncement'
         </h2>
         <div class="flex-1 border rounded-md">
           <Suspense>
-            <AnnouncementsList :type="AnnoucementType.PROGRESS" />
+            <AnnouncementsList :status="AnnoucementStatus.PROGRESS" />
             <template #fallback>
               <AnnouncementsListFallback :length="5" />
 
@@ -30,7 +30,7 @@ import { AnnoucementType } from '@/entites/IAnnouncement'
         </h2>
         <div class="flex-1 border rounded-md">
           <Suspense>
-            <AnnouncementsList :type="AnnoucementType.FINISHED" />
+            <AnnouncementsList :status="AnnoucementStatus.FINISHED" />
             <template #fallback>
               <AnnouncementsListFallback :length="5" />
             </template>
