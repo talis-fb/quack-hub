@@ -6,7 +6,7 @@ import DefaultProjectIcon from '@/assets/DefaultProjectIcon.jpg'
 import { projectStateLabel } from '@/utils/labels'
 
 // Types
-import type { IProjectData, IProjectEntity } from '@/entites/IProject'
+import type { IInputProjectData, IProjectEntity } from '@/entites/IProject'
 
 // App components
 import AppDialog from '@/components/AppDialog.vue'
@@ -64,7 +64,7 @@ const props = defineProps<ProjectItemProps>()
 
 const { toast } = useToast()
 
-const handleUpdateProject = async (values: IProjectData) => {
+const handleUpdateProject = async (values: IInputProjectData) => {
   try {
     await projecstStore.updateProject(props.project.id, {
       ...values
@@ -136,7 +136,7 @@ const toProject = (e: MouseEvent) => {
         <p class="text-sm text-muted-foreground">{{ project.summary }}</p>
 
         <div class="flex flex-wrap max-w-[75%] gap-2">
-          <MethodologieItem v-for="methodologie in project.methodologies" :content="methodologie" />
+          <MethodologieItem v-for="methodologie in project.methodologies" :methodologie="methodologie" />
         </div>
 
         <Drawer>

@@ -48,7 +48,7 @@ import { metadataRoutes } from '@/router/RoutesConfig'
 
 // Services
 import { userService } from '@/services'
-import type { IProjectData } from '@/entites/IProject'
+import type { IInputProjectData } from '@/entites/IProject'
 import type { IExperienceData } from '@/entites/IExperience'
 
 const props = defineProps<{
@@ -101,7 +101,7 @@ const handleSubmitExperience = async (values: IExperienceData) => {
   }
 }
 
-const handleSubmitProject = async (values: IProjectData) => {
+const handleSubmitProject = async (values: IInputProjectData) => {
   try {
     await projectsSore.createProject(values)
 

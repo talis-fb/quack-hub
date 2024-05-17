@@ -31,11 +31,12 @@ model User {
   followedBy User[] @relation("UserFollows")
   following  User[] @relation("UserFollows")
 
-  experiences Experience[]
-  posts       Post[]
-  comments    Comment[]
-  postLikes   PostLike[]
-  projects    Project[]
+  experiences      Experience[]
+  posts            Post[]
+  comments         Comment[]
+  postLikes        PostLike[]
+  projects         Project[]
+  methodologies UserMethodologie[]
 }
 
 model UserAuth {
@@ -65,18 +66,6 @@ model Experience {
   userId Int
 }
 
-enum StateExperience {
-  PAUSED
-  PROGRESS
-  COMPLETED
-  CANCELLED
-}
-
-enum ExperienceType {
-  PROFESSIONAL
-  ACADEMIC
-}
-
 model Achievements {
   id Int @id @default(autoincrement())
 
@@ -90,21 +79,21 @@ model Achievements {
 model Project {
   id Int @id @default(autoincrement())
 
-  title         String
-  summary       String
-  about         String
-  sector        String
-  state         StateProject @default(PROGRESS)
-  methodologies String[]
-  vacancies     Vacancy[]
-  startDate     DateTime
-  endDate       DateTime?
-  logoUrl       String?
+  title     String
+  summary   String
+  about     String
+  sector    String
+  state     StateProject @default(PROGRESS)
+  vacancies Vacancy[]
+  startDate DateTime
+  endDate   DateTime?
+  logoUrl   String?
 
   User   User @relation(fields: [userId], references: [id])
   userId Int
 
-  experiences Experience[]
+  experiences   Experience[]
+  methodologies ProjectMethodologie[]
 }
 
 model Vacancy {
@@ -120,19 +109,6 @@ model Vacancy {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-}
-
-enum StateVacancy {
-  PAUSED
-  CLOSED
-  PROGRESS
-}
-
-enum StateProject {
-  PAUSED
-  PROGRESS
-  COMPLETED
-  CANCELLED
 }
 
 model Post {
@@ -176,4 +152,61 @@ model Comment {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model Methodologie {
+  id                  Int                   @id @default(autoincrement())
+  name                String
+  ProjectMethodologie ProjectMethodologie[]
+  UserMethodologie    UserMethodologie[]
+}
+
+model ProjectMethodologie {
+  id Int @id @default(autoincrement())
+
+  Project   Project @relation(fields: [projectId], references: [id])
+  projectId Int
+
+  Methodologie   Methodologie @relation(fields: [methodologieId], references: [id])
+  methodologieId Int
+
+  @@unique([projectId, methodologieId])
+}
+
+model UserMethodologie {
+  id Int @id @default(autoincrement())
+
+  User   User @relation(fields: [userId], references: [id])
+  userId Int
+
+  Methodologie   Methodologie @relation(fields: [methodologieId], references: [id])
+  methodologieId Int
+
+  @@unique([userId, methodologieId])
+}
+
+// Enums
+enum StateExperience {
+  PAUSED
+  PROGRESS
+  COMPLETED
+  CANCELLED
+}
+
+enum ExperienceType {
+  PROFESSIONAL
+  ACADEMIC
+}
+
+enum StateVacancy {
+  PAUSED
+  CLOSED
+  PROGRESS
+}
+
+enum StateProject {
+  PAUSED
+  PROGRESS
+  COMPLETED
+  CANCELLED
 }

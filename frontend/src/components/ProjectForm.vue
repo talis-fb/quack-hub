@@ -37,13 +37,20 @@ import GithubProjectImport from '@/components/GithubProjectImport.vue'
 
 // Icons
 import { Calendar as CalendarIcon, ImageIcon, Github, Linkedin, Plus, X } from 'lucide-vue-next'
-import { type IProjectData, type IProjectEntity, StateProjectValues } from '../entites/IProject'
+import {
+  type IInputProjectData,
+  type IProjectEntity,
+  StateProjectValues
+} from '../entites/IProject'
 import type { IProjectGithub } from '@/repositories/github/github.repository'
+import { type IOutputMethodologieEntity } from '../entites/IMethodologie'
+import { onBeforeMount, ref } from 'vue'
+import { methodologiesService } from '@/services'
 
 export interface IProjectFormProps {
   project?: IProjectEntity
   clearFormAfterSubmit?: boolean
-  handleSubmit: (values: IProjectData) => Promise<void>
+  handleSubmit: (values: IInputProjectData) => Promise<void>
 }
 
 const props = withDefaults(defineProps<IProjectFormProps>(), {
@@ -94,11 +101,15 @@ const schema = z
       .nullable()
       .or(z.literal(''))
       .transform((e) => (e === '' ? null : e)),
-    methodologies: z.array(
-      z.string().min(2, {
-        message: 'A metodologia deve ter no mínimo 2 caracteres.'
+    methodologies: z
+      .array(
+        z
+          .string({ required_error: 'Campo metodologia obrigatório' })
+          .min(1, { message: 'Campo metodologia obrigatório' })
+      )
+      .refine((items) => new Set(items).size === items.length, {
+        message: 'As metodologias devem ser únicas.'
       })
-    )
     // .optional()
   })
   .transform((data) => {
@@ -148,11 +159,17 @@ form.setValues({
   startDate: props.project?.startDate,
   endDate: props.project?.endDate ?? null,
   logoUrl: props.project?.logoUrl ?? null,
-  methodologies: props.project?.methodologies ? [...props.project.methodologies] : []
+  methodologies: props.project?.methodologies
+    ? [...props.project.methodologies.map((met) => met.id.toString())]
+    : []
 })
 
 const onSubmit = form.handleSubmit(async (values) => {
-  await props.handleSubmit({ ...values })
+  // OBS: No backend só precisa enviar o id da metodologia, o name não é necessário.
+  await props.handleSubmit({
+    ...values,
+    methodologies: values.methodologies.map((met) => ({ id: parseInt(met) }))
+  })
 
   if (props.clearFormAfterSubmit) {
     form.resetForm()
@@ -164,12 +181,23 @@ const handleProjectImported = (data: IProjectGithub) => {
   form.setValues({
     title: data.name ?? '',
     about: data.description ?? '',
-    startDate: new Date(data.created_at),
-    methodologies: data.methodologies ?? []
+    startDate: new Date(data.created_at)
+    // methodologies: data.methodologies ?? []
   })
 }
 
 const { remove, push, fields, replace } = useFieldArray('methodologies')
+
+const methodologies = ref<IOutputMethodologieEntity[]>([])
+
+async function fetchMethodologies() {
+  const res = await methodologiesService.findAll()
+
+  methodologies.value = res
+}
+onBeforeMount(async () => {
+  await fetchMethodologies()
+})
 </script>
 
 <template>
@@ -360,17 +388,37 @@ const { remove, push, fields, replace } = useFieldArray('methodologies')
               <Button @click="() => remove(index)" type="button" variant="ghost" size="icon">
                 <X :size="20" />
               </Button>
-              <Input
+
+              <Select v-bind="componentField">
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Selecione a metodologia" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  <SelectGroup>
+                    <SelectItem v-for="met in methodologies" :value="met.id.toString()">
+                      {{ met.name }}
+                    </SelectItem>
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+
+              <!-- <Input
                 type="text"
                 placeholder="Ex.: Typescript"
                 v-bind="componentField"
                 autocomplete="methodologies"
-              />
+              /> -->
             </div>
           </FormControl>
           <FormMessage />
         </FormItem>
       </FormField>
+
+      <p className="text-destructive text-sm">
+        {{ form.errors.value.methodologies }}
+      </p>
 
       <Button type="submit" class="w-full">Salvar</Button>
     </form>

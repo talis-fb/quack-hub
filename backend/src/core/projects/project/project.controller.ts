@@ -11,13 +11,13 @@ import {
   Delete,
   Req,
 } from '@nestjs/common';
-import { ProjectData, ProjectEntity } from './project.entity';
+import { InputProjectData, ProjectData, ProjectEntity } from './project.entity';
 import { ProjectsService } from './project.service';
 import { UserEntity } from 'src/core/profile/user/user.entity';
 import { Public } from 'src/common/decorators/public.decorator';
-import { UpdateProjectDto } from './dtos/UpdateProjectDto';
+
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
-import { CreateProjectDto } from './dtos/CreateProjectDto';
+
 import { SearchProjectsQueryDto } from './dtos/SearchProjectsQueryDto';
 
 @ApiTags('projects')
@@ -32,7 +32,7 @@ export class ProjectsController {
   @Post('')
   async create(
     @Req() req,
-    @Body() body: CreateProjectDto,
+    @Body() body: InputProjectData,
   ): Promise<ProjectEntity> {
     const { userId } = req.user;
 
@@ -46,7 +46,7 @@ export class ProjectsController {
   @Put(':id')
   async update(
     @Param('id', ParseIntPipe) id: number,
-    @Body() body: UpdateProjectDto,
+    @Body() body: InputProjectData,
   ) {
     return await this.projectsService.update(id, body);
   }
