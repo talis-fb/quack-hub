@@ -45,7 +45,6 @@ export class ProjectApiImpl implements IProjectApi {
   }
 
   async update(projectId: number, data: IInputProjectData): Promise<IProjectResponse> {
-    console.log({ data })
     const res = await api.put<IProjectResponse>(`/projects/${projectId}`, data)
 
     return res.data
