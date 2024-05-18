@@ -1,18 +1,28 @@
 import { Injectable, Provider } from '@nestjs/common';
 import { PrismaService } from 'src/common/prisma/prisma.service';
-import { UserData, UserEntity } from './user.entity';
+import {
+  InputUserData,
+  UserData,
+  UserEntity,
+  UserEntityWithMethodologies,
+} from './user.entity';
 
 export abstract class UserRepository {
-  abstract getUserById(id: number): Promise<UserEntity | void>;
+  abstract getUserById(id: number): Promise<UserEntityWithMethodologies | void>;
   abstract getUserByEmail(email: string): Promise<UserEntity | void>;
-  abstract findAll(): Promise<UserEntity[]>;
-  abstract findUsers(ids: number[]): Promise<UserEntity[]>;
-  abstract searchUsers(searchName: string): Promise<UserEntity[]>;
-  abstract findFollowers(id: number): Promise<UserEntity[]>;
-  abstract findFollowing(id: number): Promise<UserEntity[]>;
+  abstract findAll(): Promise<UserEntityWithMethodologies[]>;
+  abstract findUsers(ids: number[]): Promise<UserEntityWithMethodologies[]>;
+  abstract searchUsers(
+    searchName: string,
+  ): Promise<UserEntityWithMethodologies[]>;
+  abstract findFollowers(id: number): Promise<UserEntityWithMethodologies[]>;
+  abstract findFollowing(id: number): Promise<UserEntityWithMethodologies[]>;
   abstract checkUsersExists(id: number[]): Promise<boolean>;
 
-  abstract update(id: number, user: Partial<UserData>): Promise<UserEntity>;
+  abstract update(
+    id: number,
+    user: Partial<InputUserData>,
+  ): Promise<UserEntityWithMethodologies>;
   abstract addFollower(
     userFollowingId: number,
     userToBeFollowedId: number,
@@ -24,57 +34,107 @@ export abstract class UserRepository {
   abstract findFollow(
     userFollowingId: number,
     userToBeFollowedId: number,
-  ): Promise<UserEntity>;
+  ): Promise<UserEntityWithMethodologies>;
 }
 
 @Injectable()
 export class UserRepositoryImpl implements UserRepository {
   constructor(private prisma: PrismaService) {}
 
-  async getUserById(id: number): Promise<UserEntity | void> {
-    return await this.prisma.user.findUnique({
+  async getUserById(id: number): Promise<UserEntityWithMethodologies | void> {
+    const output = await this.prisma.user.findUnique({
       where: {
         id,
       },
       include: {
         following: true,
         followedBy: true,
-        comments: {
-          
-        }
+        methodologies: {
+          include: {
+            Methodologie: true,
+          },
+        },
       },
     });
+
+    return {
+      ...output,
+      methodologies: output.methodologies.map(
+        (methodologie) => methodologie.Methodologie,
+      ),
+    };
   }
 
   async getUserByEmail(email: string): Promise<UserEntity> {
-    return await this.prisma.user.findUnique({
+    const output = await this.prisma.user.findUnique({
       where: {
         email,
       },
     });
+
+    return output;
   }
 
-  async findAll(): Promise<UserEntity[]> {
-    return await this.prisma.user.findMany();
+  async findAll(): Promise<UserEntityWithMethodologies[]> {
+    const output = await this.prisma.user.findMany({
+      include: {
+        methodologies: {
+          include: {
+            Methodologie: true,
+          },
+        },
+      },
+    });
+
+    return output.map((el) => ({
+      ...el,
+      methodologies: el.methodologies.map((el) => el.Methodologie),
+    }));
   }
 
-  async update(id: number, user: Partial<UserData>): Promise<UserEntity> {
-    return await this.prisma.user.update({
+  async update(
+    id: number,
+    user: Partial<InputUserData>,
+  ): Promise<UserEntityWithMethodologies> {
+    const { methodologies, ...rest } = user;
+    const output = await this.prisma.user.update({
       where: {
         id,
       },
       data: {
         ...user,
+        methodologies: {
+          deleteMany: {},
+          create: methodologies.map((el) => ({
+            Methodologie: {
+              connect: {
+                id: el.id,
+              },
+            },
+          })),
+        },
       },
       include: {
         following: true,
         followedBy: true,
+        methodologies: {
+          include: {
+            Methodologie: true,
+          },
+        },
       },
     });
+
+    return {
+      ...output,
+      methodologies: output.methodologies.map(
+        (methodologie) => methodologie.Methodologie,
+      ),
+    };
   }
 
-  async findFollowers(id: number): Promise<UserEntity[]> {
-    return await this.prisma.user.findMany({
+  async findFollowers(id: number): Promise<UserEntityWithMethodologies[]> {
+    const output = await this.prisma.user.findMany({
       where: {
         following: {
           some: {
@@ -82,11 +142,23 @@ export class UserRepositoryImpl implements UserRepository {
           },
         },
       },
+      include: {
+        methodologies: {
+          include: {
+            Methodologie: true,
+          },
+        },
+      },
     });
+
+    return output.map((el) => ({
+      ...el,
+      methodologies: el.methodologies.map((el) => el.Methodologie),
+    }));
   }
 
-  async findFollowing(id: number): Promise<UserEntity[]> {
-    return await this.prisma.user.findMany({
+  async findFollowing(id: number): Promise<UserEntityWithMethodologies[]> {
+    const output = await this.prisma.user.findMany({
       where: {
         followedBy: {
           some: {
@@ -94,14 +166,26 @@ export class UserRepositoryImpl implements UserRepository {
           },
         },
       },
+      include: {
+        methodologies: {
+          include: {
+            Methodologie: true,
+          },
+        },
+      },
     });
+
+    return output.map((el) => ({
+      ...el,
+      methodologies: el.methodologies.map((el) => el.Methodologie),
+    }));
   }
 
   async addFollower(
     userFollowingId: number,
     userToBeFollowedId: number,
   ): Promise<void> {
-    await this.prisma.user.update({
+    const output = await this.prisma.user.update({
       where: {
         id: userFollowingId,
       },
@@ -115,25 +199,51 @@ export class UserRepositoryImpl implements UserRepository {
     });
   }
 
-  async findUsers(ids: number[]): Promise<UserEntity[]> {
-    return await this.prisma.user.findMany({
+  async findUsers(ids: number[]): Promise<UserEntityWithMethodologies[]> {
+    const output = await this.prisma.user.findMany({
       where: {
         id: {
           in: ids,
         },
       },
+      include: {
+        methodologies: {
+          include: {
+            Methodologie: true,
+          },
+        },
+      },
     });
+
+    return output.map((el) => ({
+      ...el,
+      methodologies: el.methodologies.map((el) => el.Methodologie),
+    }));
   }
 
-  async searchUsers(searchName: string): Promise<UserEntity[]> {
-    return await this.prisma.user.findMany({
+  async searchUsers(
+    searchName: string,
+  ): Promise<UserEntityWithMethodologies[]> {
+    const output = await this.prisma.user.findMany({
       where: {
         name: {
           contains: searchName,
           mode: 'insensitive',
         },
       },
+      include: {
+        methodologies: {
+          include: {
+            Methodologie: true,
+          },
+        },
+      },
     });
+
+    return output.map((el) => ({
+      ...el,
+      methodologies: el.methodologies.map((el) => el.Methodologie),
+    }));
   }
 
   async checkUsersExists(ids: number[]): Promise<boolean> {
@@ -168,7 +278,7 @@ export class UserRepositoryImpl implements UserRepository {
   async findFollow(
     userFollowingId: number,
     userToBeFollowedId: number,
-  ): Promise<UserEntity> {
+  ): Promise<UserEntityWithMethodologies> {
     const output = await this.prisma.user.findUnique({
       where: {
         id: userFollowingId,
@@ -178,9 +288,21 @@ export class UserRepositoryImpl implements UserRepository {
           },
         },
       },
+      include: {
+        methodologies: {
+          include: {
+            Methodologie: true,
+          },
+        },
+      },
     });
 
-    return output;
+    return {
+      ...output,
+      methodologies: output.methodologies.map(
+        (methodologie) => methodologie.Methodologie,
+      ),
+    };
   }
 }
 

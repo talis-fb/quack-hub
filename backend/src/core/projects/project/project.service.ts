@@ -1,12 +1,16 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Provider } from '@nestjs/common';
 import { ProjectsRepository } from './project.repository';
-import { InputProjectData, ProjectData, ProjectEntity, StateProject } from './project.entity';
+import {
+  InputProjectData,
+  ProjectData,
+  ProjectEntity,
+  StateProject,
+} from './project.entity';
 import { UserEntity } from 'src/core/profile/user/user.entity';
 import { ProjectNotFoundException } from './project.exceptions';
 import { UserRepository } from 'src/core/profile/user/user.repository';
 import { UserNotFoundException } from 'src/core/profile/user/user.exceptions';
-;
-
+import { MethodologieEntity } from 'src/methodologies/methodologie.entity';
 export abstract class ProjectsService {
   public abstract create(
     data: InputProjectData,
@@ -21,7 +25,7 @@ export abstract class ProjectsService {
   public abstract search(
     searchTitle?: string,
     userId?: number,
-    states?: StateProject[]
+    states?: StateProject[],
   ): Promise<ProjectEntity[]>;
   public abstract deleteProject(id: number): Promise<ProjectEntity>;
 }
@@ -41,7 +45,7 @@ export class ProjectsServiceImpl implements ProjectsService {
     if (!userExist) {
       throw new UserNotFoundException();
     }
-    return await this.repo.createProject({ ...data}, userId);
+    return await this.repo.createProject({ ...data }, userId);
   }
 
   public async update(
@@ -72,10 +76,11 @@ export class ProjectsServiceImpl implements ProjectsService {
   public async search(
     searchTitle?: string,
     userId?: number,
-    states?: StateProject[]
+    states?: StateProject[],
   ): Promise<ProjectEntity[]> {
     return await this.repo.search(searchTitle, userId, states);
   }
+
   public async deleteProject(id: number): Promise<ProjectEntity> {
     const project = await this.repo.getProjectById(id);
 

@@ -76,7 +76,6 @@ function filter(
   type?: string,
   status?: string,
 ) {
-  console.log(type);
   if (isValid(type) && isValid(status)) {
     if (announcement.type === type && announcement.status === status) {
       return true;

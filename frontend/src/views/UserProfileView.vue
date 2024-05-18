@@ -14,6 +14,7 @@ import ProjectsList from '@/components/ProjectsList.vue'
 import ProjectsListFallback from '@/components/ProjectsListFallback.vue'
 import ProjectForm from '@/components/ProjectForm.vue'
 import ProfileEdit from './ProfileEdit.vue'
+import MethodologieItem from '@/components/MethodologieItem.vue'
 
 // Shadcn-vue components
 import { useToast } from '@/components/ui/toast/use-toast'
@@ -225,6 +226,24 @@ export default {
             </p>
           </div>
         </div>
+      </section>
+
+      <section class="flex flex-col border rounded-md">
+        <header class="px-3 py-5 flex items-center">
+          <h2 class="text-2xl mr-auto">Metodologias</h2>
+        </header>
+
+        <Separator />
+
+        <Suspense>
+          <div class="px-3 py-5 flex flex-wrap gap-2">
+            <MethodologieItem
+              v-for="methodologie in user?.methodologies"
+              :methodologie="methodologie"
+            />
+          </div>
+          <template #fallback> </template>
+        </Suspense>
       </section>
 
       <section class="flex flex-col border rounded-md">

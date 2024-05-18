@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Transform } from 'class-transformer';
+import { Transform, Type } from 'class-transformer';
 import {
   IsString,
   IsInt,
@@ -9,7 +9,9 @@ import {
   IsOptional,
   MinLength,
   IsNumberString,
+  ValidateNested,
 } from 'class-validator';
+import { MethodologieEntity } from 'src/methodologies/methodologie.entity';
 
 export class UserData {
   @IsString()
@@ -23,35 +25,59 @@ export class UserData {
 
   @Transform(({ value }) => new Date(value))
   @IsDate()
-  @IsOptional()
   @ApiProperty()
-  birthday: Date | null;
+  birthday: Date;
 
   // extra data
   @IsString()
   @IsOptional()
   @ApiProperty()
-  bio: string | null;
+  bio?: string | null;
 
   @IsString()
   @IsOptional()
   @ApiProperty()
-  aboutDescription: string | null;
+  aboutDescription?: string | null;
 
   @IsUrl()
   @IsOptional()
   @ApiProperty()
-  avatarUrl: string | null;
+  avatarUrl?: string | null;
 
   @IsNumberString()
   @IsOptional()
   @ApiProperty()
-  phone: string | null;
+  phone?: string | null;
 
   @IsString()
   @IsOptional()
   @ApiProperty()
-  blog: string | null;
+  blog?: string | null;
+
+  constructor(partial: Partial<UserData>) {
+    Object.assign(this, partial);
+  }
+}
+
+export class InputUserData extends UserData {
+  @ValidateNested()
+  @ApiProperty()
+  methodologies: {
+    id: number;
+  }[];
+
+  constructor(partial: Partial<InputUserData>) {
+    super(partial);
+
+    this.methodologies = this.methodologies || [];
+  }
+}
+
+export class OuputUserData extends UserData {
+  @ValidateNested()
+  @Type(() => MethodologieEntity)
+  @ApiProperty()
+  methodologies: MethodologieEntity[];
 }
 
 export class UserEntity extends UserData {
@@ -64,3 +90,25 @@ export class UserEntity extends UserData {
   @IsDate()
   updatedAt: Date;
 }
+
+export class UserEntityWithMethodologies extends OuputUserData {
+  @IsInt()
+  id: number;
+
+  @IsDate()
+  createdAt: Date;
+
+  @IsDate()
+  updatedAt: Date;
+}
+
+// export class UserEntityWithMethodologies extends OuputUserData {
+//   @IsInt()
+//   id: number;
+
+//   @IsDate()
+//   createdAt: Date;
+
+//   @IsDate()
+//   updatedAt: Date;
+// }

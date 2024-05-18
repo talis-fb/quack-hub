@@ -26,13 +26,17 @@ import {
   ProjectImporter,
 } from 'src/core/projects/project/project-importer';
 import { ImportProjectsQueryDto } from 'src/core/projects/project/dtos/ImportProjectQueryDto';
+import { UserService } from 'src/core/profile/user/user.service';
+import { SuggestProjects } from 'src/core/projects/project/suggest-projects';
 
 @ApiTags('projects')
 @Controller('projects')
 export class ProjectsController {
   constructor(
     private readonly projectsService: ProjectsService,
+    private readonly usersService: UserService,
     private readonly projectImporter: ProjectImporter,
+    private readonly suggestProjects: SuggestProjects,
   ) {}
 
   @ApiResponse({
@@ -100,10 +104,16 @@ export class ProjectsController {
     description: 'List of projects filtered by title returned successfully.',
   })
   @Get('')
-  async searchProjects(@Query() query: SearchProjectsQueryDto) {
+  async searchProjects(@Req() req, @Query() query: SearchProjectsQueryDto) {
     const { title, userId, states } = query;
 
-    return await this.projectsService.search(title, userId, states);
+    const projects = await this.projectsService.search(title, userId, states);
+
+    const user = await this.usersService.getUserById(req.user.userId);
+
+    const output = await this.suggestProjects.suggest(user.methodologies, projects);
+    
+    return output;
   }
 
   @ApiResponse({
