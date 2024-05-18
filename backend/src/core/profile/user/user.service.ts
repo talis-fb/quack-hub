@@ -1,6 +1,6 @@
 import { Injectable, Provider } from '@nestjs/common';
 import { UserRepository } from './user.repository';
-import { UserData, UserEntity } from 'src/core/profile/user/user.entity';
+import { InputUserData, UserData, UserEntity } from 'src/core/profile/user/user.entity';
 import { UserNotFoundException } from 'src/core/profile/user/user.exceptions';
 import { NotFoundException } from 'src/common/exceptions/collection/ResourceNotFound.exception';
 import { ConflictException } from 'src/common/exceptions/collection/ResourceConflict.exception';
@@ -13,7 +13,7 @@ export abstract class UserService {
   public abstract search(searchName: string): Promise<UserEntity[]>;
   public abstract update(
     id: number,
-    user: Partial<UserData>,
+    user: Partial<InputUserData>,
   ): Promise<UserEntity>;
   public abstract follow(
     userFollowingId: number,

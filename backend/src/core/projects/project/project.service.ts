@@ -73,13 +73,14 @@ export class ProjectsServiceImpl implements ProjectsService {
     return await this.userRepository.findUsers(userIds);
   }
 
-  public async search(
-    searchTitle?: string,
-    userId?: number,
-    states?: StateProject[],
-  ): Promise<ProjectEntity[]> {
-    return await this.repo.search(searchTitle, userId, states);
-  }
+  // public async search(
+  //   searchTitle?: string,
+  //   userId?: number,
+  //   states?: StateProject[],
+  // ): Promise<ProjectEntity[]> {
+  //   return await this.repo.search(searchTitle, userId, states);
+  // }
+
   public async deleteProject(id: number): Promise<ProjectEntity> {
     const project = await this.repo.getProjectById(id);
 
@@ -90,7 +91,7 @@ export class ProjectsServiceImpl implements ProjectsService {
     return await this.repo.deleteProject(id);
   }
 
-  public async searchTeste(
+  public async search(
     searchTitle?: string,
     userId?: number,
     states?: StateProject[],

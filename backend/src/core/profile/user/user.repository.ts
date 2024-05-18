@@ -1,6 +1,7 @@
 import { Injectable, Provider } from '@nestjs/common';
 import { PrismaService } from 'src/common/prisma/prisma.service';
 import {
+  InputUserData,
   UserData,
   UserEntity,
   UserEntityWithMethodologies,
@@ -20,7 +21,7 @@ export abstract class UserRepository {
 
   abstract update(
     id: number,
-    user: Partial<UserData>,
+    user: Partial<InputUserData>,
   ): Promise<UserEntityWithMethodologies>;
   abstract addFollower(
     userFollowingId: number,
@@ -93,14 +94,25 @@ export class UserRepositoryImpl implements UserRepository {
 
   async update(
     id: number,
-    user: Partial<UserData>,
+    user: Partial<InputUserData>,
   ): Promise<UserEntityWithMethodologies> {
+    const { methodologies, ...rest } = user;
     const output = await this.prisma.user.update({
       where: {
         id,
       },
       data: {
         ...user,
+        methodologies: {
+          deleteMany: {},
+          create: methodologies.map((el) => ({
+            Methodologie: {
+              connect: {
+                id: el.id,
+              },
+            },
+          })),
+        },
       },
       include: {
         following: true,
