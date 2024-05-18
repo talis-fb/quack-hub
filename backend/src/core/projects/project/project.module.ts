@@ -12,14 +12,17 @@ import {
 import { HttpModule } from '@nestjs/axios';
 import { UserRepositoryProvider } from 'src/core/profile/user/user.repository';
 import { ProjectImpoterProvider } from 'src/core/projects/project/project-importer';
+import { UserModule } from 'src/core/profile/user/user.module';
+import { SuggestProjectsProvider } from 'src/core/projects/project/suggest-projects';
 
 @Module({
-  imports: [HttpModule],
+  imports: [HttpModule, UserModule],
   controllers: [ProjectsController],
   providers: [
     PrismaService,
     ProjectImpoterProvider,
     UserRepositoryProvider,
+    SuggestProjectsProvider,
     {
       provide: ProjectsService,
       useClass: ProjectsServiceImpl,
