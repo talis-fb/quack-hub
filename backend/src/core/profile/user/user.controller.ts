@@ -9,7 +9,7 @@ import {
   Query,
   Req,
 } from '@nestjs/common';
-import { UserData, UserEntity } from './user.entity';
+import { InputUserData, UserData, UserEntity } from './user.entity';
 import { UserService } from './user.service';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 
@@ -55,7 +55,7 @@ export class UserController {
   @Put(':id')
   async update(
     @Param('id', ParseIntPipe) id: number,
-    @Body() body: UserData,
+    @Body() body: InputUserData,
   ): Promise<UserEntity> {
     return await this.userService.update(id, body);
   }

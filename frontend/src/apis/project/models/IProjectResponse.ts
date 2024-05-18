@@ -1,3 +1,4 @@
+import type { MethodologieEntity } from '@/entites/IMethodologie'
 import type { StateProject } from '@/entites/IProject'
 
 export interface IProjectResponse {
@@ -10,7 +11,7 @@ export interface IProjectResponse {
   about: string
   sector: string
   state: StateProject
-  methodologies: string[]
+  methodologies: MethodologieEntity[]
   startDate: string
   endDate: string
   logoUrl: string | null

@@ -1,29 +1,31 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Provider } from '@nestjs/common';
 import { ProjectsRepository } from './project.repository';
-import { ProjectData, ProjectEntity, StateProject } from './project.entity';
+import {
+  InputProjectData,
+  ProjectData,
+  ProjectEntity,
+  StateProject,
+} from './project.entity';
 import { UserEntity } from 'src/core/profile/user/user.entity';
-import { CreateProjectDto } from './dtos/CreateProjectDto';
-import { UpdateProjectDto } from './dtos/UpdateProjectDto';
 import { ProjectNotFoundException } from './project.exceptions';
 import { UserRepository } from 'src/core/profile/user/user.repository';
 import { UserNotFoundException } from 'src/core/profile/user/user.exceptions';
-;
-
+import { MethodologieEntity } from 'src/methodologies/methodologie.entity';
 export abstract class ProjectsService {
   public abstract create(
-    data: CreateProjectDto,
+    data: InputProjectData,
     userId: number,
   ): Promise<ProjectEntity>;
   public abstract update(
     id: number,
-    project: UpdateProjectDto,
+    project: InputProjectData,
   ): Promise<ProjectData | null>;
   public abstract getProjectById(id: number): Promise<ProjectEntity | null>;
   public abstract getUsersOfProject(id: number): Promise<UserEntity[]>;
   public abstract search(
     searchTitle?: string,
     userId?: number,
-    states?: StateProject[]
+    states?: StateProject[],
   ): Promise<ProjectEntity[]>;
   public abstract deleteProject(id: number): Promise<ProjectEntity>;
 }
@@ -36,14 +38,14 @@ export class ProjectsServiceImpl implements ProjectsService {
   ) {}
 
   public async create(
-    data: CreateProjectDto,
+    data: InputProjectData,
     userId: number,
   ): Promise<ProjectEntity> {
     const userExist = await this.userRepository.getUserById(userId);
     if (!userExist) {
       throw new UserNotFoundException();
     }
-    return await this.repo.createProject({ ...data, userId });
+    return await this.repo.createProject({ ...data }, userId);
   }
 
   public async update(
@@ -74,10 +76,11 @@ export class ProjectsServiceImpl implements ProjectsService {
   public async search(
     searchTitle?: string,
     userId?: number,
-    states?: StateProject[]
+    states?: StateProject[],
   ): Promise<ProjectEntity[]> {
     return await this.repo.search(searchTitle, userId, states);
   }
+
   public async deleteProject(id: number): Promise<ProjectEntity> {
     const project = await this.repo.getProjectById(id);
 

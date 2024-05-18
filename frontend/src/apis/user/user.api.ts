@@ -1,10 +1,10 @@
 import { api } from '@/network/api'
-import type { IUserData, IUserEntity } from '@/entites/IUser'
+import type { IUserEntity, IInputUserData } from '@/entites/IUser'
 
 export interface IUserApi {
   getUserById(id: number): Promise<IUserEntity>
   getProfile(): Promise<IUserEntity>
-  updateUser(id: number, user: IUserData): Promise<IUserEntity>
+  updateUser(id: number, user: IInputUserData): Promise<IUserEntity>
   follow(userId: number): Promise<void>
   unFollow(userId: number): Promise<void>
   search(name?: string): Promise<IUserEntity[]>
@@ -23,7 +23,7 @@ export class UserApiImpl implements IUserApi {
     return res.data
   }
 
-  async updateUser(id: number, user: IUserData): Promise<IUserEntity> {
+  async updateUser(id: number, user: IInputUserData): Promise<IUserEntity> {
     const res = await api.put<IUserEntity>(`/users/${id}`, user)
 
     return res.data

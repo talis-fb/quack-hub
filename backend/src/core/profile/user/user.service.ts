@@ -1,26 +1,26 @@
 import { Injectable, Provider } from '@nestjs/common';
 import { UserRepository } from './user.repository';
-import { UserData, UserEntity } from 'src/core/profile/user/user.entity';
+import { InputUserData, UserData, UserEntity, UserEntityWithMethodologies } from 'src/core/profile/user/user.entity';
 import { UserNotFoundException } from 'src/core/profile/user/user.exceptions';
 import { NotFoundException } from 'src/common/exceptions/collection/ResourceNotFound.exception';
 import { ConflictException } from 'src/common/exceptions/collection/ResourceConflict.exception';
 
 export abstract class UserService {
-  public abstract getUserById(id: number): Promise<UserEntity>;
+  public abstract getUserById(id: number): Promise<UserEntityWithMethodologies>;
   public abstract getUserByEmail(email: string): Promise<UserEntity>;
-  public abstract findAll(): Promise<UserEntity[]>;
-  public abstract findUsersByIds(ids: number[]): Promise<UserEntity[]>;
-  public abstract search(searchName: string): Promise<UserEntity[]>;
+  public abstract findAll(): Promise<UserEntityWithMethodologies[]>;
+  public abstract findUsersByIds(ids: number[]): Promise<UserEntityWithMethodologies[]>;
+  public abstract search(searchName: string): Promise<UserEntityWithMethodologies[]>;
   public abstract update(
     id: number,
-    user: Partial<UserData>,
-  ): Promise<UserEntity>;
+    user: Partial<InputUserData>,
+  ): Promise<UserEntityWithMethodologies>;
   public abstract follow(
     userFollowingId: number,
     userToBeFollowedId: number,
   ): Promise<void>;
-  public abstract getFollowers(id: number): Promise<UserEntity[]>;
-  public abstract getFollowing(id: number): Promise<UserEntity[]>;
+  public abstract getFollowers(id: number): Promise<UserEntityWithMethodologies[]>;
+  public abstract getFollowing(id: number): Promise<UserEntityWithMethodologies[]>;
   abstract removeFollower(
     userFollowingId: number,
     userToBeFollowedId: number,
@@ -31,7 +31,7 @@ export abstract class UserService {
 export class UserServiceImpl implements UserService {
   constructor(private repo: UserRepository) {}
 
-  public async findAll(): Promise<UserEntity[]> {
+  public async findAll(): Promise<UserEntityWithMethodologies[]> {
     return await this.repo.findAll();
   }
 
@@ -43,7 +43,7 @@ export class UserServiceImpl implements UserService {
     return user;
   }
 
-  public async getUserById(id: number): Promise<UserEntity> {
+  public async getUserById(id: number): Promise<UserEntityWithMethodologies> {
     const user = await this.repo.getUserById(id);
     if (!user) {
       throw new UserNotFoundException();
@@ -51,14 +51,14 @@ export class UserServiceImpl implements UserService {
     return user;
   }
 
-  public async search(searchName: string): Promise<UserEntity[]> {
+  public async search(searchName: string): Promise<UserEntityWithMethodologies[]> {
     return await this.repo.searchUsers(searchName);
   }
 
   public async update(
     id: number,
     user: Partial<UserData>,
-  ): Promise<UserEntity> {
+  ): Promise<UserEntityWithMethodologies> {
     const userToUpdate = await this.repo.getUserById(id);
     if (!userToUpdate) {
       throw new UserNotFoundException();
@@ -91,15 +91,15 @@ export class UserServiceImpl implements UserService {
     return await this.repo.addFollower(userFollowingId, userToBeFollowedId);
   }
 
-  public async findUsersByIds(ids: number[]): Promise<UserEntity[]> {
+  public async findUsersByIds(ids: number[]): Promise<UserEntityWithMethodologies[]> {
     return await this.repo.findUsers(ids);
   }
 
-  public async getFollowers(id: number): Promise<UserEntity[]> {
+  public async getFollowers(id: number): Promise<UserEntityWithMethodologies[]> {
     return await this.repo.findFollowers(id);
   }
 
-  public async getFollowing(id: number): Promise<UserEntity[]> {
+  public async getFollowing(id: number): Promise<UserEntityWithMethodologies[]> {
     return await this.repo.findFollowing(id);
   }
 

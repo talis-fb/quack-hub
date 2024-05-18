@@ -11,19 +11,33 @@ import {
   Delete,
   Req,
 } from '@nestjs/common';
-import { ProjectData, ProjectEntity } from './project.entity';
-import { ProjectsService } from './project.service';
+import {
+  InputProjectData,
+  ProjectEntity,
+} from 'src/core/projects/project/project.entity';
+import { ProjectsService } from 'src/core/projects/project/project.service';
 import { UserEntity } from 'src/core/profile/user/user.entity';
-import { Public } from 'src/common/decorators/public.decorator';
-import { UpdateProjectDto } from './dtos/UpdateProjectDto';
+
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
-import { CreateProjectDto } from './dtos/CreateProjectDto';
-import { SearchProjectsQueryDto } from './dtos/SearchProjectsQueryDto';
+
+import { SearchProjectsQueryDto } from 'src/core/projects/project/dtos/SearchProjectsQueryDto';
+import {
+  ImportedProject,
+  ProjectImporter,
+} from 'src/core/projects/project/project-importer';
+import { ImportProjectsQueryDto } from 'src/core/projects/project/dtos/ImportProjectQueryDto';
+import { UserService } from 'src/core/profile/user/user.service';
+import { SuggestProjects } from 'src/core/projects/project/suggest-projects';
 
 @ApiTags('projects')
 @Controller('projects')
 export class ProjectsController {
-  constructor(private projectsService: ProjectsService) {}
+  constructor(
+    private readonly projectsService: ProjectsService,
+    private readonly usersService: UserService,
+    private readonly projectImporter: ProjectImporter,
+    private readonly suggestProjects: SuggestProjects,
+  ) {}
 
   @ApiResponse({
     status: 201,
@@ -32,7 +46,7 @@ export class ProjectsController {
   @Post('')
   async create(
     @Req() req,
-    @Body() body: CreateProjectDto,
+    @Body() body: InputProjectData,
   ): Promise<ProjectEntity> {
     const { userId } = req.user;
 
@@ -46,9 +60,18 @@ export class ProjectsController {
   @Put(':id')
   async update(
     @Param('id', ParseIntPipe) id: number,
-    @Body() body: UpdateProjectDto,
+    @Body() body: InputProjectData,
   ) {
     return await this.projectsService.update(id, body);
+  }
+
+  @Get('import')
+  async importProject(
+    @Query() importProjectQueryDto: ImportProjectsQueryDto,
+  ): Promise<ImportedProject> {
+    const { username, projectName } = importProjectQueryDto;
+
+    return await this.projectImporter.importProject(username, projectName);
   }
 
   @ApiResponse({
@@ -81,10 +104,16 @@ export class ProjectsController {
     description: 'List of projects filtered by title returned successfully.',
   })
   @Get('')
-  async searchProjects(@Query() query: SearchProjectsQueryDto) {
+  async searchProjects(@Req() req, @Query() query: SearchProjectsQueryDto) {
     const { title, userId, states } = query;
 
-    return await this.projectsService.search(title, userId, states);
+    const projects = await this.projectsService.search(title, userId, states);
+
+    const user = await this.usersService.getUserById(req.user.userId);
+
+    const output = await this.suggestProjects.suggest(user.methodologies, projects);
+    
+    return output;
   }
 
   @ApiResponse({

@@ -1,14 +1,22 @@
 import { api } from '@/network/api'
 
 import type { IProjectResponse } from '@/apis/project/models/IProjectResponse'
-import type { IProjectData } from '@/entites/IProject'
+import type { IInputProjectData } from '@/entites/IProject'
+
+export interface IProjectImported {
+  // methodologies: string[]
+  name: string
+  description: string
+  created_at: string
+}
 
 export interface IProjectApi {
   search(title?: string, userId?: number, states?: string[]): Promise<IProjectResponse[]>
   getProjectById(id: number): Promise<IProjectResponse>
   delete(projectId: number): Promise<IProjectResponse>
-  update(projectId: number, data: IProjectData): Promise<IProjectResponse>
-  create(data: IProjectData): Promise<IProjectResponse>
+  update(projectId: number, data: IInputProjectData): Promise<IProjectResponse>
+  create(data: IInputProjectData): Promise<IProjectResponse>
+  importProject(username: string, projectName: string): Promise<IProjectImported>
 }
 
 export class ProjectApiImpl implements IProjectApi {
@@ -36,14 +44,25 @@ export class ProjectApiImpl implements IProjectApi {
     return res.data
   }
 
-  async update(projectId: number, data: IProjectData): Promise<IProjectResponse> {
+  async update(projectId: number, data: IInputProjectData): Promise<IProjectResponse> {
     const res = await api.put<IProjectResponse>(`/projects/${projectId}`, data)
 
     return res.data
   }
 
-  async create(data: IProjectData): Promise<IProjectResponse> {
+  async create(data: IInputProjectData): Promise<IProjectResponse> {
     const res = await api.post<IProjectResponse>('/projects', data)
+
+    return res.data
+  }
+
+  async importProject(username: string, projectName: string): Promise<IProjectImported> {
+    const res = await api.get<IProjectImported>('/projects/import', {
+      params: {
+        username,
+        projectName
+      }
+    })
 
     return res.data
   }

@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Transform } from 'class-transformer';
+import { Transform, Type } from 'class-transformer';
 import {
   IsString,
   IsDate,
@@ -7,11 +7,13 @@ import {
   MinLength,
   IsIn,
   IsInt,
-  ArrayNotEmpty,
   ValidateNested,
   IsUrl,
 } from 'class-validator';
-import { VacancyData } from '../vacancies/vacancies.entity';
+import {
+  MethodologieData,
+  MethodologieEntity,
+} from 'src/methodologies/methodologie.entity';
 
 export const StateProjectValues = [
   'PAUSED',
@@ -58,25 +60,46 @@ export class ProjectData {
   @ApiProperty()
   endDate: Date | null;
 
-  @IsInt()
-  @ApiProperty()
-  userId: number;
-
-  @IsOptional()
-  @ApiProperty()
-  methodologies: string[];
-
   @IsUrl()
   @IsOptional()
   @ApiProperty()
   logoUrl: string | null;
+
+  constructor(partial: Partial<ProjectData>) {
+    Object.assign(this, partial);
+  }
 
   // @ValidateNested()
   // @ApiProperty()
   // vacancies: Array<VacancyData>;
 }
 
-export class ProjectEntity extends ProjectData {
+export class OutputProjectData extends ProjectData {
+  @IsInt()
+  @ApiProperty()
+  userId: number;
+
+  @ValidateNested()
+  @Type(() => MethodologieEntity)
+  @ApiProperty()
+  methodologies: MethodologieEntity[];
+}
+
+export class InputProjectData extends ProjectData {
+  @ValidateNested()
+  @ApiProperty()
+  methodologies: {
+    id: number;
+  }[];
+
+  constructor(partial: Partial<InputProjectData>) {
+    super(partial);
+
+    this.methodologies = this.methodologies || [];
+  }
+}
+
+export class ProjectEntity extends OutputProjectData {
   @IsInt()
   id: number;
 }
