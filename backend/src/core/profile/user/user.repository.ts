@@ -1,9 +1,13 @@
 import { Injectable, Provider } from '@nestjs/common';
 import { PrismaService } from 'src/common/prisma/prisma.service';
-import { UserData, UserEntity } from './user.entity';
+import {
+  UserData,
+  UserEntity,
+  UserEntityWithMethodologies,
+} from './user.entity';
 
 export abstract class UserRepository {
-  abstract getUserById(id: number): Promise<UserEntity | void>;
+  abstract getUserById(id: number): Promise<UserEntityWithMethodologies | void>;
   abstract getUserByEmail(email: string): Promise<UserEntity | void>;
   abstract findAll(): Promise<UserEntity[]>;
   abstract findUsers(ids: number[]): Promise<UserEntity[]>;
@@ -31,19 +35,28 @@ export abstract class UserRepository {
 export class UserRepositoryImpl implements UserRepository {
   constructor(private prisma: PrismaService) {}
 
-  async getUserById(id: number): Promise<UserEntity | void> {
-    return await this.prisma.user.findUnique({
+  async getUserById(id: number): Promise<UserEntityWithMethodologies | void> {
+    const output = await this.prisma.user.findUnique({
       where: {
         id,
       },
       include: {
         following: true,
         followedBy: true,
-        comments: {
-          
-        }
+        methodologies: {
+          include: {
+            Methodologie: true,
+          },
+        },
       },
     });
+
+    return {
+      ...output,
+      methodologies: output.methodologies.map(
+        (methodologie) => methodologie.Methodologie,
+      ),
+    };
   }
 
   async getUserByEmail(email: string): Promise<UserEntity> {
