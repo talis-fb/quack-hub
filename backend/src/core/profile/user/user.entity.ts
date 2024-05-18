@@ -54,9 +54,27 @@ export class UserData {
   @IsOptional()
   @ApiProperty()
   blog: string | null;
+
+  constructor(partial: Partial<UserData>) {
+    Object.assign(this, partial);
+  }
 }
 
-export class OuputUserDataWithMethodologies extends UserData {
+export class InputUserData extends UserData {
+  @ValidateNested()
+  @ApiProperty()
+  methodologies: {
+    id: number;
+  }[];
+
+  constructor(partial: Partial<InputUserData>) {
+    super(partial);
+
+    this.methodologies = this.methodologies || [];
+  }
+}
+
+export class OuputUserData extends UserData {
   @ValidateNested()
   @Type(() => MethodologieEntity)
   @ApiProperty()
@@ -74,7 +92,7 @@ export class UserEntity extends UserData {
   updatedAt: Date;
 }
 
-export class UserEntityWithMethodologies extends OuputUserDataWithMethodologies {
+export class UserEntityWithMethodologies extends OuputUserData {
   @IsInt()
   id: number;
 
@@ -84,3 +102,16 @@ export class UserEntityWithMethodologies extends OuputUserDataWithMethodologies 
   @IsDate()
   updatedAt: Date;
 }
+
+
+
+// export class UserEntityWithMethodologies extends OuputUserData {
+//   @IsInt()
+//   id: number;
+
+//   @IsDate()
+//   createdAt: Date;
+
+//   @IsDate()
+//   updatedAt: Date;
+// }

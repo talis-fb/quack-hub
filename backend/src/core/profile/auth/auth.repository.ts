@@ -17,11 +17,27 @@ export class AuthRepositoryImpl implements AuthRepository {
 
   async createAuthUser(user: AuthUserData): Promise<UserEntity> {
     return await this.prisma.$transaction(async (tx) => {
-      const { password, ...userData } = user;
+      const { password, methodologies, ...rest } = user;
 
       const userCreated = await tx.user.create({
         data: {
-          ...userData,
+          ...rest,
+          methodologies: {
+            create: methodologies.map((el) => ({
+              Methodologie: {
+                connect: {
+                  id: el.id,
+                },
+              },
+            })),
+          },
+        },
+        include: {
+          methodologies: {
+            include: {
+              Methodologie: true,
+            },
+          },
         },
       });
 
@@ -38,7 +54,10 @@ export class AuthRepositoryImpl implements AuthRepository {
         },
       });
 
-      return userCreated;
+      return {
+        ...userCreated,
+        methodologies: userCreated.methodologies.map((el) => el.Methodologie),
+      };
     });
   }
   async findAuthUser(
