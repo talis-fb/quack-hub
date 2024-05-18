@@ -42,21 +42,23 @@ git clone https://github.com/talis-fb/quack-hub.git
 # navigate to the project directory
 cd quack-hub
 
+# install backend dependencies
 cd backend/
 
-# install backend dependencies
 yarn
 
+
+
+# install frontend dependencies
 cd ../
 
 cd frontend/
 
-# install frontend dependencies
 yarn
 
+# run the application
 cd ../
 
-# run the application
 docker compose up -d
 ```
 
