@@ -1,4 +1,4 @@
-import type { IUserData, IUserEntity } from '@/entites/IUser'
+import type { IInputUserData, IUserEntity } from '@/entites/IUser'
 import { userService } from '@/services'
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
@@ -7,7 +7,6 @@ import { ref } from 'vue'
 
 export const useUserStore = defineStore('user', () => {
   const user = ref<IUserEntity | null>(null)
-
 
   function setUser(data: IUserEntity) {
     user.value = data
@@ -19,7 +18,7 @@ export const useUserStore = defineStore('user', () => {
     user.value = res
   }
 
-  async function update(id: number, data: IUserData) {
+  async function update(id: number, data: IInputUserData) {
     if (!user.value) return
 
     const res = await userService.updateUser(user.value.id, data)
@@ -32,9 +31,7 @@ export const useUserStore = defineStore('user', () => {
 
     await userService.follow(user.value.id)
 
-    await getProfile(user.value.id);
-
-    
+    await getProfile(user.value.id)
   }
 
   async function unFollow() {
@@ -42,7 +39,7 @@ export const useUserStore = defineStore('user', () => {
 
     await userService.unFollow(user.value.id)
 
-    await getProfile(user.value.id);
+    await getProfile(user.value.id)
   }
 
   return { user, setUser, update, follow, unFollow }

@@ -3,14 +3,14 @@
 import DefaultUserIcon from '@/assets/DefaultUserIcon.jpg'
 
 // Form Validation
-import { useForm } from 'vee-validate'
+import { useFieldArray, useForm } from 'vee-validate'
 import { toTypedSchema } from '@vee-validate/zod'
 import * as z from 'zod'
 import { format } from 'date-fns'
 import { cn } from '@/lib/utils'
 
 // Icons
-import { Calendar as CalendarIcon, ImageIcon } from 'lucide-vue-next'
+import { Calendar as CalendarIcon, ImageIcon, X } from 'lucide-vue-next'
 
 // Shadcn-vue componentns
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
@@ -21,14 +21,27 @@ import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { useToast } from '@/components/ui/toast/use-toast'
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue
+} from '@/components/ui/select'
 
 // Store pinia
 import { useUserStore } from '@/stores/user'
 
-
-
 // Types
-import type { IUserData, IUserEntity } from '@/entites/IUser'
+import type { IUserEntity, IInputUserData } from '@/entites/IUser'
+import type { IOutputMethodologieEntity } from '@/entites/IMethodologie'
+
+// Services
+import { methodologiesService } from '@/services'
+
+// Vue imports
+import { onBeforeMount, ref } from 'vue'
 
 interface IProfileEditProps {
   user: IUserEntity
@@ -42,7 +55,7 @@ const formSchema = toTypedSchema(
   z.object({
     name: z.string().min(3, { message: 'Nome deve ter no mínimo 3 caracteres' }),
     aboutDescription: z.string().nullish(),
-    birthday: z.date().max(new Date(), { message: 'Data inválida.' }).nullish(),
+    birthday: z.date().max(new Date(), { message: 'Data inválida.' }),
     avatarUrl: z
       .string({
         required_error: 'Campo avatarUrl obrigatório.'
@@ -55,7 +68,16 @@ const formSchema = toTypedSchema(
       .string()
       .regex(/^\d{2}\d{5}\d{4}$/, 'Esse não é um telefone válido.')
       .nullish(),
-    bio: z.string().nullish()
+    bio: z.string().nullish(),
+    methodologies: z
+      .array(
+        z
+          .string({ required_error: 'Campo metodologia obrigatório' })
+          .min(1, { message: 'Campo metodologia obrigatório' })
+      )
+      .refine((items) => new Set(items).size === items.length, {
+        message: 'As metodologias devem ser únicas.'
+      })
   })
 )
 
@@ -74,13 +96,18 @@ form.setValues({
   birthday: props.user.birthday ? new Date(props.user.birthday) : undefined,
   avatarUrl: props.user.avatarUrl,
   phone: props.user.phone,
-  bio: props.user.bio
+  bio: props.user.bio,
+  methodologies: props.user?.methodologies
+    ? [...props.user.methodologies.map((met) => met.id.toString())]
+    : []
 })
 
 const onSubmit = form.handleSubmit(async (values) => {
-  const valuesToSubmit: IUserData = {
+  const valuesToSubmit: IInputUserData = {
     ...values,
-    email: props.user.email as string
+    email: props.user.email,
+    birthday: values.birthday.toISOString(),
+    methodologies: values.methodologies.map((met) => ({ id: parseInt(met) }))
   }
 
   try {
@@ -97,6 +124,19 @@ const onSubmit = form.handleSubmit(async (values) => {
       variant: 'destructive'
     })
   }
+})
+
+const { remove, push, fields, replace } = useFieldArray('methodologies')
+
+const methodologies = ref<IOutputMethodologieEntity[]>([])
+
+async function fetchMethodologies() {
+  const res = await methodologiesService.findAll()
+
+  methodologies.value = res
+}
+onBeforeMount(async () => {
+  await fetchMethodologies()
 })
 </script>
 
@@ -195,6 +235,55 @@ const onSubmit = form.handleSubmit(async (values) => {
           <FormMessage />
         </FormItem>
       </FormField>
+
+      <Button @click="() => push('')" type="button" class="self-start" variant="secondary">
+        <Plus />
+        Adicione Metodologias
+      </Button>
+
+      <FormField
+        v-for="(field, index) in fields"
+        v-slot="{ componentField }"
+        :name="'methodologies.' + index"
+      >
+        <FormItem>
+          <FormLabel>Metodologia {{ index + 1 }}</FormLabel>
+          <FormControl>
+            <div class="flex space-x-2">
+              <Button @click="() => remove(index)" type="button" variant="ghost" size="icon">
+                <X :size="20" />
+              </Button>
+
+              <Select v-bind="componentField">
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Selecione a metodologia" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  <SelectGroup>
+                    <SelectItem v-for="met in methodologies" :value="met.id.toString()">
+                      {{ met.name }}
+                    </SelectItem>
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+
+              <!-- <Input
+                type="text"
+                placeholder="Ex.: Typescript"
+                v-bind="componentField"
+                autocomplete="methodologies"
+              /> -->
+            </div>
+          </FormControl>
+          <FormMessage />
+        </FormItem>
+      </FormField>
+
+      <p className="text-destructive text-sm">
+        {{ form.errors.value.methodologies }}
+      </p>
 
       <Button type="submit" class="w-full">Salvar mudanças</Button>
     </form>

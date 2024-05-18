@@ -25,35 +25,34 @@ export class UserData {
 
   @Transform(({ value }) => new Date(value))
   @IsDate()
-  @IsOptional()
   @ApiProperty()
-  birthday: Date | null;
+  birthday: Date;
 
   // extra data
   @IsString()
   @IsOptional()
   @ApiProperty()
-  bio: string | null;
+  bio?: string | null;
 
   @IsString()
   @IsOptional()
   @ApiProperty()
-  aboutDescription: string | null;
+  aboutDescription?: string | null;
 
   @IsUrl()
   @IsOptional()
   @ApiProperty()
-  avatarUrl: string | null;
+  avatarUrl?: string | null;
 
   @IsNumberString()
   @IsOptional()
   @ApiProperty()
-  phone: string | null;
+  phone?: string | null;
 
   @IsString()
   @IsOptional()
   @ApiProperty()
-  blog: string | null;
+  blog?: string | null;
 
   constructor(partial: Partial<UserData>) {
     Object.assign(this, partial);
@@ -102,8 +101,6 @@ export class UserEntityWithMethodologies extends OuputUserData {
   @IsDate()
   updatedAt: Date;
 }
-
-
 
 // export class UserEntityWithMethodologies extends OuputUserData {
 //   @IsInt()
