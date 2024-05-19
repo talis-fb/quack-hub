@@ -34,6 +34,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 // App components
 import AppDialog from '@/components/AppDialog.vue'
 import GithubProjectImport from '@/components/GithubProjectImport.vue'
+import MethodologieField from '@/components/MethodologieField.vue'
 
 // Icons
 import { Calendar as CalendarIcon, ImageIcon, Github, Linkedin, Plus, X } from 'lucide-vue-next'
@@ -188,7 +189,7 @@ const handleProjectImported = (data: IProjectImported) => {
   })
 }
 
-const { remove, push, fields, replace } = useFieldArray('methodologies')
+const { remove, push, fields, replace, update } = useFieldArray('methodologies')
 
 const methodologies = ref<IOutputMethodologieEntity[]>([])
 
@@ -204,6 +205,7 @@ onBeforeMount(async () => {
 
 <template>
   <div class="p-3 max-h-[100%] overflow-auto">
+    {{ fields }}
     <p>Importar de:</p>
     <div class="flex justify-center space-x-2">
       <AppDialog>
@@ -391,7 +393,7 @@ onBeforeMount(async () => {
                 <X :size="20" />
               </Button>
 
-              <Select v-bind="componentField">
+              <!-- <Select v-bind="componentField">
                 <FormControl>
                   <SelectTrigger>
                     <SelectValue placeholder="Selecione a metodologia" />
@@ -404,14 +406,12 @@ onBeforeMount(async () => {
                     </SelectItem>
                   </SelectGroup>
                 </SelectContent>
-              </Select>
+              </Select> -->
 
-              <!-- <Input
-                type="text"
-                placeholder="Ex.: Typescript"
-                v-bind="componentField"
-                autocomplete="methodologies"
-              /> -->
+              <MethodologieField
+                :methodologies="methodologies"
+                @update="(value) => update(index, value)"
+              />
             </div>
           </FormControl>
           <FormMessage />

@@ -29,7 +29,7 @@ await fetchNews()
     <li
       @click="() => redirectToNew(notice.url)"
       v-for="notice in news"
-      class="overflow-hidden cursor-pointer shadow-xl hover:shadow-primary/50 border rounded-md"
+      class="overflow-hidden cursor-pointer shadow-xl hover:shadow-primary/70 border rounded-md"
     >
       <figure>
         <img class="max-w-full" :src="notice.imageURL" alt="notice_image" />
