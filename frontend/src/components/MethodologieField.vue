@@ -38,7 +38,7 @@ const value = ref('')
 </script>
 
 <template>
-  <Popover v-model:open="open">
+  <Popover v-model:open="open" :modal="true">
     <PopoverTrigger as-child>
       <Button
         variant="outline"
@@ -54,7 +54,7 @@ const value = ref('')
         <ChevronsUpDown class="ml-2 h-4 w-4 shrink-0 opacity-50" />
       </Button>
     </PopoverTrigger>
-    <PopoverContent class="left-0 cuzaoi right-0 w-[300px] p-0">
+    <PopoverContent class="left-0 cuzaoi right-0 w-[300px] p-0" side="top">
       <Command>
         <CommandInput class="h-9" placeholder="Procurar metodologia..." />
         <CommandEmpty>Nenhuma metodologia encontrada.</CommandEmpty>
