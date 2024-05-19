@@ -30,6 +30,7 @@ import {
   SheetTrigger
 } from '@/components/ui/sheet'
 import { Separator } from '@/components/ui/separator'
+import { Alert, AlertTitle } from '@/components/ui/alert'
 
 // Icons
 import { Plus, Pencil } from 'lucide-vue-next'
@@ -238,9 +239,13 @@ export default {
         <Suspense>
           <div class="px-3 py-5 flex flex-wrap gap-2">
             <MethodologieItem
+              v-if="user?.methodologies.length"
               v-for="methodologie in user?.methodologies"
               :methodologie="methodologie"
             />
+            <Alert v-else>
+              <AlertTitle>Nenhuma metodologia cadastrada.</AlertTitle>
+            </Alert>
           </div>
           <template #fallback> </template>
         </Suspense>

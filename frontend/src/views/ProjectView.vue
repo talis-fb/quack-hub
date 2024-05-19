@@ -30,6 +30,7 @@ import {
   SheetTrigger
 } from '@/components/ui/sheet'
 import { Separator } from '@/components/ui/separator'
+import { Alert, AlertTitle } from '@/components/ui/alert'
 
 // Pinia Store
 import { storeToRefs } from 'pinia'
@@ -37,7 +38,7 @@ import { useProjectStore } from '@/stores/project'
 import { useAuthStore } from '@/stores/auth'
 
 // Types
-import type { IInputProjectData,  IProjectEntity } from '@/entites/IProject'
+import type { IInputProjectData, IProjectEntity } from '@/entites/IProject'
 import { projectService } from '@/services'
 import { metadataRoutes } from '@/router/RoutesConfig'
 
@@ -198,9 +199,13 @@ export default {
         <Suspense>
           <div class="px-3 py-5 flex flex-wrap gap-2">
             <MethodologieItem
+              v-if="project?.methodologies.length"
               v-for="methodologie in project?.methodologies"
               :methodologie="methodologie"
             />
+            <Alert v-else>
+              <AlertTitle>Nenhuma metodologia cadastrada.</AlertTitle>
+            </Alert>
           </div>
           <template #fallback> </template>
         </Suspense>

@@ -5,9 +5,9 @@ import type { IInputProjectData } from '@/entites/IProject'
 
 export interface IProjectImported {
   // methodologies: string[]
-  name: string
-  description: string
-  created_at: string
+  title: string;
+  summary: string;
+  startDate: string;
 }
 
 export interface IProjectApi {

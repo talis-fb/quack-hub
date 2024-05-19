@@ -181,9 +181,9 @@ const onSubmit = form.handleSubmit(async (values) => {
 
 const handleProjectImported = (data: IProjectImported) => {
   form.setValues({
-    title: data.name ?? '',
-    about: data.description ?? '',
-    startDate: new Date(data.created_at)
+    title: data.title ?? '',
+    summary: data.summary ?? '',
+    startDate: new Date(data.startDate)
     // methodologies: data.methodologies ?? []
   })
 }
