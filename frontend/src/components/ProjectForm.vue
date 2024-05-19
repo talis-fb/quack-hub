@@ -205,7 +205,6 @@ onBeforeMount(async () => {
 
 <template>
   <div class="p-3 max-h-[100%] overflow-auto">
-    {{ fields }}
     <p>Importar de:</p>
     <div class="flex justify-center space-x-2">
       <AppDialog>
