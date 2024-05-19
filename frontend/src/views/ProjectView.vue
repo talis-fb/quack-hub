@@ -157,7 +157,7 @@ export default {
                     <SheetTitle>Editar perfil</SheetTitle>
                     <SheetDescription>
                       Faça alterações em seu projeto aqui. Clique em salvar mudanças quando
-                      terminar/.
+                      terminar.
                     </SheetDescription>
                   </SheetHeader>
 
