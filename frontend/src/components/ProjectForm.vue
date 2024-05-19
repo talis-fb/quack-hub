@@ -392,7 +392,7 @@ onBeforeMount(async () => {
                 <X :size="20" />
               </Button>
 
-              <!-- <Select v-bind="componentField">
+              <Select v-bind="componentField">
                 <FormControl>
                   <SelectTrigger>
                     <SelectValue placeholder="Selecione a metodologia" />
@@ -405,12 +405,12 @@ onBeforeMount(async () => {
                     </SelectItem>
                   </SelectGroup>
                 </SelectContent>
-              </Select> -->
+              </Select>
 
-              <MethodologieField
+              <!-- <MethodologieField
                 :methodologies="methodologies"
                 @update="(value) => update(index, value)"
-              />
+              /> -->
             </div>
           </FormControl>
           <FormMessage />
