@@ -11,24 +11,56 @@ export class SeedMethodologiesService implements OnModuleInit {
 
   private async seed() {
     const methodologies = [
-      { name: 'vuejs' },
-      { name: 'react' },
-      { name: 'java' },
-      { name: 'php' },
-      { name: 'rabbitmq' },
-      { name: 'docker' },
-      { name: 'html' },
-      { name: 'rust' },
-      { name: 'nestjs' },
-      { name: 'mysql' },
-      { name: 'python' },
-      { name: 'angular' },
-      { name: '.net' },
-      { name: 'c++' },
-      { name: 'c' },
-      { name: 'c#' },
-      { name: 'ruby' },
-      { name: 'css' },
+      // Frontend technologies
+      { name: 'HTML' },
+      { name: 'CSS' },
+      { name: 'Javascript' },
+      { name: 'Typescript' },
+
+      // Libs and Frameworks Frontend
+      { name: 'React' },
+      { name: 'Vue' },
+      { name: 'Angular' },
+      { name: 'Svelte' },
+
+      // Libs and Frameworks CSS
+      { name: 'Tailwind CSS' },
+      { name: 'Materialize' },
+      { name: 'Bootstrap' },
+      { name: 'Sass' },
+      { name: 'LESS' },
+
+      // Backend technologies
+      { name: 'Java' },
+      { name: 'Python' },
+      { name: 'C++' },
+      { name: 'C' },
+      { name: 'C#' },
+      { name: 'Node.JS' },
+      { name: 'PHP' },
+      { name: 'Rust' },
+      { name: 'Ruby' },
+
+      // BACKEND Frameworks
+      { name: 'Laravel' },
+      { name: 'NestJS' },
+      { name: 'Spring' },
+      { name: 'Django' },
+      { name: 'ASP.NET' },
+      { name: '.NET' },
+
+      // Infastructure technologies
+      { name: 'RabbitMQ' },
+      { name: 'Kafka' },
+      { name: 'Docker' },
+      { name: 'Nginx' },
+
+      // BD technologies
+      { name: 'MySQL' },
+      { name: 'PostgreSQL' },
+      { name: 'SQL Server' },
+      { name: 'MongoDB' },
+      { name: 'Redis' },
     ];
 
     for (const methodology of methodologies) {
