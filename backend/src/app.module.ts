@@ -5,10 +5,8 @@ import { ProjectsModule } from 'src/core/projects/projects.module';
 import { ProfileModule } from 'src/core/profile/profile.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { ThrottlerModule } from '@nestjs/throttler';
-import { NewsModule } from 'src/news/news.module';
-import { AnnouncementModule } from 'src/announcement/announcement.module';
-import { MethodologiesModule } from 'src/methodologies/methodologies.module';
-import { SeedsModule } from './seeds/seed.module';
+import { NoticesModule } from 'src/core/notices/notices.module';
+import { MethodologiesModule } from 'src/core/methodologies/methodologies.module';
 
 @Module({
   imports: [
@@ -27,10 +25,8 @@ import { SeedsModule } from './seeds/seed.module';
     FeedModule,
     ProjectsModule,
     ProfileModule,
-    NewsModule,
-    AnnouncementModule,
+    NoticesModule,
     MethodologiesModule,
-    SeedsModule,
   ],
 })
 export class AppModule {}

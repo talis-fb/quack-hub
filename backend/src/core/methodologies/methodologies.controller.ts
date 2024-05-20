@@ -9,8 +9,8 @@ import {
   Put,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { MethodologiesService } from 'src/methodologies/methodologies.service';
-import { MethodologieData } from 'src/methodologies/methodologie.entity';
+import { MethodologiesService } from 'src/core/methodologies/methodologies.service';
+import { MethodologieData } from 'src/core/methodologies/methodologie.entity';
 
 @ApiTags('methodologies')
 @Controller('methodologies')
