@@ -1,5 +1,5 @@
 import { Injectable, Provider } from '@nestjs/common';
-import { NewsEntity } from 'src/news/news.entity';
+import { NewsEntity } from 'src/core/notices/news/news.entity';
 import { NewsRepository } from './news.repository';
 export abstract class NewsService {
   abstract getNews(): Promise<NewsEntity[]>;

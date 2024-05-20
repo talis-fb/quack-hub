@@ -12,6 +12,9 @@ import { cn } from '@/lib/utils'
 // Icons
 import { Calendar as CalendarIcon, ImageIcon, X } from 'lucide-vue-next'
 
+// App components
+import MethodologieField from '@/components/MethodologieField.vue'
+
 // Shadcn-vue componentns
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { Calendar } from '@/components/ui/calendar'
@@ -126,7 +129,7 @@ const onSubmit = form.handleSubmit(async (values) => {
   }
 })
 
-const { remove, push, fields, replace } = useFieldArray('methodologies')
+const { remove, push, fields, update } = useFieldArray('methodologies')
 
 const methodologies = ref<IOutputMethodologieEntity[]>([])
 
@@ -269,11 +272,9 @@ onBeforeMount(async () => {
                 </SelectContent>
               </Select>
 
-              <!-- <Input
-                type="text"
-                placeholder="Ex.: Typescript"
-                v-bind="componentField"
-                autocomplete="methodologies"
+              <!-- <MethodologieField
+                :methodologies="methodologies"
+                @update="(value) => update(index, value)"
               /> -->
             </div>
           </FormControl>

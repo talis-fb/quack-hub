@@ -1,6 +1,6 @@
 import { Controller, Get } from '@nestjs/common';
 import { Public } from 'src/common/decorators/public.decorator';
-import { NewsService } from 'src/news/news.service';
+import { NewsService } from 'src/core/notices/news/news.service';
 
 @Public()
 @Controller('news')

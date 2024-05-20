@@ -1,7 +1,7 @@
 import * as cheerio from 'cheerio';
 
 import { Injectable, Provider } from '@nestjs/common';
-import { NewsEntity } from 'src/news/news.entity';
+import { NewsEntity } from 'src/core/notices/news/news.entity';
 import { HttpService } from '@nestjs/axios';
 import { firstValueFrom, lastValueFrom } from 'rxjs';
 

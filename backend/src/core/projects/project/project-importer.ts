@@ -11,9 +11,9 @@ type IGetProjectLanguagesResponse = Record<string, number>;
 
 export abstract class ImportedProject {
   // methodologies: string[];
-  name: string;
-  description: string;
-  created_at: string;
+  title: string;
+  summary: string;
+  startDate: string;
 }
 
 export abstract class ProjectImporter {
@@ -42,9 +42,9 @@ export class ProjectImporterGithub implements ProjectImporter {
 
     return {
       // methodologies: Object.keys(languages),
-      name: info.name,
-      description: info.description,
-      created_at: info.created_at,
+      title: info.name,
+      summary: info.description,
+      startDate: info.created_at,
     };
   }
 

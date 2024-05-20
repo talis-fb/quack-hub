@@ -18,7 +18,7 @@ export interface ICommentFormEmit {
   (e: 'update', content: string): void
 }
 
-const emit = defineEmits<ICommentFormEmit>()
+const emits = defineEmits<ICommentFormEmit>()
 
 const props = defineProps<ICommentFormProps>()
 
@@ -41,7 +41,7 @@ form.setValues({
 })
 
 const onSubmit = form.handleSubmit((values) => {
-  emit('update', values.content)
+  emits('update', values.content)
 })
 </script>
 

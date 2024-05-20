@@ -36,7 +36,7 @@ await fetchAnnouncements()
     <div v-for="announcement in announcements">
       <div
         @click="() => redirectTo(announcement.url)"
-        class="cursor-pointer hover:bg-black/40 p-4 gap-1"
+        class="group cursor-pointer hover:bg-black/40 p-4 gap-1"
       >
         <div
           class="ms-4 w-fit p-1 rounded-t-lg"
@@ -47,7 +47,7 @@ await fetchAnnouncements()
           </p>
         </div>
 
-        <div class="flex flex-col bg-secondary p-3 rounded-md gap-3">
+        <div class="flex flex-col bg-secondary p-3 rounded-md gap-3 shadow-lg group-hover:shadow-primary/70">
           <p
             class="text-lg font-bold"
             :class="props.status == AnnoucementStatus.PROGRESS ? 'text-blue-300' : 'text-red-300'"

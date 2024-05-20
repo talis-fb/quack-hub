@@ -34,6 +34,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 // App components
 import AppDialog from '@/components/AppDialog.vue'
 import GithubProjectImport from '@/components/GithubProjectImport.vue'
+import MethodologieField from '@/components/MethodologieField.vue'
 
 // Icons
 import { Calendar as CalendarIcon, ImageIcon, Github, Linkedin, Plus, X } from 'lucide-vue-next'
@@ -181,14 +182,14 @@ const onSubmit = form.handleSubmit(async (values) => {
 
 const handleProjectImported = (data: IProjectImported) => {
   form.setValues({
-    title: data.name ?? '',
-    about: data.description ?? '',
-    startDate: new Date(data.created_at)
+    title: data.title ?? '',
+    summary: data.summary ?? '',
+    startDate: new Date(data.startDate)
     // methodologies: data.methodologies ?? []
   })
 }
 
-const { remove, push, fields, replace } = useFieldArray('methodologies')
+const { remove, push, fields, replace, update } = useFieldArray('methodologies')
 
 const methodologies = ref<IOutputMethodologieEntity[]>([])
 
@@ -406,11 +407,9 @@ onBeforeMount(async () => {
                 </SelectContent>
               </Select>
 
-              <!-- <Input
-                type="text"
-                placeholder="Ex.: Typescript"
-                v-bind="componentField"
-                autocomplete="methodologies"
+              <!-- <MethodologieField
+                :methodologies="methodologies"
+                @update="(value) => update(index, value)"
               /> -->
             </div>
           </FormControl>
