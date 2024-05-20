@@ -3,7 +3,7 @@ import { PrismaService } from 'src/common/prisma/prisma.service';
 import {
   MethodologieData,
   MethodologieEntity,
-} from 'src/methodologies/methodologie.entity';
+} from 'src/core/methodologies/methodologie.entity';
 
 export abstract class MethodologiesRepository {
   public abstract findMany(): Promise<MethodologieEntity[]>;

@@ -11,7 +11,7 @@ import {
   IsNumberString,
   ValidateNested,
 } from 'class-validator';
-import { MethodologieEntity } from 'src/methodologies/methodologie.entity';
+import { MethodologieEntity } from 'src/core/methodologies/methodologie.entity';
 
 export class UserData {
   @IsString()

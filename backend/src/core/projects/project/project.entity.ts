@@ -13,7 +13,7 @@ import {
 import {
   MethodologieData,
   MethodologieEntity,
-} from 'src/methodologies/methodologie.entity';
+} from 'src/core/methodologies/methodologie.entity';
 
 export const StateProjectValues = [
   'PAUSED',

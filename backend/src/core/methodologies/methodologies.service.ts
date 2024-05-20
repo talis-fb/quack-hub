@@ -3,8 +3,8 @@ import { NotFoundException } from 'src/common/exceptions/collection/ResourceNotF
 import {
   MethodologieData,
   MethodologieEntity,
-} from 'src/methodologies/methodologie.entity';
-import { MethodologiesRepository } from 'src/methodologies/methodologies.repository';
+} from 'src/core/methodologies/methodologie.entity';
+import { MethodologiesRepository } from 'src/core/methodologies/methodologies.repository';
 
 export abstract class MethodologiesService {
   public abstract findMany(): Promise<MethodologieEntity[]>;

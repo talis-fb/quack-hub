@@ -10,7 +10,7 @@ import { UserEntity } from 'src/core/profile/user/user.entity';
 import { ProjectNotFoundException } from './project.exceptions';
 import { UserRepository } from 'src/core/profile/user/user.repository';
 import { UserNotFoundException } from 'src/core/profile/user/user.exceptions';
-import { MethodologieEntity } from 'src/methodologies/methodologie.entity';
+import { MethodologieEntity } from 'src/core/methodologies/methodologie.entity';
 export abstract class ProjectsService {
   public abstract create(
     data: InputProjectData,
