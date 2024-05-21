@@ -34,7 +34,7 @@ export abstract class UserRepository {
   abstract findFollow(
     userFollowingId: number,
     userToBeFollowedId: number,
-  ): Promise<UserEntityWithMethodologies>;
+  ): Promise<UserEntityWithMethodologies | void>;
 }
 
 @Injectable()
@@ -151,6 +151,9 @@ export class UserRepositoryImpl implements UserRepository {
       },
     });
 
+    if(output == null)
+      return []
+
     return output.map((el) => ({
       ...el,
       methodologies: el.methodologies.map((el) => el.Methodologie),
@@ -174,6 +177,9 @@ export class UserRepositoryImpl implements UserRepository {
         },
       },
     });
+
+    if(output == null)
+      return []
 
     return output.map((el) => ({
       ...el,
@@ -278,7 +284,7 @@ export class UserRepositoryImpl implements UserRepository {
   async findFollow(
     userFollowingId: number,
     userToBeFollowedId: number,
-  ): Promise<UserEntityWithMethodologies> {
+  ): Promise<UserEntityWithMethodologies | void> {
     const output = await this.prisma.user.findUnique({
       where: {
         id: userFollowingId,
@@ -296,6 +302,9 @@ export class UserRepositoryImpl implements UserRepository {
         },
       },
     });
+
+    if(output == null)
+      return null
 
     return {
       ...output,
