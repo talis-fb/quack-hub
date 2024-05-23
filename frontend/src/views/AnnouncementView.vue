@@ -18,7 +18,6 @@ import { AnnoucementStatus } from '@/entites/IAnnouncement'
             <AnnouncementsList :status="AnnoucementStatus.PROGRESS" />
             <template #fallback>
               <AnnouncementsListFallback :length="5" />
-
             </template>
           </Suspense>
         </div>

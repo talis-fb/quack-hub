@@ -101,9 +101,9 @@ onBeforeMount(async () => {
     </main>
 
     <aside class="border flex flex-col md:col-start-2 md:col-span-2 lg:col-start-5 rounded-md">
-      <article class="text-lg p-3 0 ">
+      <article class="text-lg p-3 0">
         <h1 class="font-bold text-xl mb-2">QuackHub Notícias</h1>
-        
+
         <Suspense>
           <NewsList />
           <template #fallback>

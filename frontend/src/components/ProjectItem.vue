@@ -136,7 +136,10 @@ const toProject = (e: MouseEvent) => {
         <p class="text-sm text-muted-foreground">{{ project.summary }}</p>
 
         <div class="flex flex-wrap max-w-[75%] gap-2">
-          <MethodologieItem v-for="methodologie in project.methodologies" :methodologie="methodologie" />
+          <MethodologieItem
+            v-for="methodologie in project.methodologies"
+            :methodologie="methodologie"
+          />
         </div>
 
         <Drawer>

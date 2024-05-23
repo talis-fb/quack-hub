@@ -128,7 +128,6 @@ async function updatePost(postId: number, data: IPostData) {
   }
 }
 
-
 const user = ref<IUserEntity | null>(null)
 
 async function fetchUser(userId: number) {

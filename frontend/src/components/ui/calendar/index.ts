@@ -15,7 +15,7 @@ export function isVCalendarSlot(slotName: string): slotName is CalendarSlotName 
     'nav-prev-button',
     'nav-next-button',
     'page',
-    'time-header',
+    'time-header'
   ]
 
   return validSlots.includes(slotName as CalendarSlotName)

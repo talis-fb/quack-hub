@@ -4,5 +4,5 @@ export interface ICreateVacancy {
   title: string
   description: string
   state: StateVacancy
-  projectId: number;
+  projectId: number
 }

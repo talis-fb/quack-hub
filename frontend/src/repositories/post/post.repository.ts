@@ -15,8 +15,10 @@ export interface IPostRepository {
   getCommentsByPostId(postId: number): Promise<ICommentEntityWithUserAndPostId[]>
   createComment(data: ICommentData): Promise<ICommentEntityWithUserAndPostId>
   deleteComment(commentId: number): Promise<ICommentEntity>
-  updateComment(commentId: number, data: Partial<ICommentData>): Promise<ICommentEntityWithUserAndPostId>
-
+  updateComment(
+    commentId: number,
+    data: Partial<ICommentData>
+  ): Promise<ICommentEntityWithUserAndPostId>
 }
 
 export class PostRepositoryImpl implements IPostRepository {
@@ -70,7 +72,10 @@ export class PostRepositoryImpl implements IPostRepository {
     return res
   }
 
-  async updateComment(commentId: number, data: Partial<ICommentData>): Promise<ICommentEntityWithUserAndPostId> {
+  async updateComment(
+    commentId: number,
+    data: Partial<ICommentData>
+  ): Promise<ICommentEntityWithUserAndPostId> {
     const res = await this.postApi.updateComment(commentId, data)
 
     return res

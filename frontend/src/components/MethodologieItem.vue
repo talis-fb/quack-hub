@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import type { IOutputMethodologieEntity } from '@/entites/IMethodologie';
-
+import type { IOutputMethodologieEntity } from '@/entites/IMethodologie'
 
 export interface IMethodologieItemProps {
   methodologie: IOutputMethodologieEntity

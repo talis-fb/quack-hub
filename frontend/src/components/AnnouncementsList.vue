@@ -47,7 +47,9 @@ await fetchAnnouncements()
           </p>
         </div>
 
-        <div class="flex flex-col bg-secondary p-3 rounded-md gap-3 shadow-lg group-hover:shadow-primary/70">
+        <div
+          class="flex flex-col bg-secondary p-3 rounded-md gap-3 shadow-lg group-hover:shadow-primary/70"
+        >
           <p
             class="text-lg font-bold"
             :class="props.status == AnnoucementStatus.PROGRESS ? 'text-blue-300' : 'text-red-300'"

@@ -1,8 +1,8 @@
 export interface ILikeData {
-    postId: number;
-    userId: number;
+  postId: number
+  userId: number
 }
 
-export interface ILikeEntity extends ILikeData{
-    id: number;
+export interface ILikeEntity extends ILikeData {
+  id: number
 }
