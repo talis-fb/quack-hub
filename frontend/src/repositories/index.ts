@@ -9,13 +9,8 @@ import {
   type IVacancyRepository
 } from '@/repositories/vacancies/vacancies.repository'
 
-
 const projectRepository: IProjectRepository = new ProjectRepositoryImpl(projectApi)
 
 const vacancyRepository: IVacancyRepository = new VacancyRepositoryImpl(vacancyApi)
 
-
-export {
-  projectRepository,
-  vacancyRepository,
-}
+export { projectRepository, vacancyRepository }

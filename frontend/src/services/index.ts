@@ -1,7 +1,4 @@
-import {
-  projectRepository,
-  vacancyRepository
-} from '@/repositories'
+import { projectRepository, vacancyRepository } from '@/repositories'
 import { AuthServiceImpl, type IAuthService } from '@/services/auth/auth.service'
 import { LocalStorageServiceImpl, type IStorageService } from '@/services/storage/storage.service'
 import { JwtServiceImpl, type IJwtService } from '@/services/jwt/jwt.service'
@@ -11,7 +8,15 @@ import { ProjectServiceImpl, type IProjectService } from './project/project.serv
 import { VacancyServiceImpl, type IVacancyService } from './vacancies/vacancies.service'
 import { PostServiceImpl, type IPostService } from './post/post.service'
 import { NewsServiceImpl, type INewsService } from './news/news.service'
-import { announcementsApi, authApi, experienceApi, methodologiesApi, newsApi, postApi, userApi } from '@/apis'
+import {
+  announcementsApi,
+  authApi,
+  experienceApi,
+  methodologiesApi,
+  newsApi,
+  postApi,
+  userApi
+} from '@/apis'
 import {
   AnnouncementsServiceImpl,
   type IAnnouncementsService

@@ -1,17 +1,21 @@
+import { z } from 'zod'
+
 export const StateVacancyValues = ['PAUSED', 'CLOSED', 'PROGRESS'] as const
 
 export type StateVacancy = (typeof StateVacancyValues)[number]
 
-export interface IVacancyData {
-  title: string
-  description: string
-  requirements: string[]
-  state: StateVacancy
-  projectId: number
-}
+export const VacancyData = z.object({
+  title: z.string(),
+  description: z.string(),
+  requirements: z.array(z.string()),
+  state: z.enum(StateVacancyValues),
+  projectId: z.number()
+})
+export type IVacancyData = z.infer<typeof VacancyData>
 
-export interface IVacancyEntity extends IVacancyData {
-  id: number
-  createdAt: Date
-  updatedAt: Date
-}
+export const VacancyEntity = VacancyData.extend({
+  id: z.number(),
+  createdAt: z.string().transform((value) => new Date(value)),
+  updatedAt: z.string().transform((value) => new Date(value))
+})
+export type IVacancyEntity = z.infer<typeof VacancyEntity>

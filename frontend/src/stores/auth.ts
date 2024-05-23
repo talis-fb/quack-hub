@@ -42,7 +42,6 @@ export const useAuthStore = defineStore('auth', () => {
       const res = await authService.signin(signinParams)
 
       console.log('-----res------')
-      
 
       const decoded: JwtDecoded = jwtService.decode(res.access_token)
 

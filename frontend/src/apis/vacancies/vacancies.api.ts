@@ -1,37 +1,30 @@
 import { api } from '@/network/api'
 import type { ICreateVacancy } from '../../types/ICreateVacancy'
-import type { IVacancyResponse } from '../project/models/IVacancyResponse'
 import type { IUpdateVacancy } from '../../types/IUpdateVacancy'
+import { VacancyEntity, type IVacancyEntity } from '@/entites/IVacancy'
 
 export interface IVacancyApi {
-  getVacanciesByProjectId(projectId: number): Promise<IVacancyResponse[]>
-  delete(VacancyId: number): Promise<IVacancyResponse>
-  update(VacancyId: number, data: IUpdateVacancy): Promise<IVacancyResponse>
-  create(data: ICreateVacancy): Promise<IVacancyResponse>
+  getVacanciesByProjectId(projectId: number): Promise<IVacancyEntity[]>
+  delete(VacancyId: number): Promise<IVacancyEntity>
+  update(VacancyId: number, data: IUpdateVacancy): Promise<IVacancyEntity>
+  create(data: ICreateVacancy): Promise<IVacancyEntity>
 }
 
 export class VacancyApiImpl implements IVacancyApi {
-  async getVacanciesByProjectId(projectId: number): Promise<IVacancyResponse[]> {
-    const res = await api.get<IVacancyResponse[]>(`/vacancies/projects/${projectId}`)
-
-    return res.data
+  async getVacanciesByProjectId(projectId: number): Promise<IVacancyEntity[]> {
+    const vacancyList = await api.get<any[]>(`/vacancies/projects/${projectId}`)
+    return vacancyList.data.map((vacancy) => VacancyEntity.parse(vacancy))
   }
 
-  async delete(vacancyId: number): Promise<IVacancyResponse> {
-    const res = await api.delete<IVacancyResponse>(`/vacancies/${vacancyId}`)
-
-    return res.data
+  async delete(vacancyId: number): Promise<IVacancyEntity> {
+    return (await api.delete<IVacancyEntity>(`/vacancies/${vacancyId}`)).data
   }
 
-  async update(vacancyId: number, data: IUpdateVacancy): Promise<IVacancyResponse> {
-    const res = await api.put<IVacancyResponse>(`/vacancies/${vacancyId}`, data)
-
-    return res.data
+  async update(vacancyId: number, data: IUpdateVacancy): Promise<IVacancyEntity> {
+    return (await api.put<IVacancyEntity>(`/vacancies/${vacancyId}`, data)).data
   }
 
-  async create(data: ICreateVacancy): Promise<IVacancyResponse> {
-    const res = await api.post<IVacancyResponse>('/vacancies', data)
-
-    return res.data
+  async create(data: ICreateVacancy): Promise<IVacancyEntity> {
+    return (await api.post<IVacancyEntity>('/vacancies', data)).data
   }
 }
