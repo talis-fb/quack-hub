@@ -1,5 +1,5 @@
+import type { IExperienceApi } from '@/apis/experience/experience.api'
 import type { ExperienceType, IExperienceData, IExperienceEntity } from '@/entites/IExperience'
-import type { IExperienceRepository } from '@/repositories/experience/experience.repository'
 
 export interface IExperienceService {
   delete(experienceId: number): Promise<IExperienceEntity>
@@ -9,32 +9,24 @@ export interface IExperienceService {
 }
 
 export class ExperienceServiceImpl implements IExperienceService {
-  constructor(private readonly experienceRepository: IExperienceRepository) {}
+  constructor(private readonly experienceApi: IExperienceApi) {}
 
   async delete(experienceId: number): Promise<IExperienceEntity> {
-    const res = await this.experienceRepository.delete(experienceId)
-
-    return res
+    return await this.experienceApi.delete(experienceId)
   }
 
   async update(experienceId: number, data: IExperienceData): Promise<IExperienceEntity> {
-    const res = await this.experienceRepository.update(experienceId, data)
-
-    return res
+    return await this.experienceApi.update(experienceId, data)
   }
 
   async getExperiencesByUserId(
     userId: number,
     type?: ExperienceType
   ): Promise<IExperienceEntity[]> {
-    const res = await this.experienceRepository.getExperiencesByUserId(userId, type)
-
-    return res
+    return await this.experienceApi.getExperiencesByUserId(userId, type)
   }
 
   async create(data: IExperienceData): Promise<IExperienceEntity> {
-    const res = await this.experienceRepository.create(data)
-
-    return res
+    return await this.experienceApi.create(data)
   }
 }

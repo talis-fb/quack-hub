@@ -1,5 +1,4 @@
 import {
-  experienceRepository,
   postRepository,
   projectRepository,
   userRepository,
@@ -14,7 +13,7 @@ import { ProjectServiceImpl, type IProjectService } from './project/project.serv
 import { VacancyServiceImpl, type IVacancyService } from './vacancies/vacancies.service'
 import { PostServiceImpl, type IPostService } from './post/post.service'
 import { NewsServiceImpl, type INewsService } from './news/news.service'
-import { announcementsApi, authApi, methodologiesApi, newsApi } from '@/apis'
+import { announcementsApi, authApi, experienceApi, methodologiesApi, newsApi } from '@/apis'
 import {
   AnnouncementsServiceImpl,
   type IAnnouncementsService
@@ -32,7 +31,7 @@ const jwtService: IJwtService = new JwtServiceImpl()
 
 const userService: IUserService = new UserServiceImpl(userRepository)
 
-const experienceService: IExperienceService = new ExperienceServiceImpl(experienceRepository)
+const experienceService: IExperienceService = new ExperienceServiceImpl(experienceApi)
 
 const projectService: IProjectService = new ProjectServiceImpl(projectRepository)
 
