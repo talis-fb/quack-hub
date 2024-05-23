@@ -26,7 +26,7 @@ import { metadataRoutes, publicRoutes } from './RoutesConfig'
 
 // Código antigo sem erro (apenas para eu conseguir testar as funcionalidada de experience)
 export const authGuard: NavigationGuardWithThis<undefined> = async (to, _) => {
-  const { isAuthenticated } = useAuthStore()
+  const { isAuthenticated, user } = useAuthStore()
 
   const authRequired = !publicRoutes.includes(to.path)
 

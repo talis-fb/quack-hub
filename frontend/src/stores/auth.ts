@@ -16,7 +16,7 @@ async function verifyToken() {
 }
 
 function loadUser(): UserState | null {
-  const accessToken = storageService.getItem('accessToken')
+  const accessToken = storageService.getItem('access_token')
 
   const userJwt: JwtDecoded | null = accessToken ? jwtService.decode(accessToken) : null
 
@@ -26,12 +26,6 @@ function loadUser(): UserState | null {
 }
 
 const userLoaded: UserState | null = loadUser()
-
-// let userLoaded: UserState | null = null
-
-// verifyToken().then((res) => {
-//   userLoaded = loadUser()
-// })
 
 export const useAuthStore = defineStore('auth', () => {
   const user: UserState = reactive({
@@ -47,12 +41,21 @@ export const useAuthStore = defineStore('auth', () => {
     try {
       const res = await authService.signin(signinParams)
 
-      const decoded: JwtDecoded = jwtService.decode(res.accessToken)
+      console.log('-----res------')
+      
 
-      storageService.setItem('accessToken', res.accessToken)
+      const decoded: JwtDecoded = jwtService.decode(res.access_token)
+
+      storageService.setItem('access_token', res.access_token)
 
       const newUserState = { id: decoded.sub, email: decoded.email }
       Object.assign(user, newUserState)
+
+      console.log(res)
+      console.log(decoded)
+      console.log(newUserState)
+      console.log(user)
+      console.log('-----------')
 
       return newUserState
     } catch (error) {
@@ -61,7 +64,7 @@ export const useAuthStore = defineStore('auth', () => {
   }
 
   async function logout() {
-    storageService.removeItem('accessToken')
+    storageService.removeItem('access_token')
     user.email = undefined
     user.id = undefined
   }

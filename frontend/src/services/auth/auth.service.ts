@@ -1,7 +1,7 @@
 import type { IAuth } from '@/entites/IAuth'
 import type { ISigninParams } from '@/types/ISigninParams'
 import type { ISignupParams } from '@/types/ISignupParams'
-import type { IAuthRepository } from '@/repositories/auth/auth.repository'
+import type { IAuthApi } from '@/apis/auth/auth.api'
 
 export interface IAuthService {
   signin(signinParams: ISigninParams): Promise<IAuth>
@@ -9,22 +9,13 @@ export interface IAuthService {
 }
 
 export class AuthServiceImpl implements IAuthService {
-  constructor(private readonly authRepository: IAuthRepository) {}
+  constructor(private readonly authApi: IAuthApi) {}
 
   async signin(signinParams: ISigninParams): Promise<IAuth> {
-    try {
-      const res = await this.authRepository.signin(signinParams)
-      return res
-    } catch (error) {
-      throw error
-    }
+    return await this.authApi.signin(signinParams)
   }
 
   async signup(signupParams: ISignupParams): Promise<void> {
-    try {
-      await this.authRepository.signup(signupParams)
-    } catch (error) {
-      throw error
-    }
+    await this.authApi.signup(signupParams)
   }
 }

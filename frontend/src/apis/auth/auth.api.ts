@@ -1,22 +1,20 @@
 import type { ISigninParams } from '@/types/ISigninParams'
-import type { IAuthResponse } from './models/IAuthResponse'
+import { type IAuth, Auth } from '@/entites/IAuth'
 import type { ISignupParams } from '@/types/ISignupParams'
 import { api } from '@/network/api'
 import type { IUserEntity } from '@/entites/IUser'
 
 export interface IAuthApi {
-  signin(signinParams: ISigninParams): Promise<IAuthResponse>
+  signin(signinParams: ISigninParams): Promise<IAuth>
   signup(signupParams: ISignupParams): Promise<IUserEntity>
   meVerifyToken(): Promise<{ message: string }>
 }
 
 export class AuthApiImpl implements IAuthApi {
-  async signin(signinParams: ISigninParams): Promise<IAuthResponse> {
-    const res = await api.post<IAuthResponse>('/auth/login', signinParams)
-
+  async signin(signinParams: ISigninParams): Promise<IAuth> {
+    const res = await api.post<IAuth>('/auth/login', signinParams)
     const data = res.data
-
-    return data
+    return Auth.parse(data)
   }
   async signup(signupParams: ISignupParams): Promise<IUserEntity> {
     const res = await api.post<IUserEntity>('/auth/signup', signupParams)

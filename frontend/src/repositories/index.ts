@@ -1,5 +1,4 @@
 import { authApi, postApi } from '@/apis'
-import { AuthRepositoryImpl, type IAuthRepository } from '@/repositories/auth/auth.repository'
 import {
   ExperienceRepositoryImpl,
   type IExperienceRepository
@@ -16,8 +15,6 @@ import {
 } from '@/repositories/vacancies/vacancies.repository'
 import { PostRepositoryImpl, type IPostRepository } from './post/post.repository'
 
-const authRepository: IAuthRepository = new AuthRepositoryImpl(authApi)
-
 const experienceRepository: IExperienceRepository = new ExperienceRepositoryImpl(experienceApi)
 
 const userRepository: IUserRepository = new UserRepositoryImpl(userApi)
@@ -29,7 +26,6 @@ const vacancyRepository: IVacancyRepository = new VacancyRepositoryImpl(vacancyA
 const postRepository: IPostRepository = new PostRepositoryImpl(postApi)
 
 export {
-  authRepository,
   experienceRepository,
   userRepository,
   projectRepository,
