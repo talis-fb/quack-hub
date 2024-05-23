@@ -1,5 +1,5 @@
+import type { IUserApi } from '@/apis/user/user.api'
 import type { IInputUserData, IUserEntity } from '@/entites/IUser'
-import type { IUserRepository } from '@/repositories/user/user.repository'
 
 export interface IUserService {
   getUserById(id: number): Promise<IUserEntity>
@@ -11,35 +11,29 @@ export interface IUserService {
 }
 
 export class UserServiceImpl implements IUserService {
-  constructor(private readonly userRepository: IUserRepository) {}
+  constructor(private readonly userApi: IUserApi) {}
 
   async getUserById(id: number): Promise<IUserEntity> {
-    const res = await this.userRepository.getUserById(id)
-
-    return res
+    return await this.userApi.getUserById(id)
   }
 
   async getProfile(): Promise<IUserEntity> {
-    const res = await this.userRepository.getProfile()
-
-    return res
+    return await this.userApi.getProfile()
   }
 
   async updateUser(id: number, user: IInputUserData): Promise<IUserEntity> {
-    return await this.userRepository.updateUser(id, user)
+    return await this.userApi.updateUser(id, user)
   }
 
   async follow(userId: number): Promise<void> {
-    await this.userRepository.follow(userId)
+    await this.userApi.follow(userId)
   }
 
   async unFollow(userId: number): Promise<void> {
-    await this.userRepository.unFollow(userId)
+    await this.userApi.unFollow(userId)
   }
 
   async search(name?: string): Promise<IUserEntity[]> {
-    const res = await this.userRepository.search(name)
-
-    return res
+    return await this.userApi.search(name)
   }
 }

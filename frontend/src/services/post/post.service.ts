@@ -1,10 +1,10 @@
+import type { IPostApi } from '@/apis/post/post.api'
 import type {
   ICommentData,
   ICommentEntity,
   ICommentEntityWithUserAndPostId
 } from '@/entites/IComment'
 import type { IPostData, IPostEntity, IPostEntityWithUser } from '@/entites/IPost'
-import type { IPostRepository } from '@/repositories/post/post.repository'
 
 export interface IPostService {
   search(username?: string): Promise<IPostEntityWithUser[]>
@@ -22,62 +22,44 @@ export interface IPostService {
 }
 
 export class PostServiceImpl implements IPostService {
-  constructor(private readonly postRepository: IPostRepository) {}
+  constructor(private readonly postApi: IPostApi) {}
 
   async search(username?: string): Promise<IPostEntityWithUser[]> {
-    const res = await this.postRepository.search(username)
-
-    return res
+    return await this.postApi.search(username)
   }
 
   async getPostById(id: number): Promise<IPostEntityWithUser> {
-    const res = await this.postRepository.getPostById(id)
-
-    return res
+    return await this.postApi.getPostById(id)
   }
 
   async delete(id: number): Promise<IPostEntity> {
-    const res = await this.postRepository.delete(id)
-
-    return res
+    return await this.postApi.delete(id)
   }
 
   async update(id: number, data: IPostData): Promise<IPostEntityWithUser> {
-    const res = await this.postRepository.update(id, data)
-
-    return res
+    return await this.postApi.update(id, data)
   }
 
   async create(data: IPostData): Promise<IPostEntityWithUser> {
-    const res = await this.postRepository.create(data)
-
-    return res
+    return await this.postApi.create(data)
   }
 
   async getCommentsByPostId(postId: number): Promise<ICommentEntityWithUserAndPostId[]> {
-    const res = await this.postRepository.getCommentsByPostId(postId)
-
-    return res
+    return await this.postApi.getCommentsByPostId(postId)
   }
 
   async createComment(data: ICommentData): Promise<ICommentEntityWithUserAndPostId> {
-    const res = await this.postRepository.createComment(data)
-
-    return res
+    return await this.postApi.createComment(data)
   }
 
   async deleteComment(commentId: number): Promise<ICommentEntity> {
-    const res = await this.postRepository.deleteComment(commentId)
-
-    return res
+    return await this.postApi.deleteComment(commentId)
   }
 
   async updateComment(
     commentId: number,
     data: Partial<ICommentData>
   ): Promise<ICommentEntityWithUserAndPostId> {
-    const res = await this.postRepository.updateComment(commentId, data)
-
-    return res
+    return await this.postApi.updateComment(commentId, data)
   }
 }
