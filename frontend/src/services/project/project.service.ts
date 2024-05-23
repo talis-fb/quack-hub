@@ -1,6 +1,5 @@
-import type { IProjectImported } from '@/apis/project/project.api'
+import type { IProjectApi, IProjectImported } from '@/apis/project/project.api'
 import type { IInputProjectData, IProjectEntity } from '@/entites/IProject'
-import type { IProjectRepository } from '@/repositories/project/project.repository'
 
 export interface IProjectService {
   search(title?: string, userId?: number, states?: string[]): Promise<IProjectEntity[]>
@@ -12,41 +11,29 @@ export interface IProjectService {
 }
 
 export class ProjectServiceImpl implements IProjectService {
-  constructor(private readonly projectRepository: IProjectRepository) {}
+  constructor(private readonly projectApi: IProjectApi) {}
 
   async search(title?: string, userId?: number, states?: string[]): Promise<IProjectEntity[]> {
-    const res = await this.projectRepository.search(title, userId, states)
-
-    return res
+    return await this.projectApi.search(title, userId, states)
   }
 
   async getProjectById(id: number): Promise<IProjectEntity> {
-    const res = await this.projectRepository.getProjectById(id)
-
-    return res
+    return await this.projectApi.getProjectById(id)
   }
 
   async delete(projectId: number): Promise<IProjectEntity> {
-    const res = await this.projectRepository.delete(projectId)
-
-    return res
+    return await this.projectApi.delete(projectId)
   }
 
   async update(projectId: number, data: IInputProjectData): Promise<IProjectEntity> {
-    const res = await this.projectRepository.update(projectId, data)
-
-    return res
+    return await this.projectApi.update(projectId, data)
   }
 
   async create(data: IInputProjectData): Promise<IProjectEntity> {
-    const res = await this.projectRepository.create(data)
-
-    return res
+    return await this.projectApi.create(data)
   }
 
   async importProject(username: string, projectName: string): Promise<IProjectImported> {
-    const res = await this.projectRepository.importProject(username, projectName)
-
-    return res
+    return await this.projectApi.importProject(username, projectName)
   }
 }

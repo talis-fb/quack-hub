@@ -1,11 +1,12 @@
-export interface IOuputMethodologieData {
-  name: string
-}
+import { z } from "zod"
 
-export interface IOutputMethodologieEntity extends IOuputMethodologieData {
-  id: number
-}
+export const MethodologieData = z.object({
+  name: z.string(),
+})
+export type IMethodologieData = z.infer<typeof MethodologieData>
 
-export interface IInputMethodologieEntity {
-  id: number
-}
+
+export const MethodologieEntity = MethodologieData.extend({
+  id: z.number()
+})
+export type IMethodologieEntity = z.infer<typeof MethodologieEntity>

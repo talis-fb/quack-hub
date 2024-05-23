@@ -1,7 +1,6 @@
 import type { ICreateVacancy } from '@/types/ICreateVacancy'
 import type { IUpdateVacancy } from '@/types/IUpdateVacancy'
 import type { IVacancyEntity } from '@/entites/IVacancy'
-import type { IVacancyRepository } from '@/repositories/vacancies/vacancies.repository'
 import type { IVacancyApi } from '@/apis/vacancies/vacancies.api'
 
 export interface IVacancyService {
