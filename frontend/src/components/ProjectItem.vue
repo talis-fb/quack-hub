@@ -53,7 +53,7 @@ export interface ProjectItemProps {
  * @type {boolean}
  * @description Check if project owner is the same as the authenticated user
  * @description This is captured in the UserProfileView component
- 
+
  */
 const hasPermissions = inject('hasPermissions', false)
 
