@@ -64,7 +64,7 @@ export class ExperienceData {
 
   @IsOptional()
   @IsInt()
-  projectId: number | null;
+   : number | null;
 
   constructor(partial: Partial<ExperienceData>) {
     Object.assign(this, partial);
@@ -77,7 +77,7 @@ export class ExperienceEntity extends ExperienceData {
   id: number;
 }
 
-export class AchievementData {
+   export class AchievementData {
   @IsString()
   @MinLength(3)
   @ApiProperty()

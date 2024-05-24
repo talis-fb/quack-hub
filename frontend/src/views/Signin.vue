@@ -49,7 +49,7 @@ const form = useForm({
 
 const { toast, dismiss } = useToast()
 
-const { signin } = useAuthStore()
+const { signin, user } = useAuthStore()
 
 const onSubmit = form.handleSubmit(async (values) => {
   const { email, password } = values
@@ -86,6 +86,7 @@ onUnmounted(() => {
   <BaseAuth>
     <template v-slot:main>
       <main>
+        {{ user.email }}
         <header class="text-center mb-5">
           <h1 class="text-2xl font-semibold">Login</h1>
           <small class="text-sm text-muted-foreground">
