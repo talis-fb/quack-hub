@@ -24,7 +24,7 @@ describe('Signin', () => {
     }))
   })
 
-  test('renders a form', async () => {
+  test('should redirect to the home page if login is successful.', async () => {
     const wrapper = mount(Signin, {
       global: {
         plugins: [createTestingPinia({})]
