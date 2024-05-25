@@ -1,47 +1,56 @@
 import { mount, flushPromises } from '@vue/test-utils'
 import Signin from '../src/views/Signin.vue'
-import { expect, test, vi } from 'vitest'
+import { beforeEach, describe, expect, test, vi } from 'vitest'
 import { createTestingPinia } from '@pinia/testing'
 import { useAuthStore } from '../src/stores/auth'
-import { ISigninParams } from '../src/types/ISigninParams'
 import { useRouter } from 'vue-router'
-import { beforeEach } from 'node:test'
+import { mockedStore } from './helpers/mocked-store'
 
-test('renders a form', async () => {
-  const mockRouter = {
-    push: vi.fn()
-  }
+vi.mock('vue-router', () => ({
+  useRouter: vi.fn(() => ({
+    push: () => {}
+  }))
+}))
 
-  const wrapper = mount(Signin, {
-    global: {
-      plugins: [
-        createTestingPinia({
-          //   initialState: {
-          //     auth: {
-          //       user: {
-          //         id: 1,
-          //         email: 'luizgustavooumbelino@gmail.com'
-          //       }
-          //     }
-          //   }
-        })
-      ]
-    }
+describe('Signin', () => {
+  let push
+
+  beforeEach(() => {
+    push = vi.fn()
+
+    // @ts-ignore
+    useRouter.mockImplementationOnce(() => ({
+      push
+    }))
   })
 
-  const inputEmail = wrapper.find('input[name="email"]')
-  const inputPassword = wrapper.find('input[name="password"]')
+  test('renders a form', async () => {
+    const wrapper = mount(Signin, {
+      global: {
+        plugins: [createTestingPinia({})]
+      }
+    })
 
-  const authStore = useAuthStore()
+    const authStore = mockedStore(useAuthStore)
 
-  await inputEmail.setValue('luizgustavooumbelino@gmail.com')
-  await inputPassword.setValue('123456')
+    authStore.signin.mockResolvedValueOnce({
+      id: 1,
+      email: 'luizgustavooumbelino@gmail.com'
+    })
 
-  await wrapper.find('form').trigger('submit')
+    const inputEmail = wrapper.find('input[name="email"]')
+    const inputPassword = wrapper.find('input[name="password"]')
 
-  //   await flushPromises()
+    await inputEmail.setValue('luizgustavooumbelino@gmail.com')
+    await inputPassword.setValue('123456')
 
-  await new Promise((resolve) => setTimeout(resolve, 50))
+    await wrapper.find('form').trigger('submit')
 
-  expect(authStore.signin).toHaveBeenCalledTimes(1)
+    // await flushPromises()
+
+    await new Promise((resolve) => setTimeout(resolve, 40))
+
+    expect(push).toHaveBeenCalledTimes(1)
+    expect(authStore.signin).toHaveBeenCalledTimes(1)
+  })
 })

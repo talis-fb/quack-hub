@@ -21,11 +21,12 @@ import BaseAuth from '@/components/BaseAuth.vue'
 // Pinia
 import { useAuthStore } from '@/stores/auth'
 
-// Vue Riuter
-import router from '../router/index'
+// Vue imports
+const router = useRouter()
 
 // Lifecycle Hooks
 import { onUnmounted } from 'vue'
+import { useRouter } from 'vue-router'
 
 const formSchema = toTypedSchema(
   z.object({
@@ -86,7 +87,6 @@ onUnmounted(() => {
   <BaseAuth>
     <template v-slot:main>
       <main>
-        {{ user.email }}
         <header class="text-center mb-5">
           <h1 class="text-2xl font-semibold">Login</h1>
           <small class="text-sm text-muted-foreground">

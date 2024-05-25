@@ -39,7 +39,7 @@ export class ExperienceData {
   @ApiProperty()
   state: StateExperience;
 
-  @Transform(({ value }) => value ? new Date(value) : null)
+  @Transform(({ value }) => (value ? new Date(value) : null))
   @IsDate()
   @ApiProperty()
   startDate: Date;
@@ -64,7 +64,7 @@ export class ExperienceData {
 
   @IsOptional()
   @IsInt()
-   : number | null;
+  projectId: number | null;
 
   constructor(partial: Partial<ExperienceData>) {
     Object.assign(this, partial);
@@ -77,7 +77,7 @@ export class ExperienceEntity extends ExperienceData {
   id: number;
 }
 
-   export class AchievementData {
+export class AchievementData {
   @IsString()
   @MinLength(3)
   @ApiProperty()
