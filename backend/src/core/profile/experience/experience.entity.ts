@@ -39,7 +39,7 @@ export class ExperienceData {
   @ApiProperty()
   state: StateExperience;
 
-  @Transform(({ value }) => value ? new Date(value) : null)
+  @Transform(({ value }) => (value ? new Date(value) : null))
   @IsDate()
   @ApiProperty()
   startDate: Date;

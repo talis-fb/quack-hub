@@ -21,11 +21,12 @@ import BaseAuth from '@/components/BaseAuth.vue'
 // Pinia
 import { useAuthStore } from '@/stores/auth'
 
-// Vue Riuter
-import router from '../router/index'
+// Vue imports
+const router = useRouter()
 
 // Lifecycle Hooks
 import { onUnmounted } from 'vue'
+import { useRouter } from 'vue-router'
 
 const formSchema = toTypedSchema(
   z.object({
@@ -49,7 +50,7 @@ const form = useForm({
 
 const { toast, dismiss } = useToast()
 
-const { signin } = useAuthStore()
+const { signin, user } = useAuthStore()
 
 const onSubmit = form.handleSubmit(async (values) => {
   const { email, password } = values

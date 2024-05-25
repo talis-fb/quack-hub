@@ -65,8 +65,9 @@ export class ProjectData {
   @ApiProperty()
   logoUrl: string | null;
 
-  constructor(partial: Partial<ProjectData>) {
+  constructor(partial: Partial<InputProjectData>) {
     Object.assign(this, partial);
+    
   }
 
   // @ValidateNested()
