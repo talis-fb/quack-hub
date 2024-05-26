@@ -24,6 +24,66 @@ describe('Signin', () => {
     }))
   })
 
+  test('should render a error message if the field email is empty', async () => {
+    const wrapper = mount(Signin, {
+      global: {
+        plugins: [createTestingPinia({})]
+      }
+    })
+
+    await wrapper.find('form').trigger('submit')
+
+    await new Promise((resolve) => setTimeout(resolve, 40))
+
+    expect(wrapper.html()).toContain('Campo email obrigatório')
+  })
+
+  test('should render a error message if the field email is not an email', async () => {
+    const wrapper = mount(Signin, {
+      global: {
+        plugins: [createTestingPinia({})]
+      }
+    })
+
+    await wrapper.find('input[name="email"]').setValue('luiz')
+
+    await wrapper.find('form').trigger('submit')
+
+    await new Promise((resolve) => setTimeout(resolve, 100))
+
+    expect(wrapper.html()).toContain('Esse não é um e-mail válido.')
+  })
+
+  test('should render a error message if the field password is empty', async () => {
+    const wrapper = mount(Signin, {
+      global: {
+        plugins: [createTestingPinia({})]
+      }
+    })
+
+    await wrapper.find('form').trigger('submit')
+
+    await new Promise((resolve) => setTimeout(resolve, 40))
+
+    expect(wrapper.html()).toContain('Campo senha obrigatório')
+  })
+
+  test('should render a error message if the field password is less than 5 characters', async () => {
+    const wrapper = mount(Signin, {
+      global: {
+        plugins: [createTestingPinia({})]
+      }
+    })
+
+    await wrapper.find('input[name="password"]').setValue('123')
+
+    await wrapper.find('form').trigger('submit')
+
+    await new Promise((resolve) => setTimeout(resolve, 40))
+
+    expect(wrapper.html()).toContain('Senha deve ter no mínimo 5 caracteres.')
+  })
+
   test('should redirect to the home page if login is successful.', async () => {
     const wrapper = mount(Signin, {
       global: {
@@ -45,8 +105,6 @@ describe('Signin', () => {
     await inputPassword.setValue('123456')
 
     await wrapper.find('form').trigger('submit')
-
-    // await flushPromises()
 
     await new Promise((resolve) => setTimeout(resolve, 40))
 
