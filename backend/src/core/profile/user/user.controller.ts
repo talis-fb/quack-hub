@@ -9,7 +9,7 @@ import {
   Query,
   Req,
 } from '@nestjs/common';
-import { InputUserData, UserData, UserEntity } from './user.entity';
+import { InputUserData, UserData, UserEntityWithMethodologies } from './user.entity';
 import { UserService } from './user.service';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 
@@ -32,7 +32,7 @@ export class UserController {
     description: 'User profile returned successfully.',
   })
   @Get('auth')
-  async getProfile(@Req() req): Promise<UserEntity> {
+  async getProfile(@Req() req): Promise<UserEntityWithMethodologies> {
     const { userId } = req.user;
     return await this.userService.getUserById(userId);
   }
@@ -44,7 +44,7 @@ export class UserController {
   @Get(':id')
   async getUserById(
     @Param('id', ParseIntPipe) id: number,
-  ): Promise<UserEntity> {
+  ): Promise<UserEntityWithMethodologies> {
     return await this.userService.getUserById(id);
   }
 
@@ -56,7 +56,7 @@ export class UserController {
   async update(
     @Param('id', ParseIntPipe) id: number,
     @Body() body: InputUserData,
-  ): Promise<UserEntity> {
+  ): Promise<UserEntityWithMethodologies> {
     return await this.userService.update(id, body);
   }
 
@@ -94,7 +94,7 @@ export class UserController {
   @Get(':id/followers')
   async getFollowers(
     @Param('id', ParseIntPipe) id: number,
-  ): Promise<UserEntity[]> {
+  ): Promise<UserEntityWithMethodologies[]> {
     return await this.userService.getFollowers(id);
   }
 
@@ -106,7 +106,7 @@ export class UserController {
   @Get(':id/following')
   async getFollowing(
     @Param('id', ParseIntPipe) id: number,
-  ): Promise<UserEntity[]> {
+  ): Promise<UserEntityWithMethodologies[]> {
     return await this.userService.getFollowing(id);
   }
 }

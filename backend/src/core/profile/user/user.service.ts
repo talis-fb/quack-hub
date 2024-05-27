@@ -13,7 +13,7 @@ export abstract class UserService {
   public abstract search(searchName: string): Promise<UserEntityWithMethodologies[]>;
   public abstract update(
     id: number,
-    user: Partial<InputUserData>,
+    user: InputUserData,
   ): Promise<UserEntityWithMethodologies>;
   public abstract follow(
     userFollowingId: number,
@@ -57,7 +57,7 @@ export class UserServiceImpl implements UserService {
 
   public async update(
     id: number,
-    user: Partial<UserData>,
+    user: InputUserData,
   ): Promise<UserEntityWithMethodologies> {
     const userToUpdate = await this.repo.getUserById(id);
     if (!userToUpdate) {

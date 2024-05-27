@@ -94,7 +94,7 @@ export class UserRepositoryImpl implements UserRepository {
 
   async update(
     id: number,
-    user: Partial<InputUserData>,
+    user: InputUserData,
   ): Promise<UserEntityWithMethodologies> {
     const { methodologies, ...rest } = user;
     const output = await this.prisma.user.update({
