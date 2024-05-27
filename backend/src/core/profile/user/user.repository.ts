@@ -21,7 +21,7 @@ export abstract class UserRepository {
 
   abstract update(
     id: number,
-    user: Partial<InputUserData>,
+    user: InputUserData,
   ): Promise<UserEntityWithMethodologies>;
   abstract addFollower(
     userFollowingId: number,
