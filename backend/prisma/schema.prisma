@@ -36,7 +36,8 @@ model User {
   comments         Comment[]
   postLikes        PostLike[]
   projects         Project[]
-  methodologies UserMethodologie[]
+  methodologies    UserMethodologie[]
+  NotificationBind NotificationBind[]
 }
 
 model UserAuth {
@@ -183,6 +184,21 @@ model UserMethodologie {
   methodologieId Int
 
   @@unique([userId, methodologieId])
+}
+
+model NotificationBind {
+  id Int @id @default(autoincrement())
+
+  User   User @relation(fields: [userId], references: [id])
+  userId Int
+
+  type  NotificationBindType
+  value String
+}
+
+enum NotificationBindType {
+  TELEGRAM
+  EMAIL
 }
 
 // Enums
