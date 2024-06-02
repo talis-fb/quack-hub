@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Provider } from '@nestjs/common';
 import { PrismaService } from 'src/common/prisma/prisma.service';
 import { INotificationsBindType, NotificationsBind, NotificationsBindEntity } from './notifications.entity';
 
@@ -58,4 +58,9 @@ export class NotificationsRepositoryImpl implements NotificationsRepository {
     });
     return output.map((item) => item.value);
   }  
+}
+
+export const NotificationsRepositoryProvider: Provider = {
+  provide: NotificationsRepository,
+  useClass: NotificationsRepositoryImpl,
 }
