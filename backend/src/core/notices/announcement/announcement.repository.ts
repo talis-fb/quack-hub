@@ -37,7 +37,7 @@ export class AnnouncementRepositoryImpl implements AnnouncementRepository {
         try {
           const url =
             'https://www.metropoledigital.ufrn.br' +
-            announcementNode.attr('href');
+            $(value).attr('href');
           const announcementInfoNode = $(value).find('span:first');
           const titleNode = $(value).find('h5');
           const dateNode = $(value).find('p');
