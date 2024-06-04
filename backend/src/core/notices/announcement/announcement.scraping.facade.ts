@@ -4,7 +4,7 @@ import { Injectable, Provider } from '@nestjs/common';
 import { AnnouncementEntity } from './announcement.entity';
 import { HttpService } from '@nestjs/axios';
 
-export abstract class AnnouncementRepository {
+export abstract class AnnouncementScrapingFacade {
   abstract getAnnouncement(
     typeFilter?: string,
     statusFilter?: string,
@@ -12,7 +12,7 @@ export abstract class AnnouncementRepository {
 }
 
 @Injectable()
-export class AnnouncementRepositoryImpl implements AnnouncementRepository {
+export class AnnouncementScrapingFacadeImpl implements AnnouncementScrapingFacade {
   private url: string;
 
   constructor(private readonly httpService: HttpService) {
@@ -64,17 +64,19 @@ export class AnnouncementRepositoryImpl implements AnnouncementRepository {
         }
       });
 
-      if(typeFilter) 
+      if(typeFilter) {
         announcements = announcements.filter(it => it.type == typeFilter)
+      }
 
-      if(statusFilter) 
+      if(statusFilter) {
         announcements = announcements.filter(it => it.status == statusFilter)
+      }
 
     return announcements;
   }
 }
 
-export const AnnouncementRepositoryProvider: Provider = {
-  provide: AnnouncementRepository,
-  useClass: AnnouncementRepositoryImpl,
+export const AnnouncementScrapingFacadeProvider: Provider = {
+  provide: AnnouncementScrapingFacade,
+  useClass: AnnouncementScrapingFacadeImpl,
 };
