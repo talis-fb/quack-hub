@@ -1,6 +1,6 @@
 import { Injectable, Provider } from '@nestjs/common';
 import { AnnouncementEntity } from './announcement.entity';
-import { AnnouncementRepository } from './announcement.repository';
+import { AnnouncementScrapingFacade } from './announcement.scraping.facade';
 
 export abstract class AnnouncementService {
   abstract getAnnouncement(
@@ -12,14 +12,14 @@ export abstract class AnnouncementService {
 @Injectable()
 export class AnnouncementServiceImpl implements AnnouncementService {
   constructor(
-    private readonly announcementRepository: AnnouncementRepository,
+    private readonly announcementScrapingFacade: AnnouncementScrapingFacade,
   ) {}
 
   async getAnnouncement(
     typeFilter?: string,
     statusFilter?: string,
   ): Promise<AnnouncementEntity[]> {
-    const output = await this.announcementRepository.getAnnouncement(
+    const output = await this.announcementScrapingFacade.getAnnouncement(
       typeFilter,
       statusFilter,
     );
