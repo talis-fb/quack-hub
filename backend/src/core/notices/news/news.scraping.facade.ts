@@ -3,14 +3,13 @@ import * as cheerio from 'cheerio';
 import { Injectable, Provider } from '@nestjs/common';
 import { NewsEntity } from 'src/core/notices/news/news.entity';
 import { HttpService } from '@nestjs/axios';
-import { firstValueFrom, lastValueFrom } from 'rxjs';
 
-export abstract class NewsRepository {
+export abstract class NewsScrapingFacade {
   abstract getNews(): Promise<NewsEntity[]>;
 }
 
 @Injectable()
-export class NewsRepositoryImpl implements NewsRepository {
+export class NewsScrapingFacadeImpl implements NewsScrapingFacade {
   private url: string;
 
   constructor(private readonly httpService: HttpService) {
@@ -53,7 +52,7 @@ export class NewsRepositoryImpl implements NewsRepository {
   }
 }
 
-export const NewsRepositoryProvider: Provider = {
-  provide: NewsRepository,
-  useClass: NewsRepositoryImpl,
+export const NewsScrapingFacadeProvider: Provider = {
+  provide: NewsScrapingFacade,
+  useClass: NewsScrapingFacadeImpl,
 };
