@@ -76,4 +76,4 @@ Frontend: In Progress
 # Authors
 <a href="https://github.com/luizgustavoou">Luiz Gustavo de Oliveira Umbelino</a><br>
 <a href="https://github.com/JoabUrbano">Joab Urbano</a><br>
-<a href="https://github.com/talis-fb">Joab Urbano</a><br>
+<a href="https://github.com/talis-fb">Talison Fabio</a><br>
