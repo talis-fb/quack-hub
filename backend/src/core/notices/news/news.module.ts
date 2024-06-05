@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { NewsController } from './news.controller';
 import { NewsServiceProvider } from './news.service';
-import { NewsRepositoryProvider } from './news.repository';
+import { NewsScrapingFacadeProvider } from './news.scraping.facade';
 import { HttpModule } from '@nestjs/axios';
 
 @Module({
@@ -9,6 +9,6 @@ import { HttpModule } from '@nestjs/axios';
     HttpModule
   ],
   controllers: [NewsController],
-  providers: [NewsServiceProvider, NewsRepositoryProvider],
+  providers: [NewsServiceProvider, NewsScrapingFacadeProvider],
 })
 export class NewsModule {}
