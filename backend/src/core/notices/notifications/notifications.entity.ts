@@ -1,11 +1,3 @@
-
-export const NotificationsBindType = [
-    'TELEGRAM',
-    'EMAIL'
-] as const;
-
-export type INotificationsBindType = typeof NotificationsBindType[number];
-
 export class NotificationsBind {
     userId: number
     type: INotificationsBindType
@@ -15,3 +7,10 @@ export class NotificationsBind {
 export class NotificationsBindEntity extends NotificationsBind {
     id: number
 }
+
+export const NotificationsBindType = [
+    'TELEGRAM',
+    'EMAIL'
+] as const;
+
+export type INotificationsBindType = typeof NotificationsBindType[number];

@@ -1,7 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { Bot } from "grammy";
-import { NotificationSenderStrategy } from "src/core/notices/notifications/sender.strategy";
-
+import { NotificationSenderStrategy } from "src/core/notices/notifications/abstracts/sender.strategy";
 
 @Injectable()
 export class TelegramNotificationSender implements NotificationSenderStrategy {
@@ -17,7 +16,7 @@ export class TelegramNotificationSender implements NotificationSenderStrategy {
 
     async send(content: string, address: string[]): Promise<void> {
         try {
-            await Promise.all(address.map(address => this.botInstance.api.sendMessage(address, content)))
+            await Promise.allSettled(address.map(address => this.botInstance.api.sendMessage(address, content)))
         } catch(err) {
             console.error(err)
         }
