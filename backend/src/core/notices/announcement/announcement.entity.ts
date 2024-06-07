@@ -1,8 +1,8 @@
 export class AnnouncementData {
-  announcementInfo: string;
+  announcementInfo?: string;
   title: string;
   date: string;
-  type: string;
+  type?: string;
   url: string;
   status: string;
 }
