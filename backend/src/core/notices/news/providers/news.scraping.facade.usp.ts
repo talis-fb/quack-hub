@@ -43,9 +43,8 @@ export class NewsScrapingFacadeUSP implements NewsScrapingFacade {
               console.log({ error });
             }
           });
-          console.log(news.length);
       
-          return news;
+        return news;
     }
     
 }

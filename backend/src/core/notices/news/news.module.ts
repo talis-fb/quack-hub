@@ -4,6 +4,7 @@ import { NewsServiceProvider } from './news.service';
 import { NewsScrapingFacadeProviderIMD } from './providers/news.scraping.facade.imd';
 import { HttpModule } from '@nestjs/axios';
 import { NewsScrapingFacadeProviderUSP } from './providers/news.scraping.facade.usp';
+import { NewsScrapingFacadeProviderECT } from './providers/news.scraping.facade.ect';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { NewsScrapingFacadeProviderUSP } from './providers/news.scraping.facade.
     NewsServiceProvider, 
     NewsScrapingFacadeProviderIMD, 
     //NewsScrapingFacadeProviderUSP,
+    //NewsScrapingFacadeProviderECT,
   ],
 })
 export class NewsModule {}
