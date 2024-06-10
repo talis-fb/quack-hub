@@ -1,4 +1,4 @@
-export const STATIC_METHODOLOGIES = [
+export const STATIC_METHODOLOGIESIMD = [
     { name: 'HTML' },
     { name: 'CSS' },
     { name: 'Javascript' },
