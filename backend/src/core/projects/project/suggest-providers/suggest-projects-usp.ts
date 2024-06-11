@@ -8,40 +8,39 @@ export class AlgoritmSuggestProjectsUSP implements SuggestProjects {
       userMethodologies: MethodologieEntity[],
       projects: ProjectEntity[],
     ): ProjectEntity[] {
-        const listMethodologiesUser = userMethodologies.map((methodoligy => methodoligy.name));
+        const userMethodologiesSet = new Set(userMethodologies.map(methodology => methodology.name));
 
-        const scoreProjects = projects.map((project) => {
-            const projectMethodologies = project.methodologies.map(
-                (methodology) => methodology.name
+        const scoreProjects = projects.map(project => {
+            const projectMethodologiesSet = new Set(project.methodologies.map
+                (methodology => methodology.name)
             );
 
-            const unknowMethodoliges = this.countUnknownMethodologies(
-                listMethodologiesUser,
-                projectMethodologies
+            const unknownMethodologiesCount = this.countUnknownMethodologies(
+                userMethodologiesSet,
+                projectMethodologiesSet
             );
 
-            return { project, unknowMethodoliges }
+            return { project, unknownMethodologiesCount };
         });
 
-        scoreProjects.sort((a, b) => a.unknowMethodoliges - b.unknowMethodoliges);
+        scoreProjects.sort((a, b) => a.unknownMethodologiesCount - b.unknownMethodologiesCount);
 
-        return scoreProjects.map((scoreProject) => scoreProject.project);
+        return scoreProjects.map(scoreProject => scoreProject.project);
     }
     
     private countUnknownMethodologies(
-        projectMethodologies: string[],
-        userMethodologies: string[],
+        userMethodologiesSet: Set<string>,
+        projectMethodologiesSet: Set<string>,
     ): number {
-        let contUnknowMethodologies = 0;
-        for (let i = 0; i < userMethodologies.length; i++) {
-            for (let j = 0; j < projectMethodologies.length; j++) {
-                if(userMethodologies[i] != projectMethodologies[j]) {
-                    contUnknowMethodologies ++;
-                    break;
-                }
+        let unknownMethodologiesCount = 0;
+        
+        projectMethodologiesSet.forEach(methodology => {
+            if (!userMethodologiesSet.has(methodology)) {
+                unknownMethodologiesCount++;
             }
-        }
-        return contUnknowMethodologies;
+        });
+
+        return unknownMethodologiesCount;
     }
   }
   
