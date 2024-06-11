@@ -15,6 +15,7 @@ import { ProjectImpoterProvider } from 'src/core/projects/project/project-import
 import { UserModule } from 'src/core/profile/user/user.module';
 import { SuggestProjectsProviderIMD } from 'src/core/projects/project/suggest-providers/suggest-projects-imd';
 import { SuggestProjectsProviderUSP } from './suggest-providers/suggest-projects-usp';
+import { SuggestProjectsProviderECT } from './suggest-providers/suggest-projects-ect';
 
 @Module({
   imports: [HttpModule, UserModule],
@@ -23,8 +24,9 @@ import { SuggestProjectsProviderUSP } from './suggest-providers/suggest-projects
     PrismaService,
     ProjectImpoterProvider,
     UserRepositoryProvider,
-    //SuggestProjectsProviderIMD,
-    SuggestProjectsProviderUSP,
+    SuggestProjectsProviderIMD,
+    //SuggestProjectsProviderUSP,
+    //SuggestProjectsProviderECT,
     {
       provide: ProjectsService,
       useClass: ProjectsServiceImpl,
