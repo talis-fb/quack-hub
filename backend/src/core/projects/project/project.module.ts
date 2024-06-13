@@ -13,7 +13,9 @@ import { HttpModule } from '@nestjs/axios';
 import { UserRepositoryProvider } from 'src/core/profile/user/user.repository';
 import { ProjectImpoterProvider } from 'src/core/projects/project/project-importer';
 import { UserModule } from 'src/core/profile/user/user.module';
-import { SuggestProjectsProvider } from 'src/core/projects/project/suggest-projects';
+import { SuggestProjectsProviderIMD } from 'src/core/projects/project/suggest-providers/suggest-projects-imd';
+import { SuggestProjectsProviderUSP } from './suggest-providers/suggest-projects-usp';
+import { SuggestProjectsProviderECT } from './suggest-providers/suggest-projects-ect';
 
 @Module({
   imports: [HttpModule, UserModule],
@@ -22,7 +24,9 @@ import { SuggestProjectsProvider } from 'src/core/projects/project/suggest-proje
     PrismaService,
     ProjectImpoterProvider,
     UserRepositoryProvider,
-    SuggestProjectsProvider,
+    SuggestProjectsProviderIMD,
+    //SuggestProjectsProviderUSP,
+    //SuggestProjectsProviderECT,
     {
       provide: ProjectsService,
       useClass: ProjectsServiceImpl,
