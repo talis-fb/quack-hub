@@ -42,7 +42,9 @@ await fetchAnnouncements()
           class="ms-4 w-fit min-h-6 min-w-[80%] p-1 rounded-t-lg"
           :class="props.status == AnnoucementStatus.PROGRESS ? 'bg-blue-600' : 'bg-red-600'"
         >
-          <p class="text-sm font-bold"></p>
+          <p class="text-sm font-bold">
+            {{ announcement.announcementInfo }}
+          </p>
         </div>
 
         <div
@@ -57,7 +59,10 @@ await fetchAnnouncements()
           <p class="text-sm text-secondary-foreground">
             {{ announcement.date }}
           </p>
-          <p v-if="announcement.type" class="self-start bg-primary text-primary-foreground text-sm p-2 rounded-full">
+          <p
+            v-if="announcement.type"
+            class="self-start bg-primary text-primary-foreground text-sm p-2 rounded-full"
+          >
             {{ announcement.type }}
           </p>
         </div>
