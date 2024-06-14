@@ -11,9 +11,9 @@ import { AnnouncementScrapingFacadeProviderUSP } from './providers/announcement.
   controllers: [AnnouncementController],
   providers: [
     AnnouncementServiceProvider,
-    // AnnouncementScrapingFacadeProviderIMD,
+    AnnouncementScrapingFacadeProviderIMD,
     //AnnouncementScrapingFacadeProviderECT,
-    AnnouncementScrapingFacadeProviderUSP,
+    // AnnouncementScrapingFacadeProviderUSP,
   ],
 })
 export class AnnouncementModule {}
