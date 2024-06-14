@@ -15,7 +15,7 @@ const props = withDefaults(defineProps<AnnouncementsListFallbackProps>(), {
   <div class="flex flex-col gap-3">
     <div v-for="item in Array(props.length).fill(1)">
       <div class="p-4 gap-1">
-        <Skeleton class="ms-4 h-6 w-[250px] max-w-[60%] rounded-t-lg rounded-b-none" />
+        <Skeleton class="ms-4 h-6 w-[250px] max-w-[80%] rounded-t-lg rounded-b-none" />
 
         <Skeleton class="h-[150px] w-full" />
       </div>

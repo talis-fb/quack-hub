@@ -39,15 +39,15 @@ await fetchAnnouncements()
         class="group cursor-pointer hover:bg-black/40 p-4 gap-1"
       >
         <div
-          class="ms-4 w-fit p-1 rounded-t-lg"
+          class="ms-4 w-fit min-h-6 min-w-[80%] p-1 rounded-t-lg"
           :class="props.status == AnnoucementStatus.PROGRESS ? 'bg-blue-600' : 'bg-red-600'"
         >
-          <p class="text-sm font-bold">
-            {{ announcement.announcementInfo }}
-          </p>
+          <p class="text-sm font-bold"></p>
         </div>
 
-        <div class="flex flex-col bg-secondary p-3 rounded-md gap-3 shadow-lg group-hover:shadow-primary/70">
+        <div
+          class="flex flex-col bg-secondary p-3 rounded-md gap-3 shadow-lg group-hover:shadow-primary/70"
+        >
           <p
             class="text-lg font-bold"
             :class="props.status == AnnoucementStatus.PROGRESS ? 'text-blue-300' : 'text-red-300'"
@@ -57,7 +57,7 @@ await fetchAnnouncements()
           <p class="text-sm text-secondary-foreground">
             {{ announcement.date }}
           </p>
-          <p class="self-start bg-primary text-primary-foreground text-sm p-2 rounded-full">
+          <p v-if="announcement.type" class="self-start bg-primary text-primary-foreground text-sm p-2 rounded-full">
             {{ announcement.type }}
           </p>
         </div>
