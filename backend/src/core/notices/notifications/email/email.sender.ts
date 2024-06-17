@@ -8,22 +8,19 @@ export class EmailsNotificationSender implements NotificationSenderStrategy {
   private transporter: NodeMailer.Transporter;
     constructor() {
         this.transporter = NodeMailer.createTransport({
-          host: "sandbox.smtp.mailtrap.io",
+          host: process.env.EMAIL_SENDER_HOST,
           port: 2525,
           auth: {
-            user: "e1923de19edcad",
-            pass: "0e72f11dbcf625"
+            user: process.env.EMAIL_SENDER_AUTH_USER,
+            pass: process.env.EMAIL_SENDER_AUTH_PASS,
           }
         });
     }
 
     async send(content: string, address: string[]): Promise<void> {
       try {
-
-        console.log("CHAMOUUUU")
-
         await Promise.allSettled(address.map(address => this.transporter.sendMail({
-          from: "quackhub@email.com",
+          from: process.env.EMAIL_SENDER_FROM_ADDRESS,
           to: address,
           subject: "QuackHub",
           text: content

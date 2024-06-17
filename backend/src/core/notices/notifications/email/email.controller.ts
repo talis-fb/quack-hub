@@ -6,7 +6,4 @@ import { NotificationService } from "../notifications.service";
 @ApiTags('notifications/emails')
 @Controller('notifications/emails')
 export class EmailNotificationController extends AbstractNotificationsController {
-    constructor(private readonly TheNotificationsService: NotificationService) {
-        super(TheNotificationsService)
-    }
 }
