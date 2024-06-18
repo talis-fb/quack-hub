@@ -56,7 +56,8 @@ export class AnnouncementScrapingFacadeIMD implements AnnouncementScrapingFacade
         } catch (error) {
           console.log(error);
         }
-      });
+      })
+      .filter(it => !!it);
 
       if(typeFilter) {
         announcements = announcements.filter(it => it.type == typeFilter)

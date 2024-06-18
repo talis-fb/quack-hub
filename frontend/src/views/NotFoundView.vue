@@ -7,7 +7,6 @@
     </p>
     <img :src="NotFound" class="max-w-[500px] h-auto" />
     <Button variant="outline" @click="() => navigateToFeed()">
-    
         <span class="font-bold text-lg">Voltar para seu feed </span>
     </Button>
   </div>
