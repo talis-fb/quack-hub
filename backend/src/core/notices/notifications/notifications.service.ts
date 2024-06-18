@@ -4,7 +4,7 @@ import { NotificationsRepository } from 'src/core/notices/notifications/notifica
 import { NotificationSenderStrategy } from 'src/core/notices/notifications/abstracts/sender.strategy';
 
 export abstract class NotificationService {
-  abstract sendNotification(content: string, userIds: number[]): Promise<void>;
+  abstract sendNotification(content: string, userIds: number[], bindTypes: INotificationsBindType[]): Promise<void>;
   abstract bindUserTo(userId: number, typeBind: INotificationsBindType, value: string): Promise<NotificationsBindEntity>
 }
 
@@ -14,8 +14,8 @@ export class NotificationServiceImpl implements NotificationService {
     private notificationSender: NotificationSenderStrategy,
     private repository: NotificationsRepository,
   ) {}
-  async sendNotification(content: string, userIds: number[]): Promise<void> {
-    const addresses = await this.repository.findBindValueOfUsers(userIds, ['TELEGRAM']);
+  async sendNotification(content: string, userIds: number[], bindTypes: INotificationsBindType[]): Promise<void> {
+    const addresses = await this.repository.findBindValueOfUsers(userIds, bindTypes);
     this.notificationSender.send(content, addresses);
   }
 

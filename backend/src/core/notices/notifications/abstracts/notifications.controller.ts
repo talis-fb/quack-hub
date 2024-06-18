@@ -1,9 +1,12 @@
 import { ApiTags } from "@nestjs/swagger";
 import { NotificationService } from "src/core/notices/notifications/notifications.service";
 import { Controller, Get, Post, Query, Redirect, Req } from "@nestjs/common";
+import { INotificationsBindType } from "../notifications.entity";
 
 export abstract class AbstractNotificationsController {
-  constructor(private notificationsService: NotificationService) {}
+  constructor(private _notificationsService: NotificationService) {}
+
+  abstract bindType: INotificationsBindType
 
   @Post('bind')
   async create(
@@ -11,7 +14,7 @@ export abstract class AbstractNotificationsController {
     @Query('address') address: string,
   ): Promise<void> {
     const { userId } = req.user;
-    await this.notificationsService.bindUserTo(userId, 'TELEGRAM', address);
+    await this._notificationsService.bindUserTo(userId, this.bindType, address);
   }
 
   @Post('send')
@@ -20,6 +23,6 @@ export abstract class AbstractNotificationsController {
     @Query('content') content: string,
   ): Promise<void> {
     const { userId } = req.user;
-    await this.notificationsService.sendNotification(content, [userId]);
+    await this._notificationsService.sendNotification(content, [userId], [this.bindType]);
   }
 }

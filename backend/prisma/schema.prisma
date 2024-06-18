@@ -199,6 +199,7 @@ model NotificationBind {
 enum NotificationBindType {
   TELEGRAM
   EMAIL
+  DISCORD
 }
 
 // Enums

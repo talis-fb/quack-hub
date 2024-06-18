@@ -4,17 +4,13 @@ import { AbstractNotificationsController } from "../abstracts/notifications.cont
 import { INotificationsBindType } from "../notifications.entity";
 import { NotificationService } from "../notifications.service";
 
-@ApiTags('notifications/telegram')
-@Controller('notifications/telegram')
-export class TelegramNotificationController extends AbstractNotificationsController {
+@ApiTags('notifications/discord')
+@Controller('notifications/discord')
+export class DiscordNotificationController extends AbstractNotificationsController {
     constructor(private notificationsService: NotificationService) {
         super(notificationsService)
     }
 
-    bindType: INotificationsBindType = "TELEGRAM";
-
-    @Get('bot')
-    @Redirect("https://t.me/QuackHubBot")
-    async getTelegramBot() {}
+    bindType: INotificationsBindType = "DISCORD";
 }
 

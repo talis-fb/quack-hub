@@ -10,7 +10,8 @@ export class NotificationsBindEntity extends NotificationsBind {
 
 export const NotificationsBindType = [
     'TELEGRAM',
-    'EMAIL'
+    'EMAIL',
+    "DISCORD",
 ] as const;
 
 export type INotificationsBindType = typeof NotificationsBindType[number];
