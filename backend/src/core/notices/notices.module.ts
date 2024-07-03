@@ -4,6 +4,10 @@ import { NewsModule } from 'src/core/notices/news/news.module';
 import { NotificationsModule } from './notifications/notifications.module';
 
 @Module({
-  imports: [AnnouncementModule, NewsModule, NotificationsModule],
+  imports: [
+    AnnouncementModule,
+    NewsModule,
+    // NotificationsModule
+  ],
 })
 export class NoticesModule {}

@@ -2,18 +2,22 @@ import { Module } from '@nestjs/common';
 import { AnnouncementController } from './announcement.controller';
 import { AnnouncementServiceProvider } from './announcement.service';
 import { HttpModule } from '@nestjs/axios';
-import { AnnouncementScrapingFacadeProviderIMD } from './providers/announcement.scraping.facade.imd';
-import { AnnouncementScrapingFacadeProviderECT } from './providers/announcement.scraping.facade.ect';
-import { AnnouncementScrapingFacadeProviderUSP } from './providers/announcement.scraping.facade.usp';
+import { AnnouncementScrapingFacade } from './announcement.scraping.facade';
+import { ContextFactory } from 'src/factory/factories/context.factory';
+import { FactoryModule } from 'src/factory/factory.module';
 
 @Module({
-  imports: [HttpModule],
+  imports: [HttpModule, FactoryModule],
   controllers: [AnnouncementController],
   providers: [
     AnnouncementServiceProvider,
-    AnnouncementScrapingFacadeProviderIMD,
-    //AnnouncementScrapingFacadeProviderECT,
-    // AnnouncementScrapingFacadeProviderUSP,
+    {
+      provide: AnnouncementScrapingFacade,
+      useFactory: (contextFactory: ContextFactory) => {
+        return contextFactory.createAnnouncementScrapingFacade();
+      },
+      inject: [ContextFactory],
+    },
   ],
 })
 export class AnnouncementModule {}
