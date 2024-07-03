@@ -1,21 +1,23 @@
 import { Module } from '@nestjs/common';
 import { NewsController } from './news.controller';
 import { NewsServiceProvider } from './news.service';
-import { NewsScrapingFacadeProviderIMD } from './providers/news.scraping.facade.imd';
 import { HttpModule } from '@nestjs/axios';
-import { NewsScrapingFacadeProviderUSP } from './providers/news.scraping.facade.usp';
-import { NewsScrapingFacadeProviderECT } from './providers/news.scraping.facade.ect';
+import { NewsScrapingFacade } from './news.scraping.facade';
+import { ContextFactory } from 'src/factory/factories/context.factory';
+import { FactoryModule } from 'src/factory/factory.module';
 
 @Module({
-  imports: [
-    HttpModule
-  ],
+  imports: [HttpModule, FactoryModule],
   controllers: [NewsController],
   providers: [
-    NewsServiceProvider, 
-    NewsScrapingFacadeProviderIMD, 
-    //NewsScrapingFacadeProviderUSP,
-    //NewsScrapingFacadeProviderECT,
+    NewsServiceProvider,
+    {
+      provide: NewsScrapingFacade,
+      useFactory: (contextFactory: ContextFactory) => {
+        return contextFactory.createNewsScrapingFacade();
+      },
+      inject: [ContextFactory],
+    },
   ],
 })
 export class NewsModule {}

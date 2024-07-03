@@ -7,7 +7,7 @@ import { DiscordNotificationsModule } from './discord/discord.module';
   imports: [
     TelegramNotificationsModule,
     DiscordNotificationsModule,
-    // EmailNotificationsModule, 
-  ]
+    EmailNotificationsModule,
+  ],
 })
 export class NotificationsModule {}

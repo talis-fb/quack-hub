@@ -7,6 +7,7 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 import { ThrottlerModule } from '@nestjs/throttler';
 import { NoticesModule } from 'src/core/notices/notices.module';
 import { MethodologiesModule } from 'src/core/methodologies/methodologies.module';
+import { FactoryModule } from './factory/factory.module';
 
 @Module({
   imports: [
@@ -14,7 +15,6 @@ import { MethodologiesModule } from 'src/core/methodologies/methodologies.module
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'client'),
     }),
-
     // Rate Limit
     ThrottlerModule.forRoot([
       {
@@ -27,6 +27,7 @@ import { MethodologiesModule } from 'src/core/methodologies/methodologies.module
     ProfileModule,
     NoticesModule,
     MethodologiesModule,
+    FactoryModule,
   ],
 })
 export class AppModule {}
