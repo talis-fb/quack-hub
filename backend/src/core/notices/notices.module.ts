@@ -7,7 +7,7 @@ import { NotificationsModule } from './notifications/notifications.module';
   imports: [
     AnnouncementModule,
     NewsModule,
-    // NotificationsModule
+    NotificationsModule
   ],
 })
 export class NoticesModule {}
