@@ -17,6 +17,8 @@ https://github.com/talis-fb/quack-hub/assets/89609312/93f6d54e-978d-408d-9a01-7a
 * **Search and Filter Functionalities**
 
 # :wrench: Technologies Used
+[![Technologies](https://skillicons.dev/icons?i=docker,ts,nest,postgres,prisma,vue,tailwind,pinia)]()
+
 ## Backend
 * NestJS
 * Swagger
