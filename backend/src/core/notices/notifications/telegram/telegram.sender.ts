@@ -4,9 +4,14 @@ import { NotificationSenderStrategy } from "src/core/notices/notifications/abstr
 
 @Injectable()
 export class TelegramNotificationSender implements NotificationSenderStrategy {
-    private botInstance: Bot
+    private botInstance: Bot;
     constructor() {
-        this.botInstance = new Bot(process.env.TELEGRAM_TOKEN_SENDER)
+        const token = process.env.TELEGRAM_TOKEN_SENDER;
+
+        if (!token) {
+            console.warn("TELEGRAM_TOKEN_SENDER não definido. Notificações via Telegram desativadas.");
+            return;
+        }
         this.botInstance.command("start", (ctx) => {
             const chatId = ctx.chat.id;
             ctx.reply("Welcome to QuackHub updateds! This is your chat id: " + chatId)

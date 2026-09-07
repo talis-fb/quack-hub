@@ -6,8 +6,11 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8080:8080"
+    env_file:
+      - ./backend/.env.dev.docker
     volumes:
       - ./backend:/app
+      - /app/node_modules
     depends_on:
       postgres:
         condition: service_healthy
@@ -20,6 +23,7 @@ services:
       - "3000:3000"
     volumes:
       - ./frontend:/app
+      - /app/node_modules
 
   postgres:
     image: postgres
